@@ -6,11 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateTravelTrakingsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+
     public function up()
     {
         Schema::create('travel_trakings', function (Blueprint $table) {
