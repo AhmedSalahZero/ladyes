@@ -11,7 +11,7 @@ jobs:
     - name: FTP-Deploy-Action
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
-        server: api.ladyes.co
+        server: 172.105.102.70
         server-dir: public_html/
         username: apiladyes
         password: LadyesApi@pass

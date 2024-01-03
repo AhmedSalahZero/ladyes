@@ -111,8 +111,8 @@
 @endsection
 
 @section('styles')
-    <link rel="stylesheet" type="text/css" href="{{asset('public/assets/vendors/css/editors/summernote.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('public/assets/vendors/css/editors/theme/monokai.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/vendors/css/editors/summernote.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/vendors/css/editors/theme/monokai.css')}}">
     <style>
         .note-editor.note-frame.panel.panel-default{
             width: 100%;
@@ -120,8 +120,8 @@
     </style>
 @endsection
 @section('scripts')
-    <script src="{{asset('public/assets/js/file_upload.js')}}" type="text/javascript"></script>
-    <script src="{{asset('public/assets/vendors/js/editors/summernote/summernote.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/js/file_upload.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/vendors/js/editors/summernote/summernote.js')}}" type="text/javascript"></script>
     <script>
         $(document).ready(function() {
             $('.summernote').summernote({

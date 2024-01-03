@@ -197,7 +197,7 @@
 
 @endsection
 @section('styles')
-    <link rel="stylesheet" type="text/css" href="{{asset('public/assets/css/pages/invoice.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/pages/invoice.css')}}">
 @endsection
 @section('scripts')
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-goXOqVqgntbrPBGMszydKihARSWoWiQ&callback=initMap"

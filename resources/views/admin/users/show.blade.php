@@ -12,12 +12,12 @@
                             <div class="col-12">
                                 <div class="card profile-with-cover">
                                     <div class="card-img-top img-fluid bg-cover height-300"
-                                         style="background: url({{asset('public/assets/images/bg_user.avif')}});"></div>
+                                         style="background: url({{asset('assets/images/bg_user.avif')}});"></div>
                                     <div class="media profil-cover-details w-100">
                                         <div class="media-left pl-2 pt-2">
                                             @if(isset($user->image))
                                                 <a href="#" class="profile-image">
-                                                    <img src="{{asset($user->image ? asset('public/'.$user->image) : 'public/assets/images/plus-96.png')}}"
+                                                    <img src="{{asset($user->image ? asset(''.$user->image) : 'public/assets/images/plus-96.png')}}"
                                                          width="90px"
                                                          class="rounded-circle img-border height-100"
                                                          alt="Card image">
@@ -207,9 +207,9 @@
     </div>
 @endsection
 @section('styles')
-    <link rel="stylesheet" type="text/css" href="{{asset('public/assets/css/pages/users.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/pages/users.css')}}">
     <link rel="stylesheet" type="text/css"
-          href="{{asset('public/assets/vendors/css/tables/datatable/datatables.min.css')}}">
+          href="{{asset('assets/vendors/css/tables/datatable/datatables.min.css')}}">
     <style>
         #DataTables_Table_0_wrapper {
             margin-top: 10px;
@@ -217,8 +217,8 @@
     </style>
 @endsection
 @section('scripts')
-    <script src="{{asset('public/assets/vendors/js/tables/datatable/datatables.min.js')}}"
+    <script src="{{asset('assets/vendors/js/tables/datatable/datatables.min.js')}}"
             type="text/javascript"></script>
-    <script src="{{asset('public/assets/js/scripts/tables/datatables/datatable-advanced.js')}}"
+    <script src="{{asset('assets/js/scripts/tables/datatables/datatable-advanced.js')}}"
             type="text/javascript"></script>
 @endsection

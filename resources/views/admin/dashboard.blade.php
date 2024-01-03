@@ -205,28 +205,28 @@
     </div>
 @endsection
 @section('styles')
-    <link rel="stylesheet" type="text/css" href="{{asset('public/assets/assets/vendors/css/charts/chartist.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/assets/vendors/css/charts/chartist.css')}}">
     <link rel="stylesheet" type="text/css"
-          href="{{asset('public/assets/assets/vendors/css/charts/chartist-plugin-tooltip.css')}}">
+          href="{{asset('assets/assets/vendors/css/charts/chartist-plugin-tooltip.css')}}">
     <link rel="stylesheet" type="text/css"
-          href="{{asset('public/assets/vendors/css/weather-icons/climacons.min.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('public/assets/fonts/meteocons/style.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('public/assets/vendors/css/charts/morris.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('public/assets/assets/css/pages/timeline.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('public/assets/css/pages/dashboard-ecommerce.css')}}">
+          href="{{asset('assets/vendors/css/weather-icons/climacons.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/fonts/meteocons/style.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/vendors/css/charts/morris.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/assets/css/pages/timeline.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/pages/dashboard-ecommerce.css')}}">
 @endsection
 @section('scripts')
-    <script src="{{asset('public/assets/vendors/js/charts/chartist.min.js')}}" type="text/javascript"></script>
-    <script src="{{asset('public/assets/vendors/js/charts/chart.min.js')}}" type="text/javascript"></script>
-    <script src="{{asset('public/assets/vendors/js/charts/chartist-plugin-tooltip.min.js')}}"
+    <script src="{{asset('assets/vendors/js/charts/chartist.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/vendors/js/charts/chart.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/vendors/js/charts/chartist-plugin-tooltip.min.js')}}"
             type="text/javascript"></script>
-    <script src="{{asset('public/assets/vendors/js/charts/raphael-min.js')}}" type="text/javascript"></script>
-    <script src="{{asset('public/assets/vendors/js/charts/morris.min.js')}}" type="text/javascript"></script>
-    <script src="{{asset('public/assets/vendors/js/timeline/horizontal-timeline.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/vendors/js/charts/raphael-min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/vendors/js/charts/morris.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/vendors/js/timeline/horizontal-timeline.js')}}" type="text/javascript"></script>
     <!-- END PAGE VENDOR JS-->
-    <script src="{{asset('public/assets/vendors/js/charts/morris.min.js')}}" type="text/javascript"></script>
-    <script src="{{asset('public/assets/js/scripts/pages/dashboard-ecommerce.js')}}" type="text/javascript"></script>
-    <script src="{{asset('public/assets/js/scripts/charts/chartjs/polar-radar/polar-skip-points.js')}}"
+    <script src="{{asset('assets/vendors/js/charts/morris.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/js/scripts/pages/dashboard-ecommerce.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/js/scripts/charts/chartjs/polar-radar/polar-skip-points.js')}}"
             type="text/javascript"></script>
 
 {{--    <script>--}}

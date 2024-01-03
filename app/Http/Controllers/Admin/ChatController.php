@@ -82,7 +82,7 @@ class ChatController extends Controller
             if($item->attachment):
                $file = json_decode($item->attachment);
                 $attachment_html =       '<p class="file">
-                                                                <a href="'.asset('public/storage/attachments/'.$file->new_name).'" target="_blank">'.$file->old_name.'</a> مشاهدة المرفق
+                                                                <a href="'.asset('storage/attachments/'.$file->new_name).'" target="_blank">'.$file->old_name.'</a> مشاهدة المرفق
                                                             </p>';
                                                         endif;
             $message_html .= '<div class="chat '.$message_class.'">

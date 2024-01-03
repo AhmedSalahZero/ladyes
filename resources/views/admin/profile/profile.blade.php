@@ -9,7 +9,7 @@
                         <div class="col-12">
                             <div class="card profile-with-cover">
                                 <div class="card-img-top img-fluid bg-cover height-300"
-                                     style="background: url('{{asset('public/assets/images/logo.png')}}');"></div>
+                                     style="background: url('{{asset('assets/images/logo.png')}}');"></div>
                                 <div class="media profil-cover-details w-100">
                                     <div class="media-left pl-2 pt-2">
                                         <a href="#" class="profile-image">

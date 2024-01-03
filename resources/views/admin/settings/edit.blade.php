@@ -59,7 +59,7 @@
                                                                 </div>
                                                                 <div class="avatar-preview">
                                                                     <div id="imagePreview"
-                                                                         style="background-image: url({{asset('public/'.$setting->logo)}});">
+                                                                         style="background-image: url({{asset(''.$setting->logo)}});">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -80,7 +80,7 @@
                                                                 </div>
                                                                 <div class="avatar-preview">
                                                                     <div id="imagePreviewFav"
-                                                                         style="background-image: url({{asset('public/'.$setting->fav_icon)}});">
+                                                                         style="background-image: url({{asset(''.$setting->fav_icon)}});">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -408,7 +408,7 @@
 
 @endsection
 @section('styles')
-    <link rel="stylesheet" type="text/css" href="{{asset('public/assets/vendors/css/editors/summernote.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/vendors/css/editors/summernote.css')}}">
     <style>
         .note-editor.note-frame.panel.panel-default{
             width: 100%;
@@ -416,8 +416,8 @@
     </style>
 @endsection
 @section('scripts')
-    <script src="{{asset('public/assets/js/file_upload.js')}}" type="text/javascript"></script>
-    <script src="{{asset('public/assets/vendors/js/editors/summernote/summernote.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/js/file_upload.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/vendors/js/editors/summernote/summernote.js')}}" type="text/javascript"></script>
     <script>
         $(document).ready(function() {
             $('.summernote').summernote({

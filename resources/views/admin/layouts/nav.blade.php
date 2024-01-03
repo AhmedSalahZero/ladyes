@@ -6,7 +6,7 @@
                 <li class="nav-item">
                     <a class="navbar-brand" href="{{route('dashboard.index')}}">
                         <img class="brand-logo" alt="modern admin logo"
-                             src="{{asset('public/assets/images/logo.png')}}">
+                             src="{{asset('assets/images/logo.png')}}">
                         <h3 class="brand-text">{{__('msg.site_name')}}</h3>
                     </a>
                 </li>

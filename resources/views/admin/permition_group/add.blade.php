@@ -160,5 +160,5 @@
     </style>
 @endsection
 @section('scripts')
-    <script src="{{asset('public/assets/js/permitions.js')}}"
+    <script src="{{asset('assets/js/permitions.js')}}"
 @endsection

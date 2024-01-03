@@ -68,7 +68,7 @@
                                                                         <div class="avatar-preview"
                                                                              style=" border-radius: 100%;">
                                                                             <div id="imagePreview"
-                                                                                 style="border-radius: 100%;background-image: url({{$driver->file('driver_image') ? asset('public'.$driver->file('driver_image')->file_path) : asset('public/assets/images/plus-96.png')}});">
+                                                                                 style="border-radius: 100%;background-image: url({{$driver->file('driver_image') ? asset('public'.$driver->file('driver_image')->file_path) : asset('assets/images/plus-96.png')}});">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -429,7 +429,7 @@
     </div>
 @endsection
 @section('styles')
-    <link rel="stylesheet" type="text/css" href="{{asset('public/assets/vendors/css/forms/selects/select2.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/vendors/css/forms/selects/select2.min.css')}}">
     <style>
         .select2-container--default {
             width: 100% !important;
@@ -437,10 +437,10 @@
     </style>
 @endsection
 @section('scripts')
-    <script src="{{asset('public/assets/js/file_upload.js')}}" type="text/javascript"></script>
-    <script src="{{asset('public/assets/vendors/js/forms/select/select2.full.min.js')}}"
+    <script src="{{asset('assets/js/file_upload.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/vendors/js/forms/select/select2.full.min.js')}}"
             type="text/javascript"></script>
-    <script src="{{asset('public/assets/js/scripts/forms/select/form-select2.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/js/scripts/forms/select/form-select2.js')}}" type="text/javascript"></script>
     <script>
         $(document).ready(function (){
             $('#country').change();

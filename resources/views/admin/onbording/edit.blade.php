@@ -68,7 +68,7 @@
                                                                         </div>
                                                                         <div class="avatar-preview">
                                                                             <div id="imagePreview"
-                                                                                 style="background-image: url({{asset('public/'.$onbording->image)}});">
+                                                                                 style="background-image: url({{asset(''.$onbording->image)}});">
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -205,5 +205,5 @@
     </div>
 @endsection
 @section('scripts')
-    <script src="{{asset('public/assets/js/file_upload.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/js/file_upload.js')}}" type="text/javascript"></script>
 @endsection

@@ -72,7 +72,7 @@
                                                         @if($message->attachment)
                                                             <?php $file = json_decode($message->attachment); ?>
                                                             <p class="file">
-                                                                <a href="{{asset('public/storage/attachments/'.$file->new_name)}}" target="_blank">{{$file->old_name}}</a> مشاهدة المرفق
+                                                                <a href="{{asset('storage/attachments/'.$file->new_name)}}" target="_blank">{{$file->old_name}}</a> مشاهدة المرفق
                                                             </p>
                                                         @endif
                                                         <small>{{$message->created_at->diffForHumans()}}</small>
@@ -96,7 +96,7 @@
 @endsection
 
 @section('styles')
-    <link rel="stylesheet" type="text/css" href="{{asset('public/assets/css/pages/chat-application.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/pages/chat-application.css')}}">
     <style>
         .active_user{
             background-color: #32ebd0;
@@ -104,7 +104,7 @@
     </style>
 @endsection
 @section('scripts')
-    <script src="{{asset('public/assets/js/scripts/pages/chat-application.js')}}" type="text/javascript"></script>
+    <script src="{{asset('assets/js/scripts/pages/chat-application.js')}}" type="text/javascript"></script>
     <script>
 
         $(document).ready(function () {
