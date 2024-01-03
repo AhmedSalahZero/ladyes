@@ -1,0 +1,331 @@
+.home {
+  width: 100%;
+  height: 465px;
+  background: transparent;
+  position: relative;
+  margin-bottom: 60px;
+}
+
+.home::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 0.5;
+}
+
+.home_background {
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+
+.home_content {
+  position: absolute;
+  bottom: 106px;
+  left: 50%;
+  z-index: 9;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+
+.home_title {
+  font-size: 72px;
+  font-weight: 800;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.rating {
+  margin-top: 10px;
+}
+
+.rating i {
+  font-size: 19px;
+  margin-right: 4px;
+}
+
+.rating i:last-child {
+  margin-right: 0px;
+}
+
+.rating_1 i:first-child {
+  color: #ffeb8d;
+}
+
+.rating_2 i:first-child {
+  color: #ffeb8d;
+}
+
+.rating_2 i:nth-child(2) {
+  color: #fed46b;
+}
+
+.rating_3 i:first-child {
+  color: #ffeb8d;
+}
+
+.rating_3 i:nth-child(2) {
+  color: #fed46b;
+}
+
+.rating_3 i:nth-child(3) {
+  color: #fbb53d;
+}
+
+.rating_4 i:first-child {
+  color: #ffeb8d;
+}
+
+.rating_4 i:nth-child(2) {
+  color: #fed46b;
+}
+
+.rating_4 i:nth-child(3) {
+  color: #fbb53d;
+}
+
+.rating_4 i:nth-child(4) {
+  color: #fa9e1b;
+}
+
+.rating_5 i:first-child {
+  color: #ffeb8d;
+}
+
+.rating_5 i:nth-child(2) {
+  color: #fed46b;
+}
+
+.rating_5 i:nth-child(3) {
+  color: #fbb53d;
+}
+
+.rating_5 i:nth-child(4) {
+  color: #fa9e1b;
+}
+
+.rating_5 i:nth-child(5) {
+  color: #ef910a;
+}
+
+.travel_info {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: baseline;
+      -ms-flex-align: baseline;
+          align-items: baseline;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.title_travel p {
+  margin-top: 14px;
+}
+
+.search_button:hover {
+  color: #000 !important;
+}
+
+.slider_info {
+  position: relative;
+}
+
+.offer_reviews {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  z-index: 10;
+  background-color: #fffffff5;
+  padding: 10px;
+  border-radius: 7px;
+  text-align: right;
+}
+
+.offer_reviews_content {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 7px;
+}
+
+.offer_reviews_title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #2d2c2c;
+  text-transform: uppercase;
+}
+
+.offer_reviews_subtitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: #929191;
+  margin-top: 1px;
+}
+
+.offer_reviews_rating {
+  display: inline-block;
+  width: 62px;
+  height: 57px;
+  font-size: 28px;
+  font-weight: 700;
+  color: #000;
+  line-height: 57px;
+  background: var(--active_color);
+  vertical-align: middle;
+  border-radius: 45%;
+  -webkit-transform: translateY(-4px);
+  transform: translateY(-4px);
+}
+
+.content_desc p {
+  font-weight: 300;
+  opacity: 0.5;
+  font-size: 15px;
+}
+
+.offers_icons_list {
+  padding-left: 0px;
+}
+
+.offers_text {
+  font-size: 14px;
+  font-weight: 400;
+  color: #929191;
+  margin-top: 16px;
+  margin-bottom: 0px;
+}
+
+.offers_icons {
+  margin-top: 21px;
+}
+
+.offers_icons_item {
+  display: inline-block;
+  margin-right: 15px;
+}
+
+.offers_icons_item:last-child {
+  margin-right: 0px;
+}
+
+.nd_booking_display_table {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-right: 12px;
+  margin-bottom: 12px;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  background-color: #f1f1f1;
+  padding: 4px 4px;
+  border-radius: 6px;
+  -webkit-box-shadow: 0px 3px 6px #3333333d;
+          box-shadow: 0px 3px 6px #3333333d;
+}
+
+.nd_booking_display_table img {
+  margin-right: 6px;
+}
+
+.nd_booking_display_table p {
+  color: #a3a3a3;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.flex_services {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.flex_services p {
+  margin: 0 !important;
+  padding: 0;
+}
+
+.cate_spans {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: white;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 30px;
+  border-radius: 20px;
+  font-size: 15px;
+  font-weight: 400;
+  width: 50%;
+  height: 30px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  background-color: #00000073;
+}
+
+.cate_spans2 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: black;
+  border-radius: 20px;
+  font-size: 15px;
+  font-weight: 400;
+  width: 50%;
+  height: 30px;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  color: var(--active_color);
+}
+
+.price_offers .real_price {
+  display: inline-block;
+  font-size: 25px;
+  font-weight: 700;
+  color: #464646;
+  line-height: 25px;
+}
+
+.price_offers .current_price {
+  display: inline-block;
+  font-size: 35px;
+  font-weight: 700;
+  color: var(--active_color);
+  line-height: 25px;
+}
+
+@media (max-width: 767px) {
+  .travel_info {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+}
+/*# sourceMappingURL=travel_info.css.map */

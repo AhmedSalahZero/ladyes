@@ -1,0 +1,301 @@
+.avatar-upload {
+    position: relative;
+    max-width: 205px;
+    /*margin: 0px auto;*/
+}
+.avatar-upload .avatar-edit {
+    position: absolute;
+    right: 12px;
+    z-index: 1;
+    top: 10px;
+}
+.avatar-upload .avatar-edit input {
+    display: none;
+}
+.avatar-upload .avatar-edit input + label {
+    display: inline-block;
+    width: 34px;
+    height: 34px;
+    margin-bottom: 0;
+    border-radius: 100%;
+    background: #ffffff;
+    border: 1px solid transparent;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    font-weight: normal;
+    transition: all 0.2s ease-in-out;
+}
+.avatar-upload .avatar-edit input + label:hover {
+    background: #f1f1f1;
+    border-color: #d6d6d6;
+}
+.avatar-upload .avatar-edit input + label:after {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    margin: auto;
+}
+.avatar-upload .avatar-preview {
+    width: 120px;
+    height: 120px;
+    position: relative;
+    /*border-radius: 100%;*/
+    border: 6px solid #f8f8f8;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+}
+.avatar-upload .avatar-preview > div {
+    width: 100%;
+    height: 100%;
+    /*border-radius: 100%;*/
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.edit_user{
+    margin-top: 10px;
+}
+.imageUploadlabel{
+    text-align: center;
+}
+.tab-content{
+    width: 100%;
+}
+.bg-info {
+    background-color: #feba8a!important;
+}
+/* ------------------------------ UPLOAD BTNS BEGIN ------------------------------ */
+.upload__wrap {
+    padding-bottom: 0;
+    margin-bottom: 0;
+    /* border-bottom: 1px dotted #edeff0; */
+}
+.upload__mess {
+    border-left: solid 3px #ffb74d;
+    padding-left: 0.5rem;
+    color: #b5bac1;
+}
+.upload p {
+    line-height: 2;
+}
+.upload p strong {
+    color: #2f3640;
+    padding-left: 0.3125rem;
+}
+.upload__item {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 1rem;
+    margin-bottom: 0;
+    margin-top: 24px;
+}
+.upload__del {
+    display: block;
+    position: absolute;
+    right: -8px;
+    top: -8px;
+    width: 21px;
+    height: 22px;
+    background: url("http://timra.ru/portfolio/8_auto.uz/img/icons/delete-icon-copy.svg") 0 0 no-repeat;
+    cursor: pointer;
+    opacity: 0.8;
+}
+.upload__del:hover {
+    opacity: 1;
+}
+.delete-image {
+    display: block;
+    position: absolute;
+    right: -8px;
+    top: -8px;
+    width: 21px;
+    height: 22px;
+    background: url("http://timra.ru/portfolio/8_auto.uz/img/icons/delete-icon-copy.svg") 0 0 no-repeat;
+    cursor: pointer;
+    opacity: 0.8;
+}
+.delete-image:hover {
+    opacity: 1;
+}
+.upload__img {
+    width: 5.6875rem;
+    height: 5.6875rem;
+    -o-object-fit: contain;
+    object-fit: contain;
+}
+.upload__btn {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    width: 5.6875rem;
+    height: 5.6875rem;
+    line-height: 5.6875rem;
+    border-radius: 2px;
+    border: solid 0.5px #dee1e6;
+    text-align: center;
+    cursor: pointer;
+    opacity: 0.6;
+    overflow: hidden;
+    margin-top: 26px;
+}
+.upload__btn:after {
+    content: "+";
+    color: #dee1e6;
+    font-size: 2.5rem;
+    line-height: 5rem;
+    cursor: pointer;
+}
+.upload__btn:hover {
+    opacity: 0.99;
+}
+.upload__btn:active {
+    box-shadow: inset 10px 10px 90px -30px rgba(0, 0, 0, 0.1);
+}
+.upload__input {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    cursor: pointer;
+    z-index: 100;
+}
+
+.hidden_ms {
+    display: none;
+}
+/* ------------------------------ UPLOAD BTNS END ------------------------------ */
+.profile_tab {
+    padding: 10px;
+}
+
+.profile_tab .inputs {
+    max-width: 100%;
+    width: 100%;
+    margin: 0 auto;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.profile_tab .inputs label {
+    margin-bottom: 8px;
+}
+
+.colors_check {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.colors_check .single_check {
+    /* flex: 0 0 12%; */
+    margin-bottom: 12px;
+    margin-right: 20px;
+    /* width: 45px; */
+    height: 45px;
+}
+
+.add_icon {
+    width: 45px;
+    height: 45px;
+    background: #FAD9D4;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.circle_color .main_colors {
+    width: 45px;
+    height: 45px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    cursor: pointer;
+}
+
+.check-color {
+    visibility: hidden;
+    position: absolute;
+    right: 0;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.circle_color i {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.seleced_color .circle_color i {
+    opacity: 1;
+    visibility: visible;
+}
+
+/*  */
+.addColor {
+    position: relative;
+    width: 45px;
+    max-width: 45px;
+    margin-right: 20px;
+}
+
+.addColor i {
+    margin-top: -43px;
+    top: 0;
+    color: black;
+    right: 0;
+    left: 0;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    z-index: -1;
+    width: 45px;
+    height: 45px;
+    background: #FAD9D4;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+input[type="color"] {
+    -webkit-appearance: none;
+    width: 45px;
+    height: 45px;
+    background: #FAD9D4;
+    border: 4px solid #b8b8b8;
+    color: red;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    cursor: pointer;
+    position: relative;
+    opacity: 0;
+    /* z-index: 1; */
+
+
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+    border-radius: 100%;
+}
+
+input[type="color"]::-webkit-color-swatch {
+    /* border: none; */
+    border-radius: 100%;
+}
