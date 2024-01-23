@@ -195,14 +195,7 @@
                                                                                                 <p class="font-weight-bold">{{ $model->getCityName($lang) }}</p>
                                                                                             </div>
                                                                                         </div>
-                                                                                        <div class="row">
-                                                                                            <div class="col-md-6">
-                                                                                                <label class="font-weight-bold">{{ __('Area Name') }}</label>
-                                                                                            </div>
-                                                                                            <div class="col-md-6">
-                                                                                                <p class="font-weight-bold">{{ $model->getAreaName($lang) }}</p>
-                                                                                            </div>
-                                                                                        </div>
+                                                                                       
                                                                                         <div class="row">
                                                                                             <div class="col-md-6">
                                                                                                 <label class="font-weight-bold">{{ __('Is Verified') }}</label>

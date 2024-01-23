@@ -37,9 +37,7 @@
                                                     <x-form.select class="city-updates-areas-js" :is-required="true" :is-select2="true" :options="$citiesFormattedForSelect" :add-new="false" :label="__('City Name')" :all="false" name="city_id" id="city_id" :selected-value="isset($model) ? $model->getCityId(): old('city_id') "></x-form.select>
                                                 </div>
 
-                                                {{-- <div class="col-md-6">
-                                                    <x-form.select :is-required="true" :is-select2="true" :options="$areasFormattedForSelect" :add-new="false" :label="__('Area Name')" :all="false" name="area_id" id="area_id" :selected-value="isset($model) ? $model->getAreaId(): old('area_id') "></x-form.select>
-                                                </div> --}}
+                                            
                                                 <div class="col-md-6">
                                                     <x-form.input :id="'email'" :label="__('Email')" :type="'email'" :name="'email'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Email')])"></x-form.input>
                                                 </div>
