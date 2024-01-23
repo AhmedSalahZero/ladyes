@@ -28,8 +28,8 @@ class StoreCityRequest extends FormRequest
 		[
 			'name_en'=>$HValidationRules['name_en'],
 			'name_ar'=>$HValidationRules['name_ar'],
-			'latitude'=>$HValidationRules['latitude'],
-			'longitude'=>$HValidationRules['longitude'],
+			// 'latitude'=>$HValidationRules['latitude'],
+			// 'longitude'=>$HValidationRules['longitude'],
 			'country_id'=>$HValidationRules['country_id'],
         ];
     }

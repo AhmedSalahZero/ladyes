@@ -14,7 +14,9 @@ function getPermissions():array
 {
 	$permissions[] = ['name'=>'view home','title'=>__('View :page',['page'=>__('Home')])];
 	$permissions[] = ['name'=>'view notifications','title'=>__('View :page',['page'=>__('Notifications')])];
-	$normalPermissions = ['admins','roles-and-permissions','car-makes','car-models','drivers','cities','areas'];
+	$normalPermissions = ['admins','roles-and-permissions','car-makes','car-models','drivers','cities'
+
+];
 	foreach($normalPermissions as $permissionName){
 		foreach(['view','create','update','delete'] as $permissionType){
 			$title = HStr::camelizeWithSpace(str_replace('and','&',$permissionName)) ;	
@@ -66,11 +68,7 @@ function getSidebars($user):array
 				createSidebarItem($pageName, __('View :page' , ['page' => __('Cities')]) , route('cities.index') , $user->can('view ' .$pageName)  ),
 				createSidebarItem($pageName, __('Create :page' , ['page'=>__('City')]) , route('cities.create') , $user->can('create ' .$pageName)  ),
 			]),
-			$pageName = 'areas'=> createSidebarItem( $pageName, __('Areas') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-bank', 
-			[
-				createSidebarItem($pageName, __('View :page' , ['page' => __('Areas')]) , route('areas.index') , $user->can('view ' .$pageName)  ),
-				createSidebarItem($pageName, __('Create :page' , ['page'=>__('Area')]) , route('areas.create') , $user->can('create ' .$pageName)  ),
-			]),
+		
 			$pageName = 'drivers'=> createSidebarItem( $pageName, __('Drivers') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-car', 
 			[
 				createSidebarItem($pageName, __('View :page' , ['page' => __('Drivers')]) , route('drivers.index') , $user->can('view ' .$pageName)  ),

@@ -27,8 +27,7 @@ class CreateDriversTable extends Migration
 			$table->unsignedBigInteger('city_id')->nullable();
 			$table->foreign('city_id')->references('id')->on('cities')->nullOnDelete();
 			
-			$table->unsignedBigInteger('area_id')->nullable();
-			$table->foreign('area_id')->references('id')->on('areas')->nullOnDelete();
+
 			
 			
             $table->string('email')->nullable();	

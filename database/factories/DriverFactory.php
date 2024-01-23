@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Area;
 use App\Models\CarMake;
 use App\Models\CarModel;
 use App\Models\City;
@@ -23,7 +22,6 @@ class DriverFactory extends Factory
 				'last_name'=>$this->faker->name ,
 				'country_id'=>$countryId = Country::inRandomOrder()->first()->id  ,
 				'city_id'=>$cityId = City::factory()->create(['country_id'=>$countryId])->id  ,
-				'area_id'=>Area::factory()->create(['city_id'=>$cityId]),
 				'email'=>$this->faker->email ,
 				'phone'=>$this->faker->phoneNumber() ,
 				'is_verified'=>$this->faker->boolean(),

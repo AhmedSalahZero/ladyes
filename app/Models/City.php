@@ -3,14 +3,10 @@
 namespace App\Models;
 
 use App\Traits\Accessors\IsBaseModel;
-use App\Traits\Models\HasLatitudeAndLatitude;
 use App\Traits\Models\HasTransNames;
 use App\Traits\Scope\HasDefaultOrderScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
 
 class City extends Model 
 // implements HasMedia
@@ -18,7 +14,7 @@ class City extends Model
 	// city == govern
     use
 	//  InteractsWithMedia,
-	 IsBaseModel,HasDefaultOrderScope , HasTransNames , HasFactory,HasLatitudeAndLatitude ;
+	 IsBaseModel,HasDefaultOrderScope , HasTransNames , HasFactory ;
 	public function country()
 	{
 		return $this->belongsTo(Country::class , 'country_id','id');
@@ -43,10 +39,7 @@ class City extends Model
 		$country = $this->country ; 
 		return $country ? $country->getIso2() : null ;
 	}
-	public function areas()
-	{
-		return $this->hasMany(Area::class,'city_id','id');
-	}
+	
 
 	public function syncFromRequest($request){
 		if ($request->has('name_en')){
@@ -58,15 +51,7 @@ class City extends Model
 		if ($request->has('longitude')){
 			$this->longitude = $request->longitude;
 		}
-		if ($request->has('latitude')){
-			$this->latitude = $request->latitude;
-		}
-		if ($request->has('country_id')){
-			$this->country_id = $request->country_id;
-		}
-		// if ($request->has('logo')){
-		// 	static::addMediaFromRequest('logo')->toMediaCollection('logo');
-		// }
+		
 		$this->save();
 	}
 	

@@ -19,8 +19,8 @@
                                             <th class="th-global-class  text-center">#</th>
                                             <th class="th-global-class  text-center">{{__('Name')}}</th>
                                             <th class="th-global-class  text-center">{{__('Country Name')}}</th>
-                                            <th class="th-global-class  text-center">{{__('Latitude')}}</th>
-                                            <th class="th-global-class  text-center">{{__('Longitude')}}</th>
+                                            {{-- <th class="th-global-class  text-center">{{__('Latitude')}}</th> --}}
+                                            {{-- <th class="th-global-class  text-center">{{__('Longitude')}}</th> --}}
                                             @if($user->can(getPermissionName('update')) || $user->can(getPermissionName('delete')) )
                                             <th class="th-global-class  text-center">{{__('Actions')}}</th>
                                             @endif
@@ -31,8 +31,8 @@
                                                 <td class="text-center">{{$loop->iteration}}</td>
                                                 <td class="text-center">{{$model->getName()}}</td>
                                                 <td class="text-center">{{$model->getCountryName($lang)}}</td>
-                                                <td class="text-center">{{$model->getLatitude()}}</td>
-                                                <td class="text-center">{{$model->getLongitude()}}</td>
+                                                {{-- <td class="text-center">{{$model->getLatitude()}}</td> --}}
+                                                {{-- <td class="text-center">{{$model->getLongitude()}}</td> --}}
                                                
                                                 @if($user->can(getPermissionName('update')) || $user->can(getPermissionName('delete')) )
                                                 <td class="d-flex align-items-center justify-content-sm-center">

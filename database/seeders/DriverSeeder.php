@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Area;
-use App\Models\City;
 use App\Models\Driver;
 use Illuminate\Database\Seeder;
 

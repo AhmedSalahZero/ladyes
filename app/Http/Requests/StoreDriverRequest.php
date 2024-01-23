@@ -31,7 +31,6 @@ class StoreDriverRequest extends FormRequest
 			'last_name'=>$HValidationRules['last_name'],
 			'country_id'=>$HValidationRules['country_id'],
 			'city_id'=>$HValidationRules['city_id'],
-			'area_id'=>$HValidationRules['area_id'],
 			'email'=>$HValidationRules['email'],
 			'phone'=>$HValidationRules['phone'],
 			'id_number'=>$HValidationRules['id_number'],
@@ -92,7 +91,6 @@ class StoreDriverRequest extends FormRequest
 			
 			'country_id.required'=>__('Please Enter :attribute' , ['attribute'=>__('Country Name')]),
 			'city_id.required'=>__('Please Enter :attribute' , ['attribute'=>__('City Name')]),
-			'area_id.required'=>__('Please Enter :attribute' , ['attribute'=>__('Area Name')]),
 			'make_id.required'=>__('Please Enter :attribute' , ['attribute'=>__('Make Name')]),
 			'model_id.required'=>__('Please Enter :attribute' , ['attribute'=>__('Model Name')]),
 			'size_id.required'=>__('Please Enter :attribute' , ['attribute'=>__('Car Size')]),

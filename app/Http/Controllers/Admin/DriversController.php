@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDriverRequest;
-use App\Models\Area;
 use App\Models\CarMake;
 use App\Models\CarModel;
 use App\Models\CarSize;
@@ -73,7 +72,6 @@ class DriversController extends Controller
 			'indexRoute'=>route('drivers.index'),
 			'countriesFormattedForSelect'=>Country::get()->formattedForSelect(true,'getId','getName'),
 			'citiesFormattedForSelect'=>City::where('country_id',$selectedCountryId)->get()->formattedForSelect(true,'getId','getName'),
-			'areasFormattedForSelect'=>Area::where('city_id',$selectedCityId)->get()->formattedForSelect(true,'getId','getName'),
 			'carMakesFormattedForSelect'=>CarMake::get()->formattedForSelect(true,'getId','getName'),
 			'carModelsFormattedForSelect'=>CarModel::where('make_id',$selectedMakeId)->get()->formattedForSelect(true,'getId','getName'),
 			'carSizesFormattedForSelect'=>CarSize::get()->formattedForSelect(true,'getId','getName'),

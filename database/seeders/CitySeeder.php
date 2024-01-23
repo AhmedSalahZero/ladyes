@@ -2,11 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Area;
-use App\Models\CarMake;
-use App\Models\CarModel;
 use App\Models\City;
-use Database\Factories\AreaFactory;
 use Illuminate\Database\Seeder;
 
 class CitySeeder extends Seeder
@@ -26,11 +22,7 @@ class CitySeeder extends Seeder
 		'country_id'=>194 // sa
 	   ]);
 	   
-	   Area::factory()->create([
-		'city_id'=>$city->id ,
-		'name_en'=>'First Area',
-		'name_ar'=>'منطقه1',
-	   ]);
+
 	   
 	   $city = City::factory()->create([
 		'name_en'=>'Cairo',
@@ -40,11 +32,7 @@ class CitySeeder extends Seeder
 		'country_id'=>65 // sa
 	   ]);
 	   
-	   Area::factory()->create([
-		'city_id'=>$city->id ,
-		'name_en'=>'Disook',
-		'name_ar'=>'دسوق',
-	   ]);
+
 	   
 	   
     }

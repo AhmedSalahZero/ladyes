@@ -72,36 +72,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\Area
- *
- * @property int $id
- * @property string|null $name_en
- * @property string|null $name_ar
- * @property string|null $latitude
- * @property string|null $longitude
- * @property int|null $city_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\City|null $city
- * @method static \Illuminate\Database\Eloquent\Builder|Area defaultOrdered()
- * @method static \Database\Factories\AreaFactory factory(...$parameters)
- * @method static \Illuminate\Database\Eloquent\Builder|Area newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Area newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Area query()
- * @method static \Illuminate\Database\Eloquent\Builder|Area whereCityId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Area whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Area whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Area whereLatitude($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Area whereLongitude($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Area whereNameAr($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Area whereNameEn($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Area whereUpdatedAt($value)
- */
-	class Area extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
  * App\Models\CarMake
  *
  * @property int $id
@@ -204,8 +174,6 @@ namespace App\Models{
 /**
  * App\Models\ChMessage
  *
- * @property-read \App\Models\User|null $from_user
- * @property-read \App\Models\User|null $to_user
  * @method static \Illuminate\Database\Eloquent\Builder|ChMessage newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ChMessage newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ChMessage query()
@@ -225,8 +193,6 @@ namespace App\Models{
  * @property int|null $country_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Area> $areas
- * @property-read int|null $areas_count
  * @property-read \App\Models\Country|null $country
  * @method static \Illuminate\Database\Eloquent\Builder|City defaultOrdered()
  * @method static \Database\Factories\CityFactory factory(...$parameters)
@@ -323,7 +289,6 @@ namespace App\Models{
  * @property string|null $last_name
  * @property int|null $country_id
  * @property int|null $city_id
- * @property int|null $area_id
  * @property string|null $email
  * @property string $phone
  * @property int $is_verified
@@ -347,7 +312,6 @@ namespace App\Models{
  * @property string|null $banned_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Area|null $area
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Cog\Laravel\Ban\Models\Ban> $banHistories
  * @property-read int|null $ban_histories_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Cog\Laravel\Ban\Models\Ban> $bans
@@ -371,7 +335,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Driver onlyIsVerified()
  * @method static \Illuminate\Database\Eloquent\Builder|Driver onlyListingToOrders()
  * @method static \Illuminate\Database\Eloquent\Builder|Driver query()
- * @method static \Illuminate\Database\Eloquent\Builder|Driver whereAreaId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Driver whereBannedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Driver whereBirthDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Driver whereCanReceiveOrders($value)
@@ -475,10 +438,11 @@ namespace App\Models{
  * @property string $type
  * @property string $notifiable_type
  * @property int $notifiable_id
- * @property string $data
+ * @property array $data
  * @property string|null $read_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Notification defaultOrdered()
  * @method static \Illuminate\Database\Eloquent\Builder|Notification newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Notification newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Notification query()
@@ -513,7 +477,6 @@ namespace App\Models{
  * App\Models\Order
  *
  * @property-read \App\Models\UserAddress|null $address
- * @property-read \App\Models\User|null $driver
  * @property-read mixed $discount_price
  * @property-read mixed $from_location_info
  * @property-read mixed $payment_method_name
@@ -527,7 +490,6 @@ namespace App\Models{
  * @property-read \App\Models\Transaction|null $transaction
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\TravelTraking> $travel_traking
  * @property-read int|null $travel_traking_count
- * @property-read \App\Models\User|null $user
  * @method static \Illuminate\Database\Eloquent\Builder|Order newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Order newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Order query()
@@ -582,33 +544,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|TravelTraking query()
  */
 	class TravelTraking extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
- * App\Models\User
- *
- * @property-read \App\Models\Country $area
- * @property-read \App\Models\Country $city
- * @property-read \App\Models\Country $country
- * @property-read mixed $balance
- * @property-read mixed $expenses
- * @property-read mixed $name
- * @property-read mixed $rool_name
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\UserNotifacation> $notifications
- * @property-read int|null $notifications_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Order> $orders
- * @property-read int|null $orders_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\UserRate> $rates
- * @property-read int|null $rates_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Transaction> $transactions
- * @property-read int|null $transactions_count
- * @method static \Database\Factories\UserFactory factory(...$parameters)
- * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|User query()
- */
-	class User extends \Eloquent implements \Tymon\JWTAuth\Contracts\JWTSubject {}
 }
 
 namespace App\Models{

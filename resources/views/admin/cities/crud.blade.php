@@ -29,19 +29,19 @@
                                                     <x-form.input class="map_name" :id="'name_ar'" :label="__('Arabic Name')" :type="'text'" :name="'name_ar'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Arabic Name')])"></x-form.input>
                                                 </div>
 												
-												<div class="col-md-6">
+												{{-- <div class="col-md-6">
                                                     <x-form.input class="MapLon"   :id="'longitude'" :label="__('Longitude')" :type="'text'" :name="'longitude'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Longitude')])"></x-form.input>
                                                 </div>
 												
 												<div class="col-md-6">
                                                     <x-form.input class="MapLat" :id="'latitude'" :label="__('Latitude')" :type="'text'" :name="'latitude'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Latitude')])"></x-form.input>
-                                                </div>
+                                                </div> --}}
 												
 												<div class="col-md-6">
                                                         <x-form.select :is-required="true" :is-select2="true" :options="$countriesFormattedForSelect" :add-new="false" :label="__('Country Name')" :all="false" name="country_id" id="country_id" :selected-value="isset($model) ? $model->getCountryId(): old('country_id') "></x-form.select>
                                                 </div>
 												
-												<div class="col-12">
+												{{-- <div class="col-12">
 													@include('components.map.maps',[
 														'mapHeight'=>'500px',
 														"mapId"=>'map_id',
@@ -50,12 +50,7 @@
 														'longitude'=>'45.0000'
 													])
 												</div>
-												
-                                                {{-- <div class="col-md-6">
-												    <x-form.image-uploader :name="'logo'"  :id="'logo-id'" :imageUploadId="'logo'" :label="__('Logo')" :image="isset($model) && $model->getFirstMedia('logo') ? $model->getFirstMedia('logo')->getFullUrl() : getDefaultImage()"></x-form.image-uploader>
-													
-                                                </div> --}}
-												
+												 --}}
 												
 												 
 												

@@ -71,7 +71,7 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::resource('cities', CitiesController::class);
 
     //###################### areas #########################
-    Route::resource('areas', AreasController::class);
+    // Route::resource('areas', AreasController::class);
 
     //###################### settings #########################
     Route::resource('settings', SettingsController::class)->only(['create', 'store']);
@@ -88,7 +88,7 @@ Route::group(['middleware' => 'auth:admin'], function () {
 });
 Route::prefix('helpers')->group(function () {
     Route::get('update-cities-based-on-country', [UpdateCitiesBasedOnCountry::class, '_invoke'])->name('update.cities.based.on.country');
-    Route::get('update-areas-based-on-city', [UpdateAreasBasedOnCity::class, '_invoke'])->name('update.areas.based.on.city');
+    // Route::get('update-areas-based-on-city', [UpdateAreasBasedOnCity::class, '_invoke'])->name('update.areas.based.on.city');
     Route::get('update-models-based-on-make', [UpdateModelsBasedOnMake::class, '_invoke'])->name('update.models.based.on.make');
     Route::put('mark-notifications-as-read/{admin}', [NotificationsController::class, 'markAsRead'])->name('mark.notifications.as.read');
     ;

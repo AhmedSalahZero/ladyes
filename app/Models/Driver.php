@@ -5,7 +5,6 @@ use App\Helpers\HDate;
 use App\Helpers\HHelpers;
 use App\Settings\SiteSetting;
 use App\Traits\Accessors\IsBaseModel;
-use App\Traits\Models\HasArea;
 use App\Traits\Models\HasBasicStoreRequest;
 use App\Traits\Models\HasCanReceiveOrders;
 use App\Traits\Models\HasCity;
@@ -34,9 +33,9 @@ class Driver extends Model implements HasMedia,BannableInterface
 {
     use HasMake,HasFactory,IsBaseModel,HasDefaultOrderScope,
 	HasCountry,HasCity,HasIsVerified,InteractsWithMedia,HasBasicStoreRequest,
-	HasModel,HasTrafficTickets, Bannable,HasArea,HasCanReceiveOrders,
-	HasInvitationCode,HasIsListingToOrdersNow
-	;
+	HasModel,HasTrafficTickets, Bannable,HasCanReceiveOrders,
+	HasInvitationCode,HasIsListingToOrdersNow;
+
 	
 	public function registerMediaCollections(): void
 	{
