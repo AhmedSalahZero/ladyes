@@ -30,8 +30,8 @@
                                         </ul>
                                     </div>
                                 </div>
-                                @include('admin.layouts.alerts.success')
-                                @include('admin.layouts.alerts.errors')
+                                {{-- @include('admin.layouts.alerts.success') --}}
+                                {{-- @include('admin.layouts.alerts.errors') --}}
                                 <div class="card-content collapse show" style="margin-top: -12px">
                                     <div class="card-body card-dashboard">
                                             <table class="table table-striped table-bordered file-export">

@@ -9,5 +9,7 @@ use Illuminate\Routing\Controller as BaseController;
 
 class Controller extends BaseController
 {
+	const DEFAULT_PAGINATION_LENGTH_FOR_ADMIN = 10 ;
+	
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 }

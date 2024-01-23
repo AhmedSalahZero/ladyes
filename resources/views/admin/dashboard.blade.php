@@ -6,7 +6,7 @@
             </div>
             <div class="content-body">
                 <!-- eCommerce statistic -->
-                @if(admin()->check_route_permission('dashboard.index') == 1)
+                {{-- @if(admin()->check_route_permission('dashboard.index') == 1) --}}
 {{--                    <div class="row">--}}
 {{--                        <div class="col-xl-3 col-lg-6 col-12">--}}
 {{--                            <div class="card pull-up">--}}
@@ -196,38 +196,38 @@
 {{--                            </div>--}}
 {{--                        </div>--}}
 {{--                    </section>--}}
-                @else
+                {{-- @else
                     @include('admin.layouts.alerts.error_perm')
-                @endif
+                @endif --}}
 
             </div>
         </div>
     </div>
 @endsection
 @section('styles')
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/assets/vendors/css/charts/chartist.css')}}">
+    {{-- <link rel="stylesheet" type="text/css" href="{{asset('assets/assets/vendors/css/charts/chartist.css')}}">
     <link rel="stylesheet" type="text/css"
-          href="{{asset('assets/assets/vendors/css/charts/chartist-plugin-tooltip.css')}}">
-    <link rel="stylesheet" type="text/css"
+          href="{{asset('assets/assets/vendors/css/charts/chartist-plugin-tooltip.css')}}"> --}}
+    {{-- <link rel="stylesheet" type="text/css"
           href="{{asset('assets/vendors/css/weather-icons/climacons.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/fonts/meteocons/style.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/vendors/css/charts/morris.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/assets/css/pages/timeline.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/pages/dashboard-ecommerce.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/pages/dashboard-ecommerce.css')}}"> --}}
 @endsection
 @section('scripts')
-    <script src="{{asset('assets/vendors/js/charts/chartist.min.js')}}" type="text/javascript"></script>
+    {{-- <script src="{{asset('assets/vendors/js/charts/chartist.min.js')}}" type="text/javascript"></script>
     <script src="{{asset('assets/vendors/js/charts/chart.min.js')}}" type="text/javascript"></script>
     <script src="{{asset('assets/vendors/js/charts/chartist-plugin-tooltip.min.js')}}"
-            type="text/javascript"></script>
-    <script src="{{asset('assets/vendors/js/charts/raphael-min.js')}}" type="text/javascript"></script>
-    <script src="{{asset('assets/vendors/js/charts/morris.min.js')}}" type="text/javascript"></script>
-    <script src="{{asset('assets/vendors/js/timeline/horizontal-timeline.js')}}" type="text/javascript"></script>
+            type="text/javascript"></script> --}}
+    {{-- <script src="{{asset('assets/vendors/js/charts/raphael-min.js')}}" type="text/javascript"></script> --}}
+    {{-- <script src="{{asset('assets/vendors/js/charts/morris.min.js')}}" type="text/javascript"></script> --}}
+    {{-- <script src="{{asset('assets/vendors/js/timeline/horizontal-timeline.js')}}" type="text/javascript"></script> --}}
     <!-- END PAGE VENDOR JS-->
-    <script src="{{asset('assets/vendors/js/charts/morris.min.js')}}" type="text/javascript"></script>
-    <script src="{{asset('assets/js/scripts/pages/dashboard-ecommerce.js')}}" type="text/javascript"></script>
-    <script src="{{asset('assets/js/scripts/charts/chartjs/polar-radar/polar-skip-points.js')}}"
-            type="text/javascript"></script>
+    {{-- <script src="{{asset('assets/vendors/js/charts/morris.min.js')}}" type="text/javascript"></script> --}}
+    {{-- <script src="{{asset('assets/js/scripts/pages/dashboard-ecommerce.js')}}" type="text/javascript"></script> --}}
+    {{-- <script src="{{asset('assets/js/scripts/charts/chartjs/polar-radar/polar-skip-points.js')}}"
+            type="text/javascript"></script> --}}
 
 {{--    <script>--}}
 {{--        var montly_sel = [--}}

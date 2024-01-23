@@ -41,8 +41,8 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    @include('admin.layouts.alerts.success')
-                                    @include('admin.layouts.alerts.errors')
+                                    {{-- @include('admin.layouts.alerts.success') --}}
+                                    {{-- @include('admin.layouts.alerts.errors') --}}
                                     <div class="card-content collapse show">
                                         <div class="card-body">
                                             @if($user)

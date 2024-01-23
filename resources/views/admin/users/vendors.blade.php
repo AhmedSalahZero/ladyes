@@ -30,8 +30,8 @@
                                         </ul>
                                     </div>
                                 </div>
-                                @include('admin.layouts.alerts.success')
-                                @include('admin.layouts.alerts.errors')
+                                {{-- @include('admin.layouts.alerts.success') --}}
+                                {{-- @include('admin.layouts.alerts.errors') --}}
                                 <div class="card-content collapse show" style="margin-top: -12px">
                                     <div class="card-body card-dashboard">
                                             <table class="table table-striped table-responsive table-bordered file-export">
@@ -121,8 +121,8 @@
 @endsection
 @section('styles')
     <link rel="stylesheet" type="text/css" href="{{asset('assets/vendors/css/tables/datatable/datatables.min.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/vendors/css/extensions/toastr.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/css-rtl/plugins/extensions/toastr.css')}}">
+    {{-- <link rel="stylesheet" type="text/css" href="{{asset('assets/vendors/css/extensions/toastr.css')}}"> --}}
+    {{-- <link rel="stylesheet" type="text/css" href="{{asset('assets/css-rtl/plugins/extensions/toastr.css')}}"> --}}
 @endsection
 @section('scripts')
     <script src="{{asset('assets/vendors/js/tables/datatable/datatables.min.js')}}" type="text/javascript"></script>
@@ -131,8 +131,8 @@
     <script src="{{asset('assets/vendors/js/tables/buttons.html5.min.js')}}" type="text/javascript"></script>
     <script src="{{asset('assets/vendors/js/tables/buttons.print.min.js')}}" type="text/javascript"></script>
     <script src="{{asset('assets/js/scripts/tables/datatables/datatable-advanced.js')}}" type="text/javascript"></script>
-    <script src="{{asset('assets/vendors/js/extensions/toastr.min.js')}}" type="text/javascript"></script>
-    <script src="{{asset('assets/js/scripts/extensions/toastr.js')}}" type="text/javascript"></script>
+    {{-- <script src="{{asset('assets/vendors/js/extensions/toastr.min.js')}}" type="text/javascript"></script> --}}
+    {{-- <script src="{{asset('assets/js/scripts/extensions/toastr.js')}}" type="text/javascript"></script> --}}
 
     <script>
         $(document).on('click','.user_delete',function (){

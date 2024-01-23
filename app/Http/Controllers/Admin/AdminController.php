@@ -3,12 +3,29 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreAdminRequest;
 use App\Models\Admin;
-use App\Models\PermitionGroup;
+use App\Models\Notification;
+use App\Traits\Controllers\Globals;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class AdminController extends Controller
 {
+	use Globals;
+	
+	public function __construct()
+	{
+		$this->middleware('permission:'.getPermissionName('view') , ['only'=>['index']]) ;
+		$this->middleware('permission:'.getPermissionName('create') , ['only'=>['create','store']]) ;
+		
+		$this->middleware('permission:'.getPermissionName('update') , ['only'=>['edit','update']]) ;
+		$this->middleware('permission:'.getPermissionName('delete') , ['only'=>['destroy']]) ;
+		
+	}
     public function profile()
     {
         return view('admin.profile.profile');
@@ -22,7 +39,7 @@ class AdminController extends Controller
         if ($request->email)
             $admin->email = $request->email;
         if ($request->password)
-            $admin->password = bcrypt($request->password);
+            $admin->password = Hash::make($request->password);
         $admin->save();
 
         return redirect()->back()->with('success', __('msg.updated_success'));
@@ -30,148 +47,122 @@ class AdminController extends Controller
 
     public function index()
     {
-        $admins = Admin::where('parent_id',0)->whereNotIn('id',[admin()->id])->orderBy('id', 'DESC')->get();
-        return view('admin.admins.index', compact('admins'));
+
+
+        $models = Admin::defaultOrdered()->paginate(static::DEFAULT_PAGINATION_LENGTH_FOR_ADMIN);
+		
+        return view('admin.admins.index', [
+			'models'=>$models,
+			'pageTitle'=>__('Admins'),
+			'createRoute'=>route('admins.create'),
+			'editRouteName'=>'admins.edit',
+			'deleteRouteName'=>'admins.destroy',
+			'toggleIsActiveRoute'=>route('admins.toggle.is.active')
+		]);
     }
 
     public function create()
     {
-        return view('admin.admins.add');
+        return view('admin.admins.crud',$this->getViewUrl());
     }
+	public function getViewUrl($model = null ):array 
+	{
+		$breadCrumbs = [
+			'dashboard'=>[
+				'title'=>__('Dashboard') ,
+				'route'=>route('dashboard.index'),
+			],
+			'admins'=>[
+				'title'=>__('Admins') ,
+				'route'=>route('admins.index'),
+			],
+			'create-admin'=>[
+				'title'=>__('Create Admin'),
+				'route'=>'#'
+			]
+		];
+		$rules = Role::all();
+		return [
+			'breadCrumbs'=>$breadCrumbs,
+			'pageTitle'=>__('Admins'),
+			'route'=>$model ? route('admins.update',['admin'=>$model->id]) : route('admins.store') ,
+			'model'=>$model ,
+			'rolesFormattedForSelect'=>$rules->formattedForSelect(false , 'name','name'),
+			'indexRoute'=>route('admins.index')
+		];
+	}
 
-    public function store(Request $request)
+    public function store(StoreAdminRequest $request)
     {
-        $request->validate([
-            'email' => 'required|unique:admins',
-        ]);
         $admin = new Admin();
-        $admin->name = $request->name;
-        $admin->email = $request->email;
-        $admin->active = $request->active == 'on' ? 1 : 0;
-        $admin->password = bcrypt($request->password);
-        $admin->save();
-
-        if ($request->save == 1)
-            return redirect()->route('admin.admins.edit', $admin->id)->with('success', __('msg.created_success'));
-        else
-            return redirect()->route('admin.admins.index')->with('success', __('msg.created_success'));
+		$admin->syncFromRequest($request);
+		Notification::storeNewNotification(
+			__('New Creation',[],'en'),
+			__('New Creation',[],'ar'),
+			$request->user('admin')->getName() .' '.__('Has Created New',[],'en') . __('Admin',[],'en') .' [ ' . $admin->getName() . ' ]' ,
+			$request->user('admin')->getName() .' '.__('Has Created New',[],'ar') . __('Admin',[],'ar') .' [ ' . $admin->getName() . ' ]' ,
+		);
+		foreach(getPermissions() as $permission){
+			$permission = Permission::findByName($permission['name'],'admin');
+			$admin->givePermissionTo($permission);
+		}
+        return $this->getWebRedirectRoute($request,route('admins.index'),route('admins.create'));
     }
 
-    public function edit($id)
+    public function edit(Admin $admin)
     {
-        $admin = Admin::find($id);
-        $permissions_groups = PermitionGroup::get();
-        return view('admin.admins.edit', ['admin' => $admin,'permissions_groups' => $permissions_groups]);
+
+        // $permissions_groups = PermitionGroup::get();
+        return view('admin.admins.crud',$this->getViewUrl($admin),
+	);
     }
 
-    public function update(Request $request, $id)
+    public function update(StoreAdminRequest $request, Admin $admin)
     {
-        $admin = Admin::find($id);
-        if ($admin) {
-            if ($request->name)
-                $admin->name = $request->name;
-            if ($request->email)
-                $admin->email = $request->email;
-            if ($request->password)
-                $admin->password = bcrypt($request->password);
-            $admin->active = $request->active == 'on' ? 1 : 0;
-            $admin->save();
-        }
-        if ($request->save == 1)
-            return redirect()->route('admin.admins.edit', $admin->id)->with('success', __('msg.created_success'));
-        else
-            return redirect()->route('admin.admins.index')->with('success', __('msg.created_success'));
+			$admin->syncFromRequest($request);
+			
+			Notification::storeNewNotification(
+				__('New Update',[],'en'),
+				__('New Update',[],'ar'),
+				$request->user('admin')->getName() .' '.__('Has Updated',[],'en') . __('Admin',[],'en') .' [ ' . $admin->getName() . ' ]' ,
+				$request->user('admin')->getName() .' '.__('Has Updated',[],'ar') . __('Admin',[],'ar') .' [ ' . $admin->getName() . ' ]' ,
+			);
+			
+			return $this->getWebRedirectRoute($request,route('admins.index'),route('admins.edit',['admin'=>$admin->id]));
     }
 
-    public function delete(Request $request)
+    public function destroy(Request $request,Admin $admin)
+    {
+		$admin->delete();
+		
+		Notification::storeNewNotification(
+			__('New Deletion',[],'en'),
+			__('New Deletion',[],'ar'),
+			$request->user('admin')->getName() .' '.__('Has Deleted',[],'en') . __('Admin',[],'en') .' [ ' . $admin->getName() . ' ]' ,
+			$request->user('admin')->getName() .' '.__('Has Deleted',[],'ar') . __('Admin',[],'ar') .' [ ' . $admin->getName() . ' ]' ,
+		);
+		
+		return redirect()->back()->with('success',__('This Record Has Been Deleted Successfully'));
+    }
+
+    public function toggleIsActive(Request $request)
     {
         $admin = Admin::find($request->id);
-        if ($admin)
-            $admin->delete();
-        return response()->json([
-            'status' => true,
-            'id' => $request->id,
-        ]);
-    }
-
-    public function updateStatus(Request $request)
-    {
-        $admin = Admin::find($request->id);
-        if ($admin) {
-            $admin->active = $request->active == 'true' ? 1 : 0;
-            $admin->save();
+		if($admin){
+			$admin->toggleIsActive();
+			
+			Notification::storeNewNotification(
+				__('New Update',[],'en'),
+				__('New Update',[],'ar'),
+				$request->user('admin')->getName() .' '.__('Has Updated',[],'en') . __('Admin',[],'en') .' [ ' . $admin->getName() . ' ]' ,
+				$request->user('admin')->getName() .' '.__('Has Updated',[],'ar') . __('Admin',[],'ar') .' [ ' . $admin->getName() . ' ]' ,
+			);
+			
+		}
             return response()->json([
                 'status' => true,
                 'id' => $request->id,
             ]);
-        }
     }
 
-    public function storeEmployee(Request $request)
-    {
-        if (!$request->emp_id){
-        $admin = Admin::where('email', $request->email)->first();
-            if ($admin)
-                return response()->json([
-                    'status' => false,
-                    'msg' => 'الايميل مستخدم من قبل',
-                ]);
-        }
-        if ($request->emp_id)
-            $admin = Admin::find($request->emp_id);
-        else
-            $admin = new Admin();
-
-        if ($request->name)
-        $admin->name = $request->name;
-        if ($request->email)
-        $admin->email = $request->email;
-        $admin->parent_id = $request->admin_id;
-        $admin->permission_group_id = $request->permission_group_id;
-        if ($request->active)
-        $admin->active = $request->active == 'true' ? 1 : 0;
-        if ($request->password)
-            $admin->password = bcrypt($request->password);
-        $admin->save();
-
-        if (!$request->emp_id) {
-            $checked = $admin->active == 1 ? 'checked' : '';
-            $emp_html = '<tr class="row_' . $admin->id . '">
-              <td class="text-center">' . $admin->name . '</td>
-              <td class="text-center">' . $admin->email . '</td>
-              <td class="text-center">
-                  <div class="form-group pb-1">
-                      <input type="checkbox" item_id="' . $admin->id . '" name="active"
-                             class="switch active_item" id="switch' . $admin->id . '"
-                          ' . $checked . '/>
-                  </div>
-              </td>
-              <td class="text-center">
-                  <button type="button" item_id="' . $admin->id . '" class="item_delete btn btn-danger">
-                      <i class="la la-trash"></i></button>
-
-                  <button type="button"
-                     class="block-page ml-2 btn btn-primary item_edit" item_id="' . $admin->id . '"><i
-                          class="la la-pencil"></i></button>
-              </td>
-          </tr>';
-        }
-        return response()->json([
-            'status' => true,
-            'id' => $admin->id,
-            'emp_html' => $request->emp_id ? '' : $emp_html
-        ]);
-    }
-
-    public function editEmployee(Request $request){
-        $admin = Admin::find($request->emp_id);
-        return response()->json([
-            'status' => true,
-            'id' => $admin->id,
-            'name' => $admin->name,
-            'email' => $admin->email,
-            'active' => $admin->active,
-            'permission_group_id' => $admin->permission_group_id
-        ]);
-    }
 }

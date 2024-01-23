@@ -7,6 +7,20 @@ window._ = require('lodash');
  */
 
 window.axios = require('axios');
+window.Swal = require('sweetalert2');
+
+
+
+window.toastr = require('toastr');
+toastr.options.closeButton = false;
+toastr.options.rtl = true;
+toastr.options.closeMethod = 'fadeOut';
+toastr.options.positionClass = 'toast-bottom-left';
+toastr.options.extendedTimeOut = 20000;
+toastr.options.showEasing = 'swing';
+toastr.options.hideEasing = 'linear';
+toastr.options.showMethod = 'fadeIn';
+toastr.options.fadeIn = 'fadeOut';
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
@@ -16,13 +30,24 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
  * allows your team to easily build robust real-time web applications.
  */
 
-// import Echo from 'laravel-echo';
+ import Echo from 'laravel-echo'
 
-// window.Pusher = require('pusher-js');
-
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: process.env.MIX_PUSHER_APP_KEY,
-//     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-//     forceTLS: true
-// });
+window.Pusher = require('pusher-js');
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: process.env.MIX_PUSHER_APP_KEY,
+	// encrypted:false ,
+    wsHost: window.location.hostname, // just host name without its port like
+    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+     forceTLS: false,
+	wsPort: process.env.MIX_LARAVEL_WEBSOCKETS_PORT,
+	enabledTransports: ['ws', 'wss'],
+	authEndpoint : `http://127.0.0.1:8000/broadcasting/auth`,
+	auth: {
+		
+        headers: {
+            Authorization: 'Bearer F8jCG4DGxUeFnX0z39jbz2ujqLazmvnLWyQr6DJD' 
+        },
+    }
+    // disableStats: true
+});

@@ -3,7 +3,6 @@
 use App\Http\Controllers\Admin\Api\AuthApiController;
 use App\Http\Controllers\Admin\Api\SystemApiController;
 use App\Http\Controllers\vendor\Chatify\Api\MessagesController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*

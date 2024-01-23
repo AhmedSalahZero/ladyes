@@ -22,13 +22,14 @@ class LoginController extends Controller
 
         $request->validate([
             'email' => 'required|max:50',
-            'password' => 'required|min:8|max:50',
+            'password' => 'required',
         ]);
         $admin = Admin::where('email',$request->email)->first();
+		
         if ($admin){
             if (!Hash::check( $request->password, $admin->password ))
                 return redirect()->back()->with(['error' => __('msg.error_login')]);
-            if ($admin->active == 1){
+            if ($admin->getIsActive()){
                     Auth::guard('admin')->login($admin);
                 return redirect(route('dashboard.index'));
             }

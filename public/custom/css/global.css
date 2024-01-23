@@ -1,0 +1,76 @@
+.th-global-class {
+}
+.required {
+    color: red;
+}
+/*
+bootstrap select
+*/
+.bootstrap-select.btn-group .btn .filter-option {
+    display: inline-block;
+    overflow: hidden;
+    width: 100%;
+    text-align: left; /* in RTL text-align: right; will fix it */
+}
+
+.btn.dropdown-toggle {
+    background-color: white !important;
+}
+.notify {
+    z-index: 1000000;
+    margin-top: 5%;
+}
+
+html[dir="rtl"] .filter-option-inner-inner {
+    text-align: right;
+    color: gray;
+}
+.default-img-in-td {
+    width: 100px;
+    height: 100px;
+	border-radius:3px;
+}
+.flags-icons{
+	width:50px !important;height:30px !important;
+}
+.pagination .page-link{
+	color: #FF7A7F;
+}
+.page-item.active .page-link{
+	background-color: #FF7A7F;
+    border-color: #FF7A7F;
+	
+}
+
+.dataTables_info,
+ .dataTables_paginate
+{
+	display:none !important ;
+}
+
+.modal .dataTables_info,
+.modal .dataTables_paginate
+{
+	display:initial !important ;
+}
+
+
+.text-gray {
+	color:#9598a2;
+}
+.max-w-full{
+	max-width:100%;
+}
+.profile-max-height{
+	max-height:183px;
+}
+.toastr{
+	z-index:999999;
+}
+#toast-container.toast-top-full-width > div, #toast-container.toast-bottom-full-width > div
+{
+	text-align: center;
+}
+.toast.rtl{
+	text-align:right;
+}

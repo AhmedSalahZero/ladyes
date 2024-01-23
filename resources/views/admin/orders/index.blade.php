@@ -25,8 +25,9 @@
                                         </ul>
                                     </div>
                                 </div>
-                                @include('admin.layouts.alerts.success')
-                                @include('admin.layouts.alerts.errors')
+                                {{-- @include('admin.layouts.alerts.success') --}}
+                                {{-- @include('admin.layouts.alerts.errors') --}}
+                                {{-- @include('admin.layouts.alerts.fail') --}}
                                 <div class="card-content collapse show" style="margin-top: -12px">
                                     <div class="card-body card-dashboard">
 
@@ -173,8 +174,8 @@
 @section('styles')
     <link rel="stylesheet" type="text/css" href="{{asset('assets/vendors/css/tables/datatable/datatables.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/vendors/css/forms/selects/select2.min.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/vendors/css/extensions/toastr.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/css-rtl/plugins/extensions/toastr.css')}}">
+    {{-- <link rel="stylesheet" type="text/css" href="{{asset('assets/vendors/css/extensions/toastr.css')}}"> --}}
+    {{-- <link rel="stylesheet" type="text/css" href="{{asset('assets/css-rtl/plugins/extensions/toastr.css')}}"> --}}
     <style>
         .select2-container--default {
             width: 100% !important;
@@ -191,8 +192,8 @@
     <script src="{{asset('assets/vendors/js/forms/select/select2.full.min.js')}}"
             type="text/javascript"></script>
     <script src="{{asset('assets/js/scripts/forms/select/form-select2.js')}}" type="text/javascript"></script>
-    <script src="{{asset('assets/vendors/js/extensions/toastr.min.js')}}" type="text/javascript"></script>
-    <script src="{{asset('assets/js/scripts/extensions/toastr.js')}}" type="text/javascript"></script>
+    {{-- <script src="{{asset('assets/vendors/js/extensions/toastr.min.js')}}" type="text/javascript"></script> --}}
+    {{-- <script src="{{asset('assets/js/scripts/extensions/toastr.js')}}" type="text/javascript"></script> --}}
     <script>
         $(document).on('click','.delete_item',function (){
             $('#deleteItem').modal('show');

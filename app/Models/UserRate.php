@@ -11,7 +11,7 @@ class UserRate extends Model
     protected $table = 'user_rates';
     protected $guarded = [];
 
-    public function deal(){
-        return $this->belongsTo(Deal::class,'deal_id');
-    }
+    // public function deal(){
+    //     return $this->belongsTo(Deal::class,'deal_id');
+    // }
 }

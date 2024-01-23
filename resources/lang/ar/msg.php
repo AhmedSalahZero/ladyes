@@ -311,4 +311,5 @@ return [
     'to_address' => 'الى العنوان',
     'user_cancel_travel_penalty' => 'نسبة الغرامة لالغاء الطلب للنواعم',
     'driver_cancel_travel_penalty' => 'نسبة الغرامة لالغاء الطلب للسائق',
+	''
 ];

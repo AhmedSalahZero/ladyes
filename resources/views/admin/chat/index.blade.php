@@ -21,12 +21,12 @@
                                     <a href="{{route('admin.chat.index',['id'=>$user->from_id,'id2'=>$user->to_id])}}"
                                        class="media border-0 {{($user->from_id == $id) && ($user->to_id == $id2) ? 'active_user' : ''}}">
                                         <div class="media-left pr-1">
-                  <span class="avatar avatar-md avatar-online">
-                    <img class="media-object rounded-circle"
-                         src="{{isset($user->from_user->image) ? asset('public'.$user->from_user->image) : ''}}"
-                         alt="Generic placeholder image">
-                    <i></i>
-                  </span>
+											<span class="avatar avatar-md avatar-online">
+												<img class="media-object rounded-circle"
+													src="{{isset($user->from_user->image) ? asset('public'.$user->from_user->image) : ''}}"
+													alt="Generic placeholder image">
+												<i></i>
+											</span>
                                         </div>
                                         <div class="media-body w-100">
                                             <h6 class="list-group-item-heading">{{$user->from_user->name ?? ''}} & {{$user->to_user->name ?? ''}}</h6>

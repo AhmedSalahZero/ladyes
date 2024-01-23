@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+{{-- @extends('admin.layouts.app')
 @section('title','Settings')
 @section('content')
     <div class="app-content content">
@@ -427,4 +427,4 @@
         })
 
     </script>
-@endsection
+@endsection --}}

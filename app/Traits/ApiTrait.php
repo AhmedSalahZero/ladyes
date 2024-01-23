@@ -4,9 +4,9 @@ namespace App\Traits;
 
 use App\Models\UsersCard;
 use App\Models\VendorPlane;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\File;
-
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
 trait ApiTrait
 {
     public function distance($lat1, $lon1, $lat2, $lon2, $unit)
@@ -93,4 +93,8 @@ trait ApiTrait
 
         return directPayment($paymentURL, $apiKey, $cardInfo);
     }
+	
+	
+
+	
 }

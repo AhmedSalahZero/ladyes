@@ -20,7 +20,7 @@ class ChatController extends Controller
         })->orWhere(function ($query) use ($fromUserId, $toUserId) {
             $query->where('from_id', $toUserId)->where('to_id', $fromUserId);
         })->take(50)->orderBy('created_at','DESC')->get();
-
+		
         return view('admin.chat.index',compact('users','messages','id','id2'));
     }
 

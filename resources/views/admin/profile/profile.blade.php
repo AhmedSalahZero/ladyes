@@ -36,8 +36,8 @@
                                             <div class="card-header">
                                                 <h4 class="card-title" id="basic-layout-round-controls">{{__('msg.my_info')}}</h4>
                                             </div>
-                                            @include('admin.layouts.alerts.success')
-                                            @include('admin.layouts.alerts.errors')
+                                            {{-- @include('admin.layouts.alerts.success') --}}
+                                            {{-- @include('admin.layouts.alerts.errors') --}}
                                             <div class="card-content collapse show">
                                                 <div class="card-body">
                                                     <form class="form" method="post"

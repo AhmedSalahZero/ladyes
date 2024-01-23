@@ -2,23 +2,31 @@
 
 
 use App\Http\Controllers\Admin\AdditionServicesController;
-use App\Http\Controllers\Admin\CarsModelController;
-use App\Http\Controllers\Admin\ChatController;
-use App\Http\Controllers\Admin\CountriesCitiesController;
-use App\Http\Controllers\Admin\CouponsController;
-use App\Http\Controllers\Admin\DriverController;
-use App\Http\Controllers\Admin\OrderController;
-use App\Http\Controllers\Admin\PermitionGroupController;
-use App\Http\Controllers\Admin\ReasonController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\Auth\LoginController;
-use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\Auth\LoginController;
+use App\Http\Controllers\Admin\CarMakeController;
+use App\Http\Controllers\Admin\CarModelController;
+use App\Http\Controllers\Admin\ChatController;
+use App\Http\Controllers\Admin\CitiesController;
+use App\Http\Controllers\Admin\ContactUsController;
+use App\Http\Controllers\Admin\CountriesCitiesController;
+use App\Http\Controllers\Admin\CountriesController;
+use App\Http\Controllers\Admin\CouponsController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DriverController;
+use App\Http\Controllers\Admin\OnbordingController;
+use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\ReasonController;
+use App\Http\Controllers\Admin\RolesAndPermissionsController;
+use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\UsersController;
-use App\Http\Controllers\Admin\SettingsController;
-use App\Http\Controllers\Admin\ContactUsController;
-use App\Http\Controllers\Admin\OnbordingController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+Route::post('test',function(Request $request){
+	dd($request->all());
+});
+
 
 
 Route::group(['namespace' => 'Admin', 'middleware' => 'auth:admin'], function () {
@@ -28,15 +36,18 @@ Route::group(['namespace' => 'Admin', 'middleware' => 'auth:admin'], function ()
     Route::get('/profile',[AdminController::class,'profile'])->name('admin.profile');
     Route::post('/update-profile',[AdminController::class,'updateProfile'])->name('admin.update.profile');
     ####################### admins #########################
-    Route::get('/admins',[AdminController::class,'index'])->name('admin.admins.index');
-    Route::get('/create-admin',[AdminController::class,'create'])->name('admin.admins.create');
-    Route::post('/store-admin',[AdminController::class,'store'])->name('admin.admins.store');
-    Route::post('/update-admin/{id}',[AdminController::class,'update'])->name('admin.admins.update');
-    Route::get('/edit-admin/{id}',[AdminController::class,'edit'])->name('admin.admins.edit');
-    Route::post('/delete-admin',[AdminController::class,'delete'])->name('admin.admins.delete');
-    Route::post('/update-admin-status',[AdminController::class,'updateStatus'])->name('admin.admins.update.status');
-    Route::post('/store-emp-admin',[AdminController::class,'storeEmployee'])->name('store.emp.admin');
-    Route::post('/edit-emp-admin',[AdminController::class,'editEmployee'])->name('edit.emp.admin');
+
+    // Route::get('/admins',[AdminController::class,'index'])->name('admin.admins.index');
+    // Route::get('/admins/create',[AdminController::class,'create'])->name('admin.admins.create');
+    // Route::post('/admins/store',[AdminController::class,'store'])->name('admin.admins.store');
+    // Route::get('admins/{admin}/edit',[AdminController::class,'edit'])->name('admin.admins.edit');
+    // Route::put('/admins/{admin}/update',[AdminController::class,'update'])->name('admin.admins.update');
+    // Route::delete('admins/delete/{admin}',[AdminController::class,'delete'])->name('admin.admins.delete');
+    // Route::post('/store-emp-admin',[AdminController::class,'storeEmployee'])->name('store.emp.admin');
+    // Route::post('/edit-emp-admin',[AdminController::class,'editEmployee'])->name('edit.emp.admin');
+    ####################### car makes #########################
+	
+	
     ####################### slider #########################
     Route::get('/sliders',[SliderController::class,'index'])->name('admin.sliders.index');
     Route::get('/create-slider',[SliderController::class,'create'])->name('admin.sliders.create');
@@ -61,17 +72,17 @@ Route::group(['namespace' => 'Admin', 'middleware' => 'auth:admin'], function ()
     Route::get('/show-user/{id}',[UsersController::class,'show'])->name('admin.users.show');
     Route::post('/update-user/{id}',[UsersController::class,'update'])->name('admin.users.update');
     Route::post('/delete-user',[UsersController::class,'delete'])->name('admin.users.delete');
-    Route::post('/update-user-status',[UsersController::class,'updateStatus'])->name('admin.users.update.status');
+    Route::put('/update-user-status',[UsersController::class,'updateStatus'])->name('admin.users.update.status');
     ####################### users #########################
-    Route::get('/drivers',[DriverController::class,'index'])->name('admin.drivers.index');
-    Route::get('/create-driver',[DriverController::class,'create'])->name('admin.drivers.create');
-    Route::post('/store-driver',[DriverController::class,'store'])->name('admin.drivers.store');
-    Route::get('/edit-driver/{id}',[DriverController::class,'edit'])->name('admin.drivers.edit');
-    Route::post('/update-driver/{id}',[DriverController::class,'update'])->name('admin.drivers.update');
-    Route::post('/delete-driver',[DriverController::class,'delete'])->name('admin.drivers.delete');
-    Route::post('/update-driver-status',[DriverController::class,'updateStatus'])->name('admin.drivers.update.status');
-    Route::post('/country-cities',[DriverController::class,'getCountryCities'])->name('admin.drivers.country_cities');
-    Route::post('/cities-area',[DriverController::class,'getCityArea'])->name('admin.drivers.country_area');
+    // Route::get('/drivers',[DriverController::class,'index'])->name('admin.drivers.index');
+    // Route::get('/create-driver',[DriverController::class,'create'])->name('admin.drivers.create');
+    // Route::post('/store-driver',[DriverController::class,'store'])->name('admin.drivers.store');
+    // Route::get('/edit-driver/{id}',[DriverController::class,'edit'])->name('admin.drivers.edit');
+    // Route::post('/update-driver/{id}',[DriverController::class,'update'])->name('admin.drivers.update');
+    // Route::post('/delete-driver',[DriverController::class,'delete'])->name('admin.drivers.delete');
+    // Route::post('/update-driver-status',[DriverController::class,'updateStatus'])->name('admin.drivers.update.status');
+    // Route::post('/country-cities',[DriverController::class,'getCountryCities'])->name('admin.drivers.country_cities');
+    // Route::post('/cities-area',[DriverController::class,'getCityArea'])->name('admin.drivers.country_area');
     ###################### contactus ########################
     Route::get('/contact-us',[ContactUsController::class,'index'])->name('admin.contacts.index');
     Route::get('/contact-us/{id}',[ContactUsController::class,'show'])->name('admin.contacts.show');
@@ -88,13 +99,23 @@ Route::group(['namespace' => 'Admin', 'middleware' => 'auth:admin'], function ()
     Route::post('/update-order-status',[OrderController::class,'updateStatus'])->name('admin.orders.update_status');
     Route::post('/send-order-user-email',[OrderController::class,'sendUserEmail'])->name('admin.orders.send_user_email');
     ####################### permission_group #########################
-    Route::get('/permission-groups',[PermitionGroupController::class,'index'])->name('admin.permission_group.index');
-    Route::get('/create-permission-group',[PermitionGroupController::class,'create'])->name('admin.permission_group.create');
-    Route::post('/store-permission-group',[PermitionGroupController::class,'store'])->name('admin.permission_group.store');
-    Route::get('/edit-permission-group/{id}',[PermitionGroupController::class,'edit'])->name('admin.permission_group.edit');
-    Route::post('/update-permission-group/{id}',[PermitionGroupController::class,'update'])->name('admin.permission_group.update');
-    Route::post('/delete-permission-group',[PermitionGroupController::class,'delete'])->name('admin.permission_group.delete');
-    ####################### reasons #########################
+	
+	Route::group(['prefix' => 'roles-and-permissions/', 'as' => 'roles.permissions.'], function () {
+		Route::get('/index', [RolesAndPermissionsController::class , 'index'])->name('index');
+		Route::get('/create',[RolesAndPermissionsController::class,'create' ])->name('create');
+		Route::post('/store', [RolesAndPermissionsController::class , 'store'])->name('store');
+		Route::get('/edit/{role}',[RolesAndPermissionsController::class ,'edit'])->name('edit');
+		Route::put('/update/{role}', [RolesAndPermissionsController::class , 'update'])->name('update');
+		Route::delete('/delete/{role}', [RolesAndPermissionsController::class , 'delete'])->name('delete');
+	});
+	
+    // Route::get('/permission-groups',[PermitionGroupController::class,'index'])->name('admin.permission_group.index');
+    // Route::get('/create-permission-group',[PermitionGroupController::class,'create'])->name('admin.permission_group.create');
+    // Route::post('/store-permission-group',[PermitionGroupController::class,'store'])->name('admin.permission_group.store');
+    // Route::get('/edit-permission-group/{id}',[PermitionGroupController::class,'edit'])->name('admin.permission_group.edit');
+    // Route::post('/update-permission-group/{id}',[PermitionGroupController::class,'update'])->name('admin.permission_group.update');
+    // Route::post('/delete-permission-group',[PermitionGroupController::class,'delete'])->name('admin.permission_group.delete');
+    // ####################### reasons #########################
     Route::get('/reasons',[ReasonController::class,'index'])->name('admin.reasons.index');
     Route::get('/create-reason',[ReasonController::class,'create'])->name('admin.reasons.create');
     Route::post('/store-reason',[ReasonController::class,'store'])->name('admin.reasons.store');
@@ -110,23 +131,23 @@ Route::group(['namespace' => 'Admin', 'middleware' => 'auth:admin'], function ()
     Route::post('/delete-addition-service',[AdditionServicesController::class,'delete'])->name('admin.addition_services.delete');
     Route::post('/update-addition-service-status',[AdditionServicesController::class,'updateStatus'])->name('admin.addition_services.update.status');
     ####################### cars_models #########################
-    Route::get('/cars-models',[CarsModelController::class,'index'])->name('admin.cars_models.index');
-    Route::get('/create-cars-model',[CarsModelController::class,'create'])->name('admin.cars_models.create');
-    Route::post('/store-cars-model',[CarsModelController::class,'store'])->name('admin.cars_models.store');
-    Route::get('/edit-cars-model/{id}',[CarsModelController::class,'edit'])->name('admin.cars_models.edit');
-    Route::post('/update-cars-model/{id}',[CarsModelController::class,'update'])->name('admin.cars_models.update');
-    Route::post('/delete-cars-model',[CarsModelController::class,'delete'])->name('admin.cars_models.delete');
-    Route::post('/update-status-cars-model',[CarsModelController::class,'updateStatus'])->name('admin.cars_models.update.status');
+    // Route::get('/cars-models',[CarsModelController::class,'index'])->name('admin.cars_models.index');
+    // Route::get('/create-cars-model',[CarsModelController::class,'create'])->name('admin.cars_models.create');
+    // Route::post('/store-cars-model',[CarsModelController::class,'store'])->name('admin.cars_models.store');
+    // Route::get('/edit-cars-model/{id}',[CarsModelController::class,'edit'])->name('admin.cars_models.edit');
+    // Route::post('/update-cars-model/{id}',[CarsModelController::class,'update'])->name('admin.cars_models.update');
+    // Route::post('/delete-cars-model',[CarsModelController::class,'delete'])->name('admin.cars_models.delete');
+    // Route::post('/update-status-cars-model',[CarsModelController::class,'updateStatus'])->name('admin.cars_models.update.status');
     ####################### countries #########################
-    Route::get('/countries',[CountriesCitiesController::class,'index'])->name('admin.countries.index');
-    Route::get('/create-country',[CountriesCitiesController::class,'create'])->name('admin.countries.create');
-    Route::post('/store-country',[CountriesCitiesController::class,'store'])->name('admin.countries.store');
-    Route::get('/edit-country/{id}',[CountriesCitiesController::class,'edit'])->name('admin.countries.edit');
-    Route::get('/city-areas/{id}',[CountriesCitiesController::class,'areas'])->name('admin.countries.areas');
-    Route::post('/update-country/{id}',[CountriesCitiesController::class,'update'])->name('admin.countries.update');
-    Route::post('/delete-country',[CountriesCitiesController::class,'delete'])->name('admin.countries.delete');
-    Route::post('/country-add-city',[CountriesCitiesController::class,'addCity'])->name('admin.countries.add_city');
-    Route::post('/country-add-area',[CountriesCitiesController::class,'addArea'])->name('admin.countries.add_area');
+    // Route::get('/countries',[CountriesCitiesController::class,'index'])->name('admin.countries.index');
+    // Route::get('/create-country',[CountriesCitiesController::class,'create'])->name('admin.countries.create');
+    // Route::post('/store-country',[CountriesCitiesController::class,'store'])->name('admin.countries.store');
+    // Route::get('/edit-country/{id}',[CountriesCitiesController::class,'edit'])->name('admin.countries.edit');
+    // Route::get('/city-areas/{id}',[CountriesCitiesController::class,'areas'])->name('admin.countries.areas');
+    // Route::post('/update-country/{id}',[CountriesCitiesController::class,'update'])->name('admin.countries.update');
+    // Route::post('/delete-country',[CountriesCitiesController::class,'delete'])->name('admin.countries.delete');
+    // Route::post('/country-add-city',[CountriesCitiesController::class,'addCity'])->name('admin.countries.add_city');
+    // Route::post('/country-add-area',[CountriesCitiesController::class,'addArea'])->name('admin.countries.add_area');
     ####################### coupons #########################
     Route::get('/coupons',[CouponsController::class,'index'])->name('admin.coupons.index');
     Route::get('/create-coupon',[CouponsController::class,'create'])->name('admin.coupons.create');

@@ -43,7 +43,8 @@ class SystemApiController extends Controller
         $this->user = auth()->user();
         $this->lang = \request('lang') ? \request('lang') : 'ar';
         $this->c_date = date('Y-m-d H:i:s');
-        $this->setting = Settings::first();
+        $this->setting = null;
+        // $this->setting = Settings::first();
     }
 
     public function updateUserProfile(Request $request)

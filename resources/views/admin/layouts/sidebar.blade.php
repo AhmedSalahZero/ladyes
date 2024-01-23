@@ -1,3 +1,5 @@
+@if(config('show_old_nav'))
+
 <div class="main-menu menu-fixed menu-light menu-accordion    menu-shadow " data-scroll-to-active="true">
     <div class="main-menu-content">
         <?php $c_url = url()->current();
@@ -8,38 +10,83 @@
                 ->where('is_sub_menue', 0)->orderBy('sort_id')->get();
             ?>
             @if($links && count($links) > 0)
-                @foreach($links as $link)
+            @foreach($links as $link)
+            @if(admin()->check_route_permission($link->route_name) == 1)
+            @if(isset($link->sub_links) && count($link->sub_links) > 0)
+
+            <li class=" nav-item">
+                <a href="#">
+                    <i class="{{$link->icon}}"></i>
+                    <span class="menu-title" data-i18n="nav.dash.main">{{$link->name}}</span>
+                </a>
+                <ul class="menu-content">
+                    @foreach($link->sub_links as $item)
                     @if(admin()->check_route_permission($link->route_name) == 1)
-                        @if(isset($link->sub_links) && count($link->sub_links) > 0)
+                    <li class="{{isset($path_url[1]) && $path_url[1] == $item->utl_path ? 'active' : ''}}"><a class="menu-item" href="{{route($item->route_name)}}" data-i18n="nav.dash.ecommerce">{{$item->name}}</a>
 
-                            <li class=" nav-item">
-                                <a href="#">
-                                    <i class="{{$link->icon}}"></i>
-                                    <span class="menu-title"
-                                          data-i18n="nav.dash.main">{{$link->name}}</span>
-                                </a>
-                                <ul class="menu-content">
-                                    @foreach($link->sub_links as $item)
-                                        @if(admin()->check_route_permission($link->route_name) == 1)
-                                            <li class="{{isset($path_url[1]) && $path_url[1] == $item->utl_path ? 'active' : ''}}"><a class="menu-item" href="{{route($item->route_name)}}"
-                                                   data-i18n="nav.dash.ecommerce">{{$item->name}}</a>
-
-                                            </li>
-                                        @endif
-                                    @endforeach
-                                </ul>
-                            </li>
-                        @else
-                            <li class="nav-item {{isset($path_url[1]) && $path_url[1] == $link->utl_path ? 'active' : ''}}
+                    </li>
+                    @endif
+                    @endforeach
+                </ul>
+            </li>
+            @else
+            <li class="nav-item {{isset($path_url[1]) && $path_url[1] == $link->utl_path ? 'active' : ''}}
 
                             "><a href="{{route($link->route_name)}}">
-                                    <i class="{{$link->icon}}"></i>
-                                    <span class="menu-title">{{$link->name}}</span></a>
-                            </li>
-                        @endif
-                    @endif
-                @endforeach
+                    <i class="{{$link->icon}}"></i>
+                    <span class="menu-title">{{$link->name}}</span></a>
+            </li>
+            @endif
+            @endif
+            @endforeach
             @endif
         </ul>
     </div>
 </div>
+
+
+
+
+
+@else
+
+
+
+<div class="main-menu menu-fixed menu-light menu-accordion    menu-shadow " data-scroll-to-active="true">
+    <div class="main-menu-content">
+        <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+
+			@foreach(getSidebars($user) as $name => $sidebarItem)
+			@if($sidebarItem['show'] && count($sidebarItem['subitems']))
+            <li class=" nav-item {{ $sidebarItem['is_active'] ? 'active' : '' }}">
+                <x-sidebar.nav-item :route="$sidebarItem['route']" :icon="$sidebarItem['icon']" :title="$sidebarItem['title']" ></x-sidebar.nav-item>
+                <ul class="menu-content">
+					@foreach($sidebarItem['subitems'] as $sidebarSubitem)
+                    <li class="{{ $sidebarSubitem['is_active'] ? 'active' :'' }}">
+					<a class="menu-item" href="{{ $sidebarSubitem['route'] }}" >{{ $sidebarSubitem['title'] }}</a>
+                    </li>
+					@endforeach
+					{{-- endforeach sub --}}
+                   
+                </ul>
+            </li>
+	
+			@elseif($sidebarItem['show'])
+			{{-- else --}}
+            <li class="nav-item {{ $sidebarItem['is_active'] ? 'active':'' }}">
+                <x-sidebar.nav-item :route="$sidebarItem['route']" :icon="$sidebarItem['icon']" :title="$sidebarItem['title']" ></x-sidebar.nav-item>
+            </li>
+			@endif 
+			@endforeach 
+           {{-- endif  --}}
+        </ul>
+    </div>
+</div>
+
+
+
+
+
+
+
+@endif

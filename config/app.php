@@ -1,5 +1,11 @@
 <?php
 
+use App\Providers\MacrosServiceProvider;
+use App\Providers\ObserverServiceProvider;
+use App\Providers\SchemaServiceProvider;
+use App\Providers\SharableServiceProvider;
+use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
+
 return [
 
     /*
@@ -171,10 +177,14 @@ return [
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
+        App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+        MacrosServiceProvider::class,
+        SharableServiceProvider::class,
+        SchemaServiceProvider::class,
+		IdeHelperServiceProvider::class
     ],
 
     /*

@@ -2,16 +2,20 @@
 
 namespace App\Models;
 
+use App\Traits\Accessors\IsBaseModel;
+use App\Traits\Models\HasIsActive;
+use App\Traits\Scope\AdminScope;
+use App\Traits\Scope\HasDefaultOrderScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Traits\HasRoles;
 
 class Admin extends Authenticatable
 {
-    use Notifiable;
-    use HasFactory;
-    protected $table = 'admins';
+    use IsBaseModel,HasDefaultOrderScope ,Notifiable  , HasFactory , HasIsActive , AdminScope,HasRoles;
+	
     protected $guard = 'admin';
 
     protected $guarded = [];
@@ -29,31 +33,40 @@ class Admin extends Authenticatable
         $hash = md5(strtolower(trim($this->attributes['email'])));
         return "http://gravatar.com/avatar/$hash";
     }
-
-    public function scopeActive($q){
-        return $q->where('active',1);
-    }
-
-    public function employees(){
-        return $this->hasMany(Admin::class,'parent_id');
-    }
-
-    public function group_permition(){
-        return $this->belongsTo(PermitionGroup::class,'permission_group_id');
-    }
-
-    public function check_route_permission($route_name){
-        if ($this->parent_id == 0){
-            return 1;
-        }else{
-            $check = AdminPermitions::where('permission_group_id',$this->permission_group_id)->whereHas('link',function ($q)use ($route_name){
-                return $q->where('route_name',$route_name);
-            })->first();
-            if ($check)
-                return 1;
-            else
-                return 0;
-        }
-
-    }
+	public function getAvatar()
+	{
+		return $this->avatar;
+	}
+	public function getName()
+	{
+		return $this->name;
+	}
+	public function getRoleId()
+	{
+		$role = $this->roles()->first() ;
+		return $role ? $role->id : 0 ;
+	}	
+	public function getRoleName()
+	{
+		$role = $this->roles()->first() ;
+		return $role ? $role->name : __('N/A') ;
+	}
+	
+	public function syncFromRequest($request){
+		if ($request->has('name'))
+		$this->name = $request->name;
+	if ($request->has('email'))
+		$this->email = $request->email;
+	if ($request->has('role_name'))
+		$this->assignRole($request->get('role_name'));
+	if ($request->filled('password'))
+		$this->password = Hash::make($request->password);
+	$this->is_active = $request->boolean('is_active') ;
+	$this->save();
+	}
+	public static function getNameById($id){
+		$model = self::find($id);
+		return $model ? $model->getName() : __('N/A');
+	}
+	
 }
