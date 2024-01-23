@@ -85,26 +85,26 @@ $(document).on('change','select.country-updates-cities-js',function(){
 
 
 
-$(document).on('change','select.city-updates-areas-js',function(){
-	const token =$('body').attr('data-token');
-	const cityId = $(this).val();
-	if(cityId){
-		$.ajax({
-			url:route('update.areas.based.on.city',{city_id:cityId}),
-			data:{
-				"_token":token,
-			},
-			success:function(res){
-				let options = '';
-				let areas = res.data ;
-				for(var index in areas){
-					options+='<option value="'+ areas[index].id +'">'+ areas[index].name +'</option>'
-				}
-				$('select#area_id').empty().append(options).selectpicker('refresh');
-			}
-		})
-	}
-})
+// $(document).on('change','select.city-updates-areas-js',function(){
+// 	const token =$('body').attr('data-token');
+// 	const cityId = $(this).val();
+// 	if(cityId){
+// 		$.ajax({
+// 			url:route('update.areas.based.on.city',{city_id:cityId}),
+// 			data:{
+// 				"_token":token,
+// 			},
+// 			success:function(res){
+// 				let options = '';
+// 				let areas = res.data ;
+// 				for(var index in areas){
+// 					options+='<option value="'+ areas[index].id +'">'+ areas[index].name +'</option>'
+// 				}
+// 				$('select#area_id').empty().append(options).selectpicker('refresh');
+// 			}
+// 		})
+// 	}
+// })
 
 
 
