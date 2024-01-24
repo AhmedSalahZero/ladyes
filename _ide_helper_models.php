@@ -12,19 +12,6 @@
 
 namespace App\Models{
 /**
- * App\Models\AdditionService
- *
- * @property-read mixed $name
- * @method static \Illuminate\Database\Eloquent\Builder|AdditionService active()
- * @method static \Illuminate\Database\Eloquent\Builder|AdditionService newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|AdditionService newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|AdditionService query()
- */
-	class AdditionService extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
  * App\Models\Admin
  *
  * @property int $id
@@ -68,6 +55,34 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Admin withoutRole($roles, $guard = null)
  */
 	class Admin extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * * شروط الالغاء ( سواء للعميل او للسائق زي مثلا ان السائق جه متاخر او العيل ماجاش الخ)
+ *
+ * @property int $id
+ * @property string|null $name_en
+ * @property string|null $name_ar
+ * @property string|null $model_type Driver Or Client For Example
+ * @property string $is_active
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|CancellationReason defaultOrdered()
+ * @method static \Database\Factories\CancellationReasonFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|CancellationReason newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CancellationReason newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|CancellationReason onlyIsActive()
+ * @method static \Illuminate\Database\Eloquent\Builder|CancellationReason query()
+ * @method static \Illuminate\Database\Eloquent\Builder|CancellationReason whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CancellationReason whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CancellationReason whereIsActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CancellationReason whereModelType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CancellationReason whereNameAr($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CancellationReason whereNameEn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|CancellationReason whereUpdatedAt($value)
+ */
+	class CancellationReason extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -188,12 +203,16 @@ namespace App\Models{
  * @property int $id
  * @property string|null $name_en
  * @property string|null $name_ar
- * @property string $price سعر المدينة الاساسى بالريال
- * @property string $rush_hour_price سعر الذروة بالريال
+ * @property string $price الاجرة الاساسية للمدينة (خارج اوقات الذروة)
+ * @property string $km_price السعر لكل كيلو متر
+ * @property string $minute_price السعر لكل دقيقة
+ * @property string $operating_fees رسوم التشغيل
  * @property int|null $country_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Country|null $country
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\RushHour> $rushHours
+ * @property-read int|null $rush_hours_count
  * @method static \Illuminate\Database\Eloquent\Builder|City defaultOrdered()
  * @method static \Database\Factories\CityFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|City newModelQuery()
@@ -202,10 +221,12 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|City whereCountryId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|City whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|City whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|City whereKmPrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|City whereMinutePrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|City whereNameAr($value)
  * @method static \Illuminate\Database\Eloquent\Builder|City whereNameEn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|City whereOperatingFees($value)
  * @method static \Illuminate\Database\Eloquent\Builder|City wherePrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder|City whereRushHourPrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|City whereUpdatedAt($value)
  */
 	class City extends \Eloquent {}
@@ -298,6 +319,7 @@ namespace App\Models{
  * @property string|null $birth_date
  * @property string|null $id_number رقم الهوية / الاقامة
  * @property float|null $deduction_percentage نسبة الاستقطاع ضعها سالب واحد لاستخدام القيمه الافتراضيه في الاعدادت
+ * @property int|null $driving_range نطاق السائق (نطاق الطلابات) اللي يقدر يستلم منه طلبات وليكن مثلا 15 كيلو من مكانه
  * @property int|null $size_id
  * @property int|null $make_id ماركة السيارة
  * @property int|null $model_id موديل السيارة
@@ -345,6 +367,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Driver whereCountryId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Driver whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Driver whereDeductionPercentage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Driver whereDrivingRange($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Driver whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Driver whereFirstName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Driver whereHasTrafficTickets($value)
@@ -460,20 +483,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\Onbording
- *
- * @property-read mixed $desc
- * @property-read mixed $title
- * @method static \Illuminate\Database\Eloquent\Builder|Onbording active()
- * @method static \Illuminate\Database\Eloquent\Builder|Onbording newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Onbording newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Onbording query()
- */
-	class Onbording extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
  * App\Models\Order
  *
  * @property-read \App\Models\UserAddress|null $address
@@ -499,28 +508,37 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\Reason
+ * App\Models\RushHour
  *
- * @property-read mixed $title
- * @method static \Illuminate\Database\Eloquent\Builder|Reason newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Reason newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Reason query()
+ * @property int $id
+ * @property string|null $start_time
+ * @property string|null $end_time
+ * @property string $price الاجرة الاساسية في وقت الذروة
+ * @property string $km_price السعر لكل كيلو متر
+ * @property string $minute_price السعر لكل دقيقة
+ * @property string $operating_fees رسوم التشغيل
+ * @property string $percentage نسبة الذروة (نسبة كمعلومة لا تتجاوز 5/5 )
+ * @property int|null $city_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\City|null $city
+ * @method static \Illuminate\Database\Eloquent\Builder|RushHour defaultOrdered()
+ * @method static \Illuminate\Database\Eloquent\Builder|RushHour newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|RushHour newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|RushHour query()
+ * @method static \Illuminate\Database\Eloquent\Builder|RushHour whereCityId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RushHour whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RushHour whereEndTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RushHour whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RushHour whereKmPrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RushHour whereMinutePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RushHour whereOperatingFees($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RushHour wherePercentage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RushHour wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RushHour whereStartTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RushHour whereUpdatedAt($value)
  */
-	class Reason extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
- * App\Models\Slider
- *
- * @property-read mixed $desc
- * @property-read mixed $title
- * @method static \Illuminate\Database\Eloquent\Builder|Slider active()
- * @method static \Illuminate\Database\Eloquent\Builder|Slider newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Slider newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Slider query()
- */
-	class Slider extends \Eloquent {}
+	class RushHour extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -533,6 +551,34 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Transaction query()
  */
 	class Transaction extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * * المشوار المشروط
+ * * السماح بالتدخين مثلا؟
+ * * السماح بصطحاب الحيوانات الاليفة؟
+ *
+ * @property int $id
+ * @property string|null $name_en
+ * @property string|null $name_ar
+ * @property string $is_active
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|TravelCondition defaultOrdered()
+ * @method static \Database\Factories\TravelConditionFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|TravelCondition newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|TravelCondition newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|TravelCondition onlyIsActive()
+ * @method static \Illuminate\Database\Eloquent\Builder|TravelCondition query()
+ * @method static \Illuminate\Database\Eloquent\Builder|TravelCondition whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TravelCondition whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TravelCondition whereIsActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TravelCondition whereNameAr($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TravelCondition whereNameEn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TravelCondition whereUpdatedAt($value)
+ */
+	class TravelCondition extends \Eloquent {}
 }
 
 namespace App\Models{

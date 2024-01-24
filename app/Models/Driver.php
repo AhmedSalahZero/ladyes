@@ -81,6 +81,38 @@ class Driver extends Model implements HasMedia,BannableInterface
 		}
 		return $this->deduction_percentage;
 	}
+	/**
+	 * 
+	 * * نطاق الطلابات بالـ كم وبالتالي خارج هذا النطاق لا لا يستطيع السائق رؤية الطلابات
+	 */
+	public function getDrivingRange()
+	{
+		if(is_null($this->driving_range) ){
+			return App(SiteSetting::class)->driving_range;
+		}
+		return $this->driving_range;
+	}
+	public static function getDefaultDrivingRangeFormatted()
+	{
+		return [
+			[
+				'title'=>10,
+				'value'=>10,
+				
+			],
+			[
+				'title'=>15,
+				'value'=>15,
+				
+			],
+			[
+				'title'=>20,
+				'value'=>20,
+				
+			],
+			
+		];
+	}
 	public function getSizeId():int 
 	{
 		$size = $this->size;
@@ -193,6 +225,6 @@ class Driver extends Model implements HasMedia,BannableInterface
     {
         return $this->morphMany(app(BanContract::class), 'bannable')->withoutGlobalScopes();
     }
-	
+		
 	
 }

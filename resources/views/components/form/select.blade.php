@@ -1,4 +1,5 @@
 @props([
+	'hint'=>'',
 'selectedValue'=>'',
 'label'=>'',
 'all'=>false ,
@@ -89,9 +90,14 @@ required
     @endforeach
 </select>
 
+@if($hint)
+	        <span class="text-gray">{{$hint}}</span>
+		@endif 
+		
 	  	@error($attributes->get('name'))
 	        <span class="text-danger">{{$errors->first($attributes->get('name'))}}</span>
 		@enderror
+		
 </div>
 @endif
 

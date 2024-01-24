@@ -20,9 +20,12 @@
         <span class="required">*</span>
         @endif
     </label>
-	{{-- {{ dd(old('name')) }} --}}
     <div class="col-md-9">
-        <input name="{{ $name }}"  type="{{ $type }}" id="{{ $id }}" class="form-control border-primary {{ $class }}" placeholder="{{ $placeholder }}" value="{{ $model ?  $model->{$name} : old($name)  }}"  
+        <input 
+		@if($type =='time')
+		onfocus="this.showPicker()"			
+		@endif
+		 name="{{ $name }}"  type="{{ $type }}" id="{{ $id }}" class="form-control border-primary {{ $class }}" placeholder="{{ $placeholder }}" value="{{ $model ?  $model->{$name} : old($name)  }}"  
 		
 		@if($isRequired)
 		required

@@ -36,15 +36,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-		// TestEvent::dispatch('test');
-		// dd('good');
-		// $admin = Admin::first();
-		// dd($admin->notify(new AdminNotification('comment')));
-		// $setting = new ServiceSettings();
-		// dd($setting->TEST_KEY);
-		// $validPhoneService = new PhoneNumberService();
-		// $numberFormatted = $validPhoneService->formatNumber('+1025894984','eg');
-		// dd($numberFormatted);
 		Paginator::useBootstrap();
 		if(true){
 			app()->make(PermissionRegistrar::class)->forgetCachedPermissions();
@@ -55,7 +46,6 @@ class AppServiceProvider extends ServiceProvider
 					Permission::findByName($permission['name'],'admin');
 				}
 				catch(\Exception $e){
-					
 					$permission = Permission::create(array_merge(Arr::only($permission,'name'),['guard_name'=>'admin']));
 					foreach(Admin::all() as $admin){
 						$admin->givePermissionTo($permission);

@@ -62,6 +62,11 @@
                                                 <div class="col-md-6">
                                                     <x-form.input :hint="__('Enter ( -1 ) For Using Default Value In Setting')" :id="'deduction_percentage'" :label="__('Deduction Percentage') . ' %'" :type="'text'" :name="'deduction_percentage'" :is-required="false" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Deduction Percentage')])"></x-form.input>
                                                 </div>
+												
+												<div class="col-md-6">
+                                                    <x-form.select :hint="__('Default Driving Range Will Be Used If Empty')" :please-select="true" :is-required="false" :is-select2="true" :options="$drivingRangeFormatted" :add-new="false" :label="__('Driving Range')" :all="false" name="driving_range" id="driving_range" :selected-value="isset($model) ? $model->getDrivingRange(): getSetting('driving_range') "></x-form.select>
+                                                </div>
+												
 
                                                 <div class="col-md-12">
                                                     <hr>

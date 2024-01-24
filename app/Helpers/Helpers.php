@@ -14,7 +14,7 @@ function getPermissions():array
 {
 	$permissions[] = ['name'=>'view home','title'=>__('View :page',['page'=>__('Home')])];
 	$permissions[] = ['name'=>'view notifications','title'=>__('View :page',['page'=>__('Notifications')])];
-	$normalPermissions = ['admins','roles-and-permissions','car-makes','car-models','drivers','cities'
+	$normalPermissions = ['admins','roles-and-permissions','car-makes','car-models','drivers','cities','travel-conditions','cancellation-reasons'
 
 ];
 	foreach($normalPermissions as $permissionName){
@@ -46,6 +46,22 @@ function getSidebars($user):array
 				createSidebarItem($pageName, __('View :page' , ['page' => __('Roles & Permissions')]) , route('roles.permissions.index') , $user->can('view ' .$pageName)  ),
 				createSidebarItem($pageName, __('Create :page' , ['page'=>__('Role & Permission')]) , route('roles.permissions.create') , $user->can('create ' .$pageName)  ),
 			]),
+			
+			$pageName = 'travel-conditions'=> createSidebarItem( $pageName , __('Travel Conditions') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-question', 
+			[
+				createSidebarItem($pageName, __('View :page' , ['page' => __('Travel Conditions')]) , route('travel-conditions.index') , $user->can('view ' .$pageName)  ),
+				createSidebarItem( $pageName , __('Create :page' , ['page'=>__('Travel Condition')]) , route('travel-conditions.create') , $user->can('create ' .$pageName)  ),
+			]
+			),
+			
+			$pageName = 'cancellation-reasons'=> createSidebarItem( $pageName , __('Cancellation Reasons') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-remove', 
+			[
+				createSidebarItem($pageName, __('View :page' , ['page' => __('Cancellation Reasons')]) , route('cancellation-reasons.index') , $user->can('view ' .$pageName)  ),
+				createSidebarItem( $pageName , __('Create :page' , ['page'=>__('Cancellation Reason')]) , route('cancellation-reasons.create') , $user->can('create ' .$pageName)  ),
+			]
+			),
+			
+			
 			
 			$pageName = 'car-makes'=> createSidebarItem( $pageName, __('Car Makes') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-bus', 
 			[

@@ -171,7 +171,6 @@ $(document).on('click', '.js-save-by-ajax', function(e) {
 
 			} else {
 				$('.js-save-by-ajax').prop('disabled', false)
-			console.log(res)
 				
 				Swal.fire({
 					icon: 'error'
@@ -185,7 +184,7 @@ $(document).on('click', '.js-save-by-ajax', function(e) {
 
 			Swal.fire({
 				icon: 'error'
-				, title: res.responseJSON.message,
+				, title: res.responseJSON ? res.responseJSON.message : 'حدث خطا غير متوقع',
 
 			})
 

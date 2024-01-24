@@ -448,7 +448,6 @@
                                                                 <a data-toggle="modal" data-target="#view-sent-invitations-popup{{ $model->id }}" class="dropdown-item" href="#"> {{ __('View Sent') }} </a>
                                                                 <a data-toggle="modal" data-target="#view-recevied-invitations-popup{{ $model->id }}" class="dropdown-item" href="#"> {{ __('View Received') }} </a>
                                                                 <a data-toggle="modal" data-target="#add-invintation-popup{{ $model->id }}" class="dropdown-item" href="#"> {{ __('Add Invitation') }} </a>
-
                                                             </div>
                                                             <div class="modal fade" id="view-sent-invitations-popup{{ $model->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                                 <div class="modal-dialog modal-lg modal-dialog modal-lg-centered" role="document">

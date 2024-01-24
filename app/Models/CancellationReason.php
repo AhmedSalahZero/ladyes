@@ -10,14 +10,21 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * * المشوار المشروط
- * * السماح بالتدخين مثلا؟
- * * السماح بصطحاب الحيوانات الاليفة؟
+** شروط الالغاء ( سواء للعميل او للسائق زي مثلا ان السائق جه متاخر او العيل ماجاش الخ)
  */
-class TravelCondition extends Model
+class CancellationReason extends Model
 {
     use  IsBaseModel,HasDefaultOrderScope,HasFactory,HasTransNames,HasIsActive;
 
+	public function getModelType()
+	{
+		return $this->model_type ;
+	}
+	public function getModelTypeFormatted()
+	{
+		return __($this->model_type) ;
+	}
+	
     public function syncFromRequest($request)
     {
         if ($request->has('name_en')) {
@@ -25,6 +32,9 @@ class TravelCondition extends Model
         }
         if ($request->has('name_ar')) {
             $this->name_ar = $request->name_ar;
+        }
+		if ($request->has('model_type')) {
+            $this->model_type = $request->model_type;
         }
 		$this->is_active = $request->boolean('is_active');
 		// if ($request->has('is_active')) {

@@ -75,6 +75,7 @@ class DriversController extends Controller
 			'carMakesFormattedForSelect'=>CarMake::get()->formattedForSelect(true,'getId','getName'),
 			'carModelsFormattedForSelect'=>CarModel::where('make_id',$selectedMakeId)->get()->formattedForSelect(true,'getId','getName'),
 			'carSizesFormattedForSelect'=>CarSize::get()->formattedForSelect(true,'getId','getName'),
+			'drivingRangeFormatted'=>Driver::getDefaultDrivingRangeFormatted()
 		];
 	}
 

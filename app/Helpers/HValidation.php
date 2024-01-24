@@ -46,6 +46,7 @@ class HValidation
 			'invitation_code'=>['sometimes','required','max:255','unique:'.$tableName .',invitation_code'.','.$currentItemId] ,
 			'password'=>[$isRequired] ,
 			'deduction_percentage'=>['sometimes','nullable','numeric','gte:-1'] ,
+			'driving_range'=>['sometimes','nullable'] ,
 			'role_name'=>[$isRequired] ,
 			// start images validation
 			

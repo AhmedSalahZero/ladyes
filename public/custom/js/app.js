@@ -59,7 +59,7 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   // just host name without its port like
   cluster: "mt1",
   forceTLS: false,
-  wsPort: "6001",
+  wsPort: "6048",
   enabledTransports: ['ws', 'wss'],
   authEndpoint: "http://127.0.0.1:8000/broadcasting/auth",
   auth: {

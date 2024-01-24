@@ -19,15 +19,15 @@
                                             <th class="th-global-class  text-center">#</th>
                                             <th class="th-global-class  text-center">{{__('Title')}}</th>
                                             <th class="th-global-class  text-center">{{__('Message')}}</th>
+                                            <th class="th-global-class  text-center">{{__('Created At')}}</th>
                                         </x-slot>
                                         <x-slot name="body">
                                             @foreach($models as $model)
-											{{-- {{ dd() }} --}}
                                             <tr data-id="{{ $model->id }}" class="deleteable-row">
                                                 <td class="text-center">{{$loop->iteration}}</td>
                                                 <td class="text-center">{{$model->data['title_'.$lang] }}</td>
                                                 <td class="text-center">{{$model->data['message_'.$lang] }}</td>
-												
+                                                <td class="text-center">{{formatForView($model->created_at) }}</td>
                                             </tr>
                                             @endforeach
 

@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use App\Traits\Accessors\IsBaseModel;
+use App\Traits\Models\HasCity;
+use App\Traits\Models\HasKmPrice;
+use App\Traits\Models\HasStartAndEndTime;
 use App\Traits\Scope\HasDefaultOrderScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,9 +13,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class RushHour extends Model
 {
-    use  IsBaseModel,HasDefaultOrderScope  , HasFactory;
+    use  IsBaseModel,HasDefaultOrderScope  , HasFactory,HasKmPrice,HasCity,HasStartAndEndTime;
+	protected $guarded = [
+		'id'
+	];
 	
-	
+	public function getCountrySymbol($lang)
+	{
+		$city = $this->city ; 
+		if(! $city){
+			return null ;
+		}
+		return $city->country ? $city->country->getCurrencySymbol($lang) : null ;
+	}
 	
 	public function syncFromRequest($request){
 		if ($request->has('start_time')){
@@ -27,5 +40,14 @@ class RushHour extends Model
 		}
 		$this->save();
 	}
+	/**
+	 * * For Example 2/5 
+	 */
+	public function getPercentage()
+	{
+		return $this->percentage ;
+	}
+	
+	
 	
 }

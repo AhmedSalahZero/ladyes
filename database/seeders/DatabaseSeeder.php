@@ -13,6 +13,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+		$this->call(TravelConditionSeeder::class);
+		$this->call(CancellationReasonSeeder::class);
 		$this->call(RoleSeeder::class);
 		$this->call(AdminSeeder::class);
 		$this->call(CarSizeSeeder::class);

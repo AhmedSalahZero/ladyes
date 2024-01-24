@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AreasController;
+use App\Http\Controllers\Admin\CancellationReasonsController;
 use App\Http\Controllers\Admin\CarMakeController;
 use App\Http\Controllers\Admin\CarModelController;
 use App\Http\Controllers\Admin\CitiesController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\Admin\CountriesController;
 use App\Http\Controllers\Admin\DriversController;
 use App\Http\Controllers\Admin\NotificationsController;
 use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\TravelConditionsController;
 use App\Http\Controllers\Helpers\AddInvitationCodeToController;
 use App\Http\Controllers\Helpers\SendEmailMessageController;
 use App\Http\Controllers\Helpers\SendVerificationCodeMessageByEmailController;
@@ -56,7 +58,14 @@ Route::group(['middleware' => 'auth:admin'], function () {
     //###################### admins #########################
     Route::resource('admins', AdminController::class);
     Route::put('admins-toggle-is-active', [AdminController::class, 'toggleIsActive'])->name('admins.toggle.is.active');
-    //###################### car makes #########################
+    //###################### travel conditions #########################
+    Route::resource('travel-conditions', TravelConditionsController::class);
+    Route::put('travels-toggle-is-active', [TravelConditionsController::class, 'toggleIsActive'])->name('travel-conditions.toggle.is.active');
+     //###################### travel conditions #########################
+	 Route::resource('cancellation-reasons', CancellationReasonsController::class);
+	 
+	 Route::put('cancellations-reasons-toggle-is-active', [CancellationReasonsController::class, 'toggleIsActive'])->name('cancellation-reasons.toggle.is.active');
+	 //###################### car makes #########################
     Route::resource('car-makes', CarMakeController::class);
     //###################### car makes #########################
     Route::resource('car-models', CarModelController::class);

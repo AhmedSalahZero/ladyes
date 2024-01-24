@@ -18,8 +18,8 @@ class CreateRushHoursTable extends Migration
 			$table->string('minute_price')->comment('السعر لكل دقيقة');
 			$table->string('operating_fees')->comment('رسوم التشغيل');
 			$table->string('percentage')->comment('نسبة الذروة (نسبة كمعلومة لا تتجاوز 5/5 )');
-			$table->unsignedBigInteger('country_id')->nullable();
-			$table->foreign('country_id')->references('id')->on('countries')->nullOnDelete();
+			$table->unsignedBigInteger('city_id')->nullable();
+			$table->foreign('city_id')->references('id')->on('cities')->cascadeOnDelete();
             $table->timestamps();
         });
     }

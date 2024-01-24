@@ -19,7 +19,7 @@
         @endif
     </label>
     <div class="col-md-9">
-        <x-form.checkbox-element :is-required="false" :name="$name" :is-checked="$isChecked"> </x-form.checkbox-element>
+        <x-form.checkbox-element :id="$id" :is-required="false" :name="$name" :is-checked="$isChecked"> </x-form.checkbox-element>
         @error($name)
         <span class="text-danger">{{$message}}</span>
         @enderror

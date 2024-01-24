@@ -35,6 +35,7 @@ class StoreDriverRequest extends FormRequest
 			'phone'=>$HValidationRules['phone'],
 			'id_number'=>$HValidationRules['id_number'],
 			'deduction_percentage'=>$HValidationRules['deduction_percentage'],
+			'driving_range'=>$HValidationRules['driving_range'],
 			
 			'make_id'=>$HValidationRules['make_id'],
 			'model_id'=>$HValidationRules['model_id'],
@@ -117,8 +118,8 @@ class StoreDriverRequest extends FormRequest
 			'plate_letters.required'=>__('Please Enter :attribute' , ['attribute'=>__('Plate Letters')]),
 			'plate_letters.max'=> __(':attribute Exceed The Max Letter Length :max Letter',['attribute'=>__('Plate Letters'),'max'=>255	]),
 			
-			'car_max_capacity.required'=>__('Please Enter :attribute' , ['attribute'=>__('Plate Number')]),
-			'car_max_capacity.gte'=>__('Only Greater Than Or Equal One Allowed For :attribute' , ['attribute'=>__('Deduction Percentage')]),
+			'car_max_capacity.required'=>__('Please Enter :attribute' , ['attribute'=>__('Car Max Capacity')]),
+			'car_max_capacity.gte'=>__('Only Greater Than Or Equal One Allowed For :attribute' , ['attribute'=>__('Car Max Capacity')]),
 			
 			'plate_numbers.required'=>__('Please Enter :attribute' , ['attribute'=>__('Plate Number')]),
 			'plate_numbers.max'=> __(':attribute Exceed The Max Letter Length :max Letter',['attribute'=>__('Plate Number'),'max'=>255	]),

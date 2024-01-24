@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSettingsRequest;
+use App\Models\Driver;
 use App\Settings\SiteSetting;
 use App\Traits\Controllers\Globals;
 use Illuminate\Http\UploadedFile;
@@ -50,6 +51,7 @@ class SettingsController extends Controller
 			'route'=> route('settings.store') ,
 			'model'=>app(SiteSetting::class) ,
 			'indexRoute'=>route('settings.create'),
+			'drivingRangeFormatted'=>Driver::getDefaultDrivingRangeFormatted()
 		];
 	}
 

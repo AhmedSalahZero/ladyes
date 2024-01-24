@@ -36,11 +36,12 @@ class StoreSettingsRequest extends FormRequest
 			'twitter_url'=>$HValidationRules['twitter_url'],
 			'youtube_url'=>$HValidationRules['youtube_url'],
 			'deduction_percentage'=>$HValidationRules['deduction_percentage'],
+			'driving_range'=>$HValidationRules['driving_range'],
 			
 			
 			'phone'=>$HValidationRules['app_phone'],
 			'email'=>$HValidationRules['app_email'],
-			'deduction_percentage'=>$HValidationRules['deduction_percentage'],
+		
         ];
     }
 	public function messages()
