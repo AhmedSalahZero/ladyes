@@ -96,6 +96,7 @@
 	"Model Name":"اسم المودل",
 	"Only Greater Than Or Equal Zero Allowed For :attribute":"فقط القيم اكبر من او تساوي سالب واحد متاحه ل :attribute",
 	"Only Greater Than Or Equal One Allowed For :attribute":"فقط القيم اكبر من او تساوي واحد متاحه ل :attribute",
+	"Only Greater Zero Allowed For :attribute":"فقط القيم اكبر من او تساوي صفر متاحه ل :attribute",
 	"Ban":"حظر الحساب",
 	"Banned":"محظور",
 	"Not Banned":"ساري",
@@ -186,5 +187,7 @@
 	"Has Verified":"قام بالتحقق من ",
 	"Has UnVerified":"قام بالغاء اثبات ",
 	"Has Deleted":"قام بحذف ",
-	"New Deletion":"حذف جديد"
+	"New Deletion":"حذف جديد",
+	"Price":"السعر",
+	"Rush Hour Price":"سعر وقت الذروة"
 }

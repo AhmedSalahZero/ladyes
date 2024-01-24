@@ -64,10 +64,17 @@ class Country extends Model
         return $this->currency_name;
     }
 
-    public function getCurrencySymbol()
+    public function getCurrencySymbol($lang)
     {
-        // for example [ج.م]
-        return $this->currency_symbol ;
+        // 
+		/**
+		 *  for example [ج.م] for arabic
+		 * for example [EGP] for english
+		 */
+		if($lang == 'ar'){
+			return $this->currency_symbol ;
+		}
+		return $this->currency ;
     }
 
     public function getNationality()

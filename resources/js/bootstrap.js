@@ -8,6 +8,7 @@ window._ = require('lodash');
 
 window.axios = require('axios');
 window.Swal = require('sweetalert2');
+window.repeater = require('jquery.repeater');
 
 
 

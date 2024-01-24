@@ -1,4 +1,4 @@
-function getYesOrNoForBoolean(boolean , lang){
+function YesOrNoForBoolean(boolean , lang){
 	const result = boolean ? {en:"Yes",ar:"نعم"} : {en:"No" , ar:"لا"} 
 	console.log(boolean,lang,result[lang])
 	return  result[lang]
@@ -49,7 +49,7 @@ $(document).on('change', '.switch-trigger-js', function () {
 			if (data.status == true) {
 				$('#type-success').click();
 				if($('.js-is-verified[data-model-id="'+id+'"]').length){ // for driver modal banned check box 
-					let checkedFormatted = getYesOrNoForBoolean(checked,lang)
+					let checkedFormatted = YesOrNoForBoolean(checked,lang)
 					$('.js-is-verified[data-model-id="'+ id +'"').html(checkedFormatted)
 					if(checked){
 						$('.send-verification-code-message-js[data-model-id="'+id+'"]').fadeOut(500);
@@ -138,10 +138,10 @@ $(document).on('click', '.js-save-by-ajax', function(e) {
 
 	// Validate form before submit
 	form = $(this).closest('form')[0]
-
 	var formData = new FormData(form);
+	formData.append('save',$(this).attr('name') == 'save' ? 1 :0 );
 
-	this.disabled = true;
+	$('.js-save-by-ajax').prop('disabled',true)
 	$.ajax({
 		type: "POST"
 		, url: $(form).attr('action')

@@ -188,8 +188,8 @@ namespace App\Models{
  * @property int $id
  * @property string|null $name_en
  * @property string|null $name_ar
- * @property string|null $latitude
- * @property string|null $longitude
+ * @property string $price سعر المدينة الاساسى بالريال
+ * @property string $rush_hour_price سعر الذروة بالريال
  * @property int|null $country_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -202,10 +202,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|City whereCountryId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|City whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|City whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|City whereLatitude($value)
- * @method static \Illuminate\Database\Eloquent\Builder|City whereLongitude($value)
  * @method static \Illuminate\Database\Eloquent\Builder|City whereNameAr($value)
  * @method static \Illuminate\Database\Eloquent\Builder|City whereNameEn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|City wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|City whereRushHourPrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|City whereUpdatedAt($value)
  */
 	class City extends \Eloquent {}

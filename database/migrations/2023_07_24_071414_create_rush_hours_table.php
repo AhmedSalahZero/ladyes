@@ -4,23 +4,20 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCitiesTable extends Migration
+class CreateRushHoursTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+
     public function up()
     {
-        Schema::create('cities', function (Blueprint $table) {
+        Schema::create('rush_hours', function (Blueprint $table) {
             $table->id();
-			$table->string('name_en')->nullable();
-			$table->string('name_ar')->nullable();
-			$table->string('price')->comment('الاجرة الاساسية للمدينة (خارج اوقات الذروة)');
+			$table->time('start_time')->nullable();
+			$table->string('end_time')->nullable();
+			$table->string('price')->comment('الاجرة الاساسية في وقت الذروة');
 			$table->string('km_price')->comment('السعر لكل كيلو متر');
 			$table->string('minute_price')->comment('السعر لكل دقيقة');
 			$table->string('operating_fees')->comment('رسوم التشغيل');
+			$table->string('percentage')->comment('نسبة الذروة (نسبة كمعلومة لا تتجاوز 5/5 )');
 			$table->unsignedBigInteger('country_id')->nullable();
 			$table->foreign('country_id')->references('id')->on('countries')->nullOnDelete();
             $table->timestamps();
@@ -34,6 +31,6 @@ class CreateCitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cities');
+        Schema::dropIfExists('rush_hours');
     }
 }

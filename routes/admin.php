@@ -48,15 +48,7 @@ Route::group(['namespace' => 'Admin', 'middleware' => 'auth:admin'], function ()
     ####################### car makes #########################
 	
 	
-    ####################### slider #########################
-    Route::get('/sliders',[SliderController::class,'index'])->name('admin.sliders.index');
-    Route::get('/create-slider',[SliderController::class,'create'])->name('admin.sliders.create');
-    Route::post('/store-slider',[SliderController::class,'store'])->name('admin.sliders.store');
-    Route::get('/edit-slider/{id}',[SliderController::class,'edit'])->name('admin.sliders.edit');
-    Route::post('/update-slider/{id}',[SliderController::class,'update'])->name('admin.sliders.update');
-    Route::post('/delete-slider',[SliderController::class,'delete'])->name('admin.sliders.delete');
-    Route::post('/update-slider-status',[SliderController::class,'updateStatus'])->name('admin.sliders.update.status');
-    ####################### slider #########################
+     ####################### slider #########################
     Route::get('/onbording',[OnbordingController::class,'index'])->name('admin.onbording.index');
     Route::get('/create-onbording',[OnbordingController::class,'create'])->name('admin.onbording.create');
     Route::post('/store-onbording',[OnbordingController::class,'store'])->name('admin.onbording.store');
@@ -122,15 +114,7 @@ Route::group(['namespace' => 'Admin', 'middleware' => 'auth:admin'], function ()
     Route::get('/edit-reason/{id}',[ReasonController::class,'edit'])->name('admin.reasons.edit');
     Route::post('/update-reason/{id}',[ReasonController::class,'update'])->name('admin.reasons.update');
     Route::post('/delete-reason',[ReasonController::class,'delete'])->name('admin.reasons.delete');
-    ####################### reasons #########################
-    Route::get('/addition-services',[AdditionServicesController::class,'index'])->name('admin.addition_services.index');
-    Route::get('/create-addition-service',[AdditionServicesController::class,'create'])->name('admin.addition_services.create');
-    Route::post('/store-addition-service',[AdditionServicesController::class,'store'])->name('admin.addition_services.store');
-    Route::get('/edit-addition-service/{id}',[AdditionServicesController::class,'edit'])->name('admin.addition_services.edit');
-    Route::post('/update-addition-service/{id}',[AdditionServicesController::class,'update'])->name('admin.addition_services.update');
-    Route::post('/delete-addition-service',[AdditionServicesController::class,'delete'])->name('admin.addition_services.delete');
-    Route::post('/update-addition-service-status',[AdditionServicesController::class,'updateStatus'])->name('admin.addition_services.update.status');
-    ####################### cars_models #########################
+     ####################### cars_models #########################
     // Route::get('/cars-models',[CarsModelController::class,'index'])->name('admin.cars_models.index');
     // Route::get('/create-cars-model',[CarsModelController::class,'create'])->name('admin.cars_models.create');
     // Route::post('/store-cars-model',[CarsModelController::class,'store'])->name('admin.cars_models.store');

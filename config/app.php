@@ -73,7 +73,8 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'AFRICA/CAIRO',
+    // 'timezone' => 'Asia/Riyadh',
 
     /*
     |--------------------------------------------------------------------------

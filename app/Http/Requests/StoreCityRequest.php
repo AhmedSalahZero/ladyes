@@ -28,6 +28,8 @@ class StoreCityRequest extends FormRequest
 		[
 			'name_en'=>$HValidationRules['name_en'],
 			'name_ar'=>$HValidationRules['name_ar'],
+			'price'=>$HValidationRules['price'],
+			'rush_hour_price'=>$HValidationRules['price'],
 			// 'latitude'=>$HValidationRules['latitude'],
 			// 'longitude'=>$HValidationRules['longitude'],
 			'country_id'=>$HValidationRules['country_id'],
@@ -43,10 +45,19 @@ class StoreCityRequest extends FormRequest
 			'name_ar.max'=> __(':attribute Exceed The Max Letter Length :max Letter',['attribute'=>__('Arabic Name'),'max'=>255	]),
 			'name_ar.unique'=> __(':attribute Already Exist',['attribute'=>__('Arabic Name')]),
 			'country_id.required'=>__('Please Enter :attribute' , ['attribute'=>__('Country Name')]),
-			'longitude.required'=>__('Please Enter :attribute' , ['attribute'=>__('Longitude')]),
-			'longitude.between'=>__('Invalid :attribute' , ['attribute'=>__('Longitude')]),
-			'latitude.required'=>__('Please Enter :attribute' , ['attribute'=>__('Latitude')]),
-			'latitude.between'=>__('Invalid :attribute' , ['attribute'=>__('Latitude')]),
+			'price.required'=>__('Please Enter :attribute' , ['attribute'=>__('Price')]),
+			'price.numeric'=>__('Invalid :attribute' , ['attribute'=>__('Price')]),
+			'price.gte'=>__('Only Greater Zero Allowed For :attribute' , ['attribute'=>__('Price')]),
+			
+			'rush_hour_price.required'=>__('Please Enter :attribute' , ['attribute'=>__('Rush Hour Price')]),
+			'rush_hour_price.numeric'=>__('Invalid :attribute' , ['attribute'=>__('Rush Hour Price')]),
+			'rush_hour_price.gte'=>__('Only Greater Zero Allowed For :attribute' , ['attribute'=>__('Rush Hour Price')]),
+			
+			
+			// 'longitude.required'=>__('Please Enter :attribute' , ['attribute'=>__('Longitude')]),
+			// 'longitude.between'=>__('Invalid :attribute' , ['attribute'=>__('Longitude')]),
+			// 'latitude.required'=>__('Please Enter :attribute' , ['attribute'=>__('Latitude')]),
+			// 'latitude.between'=>__('Invalid :attribute' , ['attribute'=>__('Latitude')]),
 		];
 	}
 	

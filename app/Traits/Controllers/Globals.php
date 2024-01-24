@@ -49,14 +49,10 @@ trait Globals {
 
     }
 	public function getWebRedirectRoute(Request $request,string $indexRoute , string $createRoute){
-		// if ($request->save == 1)
 			return response()->json([
 				'status'=>true ,
 				'message'=>__('msg.created_success'),
 				'redirectTo'=>$request->save == 1 ? $createRoute :  $indexRoute
 			]);
-        //     return redirect()->to($createRoute)->with('success', __('msg.created_success'));
-        // else
-        //     return redirect()->to($indexRoute)->with('success', __('msg.created_success'));
 	}
 }

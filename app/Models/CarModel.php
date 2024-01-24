@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\CarMake;
 use App\Traits\Accessors\IsBaseModel;
 use App\Traits\Models\HasMake;
 use App\Traits\Models\HasTransNames;

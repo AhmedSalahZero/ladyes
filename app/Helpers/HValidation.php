@@ -67,7 +67,7 @@ class HValidation
 			
 			'sort'=>'sometimes|numeric|gt:0',
 			'status'=>'sometimes|numeric|in:0,1',
-			'price'=>['sometimes','numeric','gte:0'] ,
+			'price'=>[$isRequired,'numeric','gte:0'] ,
 			'max_discount'=>['sometimes','numeric','gte:0'] ,
 			'discount'=>['sometimes','numeric','gte:0'] ,
 			'cost_price'=>['sometimes','numeric','gte:0'] ,

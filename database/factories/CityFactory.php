@@ -19,9 +19,11 @@ class CityFactory extends Factory
         return [
             'name_en'=>$this->faker->city,
             'name_ar'=>$this->faker->city,
+            'price'=>$this->faker->numberBetween(100,200),
+            'rush_hour_price'=>$this->faker->numberBetween(100,200),
             'country_id'=>Country::inRandomOrder()->first()->id,
-			'latitude'=>$this->faker->latitude() ,
-			'longitude'=>$this->faker->longitude()
+			// 'latitude'=>$this->faker->latitude() ,
+			// 'longitude'=>$this->faker->longitude()
         ];
     }
 }
