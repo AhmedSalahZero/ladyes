@@ -10,6 +10,7 @@ use App\Models\CarSize;
 use App\Models\City;
 use App\Models\Country;
 use App\Models\Driver;
+use App\Models\EmergencyContact;
 use App\Models\Notification;
 use App\Traits\Controllers\Globals;
 use Illuminate\Http\Request;
@@ -36,7 +37,10 @@ class DriversController extends Controller
 			'createRoute'=>route('drivers.create'),
 			'editRouteName'=>'drivers.edit',
 			'deleteRouteName'=>'drivers.destroy',
-			'toggleIsVerifiedRoute'=>route('driver.toggle.is.verified')
+			'toggleIsVerifiedRoute'=>route('driver.toggle.is.verified'),
+			'countriesFormattedForSelect'=>Country::get()->formattedForSelect(true,'getId','getName'),
+			'emergencyContactsFormatted'=>EmergencyContact::get()->formattedForSelect(true,'getId','getName'),
+			'toggleCanReceiveTravelInfos' => route('emergency-contacts.toggle.can.receive.travel.infos')
 		]);
     }
 
@@ -121,7 +125,7 @@ class DriversController extends Controller
 			$request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'en') . __('Driver', [], 'en') . ' [ ' . $driver->getName('en') . ' ]',
 			$request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'ar') . __('Driver', [], 'ar') . ' [ ' . $driver->getName('ar') . ' ]',
 		);
-		return redirect()->back()->with('success',__('This Record Has Been Deleted Successfully'));
+		return $this->getWebDeleteRedirectRoute();
     }
 
     public function toggleIsBanned(Request $request)

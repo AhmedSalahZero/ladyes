@@ -59,6 +59,8 @@ $basicClasses = $isSelect2 ? "form-control  select select2-select btn-white" :"f
 @endphp
 
 <select 
+data-container="body"
+
 @if($isRequired)
 required
 @endif 

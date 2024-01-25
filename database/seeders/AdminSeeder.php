@@ -25,5 +25,16 @@ class AdminSeeder extends Seeder
 			
 			$admin->assignRole(Role::find(1));
 			
+			
+			
+			$admin = Admin::factory()->create([
+				'email'=>'ali@admin.com',
+				'password'=>Hash::make('admin'),
+				'name'=>'علي خالد'
+			]);
+			
+			$admin->assignRole(Role::find(1));
+			
+			
     }
 }

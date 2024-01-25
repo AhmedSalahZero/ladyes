@@ -113,7 +113,7 @@ class TravelConditionsController extends Controller
 			$request->user('admin')->getName() .' '.__('Has Deleted',[],'ar') . __('Travel Condition',[],'ar') .' [ ' . $travel_condition->getName('ar') . ' ]' ,
 		);
 		
-		return redirect()->back()->with('success',__('This Record Has Been Deleted Successfully'));
+		return $this->getWebDeleteRedirectRoute();
     }
 
     public function toggleIsActive(Request $request)

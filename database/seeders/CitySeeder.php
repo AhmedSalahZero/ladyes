@@ -41,7 +41,7 @@ class CitySeeder extends Seeder
 
 		// 'longitude'=>'21.42250',
 		// 'latitude'=>'39.82611',
-		'country_id'=>65 // sa
+		'country_id'=>65 // eg
 	   ]);
 	   
 	   $city->rushHours()->create([

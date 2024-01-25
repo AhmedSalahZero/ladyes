@@ -111,7 +111,6 @@ class CarMakeController extends Controller
             $request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'en') . __('Car Make', [], 'en') . ' [ ' . $car_make->getName('en') . ' ]',
             $request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'ar') . __('Car Make', [], 'ar') . ' [ ' . $car_make->getName('ar') . ' ]',
         );
-
-        return redirect()->back()->with('success', __('This Record Has Been Deleted Successfully'));
+		return $this->getWebDeleteRedirectRoute();
     }
 }

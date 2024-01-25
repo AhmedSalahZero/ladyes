@@ -123,7 +123,7 @@ class CancellationReasonsController extends Controller
 			$request->user('admin')->getName() .' '.__('Has Deleted',[],'ar') . __('Cancellation Reason',[],'ar') .' [ ' . $cancellation_reason->getName('ar') . ' ]' ,
 		);
 		
-		return redirect()->back()->with('success',__('This Record Has Been Deleted Successfully'));
+		return $this->getWebDeleteRedirectRoute();
     }
 
     public function toggleIsActive(Request $request)

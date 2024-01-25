@@ -339,6 +339,8 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Cog\Laravel\Ban\Models\Ban> $bans
  * @property-read int|null $bans_count
  * @property-read \App\Models\City|null $city
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\EmergencyContact> $emergencyContacts
+ * @property-read int|null $emergency_contacts_count
  * @property-read \App\Models\CarMake|null $make
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
  * @property-read int|null $media_count
@@ -388,6 +390,37 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Driver whereVerificationCode($value)
  */
 	class Driver extends \Eloquent implements \Spatie\MediaLibrary\HasMedia, \Cog\Contracts\Ban\Bannable {}
+}
+
+namespace App\Models{
+/**
+ * * جهات اتصال الطوارئ بمعني لو انت باعت ابنك مثلا مع سواق فا انت عايز بمجرد ما الرحله
+ * * تبدا انه يوصلك لينك او ويب فيو بحيث تتابع مسار الرحله من علي الخريطه بحيث تكون شايف كل حاجه قدامك
+ * * سواء للعميل او حتى للسواق بمعني ان العميل والسواق هيكون ليهم جهات اتصال طوارئ
+ *
+ * @property int $id
+ * @property string $name
+ * @property string|null $email
+ * @property string|null $phone
+ * @property int|null $country_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Driver> $drivers
+ * @property-read int|null $drivers_count
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyContact defaultOrdered()
+ * @method static \Database\Factories\EmergencyContactFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyContact newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyContact newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyContact query()
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyContact whereCountryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyContact whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyContact whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyContact whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyContact whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyContact wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|EmergencyContact whereUpdatedAt($value)
+ */
+	class EmergencyContact extends \Eloquent {}
 }
 
 namespace App\Models{

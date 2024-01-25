@@ -221,5 +221,21 @@
 	"Cancellation Reason":"سبب الغاء",
 	"Client":"عميل",
 	"Clients":"عملاء",
-	"Related To":"مرتبطة بـ"
+	"Related To":"مرتبطة بـ",
+	"Emergency Contact":"جهة اتصال طوارئ",
+	"Emergency Contacts":"جهات اتصال الطوارئ",
+	"Can Receive Travel Info":"يمكنة استقبال تفاصيل الرحلة",
+	"Attach Emergency Contact To :name":"اضافة جهة اتصال طوارئ لـ :name",
+	"Attach :item":"اضافة :item",
+	"Add :page":"اضافة :page",
+	"Contacts":"جهات الاتصال",
+	"Contact":"جهة اتصال",
+	"From Existing Contacts":"هل جهه الاتصال موجوده ؟",
+	"View Emergency Contacts For :name":"عرض جهات اتصال الطوارى لـ :name",
+	"Emergency Call Name":"اسم جهة الاتصال",
+	"For":"الخاصة ب",
+	"To":"لـ ",
+	"Detached Successfully":"تمت الازالة بنجاح",
+	"Has Detached":"ازال",
+	"Item Not Found":"لم يتم ايجاد العنصر"
 }

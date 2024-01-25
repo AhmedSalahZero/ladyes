@@ -7,7 +7,7 @@ use Illuminate\Http\Response;
 
 trait HasFailedValidation
 {
-	
+
 	public function failedValidation(Validator $validator){
 		throw new HttpResponseException(response()->json([
 			'status'=> Response::HTTP_BAD_REQUEST ,

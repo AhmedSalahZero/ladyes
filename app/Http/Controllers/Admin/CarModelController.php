@@ -114,7 +114,6 @@ class CarModelController extends Controller
             $request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'en') . __('Car Model', [], 'en') . ' [ ' . $car_model->getName('en') . ' ]',
             $request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'ar') . __('Car Model', [], 'ar') . ' [ ' . $car_model->getName('ar') . ' ]',
         );
-
-        return redirect()->back()->with('success', __('This Record Has Been Deleted Successfully'));
+		return $this->getWebDeleteRedirectRoute();
     }
 }

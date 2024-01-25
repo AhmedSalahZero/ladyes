@@ -144,8 +144,7 @@ class AdminController extends Controller
             $request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'en') . __('Admin', [], 'en') . ' [ ' . $admin->getName() . ' ]',
             $request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'ar') . __('Admin', [], 'ar') . ' [ ' . $admin->getName() . ' ]',
         );
-
-        return redirect()->back()->with('success', __('This Record Has Been Deleted Successfully'));
+		return $this->getWebDeleteRedirectRoute();
     }
 
     public function toggleIsActive(Request $request)

@@ -13,10 +13,8 @@ class HValidation
 		$vendorOrEmployee =  Request()->user(HAuth::getActiveGuard());
 		$vendorOrEmployee = $vendorOrEmployee ?: optional();
 		$currentItemId = $isRequired === 'required' || !$model ? 0 : $model->id;
-		
 		// $uniqueExcept = $currentItemId;
 		$isRequired = $isRequired && !$model ? 'required' : 'sometimes'; 
-		// dd(Request()->all());
 		return array_merge([
 			'app_name_en'=>['required' , 'max:255'],
 			'app_name_ar'=>['required' , 'max:255'],
@@ -85,6 +83,7 @@ class HValidation
 			'description_en'=>'sometimes|max:'.self::MAX_DESCRIPTION_LENGTH,
 			'description_ar'=>'sometimes|max:'.self::MAX_DESCRIPTION_LENGTH,
 			'is_active'=>'sometimes|in:0,1',
+			'can_receive_travel_info'=>'sometimes|in:0,1',
 			'taxable'=>'sometimes|in:0,1',
 			'ded_tax_amount'=>'sometimes|in:0,1',
 			// 'tax_discount_amount'=>'required_ifsometimes|in:0,1',

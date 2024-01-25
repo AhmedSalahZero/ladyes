@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\CarModelController;
 use App\Http\Controllers\Admin\CitiesController;
 use App\Http\Controllers\Admin\CountriesController;
 use App\Http\Controllers\Admin\DriversController;
+use App\Http\Controllers\Admin\EmergencyContactsController;
 use App\Http\Controllers\Admin\NotificationsController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\TravelConditionsController;
@@ -63,8 +64,13 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::put('travels-toggle-is-active', [TravelConditionsController::class, 'toggleIsActive'])->name('travel-conditions.toggle.is.active');
      //###################### travel conditions #########################
 	 Route::resource('cancellation-reasons', CancellationReasonsController::class);
-	 
 	 Route::put('cancellations-reasons-toggle-is-active', [CancellationReasonsController::class, 'toggleIsActive'])->name('cancellation-reasons.toggle.is.active');
+	   //###################### travel conditions #########################
+	   Route::post('emergency-contacts/attach', [EmergencyContactsController::class, 'attach'])->name('emergency-contacts.attach');
+	   Route::delete('emergency-contacts/detach', [EmergencyContactsController::class, 'detach'])->name('detach.modal.emergency-contacts');
+	   Route::resource('emergency-contacts', EmergencyContactsController::class);
+	   Route::put('emergency-contacts-toggle-can-receive-travel-infos', [EmergencyContactsController::class, 'toggleCanReceiveTravelInfo'])->name('emergency-contacts.toggle.can.receive.travel.infos');
+	  
 	 //###################### car makes #########################
     Route::resource('car-makes', CarMakeController::class);
     //###################### car makes #########################

@@ -55,4 +55,11 @@ trait Globals {
 				'redirectTo'=>$request->save == 1 ? $createRoute :  $indexRoute
 			]);
 	}
+	public function getWebDeleteRedirectRoute(){
+		return response()->json([
+			'status'=>true ,
+			'message'=>__('This Record Has Been Deleted Successfully'),
+			'reloadCurrentPage'=>true 
+		]);
+}
 }

@@ -121,6 +121,6 @@ class RolesAndPermissionsController extends Controller
 			$request->user('admin')->getName() .' '.__('Has Deleted',[],'ar') . __('Role & Permission',[],'ar') .' [ ' . $role->name . ' ]' ,
 		);
 		
-		return redirect()->back()->with('success',__('This Record Has Been Deleted Successfully'));
+		return $this->getWebDeleteRedirectRoute();
     }
 }
