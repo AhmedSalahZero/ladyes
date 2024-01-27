@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Http\Controllers\Admin\AdminController;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
@@ -34,7 +35,7 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        //
+
     }
 //    public function render($request, Exception $exception)
 //    {

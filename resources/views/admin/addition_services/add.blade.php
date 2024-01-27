@@ -41,6 +41,7 @@
                                             </ul>
                                         </div>
                                     </div>
+
                                     <div class="card-content collapse show">
                                         <div class="card-body">
                                             <form class="form" action="{{route('admin.addition_services.store')}}" method="post"

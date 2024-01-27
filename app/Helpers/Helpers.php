@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 use App\Helpers\HAuth;
 use App\Helpers\HDate;
@@ -9,7 +9,7 @@ use App\Settings\SiteSetting;
 	{
 		return asset('custom/images/default-img.png');
 	}
-	
+
 function getPermissions():array
 {
 	$permissions[] = ['name'=>'view home','title'=>__('View :page',['page'=>__('Home')])];
@@ -19,7 +19,7 @@ function getPermissions():array
 ];
 	foreach($normalPermissions as $permissionName){
 		foreach(['view','create','update','delete'] as $permissionType){
-			$title = HStr::camelizeWithSpace(str_replace('and','&',$permissionName)) ;	
+			$title = HStr::camelizeWithSpace(str_replace('and','&',$permissionName)) ;
 			$permissionTypeAsTitle = ucfirst($permissionType);
 			$permissions[] = ['name'=>$permissionType .' ' . $permissionName , 'title'=>__($permissionTypeAsTitle .' :page' , ['page'=>__($title)]) ] ;
 		}
@@ -29,90 +29,88 @@ function getPermissions():array
     return $permissions;
 }
 
-function getSidebars($user):array 
+function getSidebars($user):array
 {
 	// dd($user->can('view home'));
 	return [
 		$pageName = 'home'=>createSidebarItem($pageName, __('Home') ,  '#' ,$user->can('view home'),'la la-home' ),
-		$pageName = 'admins'=> createSidebarItem( $pageName , __('Admins') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-user-secret', 
+		$pageName = 'admins'=> createSidebarItem( $pageName , __('Admins') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-user-secret',
 			[
 				createSidebarItem($pageName, __('View :page' , ['page' => __('Admins')]) , route('admins.index') , $user->can('view ' .$pageName)  ),
 				createSidebarItem( $pageName , __('Create :page' , ['page'=>__('Admin')]) , route('admins.create') , $user->can('create ' .$pageName)  ),
 			]
 			),
-			
-			$pageName = 'roles-and-permissions'=> createSidebarItem( $pageName, __('Roles & Permissions') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-key', 
+
+			$pageName = 'roles-and-permissions'=> createSidebarItem( $pageName, __('Roles & Permissions') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-key',
 			[
 				createSidebarItem($pageName, __('View :page' , ['page' => __('Roles & Permissions')]) , route('roles.permissions.index') , $user->can('view ' .$pageName)  ),
 				createSidebarItem($pageName, __('Create :page' , ['page'=>__('Role & Permission')]) , route('roles.permissions.create') , $user->can('create ' .$pageName)  ),
 			]),
-			
-			$pageName = 'travel-conditions'=> createSidebarItem( $pageName , __('Travel Conditions') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-question', 
+
+			$pageName = 'travel-conditions'=> createSidebarItem( $pageName , __('Travel Conditions') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-question',
 			[
 				createSidebarItem($pageName, __('View :page' , ['page' => __('Travel Conditions')]) , route('travel-conditions.index') , $user->can('view ' .$pageName)  ),
 				createSidebarItem( $pageName , __('Create :page' , ['page'=>__('Travel Condition')]) , route('travel-conditions.create') , $user->can('create ' .$pageName)  ),
 			]
 			),
-			
-			$pageName = 'emergency-contacts'=> createSidebarItem( $pageName , __('Emergency Contacts') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-mobile-phone', 
+
+			$pageName = 'emergency-contacts'=> createSidebarItem( $pageName , __('Emergency Contacts') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-mobile-phone',
 			[
 				createSidebarItem($pageName, __('View :page' , ['page' => __('Emergency Contacts')]) , route('emergency-contacts.index') , $user->can('view ' .$pageName)  ),
 				createSidebarItem( $pageName , __('Create :page' , ['page'=>__('Emergency Contact')]) , route('emergency-contacts.create') , $user->can('create ' .$pageName)  ),
 			]
 			),
-			
-			
-			$pageName = 'cancellation-reasons'=> createSidebarItem( $pageName , __('Cancellation Reasons') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-remove', 
+
+
+			$pageName = 'cancellation-reasons'=> createSidebarItem( $pageName , __('Cancellation Reasons') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-remove',
 			[
 				createSidebarItem($pageName, __('View :page' , ['page' => __('Cancellation Reasons')]) , route('cancellation-reasons.index') , $user->can('view ' .$pageName)  ),
 				createSidebarItem( $pageName , __('Create :page' , ['page'=>__('Cancellation Reason')]) , route('cancellation-reasons.create') , $user->can('create ' .$pageName)  ),
 			]
 			),
-			
-			
-			
-			$pageName = 'car-makes'=> createSidebarItem( $pageName, __('Car Makes') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-bus', 
+
+			$pageName = 'car-makes'=> createSidebarItem( $pageName, __('Car Makes') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-bus',
 			[
 				createSidebarItem($pageName, __('View :page' , ['page' => __('Car Makes')]) , route('car-makes.index') , $user->can('view ' .$pageName)  ),
 				createSidebarItem($pageName, __('Create :page' , ['page'=>__('Car Make')]) , route('car-makes.create') , $user->can('create ' .$pageName)  ),
 			]),
-			
-			$pageName = 'car-models'=> createSidebarItem( $pageName, __('Car Models') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-ambulance', 
+
+			$pageName = 'car-models'=> createSidebarItem( $pageName, __('Car Models') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-ambulance',
 			[
 				createSidebarItem($pageName, __('View :page' , ['page' => __('Car Models')]) , route('car-models.index') , $user->can('view ' .$pageName)  ),
 				createSidebarItem($pageName, __('Create :page' , ['page'=>__('Car Model')]) , route('car-models.create') , $user->can('create ' .$pageName)  ),
 			]),
-			$pageName = 'countries'=> createSidebarItem( $pageName, __('Countries') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-flag', 
+			$pageName = 'countries'=> createSidebarItem( $pageName, __('Countries') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-flag',
 			[
 				createSidebarItem($pageName, __('View :page' , ['page' => __('Countries')]) , route('countries.index') , $user->can('view ' .$pageName)  ),
 			])
 			,
-			$pageName = 'cities'=> createSidebarItem( $pageName, __('Cities') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-building', 
+			$pageName = 'cities'=> createSidebarItem( $pageName, __('Cities') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-building',
 			[
 				createSidebarItem($pageName, __('View :page' , ['page' => __('Cities')]) , route('cities.index') , $user->can('view ' .$pageName)  ),
 				createSidebarItem($pageName, __('Create :page' , ['page'=>__('City')]) , route('cities.create') , $user->can('create ' .$pageName)  ),
 			]),
-		
-			$pageName = 'drivers'=> createSidebarItem( $pageName, __('Drivers') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-car', 
+
+			$pageName = 'drivers'=> createSidebarItem( $pageName, __('Drivers') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-car',
 			[
 				createSidebarItem($pageName, __('View :page' , ['page' => __('Drivers')]) , route('drivers.index') , $user->can('view ' .$pageName)  ),
 				createSidebarItem($pageName, __('Create :page' , ['page'=>__('Driver')]) , route('drivers.create') , $user->can('create ' .$pageName)  ),
 			]),
-			$pageName = 'settings'=> createSidebarItem( $pageName, __('Settings') ,  '#' ,$user->can('create '.$pageName) || $user->can('create '.$pageName) ,'la la-cogs', 
+			$pageName = 'settings'=> createSidebarItem( $pageName, __('Settings') ,  '#' ,$user->can('create '.$pageName) || $user->can('create '.$pageName) ,'la la-cogs',
 			[
 				createSidebarItem($pageName, __('View :page' , ['page' => __('Settings')]) , route('settings.create') , $user->can('create ' .$pageName)  ),
 				// createSidebarItem($pageName, __('Create :page' , ['page'=>__('Driver')]) , route('drivers.create') , $user->can('create ' .$pageName)  ),
 			]),
-			$pageName = 'notifications'=> createSidebarItem( $pageName, __('Notifications') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-bell', 
+			$pageName = 'notifications'=> createSidebarItem( $pageName, __('Notifications') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-bell',
 			[
 				createSidebarItem($pageName, __('View :page' , ['page' => __('Notifications')]) , route('notifications.index') , $user->can('view ' .$pageName)  ),
 			])
-			
-			
-		
-		
+
+
+
+
 	];
-	 
+
 }
 
 function convertStringToClass(string $str): string
@@ -139,13 +137,13 @@ function createSidebarItem($id , string $title,string $route,bool $show,string $
 			'title'=>$title ,
 			'icon'=>$icon,
 			'show'=>$show,
-			'is_active'=>getPageNameFromUrl() == $id , 
+			'is_active'=>getPageNameFromUrl() == $id ,
 			'route'=>$route ,
 			'subitems'=>$subItems
 	];
 }
 function getSetting($settingName){
-	
+
 	return App(SiteSetting::class)->{$settingName};
 }
 function formatForView(?string $date ,bool $onlyDate = false )

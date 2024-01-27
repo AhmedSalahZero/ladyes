@@ -20,17 +20,17 @@ class AdminNotification extends Notification implements ShouldBroadcastNow
      *
      * @return void
      */
-	protected string $title_en ; 
-	protected string $title_ar ; 
-	protected string $message_en ; 
-	protected string $message_ar ; 
-	protected string $createdAtFormatted ; 
+	protected string $title_en ;
+	protected string $title_ar ;
+	protected string $message_en ;
+	protected string $message_ar ;
+	protected string $createdAtFormatted ;
     public function __construct(string $title_en,string $title_ar,string $message_en,string $message_ar , string $createdAtFormatted)
     {
-        $this->title_en = $title_en ; 
-        $this->title_ar = $title_ar ; 
-        $this->message_en = $message_en ; 
-        $this->message_ar = $message_ar ; 
+        $this->title_en = $title_en ;
+        $this->title_ar = $title_ar ;
+        $this->message_en = $message_en ;
+        $this->message_ar = $message_ar ;
 		$this->createdAtFormatted = $createdAtFormatted;
     }
 
