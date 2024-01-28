@@ -1,5 +1,6 @@
 {
 	"cSpell.words": [
 		"selectpicker"
-	]
+	],
+	"php.suggest.basic": false
 }

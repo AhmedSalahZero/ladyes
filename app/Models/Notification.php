@@ -13,13 +13,14 @@ class Notification extends Model
 	protected $casts = [
 		'data'=>'array'
 	];
-	
+
 	public static function storeNewNotification(string $titleEn , string $titleAr  , string $messageEn , string $messageAr)
 	{
 		foreach(Admin::onlyIsActive()->get() as $admin){
 			if($admin->isNot(auth('admin')->user()) && $admin->can('view notifications')){
 				$admin->notify(new AdminNotification($titleEn,$titleAr,$messageEn,$messageAr,formatForView(now())));
-			}
+            }
+
 		}
 	}
 

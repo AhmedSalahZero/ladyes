@@ -3,7 +3,6 @@
 namespace App\Exceptions;
 
 use App\Http\Controllers\Admin\AdminController;
-use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 

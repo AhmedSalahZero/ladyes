@@ -19,7 +19,6 @@ class City extends Model
  */
 
     use
-	//  InteractsWithMedia,
 	 IsBaseModel,HasDefaultOrderScope , HasTransNames , HasFactory,HasKmPrice ;
 	 
 	//  public static function getRushHourPercentage(?Carbon $dateTime = null) {
@@ -130,8 +129,9 @@ class City extends Model
 			}
 		}
 		return $this ;
-	
+		
 
 	}
+
 	
 }

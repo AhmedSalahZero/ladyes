@@ -18,14 +18,14 @@ use Illuminate\Http\Request;
 class DriversController extends Controller
 {
 	use Globals;
-	
+
 	public function __construct()
 	{
-		$this->middleware('permission:'.getPermissionName('view') , ['only'=>['index']]) ;
-		$this->middleware('permission:'.getPermissionName('create') , ['only'=>['create','store']]) ;
-		$this->middleware('permission:'.getPermissionName('update') , ['only'=>['edit','update']]) ;
-		$this->middleware('permission:'.getPermissionName('delete') , ['only'=>['destroy']]) ;
-		
+        foreach(['view'=>['index'] , 'create'=>['create','store'],'update'=>['edit','update'],'delete'=>['destroy']] as $name => $method ){
+            $this->middleware('permission:'.getPermissionName($name) , ['only'=>$method]) ;
+        }
+
+
 	}
 
     public function index()
@@ -48,12 +48,12 @@ class DriversController extends Controller
     {
         return view('admin.drivers.crud',$this->getViewUrl());
     }
-	public function getViewUrl($model = null ):array 
+	public function getViewUrl($model = null ):array
 	{
 		$selectedCountryId = $model ? $model->getCountryId() : 0 ;
 		$selectedCityId = $model ? $model->getCityId() : 0 ;
 		$selectedMakeId = $model ? $model->getMakeId() : 0 ;
-		
+
 		$breadCrumbs = [
 			'dashboard'=>[
 				'title'=>__('Dashboard') ,
@@ -105,14 +105,14 @@ class DriversController extends Controller
     public function update(StoreDriverRequest $request, Driver $driver)
     {
 			$driver->syncFromRequest($request);
-			
+
 			Notification::storeNewNotification(
 				__('New Update', [], 'en'),
 				__('New Update', [], 'ar'),
 				$request->user('admin')->getName() . ' ' . __('Has Update', [], 'en') . __('Driver', [], 'en') . ' [ ' . $driver->getName('en') . ' ]',
 				$request->user('admin')->getName() . ' ' . __('Has Update', [], 'ar') . __('Driver', [], 'ar') . ' [ ' . $driver->getName('ar') . ' ]',
 			);
-			
+
 			return $this->getWebRedirectRoute($request,route('drivers.index'),route('drivers.edit',['driver'=>$driver->id]));
     }
 
@@ -132,41 +132,41 @@ class DriversController extends Controller
     {
         $driver = Driver::find($request->id);
 		if($driver){
-			$banMessageEn = $driver->isBanned() ? __('Has Unbanned', [], 'en') : __('Has Banned', [], 'en') ; 
-			$banMessageAr = $driver->isBanned() ? __('Has Unbanned', [], 'ar') : __('Has Banned', [], 'ar') ; 
-			
+			$banMessageEn = $driver->isBanned() ? __('Has Unbanned', [], 'en') : __('Has Banned', [], 'en') ;
+			$banMessageAr = $driver->isBanned() ? __('Has Unbanned', [], 'ar') : __('Has Banned', [], 'ar') ;
+
 			$driver->isBanned() ? $driver->unban() : $driver->ban([
 				'comment'=>$request->get('comment')
 				]) ;
-			
+
 			Notification::storeNewNotification(
 				__('New Update', [], 'en'),
 				__('New Update', [], 'ar'),
 				$request->user('admin')->getName() . ' ' . $banMessageEn . __('Driver', [], 'en') . ' [ ' . $driver->getName('en') . ' ]',
 				$request->user('admin')->getName() . ' ' . $banMessageAr . __('Driver', [], 'ar') . ' [ ' . $driver->getName('ar') . ' ]',
 			);
-			
+
 		}
 		return redirect()->back()->with('success',__('The Action Has Been Done'));
     }
-	
+
 	public function toggleIsVerified(Request $request)
     {
         $driver = Driver::find($request->id);
 		if($driver){
-			
-			$verifiedMessageEn = $driver->getIsVerified() ? __('Has UnVerified', [], 'en') : __('Has Verified', [], 'en') ; 
-			$verifiedMessageAr = $driver->getIsVerified() ? __('Has UnVerified', [], 'ar') : __('Has Verified', [], 'ar') ; 
-			
+
+			$verifiedMessageEn = $driver->getIsVerified() ? __('Has UnVerified', [], 'en') : __('Has Verified', [], 'en') ;
+			$verifiedMessageAr = $driver->getIsVerified() ? __('Has UnVerified', [], 'ar') : __('Has Verified', [], 'ar') ;
+
 			$driver->toggleIsVerified();
-			
+
 			Notification::storeNewNotification(
 				__('New Update', [], 'en'),
 				__('New Update', [], 'ar'),
 				$request->user('admin')->getName() . ' ' . $verifiedMessageEn . __('Driver', [], 'en') . ' [ ' . $driver->getName('en') . ' ]',
 				$request->user('admin')->getName() . ' ' . $verifiedMessageAr . __('Driver', [], 'ar') . ' [ ' . $driver->getName('ar') . ' ]',
 			);
-			
+
 		}
 		// return redirect()->back()->with('success',__('The Action Has Been Done'));
             return response()->json([
@@ -174,6 +174,6 @@ class DriversController extends Controller
                 'id' => $request->id,
             ]);
     }
-	
+
 
 }
