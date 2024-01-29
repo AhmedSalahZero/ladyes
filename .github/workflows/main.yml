@@ -19,5 +19,5 @@ jobs:
       run: |
          npm install
          composer install
-         php artisan migrate
+         php artisan migrate --force
          php artisan optimize:clear
