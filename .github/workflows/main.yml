@@ -20,3 +20,4 @@ jobs:
         npm install
         composer install
         php artisan optimize:clear
+        php -r "file_exists('.env') || copy('.env.example', '.env')
