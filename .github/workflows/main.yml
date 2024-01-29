@@ -17,7 +17,7 @@ jobs:
         password: LadyesApi@pass
     - name: build
       run: |
-         php -r "file_exists('.env') || copy('.env.example', '.env')"
+         php -r file_exists('.env')
          npm install
          composer install
          php artisan optimize:clear
