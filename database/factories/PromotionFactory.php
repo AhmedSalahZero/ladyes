@@ -22,7 +22,6 @@ class PromotionFactory extends Factory
 				'end_date'=>now()->addMonth(),
 				'discount_type'=>$discountTypes[$this->faker->numberBetween(0,count($discountTypes)-1)],
 				'amount'=>$this->faker->numberBetween(10,100),
-				'is_active'=>true 
         ];
     }
 }
