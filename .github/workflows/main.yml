@@ -17,7 +17,8 @@ jobs:
         password: LadyesApi@pass
     - name: build
       run: |
-         php -r file_exists('.env')
+         touch .env
+         echo "!.env" > .git-ftp-include # Add git untracked file
          npm install
          composer install
          php artisan optimize:clear
