@@ -20,4 +20,3 @@ jobs:
         npm install
         composer install
         php artisan optimize:clear
-		
