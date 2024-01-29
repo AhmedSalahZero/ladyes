@@ -40,10 +40,16 @@ class AppServiceProvider extends ServiceProvider
                 try {
                     Permission::findByName($permission['name'], 'admin');
                 } catch(Exception $e) {
-                    $permission = Permission::create(array_merge(Arr::only($permission, 'name'), ['guard_name' => 'admin']));
-                    foreach (Admin::all() as $admin) {
-                        $admin->givePermissionTo($permission);
-                    }
+					try{
+						$permission = Permission::create(array_merge(Arr::only($permission, 'name'), ['guard_name' => 'admin']));
+						foreach (Admin::all() as $admin) {
+							$admin->givePermissionTo($permission);
+						}	
+					}
+					catch(\Exception $e){
+						
+					}
+                    
                 }
             }
         }
