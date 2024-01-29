@@ -32,7 +32,7 @@ class AdminController extends Controller
 
     public function updateProfile(Request $request)
     {
-        $admin = admin();
+        $admin = $request->user('admin');
         if ($request->name) {
             $admin->name = $request->name;
         }

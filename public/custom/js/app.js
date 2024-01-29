@@ -60,13 +60,9 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   cluster: "mt1",
   forceTLS: false,
   wsPort: "6048",
-  enabledTransports: ['ws', 'wss'],
-  authEndpoint: "http://127.0.0.1:8000/broadcasting/auth",
-  auth: {
-    headers: {
-      Authorization: 'Bearer F8jCG4DGxUeFnX0z39jbz2ujqLazmvnLWyQr6DJD'
-    }
-  }
+  enabledTransports: ['ws', 'wss']
+  // authEndpoint : `http://127.0.0.1:8000/broadcasting/auth`,
+
   // disableStats: true
 });
 

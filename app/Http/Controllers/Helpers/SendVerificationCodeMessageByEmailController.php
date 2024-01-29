@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Helpers;
 
 use App\Http\Controllers\Controller;
-use App\Mail\SendMessageMail;
 use App\Models\Driver;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 
 class SendVerificationCodeMessageByEmailController extends Controller
 {
@@ -15,6 +13,9 @@ class SendVerificationCodeMessageByEmailController extends Controller
 		if(!$driver){
 			return redirect()->back()->with('fail',__('Driver Not Found'));
 		}
-		return $driver->sendVerificationCodeViaEmail();
+		$responseArr = $driver->sendVerificationCodeViaEmail();
+		$status = isset($responseArr['status']) && $responseArr['status'] ? 'success' : 'fail';
+		$message = isset($responseArr['message']) && $responseArr['message'] ? $responseArr['message'] : null;
+		return redirect()->back()->with($status,$message);
 	}
 }

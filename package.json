@@ -17,6 +17,7 @@
         "resolve-url-loader": "^5.0.0"
     },
     "dependencies": {
+        "bootstrap-datetimepicker-npm": "^4.17.37-npm",
         "bootstrap-timepicker": "^0.5.2",
         "jquery.repeater": "^1.2.1",
         "laravel-echo": "^1.15.3",

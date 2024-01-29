@@ -29,6 +29,7 @@ class StoreTravelConditionRequest extends FormRequest
 		[
 			'name_en'=>$HValidationRules['name_en'],
 			'name_ar'=>$HValidationRules['name_ar'],
+			'model_type'=>'required',
 			'is_active'=>$HValidationRules['is_active'],
         ];
     }
@@ -42,6 +43,7 @@ class StoreTravelConditionRequest extends FormRequest
 			'name_ar.required'=>__('Please Enter :attribute' , ['attribute'=>__('Arabic Name')]),
 			'name_ar.max'=> __(':attribute Exceed The Max Letter Length :max Letter',['attribute'=>__('Arabic Name'),'max'=>255	]),
 			'name_ar.unique'=> __(':attribute Already Exist',['attribute'=>__('Arabic Name')]),
+			'model_type.required'=>__('Please Enter :attribute' , ['attribute'=>__('Related To')]),
 		];
 	}
 	

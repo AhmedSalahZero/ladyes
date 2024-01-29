@@ -2,6 +2,7 @@
 namespace App\Helpers;
 
 use App\Helpers\HAuth;
+use App\Rules\AmountOrPercentageRule;
 use App\Rules\ValidPhoneNumberRule;
 use Illuminate\Validation\Rule;
 
@@ -57,7 +58,8 @@ class HValidation
 			'driver_license_image'=>$isRequired.'|file|mimes:'.self::getAllowedUploadImageAsString(),
 			'logo'=>$isRequired.'|file|mimes:'.self::getAllowedUploadImageAsString(),
 			
-			
+
+			'amount_or_percentage'=> ['required','gt:0',new AmountOrPercentageRule],
 			
 			// 'image'=>'sometimes',
 			
@@ -100,7 +102,7 @@ class HValidation
 			'car_max_capacity'=>[$isRequired ,'gte:1'],
 			'stock_category_id'=>[$isRequired , Rule::exists('stock_categories','id')->where('vendor_id',$vendorOrEmployee->id)],
 			'start_date'=>$isRequired.'|required|date|date_format:Y-m-d',
-			'end_date'=>$isRequired.'|required|date|date_format:Y-m-d|after_or_equal:start_date',
+			'end_date'=>$isRequired.'|required|date|date_format:Y-m-d|after:start_date',
 			'storage_unit'=>$isRequired.'|required',
 			'recipe_unit'=>$isRequired.'|required',
 			'recipe_unit_quantity'=>$isRequired.'|required',
@@ -111,7 +113,7 @@ class HValidation
 			'end_stock_date'=>'sometimes|date|date_format:H:i',
 			'created_at'=>$isRequired.'|required|date|date_format:Y-m-d',
 			'event_type'=>$isRequired.'|in:1,2,3,4',
-			'discount_type'=>$isRequired.'|in:1,2',
+			'discount_type'=>'required|in:fixed,percentage',
 			'decrease_price_amount'=>'required_if:event_type,=,1|numeric|gte:0',
 			'increase_price_amount'=>'required_if:event_type,=,2|numeric|gte:0',
 			'decrease_price_percent'=>'required_if:event_type,=,3|numeric|between:0,100',

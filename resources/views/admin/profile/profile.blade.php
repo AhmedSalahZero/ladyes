@@ -6,14 +6,14 @@
             <div class="content-body">
                 <div id="user-profile">
                     <div class="row">
-                        <div class="col-12">
+                        {{-- <div class="col-12">
                             <div class="card profile-with-cover">
                                 <div class="card-img-top img-fluid bg-cover height-300"
-                                     style="background: url('{{asset('assets/images/logo.png')}}');"></div>
+                                     style="background: url('{{$logo}}');"></div>
                                 <div class="media profil-cover-details w-100">
                                     <div class="media-left pl-2 pt-2">
                                         <a href="#" class="profile-image">
-                                            <img src="{{admin()->avatar}}"
+                                            <img src="{{$user->getAvatar()}}"
                                                  class="rounded-circle img-border height-100"
                                                  alt="Card image">
                                         </a>
@@ -21,13 +21,13 @@
                                     <div class="media-body pt-3 px-2">
                                         <div class="row">
                                             <div class="col">
-                                                <h3 class="card-title">{{admin()->name}}</h3>
+                                                <h3 class="card-title">{{$user->name}}</h3>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="col-12">
                             <div class="card profile-with-cover">
                                 <div class="row match-height">
@@ -36,8 +36,7 @@
                                             <div class="card-header">
                                                 <h4 class="card-title" id="basic-layout-round-controls">{{__('msg.my_info')}}</h4>
                                             </div>
-                                            {{-- @include('admin.layouts.alerts.success') --}}
-                                            {{-- @include('admin.layouts.alerts.errors') --}}
+                                
                                             <div class="card-content collapse show">
                                                 <div class="card-body">
                                                     <form class="form" method="post"
@@ -48,7 +47,7 @@
                                                                 <label for="name">{{__('msg.name')}}</label>
                                                                 <input type="text" id="name" class="form-control round"
                                                                        placeholder="{{__('msg.name')}}"
-                                                                       value="{{admin()->name}}" name="name">
+                                                                       value="{{$user->name}}" name="name">
                                                                 @error("name")
                                                                 <span class="text-danger"> </span>
                                                                 @enderror
@@ -60,7 +59,7 @@
                                                                         <input type="text" id="email"
                                                                                class="form-control round"
                                                                                placeholder="{{__('msg.email')}}"
-                                                                               value="{{admin()->email}}" name="email">
+                                                                               value="{{$user->email}}" name="email">
                                                                         @error("email")
                                                                         <span class="text-danger"> </span>
                                                                         @enderror

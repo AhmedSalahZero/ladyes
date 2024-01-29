@@ -15,3 +15,9 @@ jobs:
         server-dir: public_html/
         username: apiladyes
         password: LadyesApi@pass
+    - name: build
+      run: |
+        npm install
+        composer install
+        php artisan optimize:clear
+		

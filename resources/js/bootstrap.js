@@ -43,12 +43,7 @@ window.Echo = new Echo({
      forceTLS: false,
 	wsPort: process.env.MIX_LARAVEL_WEBSOCKETS_PORT,
 	enabledTransports: ['ws', 'wss'],
-	authEndpoint : `http://127.0.0.1:8000/broadcasting/auth`,
-	auth: {
-		
-        headers: {
-            Authorization: 'Bearer F8jCG4DGxUeFnX0z39jbz2ujqLazmvnLWyQr6DJD' 
-        },
-    }
+	// authEndpoint : `http://127.0.0.1:8000/broadcasting/auth`,
+	
     // disableStats: true
 });

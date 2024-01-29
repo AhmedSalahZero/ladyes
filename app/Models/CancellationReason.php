@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\Accessors\IsBaseModel;
 use App\Traits\Models\HasIsActive;
+use App\Traits\Models\HasModelType;
 use App\Traits\Models\HasTransNames;
 use App\Traits\Scope\HasDefaultOrderScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,16 +15,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class CancellationReason extends Model
 {
-    use  IsBaseModel,HasDefaultOrderScope,HasFactory,HasTransNames,HasIsActive;
+    use  IsBaseModel,HasDefaultOrderScope,HasFactory,HasTransNames,HasIsActive,HasModelType;
 
-	public function getModelType()
-	{
-		return $this->model_type ;
-	}
-	public function getModelTypeFormatted()
-	{
-		return __($this->model_type) ;
-	}
+	
 	
     public function syncFromRequest($request)
     {

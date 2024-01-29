@@ -377,6 +377,7 @@
                                                             <button type="button" class="dropdown-toggle btn btn-outline-primary bg-primary " data-toggle="dropdown"> {{ __('Send Message') }} </button>
                                                             <div class="dropdown-menu">
                                                                 <a data-toggle="modal" data-target="#send-whatsapp-message-popup{{ $model->id }}" class="dropdown-item" href="#"> {{ __('Through Whatsapp') }} </a>
+                                                                <a data-toggle="modal" data-target="#send-sms-message-popup{{ $model->id }}" class="dropdown-item" href="#"> {{ __('Through Sms') }} </a>
                                                                 <a data-toggle="modal" data-target="#send-email-message-popup{{ $model->id }}" class="dropdown-item" href="#"> {{ __('Through Email') }} </a>
                                                             </div>
                                                             <div class="modal fade" id="send-whatsapp-message-popup{{ $model->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -390,6 +391,34 @@
                                                                             <input type="hidden" name="country_code" value="{{ $model->getCountryIso2() }}">
                                                                             <div class="modal-header">
                                                                                 <h5 class="modal-title" id="exampleModalLabel">{{ __('Send Whatsapp Message To :name',['name'=>$model->getFullName($lang)]) }}</h5>
+                                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <textarea name="message" class="form-control" rows="8" type="text" required placeholder="{{ __('Message Text') }}"></textarea>
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close') }}</button>
+                                                                                <button type="submit" class="btn btn-primary">{{ __('Send') }}</button>
+                                                                            </div>
+
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+															
+															  <div class="modal fade" id="send-sms-message-popup{{ $model->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog modal-lg  modal-dialog modal-lg-centered" role="document">
+                                                                    <div class="modal-content">
+                                                                        <form action="{{ route('send.sms.message') }}" method="post">
+                                                                            @csrf
+                                                                            <input type="hidden" name="model_id" value="{{ $model->id }}">
+                                                                            <input type="hidden" name="model_type" value="Driver">
+                                                                            <input type="hidden" name="phone" value="{{ $model->getPhone() }}">
+                                                                            <input type="hidden" name="country_code" value="{{ $model->getCountryIso2() }}">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title" id="exampleModalLabel">{{ __('Send Sms Message To :name',['name'=>$model->getFullName($lang)]) }}</h5>
                                                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                                     <span aria-hidden="true">&times;</span>
                                                                                 </button>
@@ -778,6 +807,7 @@
                                                             <button type="button" class="dropdown-toggle btn btn-outline-primary bg-primary " data-toggle="dropdown"> {{ __('Send Verification Code') }} </button>
                                                             <div class="dropdown-menu">
                                                                 <a data-toggle="modal" data-target="#send-whatsapp-verification-code-popup{{ $model->id }}" class="dropdown-item" href="#"> {{ __('Through Whatsapp') }} </a>
+                                                                <a data-toggle="modal" data-target="#send-sms-verification-code-popup{{ $model->id }}" class="dropdown-item" href="#"> {{ __('Through Sms') }} </a>
                                                                 <a data-toggle="modal" data-target="#send-email-verification-code-popup{{ $model->id }}" class="dropdown-item" href="#"> {{ __('Through Email') }} </a>
                                                             </div>
                                                             <div class="modal fade" id="send-whatsapp-verification-code-popup{{ $model->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -789,6 +819,33 @@
 
                                                                             <div class="modal-header">
                                                                                 <h5 class="modal-title" id="exampleModalLabel">{{ __('Send Whatsapp Verification Code To :name',['name'=>$model->getFullName($lang)]) }}</h5>
+                                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                    <span aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                {{-- <h2>{{ __('Do ') }}</h2> --}}
+                                                                                {{-- <textarea name="message" class="form-control" rows="8" type="text" required placeholder="{{ __('Message Text') }}"></textarea> --}}
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close') }}</button>
+                                                                                <button type="submit" class="btn btn-primary">{{ __('Send') }}</button>
+                                                                            </div>
+
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+															
+															   <div class="modal fade" id="send-sms-verification-code-popup{{ $model->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog modal-lg  modal-dialog modal-lg-centered" role="document">
+                                                                    <div class="modal-content">
+                                                                        <form action="{{ route('send.verification.code.through.sms') }}" method="post">
+                                                                            @csrf
+                                                                            <input type="hidden" name="driver_id" value="{{ $model->id }}">
+
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title" id="exampleModalLabel">{{ __('Send Sms Verification Code To :name',['name'=>$model->getFullName($lang)]) }}</h5>
                                                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                                     <span aria-hidden="true">&times;</span>
                                                                                 </button>

@@ -66,12 +66,12 @@ Route::group(['namespace' => 'Admin', 'middleware' => 'auth:admin'], function ()
     Route::post('/setting-update', [SettingsController::class, 'update'])->name('admin.settings.update');
     Route::post('/delete-file', [SettingsController::class, 'deleteFile'])->name('admin.delete.file');
     //####################### orders ##############################
-    Route::get('/orders', [OrderController::class, 'index'])->name('admin.orders.index');
-    Route::get('/show-order/{id}', [OrderController::class, 'show'])->name('admin.orders.show');
-    Route::post('/delete-order', [OrderController::class, 'delete'])->name('admin.orders.delete');
-    Route::post('/update-order-status', [OrderController::class, 'updateStatus'])->name('admin.orders.update_status');
-    Route::post('/send-order-user-email', [OrderController::class, 'sendUserEmail'])->name('admin.orders.send_user_email');
-    //###################### permission_group #########################
+    // Route::get('/orders', [OrderController::class, 'index'])->name('admin.orders.index');
+    // Route::get('/show-order/{id}', [OrderController::class, 'show'])->name('admin.orders.show');
+    // Route::post('/delete-order', [OrderController::class, 'delete'])->name('admin.orders.delete');
+    // Route::post('/update-order-status', [OrderController::class, 'updateStatus'])->name('admin.orders.update_status');
+    // Route::post('/send-order-user-email', [OrderController::class, 'sendUserEmail'])->name('admin.orders.send_user_email');
+    // //###################### permission_group #########################
 
     Route::group(['prefix' => 'roles-and-permissions/', 'as' => 'roles.permissions.'], function () {
         Route::get('/index', [RolesAndPermissionsController::class, 'index'])->name('index');

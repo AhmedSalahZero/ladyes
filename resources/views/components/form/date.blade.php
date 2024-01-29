@@ -19,7 +19,7 @@
     <div class="col-md-9">
         <div class="kt-input-icon">
             <div class="input-group date">
-                <input id="{{$id}}" type="date" name="{{ $name }}" value="{{ $model && $model->{$name} ? $model->{$name} : old($name) }}" class="form-control" placeholder="{{ $placeholder }}" />
+                <input  id="{{$id}}" type="date" name="{{ $name }}" value="{{ $model && $model->{$name} ? explode(' ',$model->{$name})[0] : old($name) }}" class="form-control" placeholder="{{ $placeholder }}" />
                 <div class="input-group-append">
                     <span class="input-group-text">
                         <i class="la la-calendar-check-o"></i>

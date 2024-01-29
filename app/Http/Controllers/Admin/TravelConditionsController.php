@@ -65,7 +65,17 @@ class TravelConditionsController extends Controller
 			'pageTitle'=>__('Travel Conditions'),
 			'route'=>$model ? route('travel-conditions.update',['travel_condition'=>$model->id]) : route('travel-conditions.store') ,
 			'model'=>$model ,
-			'indexRoute'=>route('travel-conditions.index')
+			'indexRoute'=>route('travel-conditions.index'),
+			'travelConditionModelTypesFormatted'=>[
+				[
+					'title'=>__('Driver'),
+					'value'=>'Driver'
+				],
+				[
+					'title'=>__('Client'),
+					'value'=>'Client'
+				]
+			]
 		];
 	}
 

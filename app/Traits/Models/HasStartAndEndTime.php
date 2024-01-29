@@ -2,7 +2,6 @@
 namespace App\Traits\Models;
 
 use App\Helpers\HDate;
-use Carbon\Carbon;
 
 trait HasStartAndEndTime 
 {
@@ -10,6 +9,7 @@ trait HasStartAndEndTime
 	{
 		return $this->start_time ;
 	}
+		
 	public function getStartFromFormatted()
 	{
 		return HDate::formatTimeForView($this->start_time);

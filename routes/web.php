@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\AreasController;
 use App\Http\Controllers\Admin\CancellationReasonsController;
 use App\Http\Controllers\Admin\CarMakeController;
 use App\Http\Controllers\Admin\CarModelController;
@@ -10,18 +9,18 @@ use App\Http\Controllers\Admin\CountriesController;
 use App\Http\Controllers\Admin\DriversController;
 use App\Http\Controllers\Admin\EmergencyContactsController;
 use App\Http\Controllers\Admin\NotificationsController;
+use App\Http\Controllers\Admin\PromotionController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\TravelConditionsController;
 use App\Http\Controllers\Helpers\AddInvitationCodeToController;
 use App\Http\Controllers\Helpers\SendEmailMessageController;
+use App\Http\Controllers\Helpers\SendSmsMessageController;
+use App\Http\Controllers\Helpers\SendSmsVerificationCodeController;
 use App\Http\Controllers\Helpers\SendVerificationCodeMessageByEmailController;
 use App\Http\Controllers\Helpers\SendWhatsappMessageController;
 use App\Http\Controllers\Helpers\SendWhatsappVerificationCodeController;
-use App\Http\Controllers\Helpers\UpdateAreasBasedOnCity;
 use App\Http\Controllers\Helpers\UpdateCitiesBasedOnCountry;
 use App\Http\Controllers\Helpers\UpdateModelsBasedOnMake;
-use App\Models\Admin;
-use App\Notifications\Admins\AdminNotification;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -62,15 +61,19 @@ Route::group(['middleware' => 'auth:admin'], function () {
     //###################### travel conditions #########################
     Route::resource('travel-conditions', TravelConditionsController::class);
     Route::put('travels-toggle-is-active', [TravelConditionsController::class, 'toggleIsActive'])->name('travel-conditions.toggle.is.active');
-     //###################### travel conditions #########################
-	 Route::resource('cancellation-reasons', CancellationReasonsController::class);
-	 Route::put('cancellations-reasons-toggle-is-active', [CancellationReasonsController::class, 'toggleIsActive'])->name('cancellation-reasons.toggle.is.active');
-	   //###################### travel conditions #########################
-	   Route::post('emergency-contacts/attach', [EmergencyContactsController::class, 'attach'])->name('emergency-contacts.attach');
-	   Route::delete('emergency-contacts/detach', [EmergencyContactsController::class, 'detach'])->name('detach.modal.emergency-contacts');
-	   Route::resource('emergency-contacts', EmergencyContactsController::class);
-	   Route::put('emergency-contacts-toggle-can-receive-travel-infos', [EmergencyContactsController::class, 'toggleCanReceiveTravelInfo'])->name('emergency-contacts.toggle.can.receive.travel.infos');
-	  
+	//###################### travel conditions #########################
+	Route::resource('cancellation-reasons', CancellationReasonsController::class);
+	Route::put('cancellations-reasons-toggle-is-active', [CancellationReasonsController::class, 'toggleIsActive'])->name('cancellation-reasons.toggle.is.active');
+	//###################### travel conditions #########################
+	Route::post('emergency-contacts/attach', [EmergencyContactsController::class, 'attach'])->name('emergency-contacts.attach');
+	Route::delete('emergency-contacts/detach', [EmergencyContactsController::class, 'detach'])->name('detach.modal.emergency-contacts');
+	Route::resource('emergency-contacts', EmergencyContactsController::class);
+	Route::put('emergency-contacts-toggle-can-receive-travel-infos', [EmergencyContactsController::class, 'toggleCanReceiveTravelInfo'])->name('emergency-contacts.toggle.can.receive.travel.infos');
+	
+	//###################### promotions #########################
+	Route::resource('promotions', PromotionController::class);
+    Route::put('promotions-toggle-is-active', [PromotionController::class, 'toggleIsActive'])->name('promotions.toggle.is.active');
+		
 	 //###################### car makes #########################
     Route::resource('car-makes', CarMakeController::class);
     //###################### car makes #########################
@@ -95,7 +98,9 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::resource('notifications', NotificationsController::class)->only(['index']);
 
     //###################### messages #########################
+    Route::post('send-sms-message', [SendSmsMessageController::class, 'send'])->name('send.sms.message');
     Route::post('send-whatsapp-message', [SendWhatsappMessageController::class, 'send'])->name('send.whatsapp.message');
+    Route::post('send-sms-verification-code', [SendSmsVerificationCodeController::class, 'send'])->name('send.verification.code.through.sms');
     Route::post('send-whatsapp-verification-code', [SendWhatsappVerificationCodeController::class, 'send'])->name('send.verification.code.through.whatsapp');
     Route::post('send-email-message', [SendEmailMessageController::class, 'send'])->name('send.email.message');
     Route::post('send-verification-code-email-message', [SendVerificationCodeMessageByEmailController::class, 'send'])->name('send.verification.code.through.email');

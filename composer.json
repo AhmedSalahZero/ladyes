@@ -31,6 +31,7 @@
         "spatie/laravel-query-builder": "^4.0",
         "spatie/laravel-settings": "^3.2",
         "tightenco/ziggy": "^1.8",
+        "twilio/sdk": "^7.14",
         "tymon/jwt-auth": "^1.0@dev"
     },
     "require-dev": {

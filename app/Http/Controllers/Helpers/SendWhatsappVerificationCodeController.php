@@ -13,6 +13,9 @@ class SendWhatsappVerificationCodeController extends Controller
 		if(!$driver){
 			return redirect()->back()->with('fail',__('Driver Not Found'));
 		}
-		return $driver->sendVerificationCodeMessage();
+		$responseArr = $driver->sendVerificationCodeMessage(false , true ,false ) ;
+		$status = isset($responseArr['status']) && $responseArr['status'] ? 'success' : 'fail';
+		$message = isset($responseArr['message']) && $responseArr['message'] ? $responseArr['message'] : null;
+		return redirect()->back()->with($status,$message);
 	}
 }

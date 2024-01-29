@@ -29,6 +29,10 @@
 												<div class="col-md-6">
                                                     <x-form.input :id="'name_ar'" :label="__('Arabic Name')" :type="'text'" :name="'name_ar'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Arabic Name')])"></x-form.input>
                                                 </div>
+												<div class="col-md-6">
+                                                        <x-form.select :please-select="false" :is-required="true" :is-select2="true" :options="$travelConditionModelTypesFormatted" :add-new="false" :label="__('Related To')" :all="false" name="model_type" id="model_type" :selected-value="isset($model) ? $model->model_type: old('model_type') "></x-form.select>
+                                                </div>
+												
                                                 <div class="col-md-6">
                                                     <x-form.checkbox :id="'is-active'" :label="__('Active')" :is-required="!isset($model)" :name="'is_active'" :is-checked="isset($model) ? $model->getIsActive() : true "> </x-form.checkbox>
                                                 </div>
