@@ -16,7 +16,7 @@ class CarSizeFactory extends Factory
         return [
             'name_en'=>$this->faker->name,
             'name_ar'=>$this->faker->name,
-            'image'=>$this->faker->image('public/storage/CarSize',400,300, null, false),
+            // 'image'=>$this->faker->image('public/storage/CarSize',400,300, null, false),
         ];
     }
 }

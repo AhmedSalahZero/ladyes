@@ -6,7 +6,7 @@ use App\Traits\HasFailedValidation;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 
-class StoreTravelConditionRequest extends FormRequest
+class StoreHelpRequest extends FormRequest
 { 
 	use HasFailedValidation;
 
@@ -23,12 +23,14 @@ class StoreTravelConditionRequest extends FormRequest
    
     public function rules()
     {
-		$model = $this->route('travel_condition') ;
-		$HValidationRules = HValidation::rules('travel_conditions', $model , Request::isMethod('post') );
+		$model = $this->route('help') ;
+		$HValidationRules = HValidation::rules('helps', $model , Request::isMethod('post') );
         return 
 		[
 			'name_en'=>$HValidationRules['name_en'],
 			'name_ar'=>$HValidationRules['name_ar'],
+			'description_en'=>$HValidationRules['description_en'],
+			'description_ar'=>$HValidationRules['description_ar'],
 			'model_type'=>'required',
 			'is_active'=>$HValidationRules['is_active'],
         ];
@@ -43,6 +45,16 @@ class StoreTravelConditionRequest extends FormRequest
 			'name_ar.required'=>__('Please Enter :attribute' , ['attribute'=>__('Arabic Name')]),
 			'name_ar.max'=> __(':attribute Exceed The Max Letter Length :max Letter',['attribute'=>__('Arabic Name'),'max'=>255	]),
 			'name_ar.unique'=> __(':attribute Already Exist',['attribute'=>__('Arabic Name')]),
+			
+			'description_en.required'=>__('Please Enter :attribute' , ['attribute'=>__('English Description')]),
+			'description_en.max'=> __(':attribute Exceed The Max Letter Length :max Letter',['attribute'=>__('English Description'),'max'=>500	]),
+			
+			
+			'description_ar.required'=>__('Please Enter :attribute' , ['attribute'=>__('Arabic Description')]),
+			'description_ar.max'=> __(':attribute Exceed The Max Letter Length :max Letter',['attribute'=>__('Arabic Description'),'max'=>500	]),
+			
+			
+			
 			'model_type.required'=>__('Please Enter :attribute' , ['attribute'=>__('Related To')]),
 		];
 	}

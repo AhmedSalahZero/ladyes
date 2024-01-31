@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\CitiesController;
 use App\Http\Controllers\Admin\CountriesController;
 use App\Http\Controllers\Admin\DriversController;
 use App\Http\Controllers\Admin\EmergencyContactsController;
+use App\Http\Controllers\Admin\HelpsController;
+use App\Http\Controllers\Admin\InformationController;
 use App\Http\Controllers\Admin\NotificationsController;
 use App\Http\Controllers\Admin\PromotionController;
 use App\Http\Controllers\Admin\SettingsController;
@@ -61,20 +63,28 @@ Route::group(['middleware' => 'auth:admin'], function () {
     //###################### travel conditions #########################
     Route::resource('travel-conditions', TravelConditionsController::class);
     Route::put('travels-toggle-is-active', [TravelConditionsController::class, 'toggleIsActive'])->name('travel-conditions.toggle.is.active');
-	//###################### travel conditions #########################
-	Route::resource('cancellation-reasons', CancellationReasonsController::class);
-	Route::put('cancellations-reasons-toggle-is-active', [CancellationReasonsController::class, 'toggleIsActive'])->name('cancellation-reasons.toggle.is.active');
-	//###################### travel conditions #########################
-	Route::post('emergency-contacts/attach', [EmergencyContactsController::class, 'attach'])->name('emergency-contacts.attach');
-	Route::delete('emergency-contacts/detach', [EmergencyContactsController::class, 'detach'])->name('detach.modal.emergency-contacts');
-	Route::resource('emergency-contacts', EmergencyContactsController::class);
-	Route::put('emergency-contacts-toggle-can-receive-travel-infos', [EmergencyContactsController::class, 'toggleCanReceiveTravelInfo'])->name('emergency-contacts.toggle.can.receive.travel.infos');
-	
-	//###################### promotions #########################
-	Route::resource('promotions', PromotionController::class);
+    //###################### helps #########################
+    Route::resource('helps', HelpsController::class);
+    Route::put('helps-toggle-is-active', [HelpsController::class, 'toggleIsActive'])->name('helps.toggle.is.active');
+
+    //###################### information #########################
+    Route::resource('information', InformationController::class);
+    Route::put('information-toggle-is-active', [InformationController::class, 'toggleIsActive'])->name('information.toggle.is.active');
+
+    //###################### travel conditions #########################
+    Route::resource('cancellation-reasons', CancellationReasonsController::class);
+    Route::put('cancellations-reasons-toggle-is-active', [CancellationReasonsController::class, 'toggleIsActive'])->name('cancellation-reasons.toggle.is.active');
+    //###################### travel conditions #########################
+    Route::post('emergency-contacts/attach', [EmergencyContactsController::class, 'attach'])->name('emergency-contacts.attach');
+    Route::delete('emergency-contacts/detach', [EmergencyContactsController::class, 'detach'])->name('detach.modal.emergency-contacts');
+    Route::resource('emergency-contacts', EmergencyContactsController::class);
+    Route::put('emergency-contacts-toggle-can-receive-travel-infos', [EmergencyContactsController::class, 'toggleCanReceiveTravelInfo'])->name('emergency-contacts.toggle.can.receive.travel.infos');
+
+    //###################### promotions #########################
+    Route::resource('promotions', PromotionController::class);
     Route::put('promotions-toggle-is-active', [PromotionController::class, 'toggleIsActive'])->name('promotions.toggle.is.active');
-		
-	 //###################### car makes #########################
+
+    //###################### car makes #########################
     Route::resource('car-makes', CarMakeController::class);
     //###################### car makes #########################
     Route::resource('car-models', CarModelController::class);
@@ -93,6 +103,9 @@ Route::group(['middleware' => 'auth:admin'], function () {
 
     //###################### settings #########################
     Route::resource('settings', SettingsController::class)->only(['create', 'store']);
+    //###################### app guidelines #########################
+    Route::get('app-guidelines/create', [SettingsController::class, 'createAppGuidelines'])->name('app-guidelines.create');
+    Route::post('app-guidelines/create', [SettingsController::class, 'storeAppGuidelines'])->name('app-guidelines.store');
 
     //###################### countries #########################
     Route::resource('notifications', NotificationsController::class)->only(['index']);

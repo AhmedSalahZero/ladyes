@@ -31,6 +31,12 @@ class SiteSetting extends Settings
 	public $MAIL_FROM_NAME ;
 	public $invitation_code_length ;
 	
+	public $app_guideline_into_en ;
+	public $app_guideline_into_ar ;
+	public $app_guideline_items_en ;
+	public $app_guideline_items_ar ;
+	public $app_guideline_outro_en ;
+	public $app_guideline_outro_ar ;
 
 	
 	

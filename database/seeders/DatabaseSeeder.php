@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Information;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,6 +14,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+		$this->call(InformationSeeder::class);
+		$this->call(HelpSeeder::class);
 		$this->call(PromotionSeeder::class);
 		$this->call(TravelConditionSeeder::class);
 		$this->call(CancellationReasonSeeder::class);

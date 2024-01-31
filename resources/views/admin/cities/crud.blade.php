@@ -114,7 +114,7 @@
                                                         </div>
                                                         <button class="btn btn-info btn-sm d-flex justify-content-between align-items-center" data-repeater-create type="button">
                                                             {{ __('Add Rush Time') }}
-                                                            <i class="la la-arrow-down"></i>
+                                                            <i class="la la-plus"></i>
                                                         </button>
                                                     </div>
 

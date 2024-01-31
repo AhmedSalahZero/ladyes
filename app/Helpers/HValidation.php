@@ -41,6 +41,10 @@ class HValidation
 			'name'=>[$isRequired,'max:255','unique:'.$tableName .',name'.','.$currentItemId] ,
 			'name_en'=>[$isRequired,'max:255','unique:'.$tableName .',name_en'.','.$currentItemId] ,
 			'name_ar'=>[$isRequired,'max:255','unique:'.$tableName .',name_ar'.','.$currentItemId] ,
+			
+			'description_en'=>[$isRequired,'max:500'] ,
+			'description_ar'=>[$isRequired,'max:500'] ,
+			
 			'email'=>[$isRequired,'max:255','unique:'.$tableName .',email'.','.$currentItemId] ,
 			'invitation_code'=>['sometimes','required','max:255','unique:'.$tableName .',invitation_code'.','.$currentItemId] ,
 			'password'=>[$isRequired] ,

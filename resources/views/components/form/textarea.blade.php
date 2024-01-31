@@ -1,14 +1,14 @@
 @props([
 'id',
 'label',
-'type' ,
 'name',
 'isRequired' ,
 'model'=>$model,
 'placeholder'=>$placeholder ?? null,
 'class'=>$class ?? '',
-'value'=>'',
-'hint'=>''
+'hint'=>'',
+'rows'=>9,
+'value'=>old($name)
 ])
 
 <div class="form-group row">
@@ -22,16 +22,14 @@
         @endif
     </label>
     <div class="col-md-9">
-        <input 
-		@if($type =='time')
-		onfocus="this.showPicker()"			
-		@endif
-		 name="{{ $name }}"  type="{{ $type }}" id="{{ $id }}" class="form-control border-primary {{ $class }}" placeholder="{{ $placeholder }}" value="{{ $model ?  $model->{$name} : $value  }}"  
+        <textarea 
+		rows="{{ $rows }}"
+		 name="{{ $name }}"   id="{{ $id }}" class="form-control border-primary {{ $class }}" placeholder="{{ $placeholder }}"   
 		
 		@if($isRequired)
 		required
 		@endif 
-		>
+		>{{ $model ?  $model->{$name} : $value  }}</textarea>
 		
 		
         @error($name)

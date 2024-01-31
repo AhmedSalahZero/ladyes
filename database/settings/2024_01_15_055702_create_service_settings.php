@@ -45,8 +45,13 @@ return new class extends SettingsMigration
         $this->migrator->add('site.MAIL_FROM_ADDRESS', 'nqde@mymnjz.com');
         $this->migrator->add('site.MAIL_FROM_NAME', 'mymnjz');
 		
+		$this->migrator->add('site.app_guideline_into_en', 'English Guideline');
+		$this->migrator->add('site.app_guideline_into_ar', 'السلامة و احترام الجميع ..نحن ملتزمون بما يلي');
+		$this->migrator->add('site.app_guideline_items_en', []);
+		$this->migrator->add('site.app_guideline_items_ar', ['عاملي الجميع بالطلف واحترام']);
 		
-		
+		$this->migrator->add('site.app_guideline_outro_en', 'English Guideline');
+		$this->migrator->add('site.app_guideline_outro_ar', 'يجب علي الجميع الالتزام بهذه التعليمات');
 		
     }
 };

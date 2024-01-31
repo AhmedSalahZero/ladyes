@@ -7,6 +7,7 @@ use App\Http\Requests\StoreSettingsRequest;
 use App\Models\Driver;
 use App\Settings\SiteSetting;
 use App\Traits\Controllers\Globals;
+use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
@@ -54,6 +55,36 @@ class SettingsController extends Controller
 			'drivingRangeFormatted'=>Driver::getDefaultDrivingRangeFormatted()
 		];
 	}
+	
+	public function createAppGuidelines()
+    {
+        return view('admin.app-guidelines.crud',$this->getAppGuidelineViewUrl());
+    }
+	
+	public function getAppGuidelineViewUrl():array 
+	{
+		$breadCrumbs = [
+			'dashboard'=>[
+				'title'=>__('Dashboard') ,
+				'route'=>route('dashboard.index'),
+			],
+			'settings'=>[
+				'title'=>__('App Guidelines') ,
+				'route'=>route('app-guidelines.create'),
+			],
+			'create-setting'=>[
+				'title'=>__('Create :page',['page'=>__('App Guidelines')]),
+				'route'=>'#'
+			]
+		];
+		return [
+			'breadCrumbs'=>$breadCrumbs,
+			'pageTitle'=>__('App Guidelines'),
+			'route'=> route('app-guidelines.store') ,
+			'model'=>app(SiteSetting::class) ,
+			'indexRoute'=>route('app-guidelines.create')
+		];
+	}
 
     public function store(StoreSettingsRequest $request)
     {
@@ -67,6 +98,20 @@ class SettingsController extends Controller
 		}
         return $this->getWebRedirectRoute($request,route('settings.create'),route('settings.create'));
     }
+	
+	public function storeAppGuidelines(Request $request)
+    {
+	
+		foreach($request->except(['save','_token','guidelines']) as $name => $value){
+			App(SiteSetting::class)->{$name} = $value ;  
+		}
+		App(SiteSetting::class)->app_guideline_items_en = array_column($request->input('guidelines'),'app_guideline_en');
+		App(SiteSetting::class)->app_guideline_items_ar = array_column($request->input('guidelines'),'app_guideline_ar');
+		App(SiteSetting::class)->save();
+        return $this->getWebRedirectRoute($request,route('app-guidelines.create'),route('app-guidelines.create'));
+    }
+	
+	
 	
 	protected function storeFile(string $name,UploadedFile $newFile):void{
 		$oldFilePath = App(SiteSetting::class)->{$name} ;

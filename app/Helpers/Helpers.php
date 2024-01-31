@@ -15,7 +15,7 @@ function getPermissions():array
 	$permissions[] = ['name'=>'view home','title'=>__('View :page',['page'=>__('Home')])];
 	$permissions[] = ['name'=>'view notifications','title'=>__('View :page',['page'=>__('Notifications')])];
 	$normalPermissions = ['admins','roles-and-permissions','car-makes','car-models','drivers','cities'
-	,'travel-conditions','cancellation-reasons','emergency-contacts','promotions'
+	,'travel-conditions','cancellation-reasons','emergency-contacts','promotions','helps','information'
 
 ];
 	foreach($normalPermissions as $permissionName){
@@ -27,6 +27,7 @@ function getPermissions():array
 	}
 	$permissions[] = ['name'=>'view' .' ' . 'countries' , 'title'=>__('View' .' :page' , ['page'=>__('Countries')]) ] ;
 	$permissions[] = ['name'=>'create' .' ' . 'settings' , 'title'=>__('View' .' :page' , ['page'=>__('Settings')]) ] ;
+	$permissions[] = ['name'=>'create' .' ' . 'app-guidelines' , 'title'=>__('View' .' :page' , ['page'=>__('App Guidelines')]) ] ;
     return $permissions;
 }
 
@@ -54,6 +55,8 @@ function getSidebars($user):array
 				createSidebarItem( $pageName , __('Create :page' , ['page'=>__('Travel Condition')]) , route('travel-conditions.create') , $user->can('create ' .$pageName)  ),
 			]
 			),
+			
+			
 
 			$pageName = 'emergency-contacts'=> createSidebarItem( $pageName , __('Emergency Contacts') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-mobile-phone',
 			[
@@ -101,17 +104,38 @@ function getSidebars($user):array
 			[
 				createSidebarItem($pageName, __('View :page' , ['page' => __('Promotions')]) , route('promotions.index') , $user->can('view ' .$pageName)  ),
 				createSidebarItem($pageName, __('Create :page' , ['page'=>__('Promotion')]) , route('promotions.create') , $user->can('create ' .$pageName)  ),
-			]),
-			
-			$pageName = 'settings'=> createSidebarItem( $pageName, __('Settings') ,  '#' ,$user->can('create '.$pageName) || $user->can('create '.$pageName) ,'la la-cogs',
+			]),$pageName = 'settings'=> createSidebarItem( $pageName, __('Settings') ,  '#' ,$user->can('create '.$pageName) || $user->can('create '.$pageName) ,'la la-cogs',
 			[
 				createSidebarItem($pageName, __('View :page' , ['page' => __('Settings')]) , route('settings.create') , $user->can('create ' .$pageName)  ),
-				// createSidebarItem($pageName, __('Create :page' , ['page'=>__('Driver')]) , route('drivers.create') , $user->can('create ' .$pageName)  ),
 			]),
 			$pageName = 'notifications'=> createSidebarItem( $pageName, __('Notifications') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-bell',
 			[
 				createSidebarItem($pageName, __('View :page' , ['page' => __('Notifications')]) , route('notifications.index') , $user->can('view ' .$pageName)  ),
 			])
+			,
+			
+			
+			$pageName = 'app-guidelines'=> createSidebarItem( $pageName, __('App Guidelines') ,  '#' ,$user->can('create '.$pageName) || $user->can('create '.$pageName) ,'la la-cogs',
+			[
+				createSidebarItem($pageName, __('View :page' , ['page' => __('App Guidelines')]) , route('app-guidelines.create') , $user->can('create ' .$pageName)  ),
+			])
+			
+			,
+			
+			$pageName = 'information'=> createSidebarItem( $pageName , __('Information') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-question',
+			[
+				createSidebarItem($pageName, __('View :page' , ['page' => __('Information')]) , route('information.index') , $user->can('view ' .$pageName)  ),
+				createSidebarItem( $pageName , __('Create :page' , ['page'=>__('Information')]) , route('information.create') , $user->can('create ' .$pageName)  ),
+			]
+			)
+			,
+			
+			$pageName = 'helps'=> createSidebarItem( $pageName , __('Helps') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-question',
+			[
+				createSidebarItem($pageName, __('View :page' , ['page' => __('Helps')]) , route('helps.index') , $user->can('view ' .$pageName)  ),
+				createSidebarItem( $pageName , __('Create :page' , ['page'=>__('Help')]) , route('helps.create') , $user->can('create ' .$pageName)  ),
+			]
+			),
 
 
 

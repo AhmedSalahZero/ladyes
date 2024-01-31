@@ -19,7 +19,7 @@ class CarModelFactory extends Factory
             'name_ar'=>$this->faker->name,
             // 'manufacturing_year'=>$this->faker->year,
 			'make_id'=>CarMake::factory()->create()->id  ,
-            'image'=>$this->faker->image('public/storage/CarModel',400,300, null, false),
+            // 'image'=>$this->faker->image('public/storage/CarModel',400,300, null, false),
         ];
     }
 }

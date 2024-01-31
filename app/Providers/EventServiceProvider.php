@@ -36,7 +36,7 @@ class EventServiceProvider extends ServiceProvider
                 if (! App::environment('local')) {
             		return;
         		}
-                Artisan::call('ide-helper:models -N',);
+                // Artisan::call('ide-helper:models -N',);
             }
         );
     }
