@@ -12,13 +12,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- ** قسم المساعدة سواء للعميل او السائق 
+ ** قسم المساعدة سواء للعميل او السائق
  ** علي سبيل المثال كيف اغير الباسورد ؟ كيف يتم خصم الرسوم
  ** او اوجهه مشكله في تغير الباسورد
+ ** او كيف يتم خصم نسبة الاستقطاع
  */
 class Help extends Model
 {
-    use  IsBaseModel,HasDefaultOrderScope,HasFactory,HasTransNames,HasIsActive,HasModelType,HasTransDescriptions;
+    use  IsBaseModel;
+    use HasDefaultOrderScope;
+    use HasFactory;
+    use HasTransNames;
+    use HasIsActive;
+    use HasModelType;
+    use HasTransDescriptions;
 
     public function syncFromRequest($request)
     {
@@ -28,17 +35,17 @@ class Help extends Model
         if ($request->has('name_ar')) {
             $this->name_ar = $request->name_ar;
         }
-		if ($request->has('description_en')) {
+        if ($request->has('description_en')) {
             $this->description_en = $request->description_en;
         }
         if ($request->has('description_ar')) {
             $this->description_ar = $request->description_ar;
         }
-		if ($request->has('model_type')) {
+        if ($request->has('model_type')) {
             $this->model_type = $request->model_type;
         }
-		$this->is_active = $request->boolean('is_active');
-		// if ($request->has('is_active')) {
+        $this->is_active = $request->boolean('is_active');
+        // if ($request->has('is_active')) {
         // }
         $this->save();
     }

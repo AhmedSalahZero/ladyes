@@ -2,79 +2,117 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enum\DiscountType;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCouponRequest;
 use App\Models\Coupon;
+use App\Models\Notification;
+use App\Traits\Controllers\Globals;
 use Illuminate\Http\Request;
 
 class CouponsController extends Controller
 {
-    public function index(){
-        $coupons = Coupon::orderBy('id','DESC')->get();
-        return view('admin.coupons.index',compact('coupons'));
-    }
-
-    public function create(){
-        return view('admin.coupons.add');
-    }
-
-    public function store(Request $request){
-        $request->validate([
-            'code' => 'required|unique:coupons',
-            'num_use' => 'required|min:1',
-            'discount' => 'required|min:0|max:100',
-        ]);
-        $coupon = new Coupon();
-        $coupon->code = $request->code;
-        $coupon->name = $request->name;
-        $coupon->num_use = $request->num_use;
-        $coupon->discount = $request->discount;
-        $coupon->active = $request->active == 'on' ? 1 : 0;
-        $coupon->st_date = $request->st_date;
-        $coupon->end_date = $request->end_date;
-        $coupon->save();
-        if ($request->save == 1)
-            return redirect()->route('admin.coupons.edit', $coupon->id)->with('success', __('msg.created_success'));
-        else
-            return redirect()->route('admin.coupons.index')->with('success', __('msg.created_success'));
-    }
-
-    public function edit($id){
-        $coupon = Coupon::find($id);
-        return view('admin.coupons.edit',compact('coupon'));
-    }
-
-    public function update(Request $request,$id){
-        $coupon = Coupon::find($id);
-        if ($coupon) {
-            $request->validate([
-                'code' => 'required|unique:coupons,code,'.$coupon->id,
-                'num_use' => 'required|min:1',
-                'discount' => 'required|min:0|max:100',
-            ]);
-            $coupon->code = $request->code;
-            $coupon->name = $request->name;
-            $coupon->num_use = $request->num_use;
-            $coupon->discount = $request->discount;
-            $coupon->active = $request->active == 'on' ? 1 : 0;
-            $coupon->st_date = $request->st_date;
-            $coupon->end_date = $request->end_date;
-            $coupon->save();
+	use Globals;
+	
+	public function __construct()
+	{
+		foreach(['view'=>['index'] , 'create'=>['create','store'],'update'=>['edit','update'],'delete'=>['destroy']] as $name => $method ){
+            $this->middleware('permission:'.getPermissionName($name) , ['only'=>$method]) ;
         }
-        if ($request->save == 1)
-            return redirect()->route('admin.coupons.edit', $coupon->id)->with('success', __('msg.created_success'));
-        else
-            return redirect()->route('admin.coupons.index')->with('success', __('msg.created_success'));
+	}
+   
+
+    public function index()
+    {
+
+
+        $models = Coupon::defaultOrdered()->paginate(static::DEFAULT_PAGINATION_LENGTH_FOR_ADMIN);
+		
+        return view('admin.coupons.index', [
+			'models'=>$models,
+			'pageTitle'=>__('Coupons'),
+			'createRoute'=>route('coupons.create'),
+			'editRouteName'=>'coupons.edit',
+			'deleteRouteName'=>'coupons.destroy',
+		]);
+    }
+
+    public function create()
+    {
+        return view('admin.coupons.crud',$this->getViewUrl());
+    }
+	public function getViewUrl($model = null ):array 
+	{
+		$breadCrumbs = [
+			'dashboard'=>[
+				'title'=>__('Dashboard') ,
+				'route'=>route('dashboard.index'),
+			],
+			'coupons'=>[
+				'title'=>__('Coupons') ,
+				'route'=>route('coupons.index'),
+			],
+			'create-coupon'=>[
+				'title'=>__('Create :page',['page'=>__('Coupon')]),
+				'route'=>'#'
+			]
+		];
+		return [
+			'breadCrumbs'=>$breadCrumbs,
+			'pageTitle'=>__('Coupons'),
+			'route'=>$model ? route('coupons.update',['coupon'=>$model->id]) : route('coupons.store') ,
+			'model'=>$model ,
+			'indexRoute'=>route('coupons.index'),
+			'discountTypesFormatted'=>DiscountType::allFormattedForSelect2()
+		];
+	}
+
+    public function store(StoreCouponRequest $request)
+    {
+        $model = new Coupon();
+		$model->syncFromRequest($request);
+		Notification::storeNewNotification(
+			__('New Creation',[],'en'),
+			__('New Creation',[],'ar'),
+			$request->user('admin')->getName() .' '.__('Has Created New',[],'en') . __('Coupon',[],'en') .' [ ' . $model->getName() . ' ]' ,
+			$request->user('admin')->getName() .' '.__('Has Created New',[],'ar') . __('Coupon',[],'ar') .' [ ' . $model->getName() . ' ]' ,
+		);
+        return $this->getWebRedirectRoute($request,route('coupons.index'),route('coupons.create'));
+    }
+
+    public function edit(Coupon $coupon)
+    {
+        return view('admin.coupons.crud',$this->getViewUrl($coupon),
+	);
+    }
+
+    public function update(StoreCouponRequest $request, Coupon $coupon)
+    {
+		$coupon->syncFromRequest($request);
+			
+			Notification::storeNewNotification(
+				__('New Update',[],'en'),
+				__('New Update',[],'ar'),
+				$request->user('admin')->getName() .' '.__('Has Updated',[],'en') . __('Coupon',[],'en') .' [ ' . $coupon->getName() . ' ]' ,
+				$request->user('admin')->getName() .' '.__('Has Updated',[],'ar') . __('Coupon',[],'ar') .' [ ' . $coupon->getName() . ' ]' ,
+			);
+			
+			return $this->getWebRedirectRoute($request,route('coupons.index'),route('coupons.edit',['coupon'=>$coupon->id]));
+    }
+
+    public function destroy(Request $request,Coupon $coupon)
+    {
+		$coupon->delete();
+		
+		Notification::storeNewNotification(
+			__('New Deletion',[],'en'),
+			__('New Deletion',[],'ar'),
+			$request->user('admin')->getName() .' '.__('Has Deleted',[],'en') . __('Coupon',[],'en') .' [ ' . $coupon->getName('en') . ' ]' ,
+			$request->user('admin')->getName() .' '.__('Has Deleted',[],'ar') . __('Coupon',[],'ar') .' [ ' . $coupon->getName('ar') . ' ]' ,
+		);
+		
+		return $this->getWebDeleteRedirectRoute();
     }
 
 
-    public function delete(Request $request){
-        $coupon = Coupon::find($request->id);
-        if ($coupon){
-            $coupon->delete();
-            return response()->json([
-                'status' => true,
-                'id' => $request->id,
-            ]);
-        }
-    }
 }

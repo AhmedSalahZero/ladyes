@@ -281,5 +281,15 @@
 	"Section Name":"اسم القسم",
 	"After Login":"بعد التسجيل",
 	"Profile":"الملف الشخصي",
-	"Section":"القسم"
+	"Section":"القسم",
+	"Can Pay By Cash":"يمكنة الدفع عن طريق الكاش",
+	"Client Not Found":"العميل غير موجود",
+	"Coupons":"كوبونات الخصم",
+	"Coupon":"كوبون خصم",
+	"Number Of Uses":"عدد الاستخدمات الممكنة",
+	"If Empty This It Will Be Unlimited":"في حالة عدم الادخال سيكون غير محدد بوقت معين",
+	"Discount":"مقدار الخصم",
+	"This Coupon Is Valid":"الكوبون صالح للاستخدام",
+	"This Coupon In Expired":"لم يعد هذا الكوبون صالح للاستخدام",
+	"Number Of Applies":"تم استخدامة"
 }

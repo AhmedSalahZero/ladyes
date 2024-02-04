@@ -14,6 +14,7 @@
                             <div class="card-content collapse show">
                                 <div class="card-body">
                                     <form class="form" action="{{$route}}" method="post" enctype="multipart/form-data">
+                                        <input type="hidden" name="discount_type" value="fixed">
                                         @if(isset($model))
                                         @method('put')
                                         @endif
@@ -21,30 +22,35 @@
                                         <div class="form-body">
                                             <h4 class="form-section"></h4>
                                             <div class="row">
-                                                
-                                                  <div class="col-md-6">
+
+                                                <div class="col-md-6">
                                                     <x-form.input :id="'name_en'" :label="__('English Name')" :type="'text'" :name="'name_en'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('English Name')])"></x-form.input>
                                                 </div>
-												
-												<div class="col-md-6">
+
+                                                <div class="col-md-6">
                                                     <x-form.input :id="'name_ar'" :label="__('Arabic Name')" :type="'text'" :name="'name_ar'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Arabic Name')])"></x-form.input>
                                                 </div>
-												<div class="col-md-6">
+                                                {{-- <div class="col-md-6">
                                                         <x-form.select :please-select="false" :is-required="true" :is-select2="true" :options="$discountTypesFormatted" :add-new="false" :label="__('Discount Type')" :all="false" name="discount_type" id="discount_type" :selected-value="isset($model) ? $model->getDiscountType() : old('discount_type') "></x-form.select>
-                                                </div>
-												<div class="col-md-6">
+                                                </div> --}}
+                                                <div class="col-md-6">
                                                     <x-form.input :id="'discount_amount'" :label="__('Amount')" :type="'text'" :name="'discount_amount'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Amount')])"></x-form.input>
                                                 </div>
-												<div class="col-md-6">
-                                                    <x-form.date  :id="'start_date'" :label="__('Start Date')" :type="'text'" :name="'start_date'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Start Date')])"></x-form.date>
+
+                                                <div class="col-md-6">
+                                                    <x-form.input :value="1" :id="'number_of_uses'" :label="__('Number Of Uses')" :type="'numeric'" :name="'number_of_uses'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Number Of Uses')])"></x-form.input>
                                                 </div>
-												
-												<div class="col-md-6">
-                                                    <x-form.date  :id="'end_date'" :label="__('End Date')" :type="'text'" :name="'end_date'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('End Date')])"></x-form.date>
+
+                                                <div class="col-md-6">
+                                                    <x-form.date :hint="__('If Empty This It Will Be Unlimited')" :id="'start_date'" :label="__('Start Date')" :type="'text'" :name="'start_date'" :is-required="false" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Start Date')])"></x-form.date>
                                                 </div>
-												
-												
-												
+
+                                                <div class="col-md-6">
+                                                    <x-form.date :hint="__('If Empty This It Will Be Unlimited')" :id="'end_date'" :label="__('End Date')" :type="'text'" :name="'end_date'" :is-required="false" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('End Date')])"></x-form.date>
+                                                </div>
+
+
+
                                                 {{-- <div class="col-md-6">
                                                     <x-form.checkbox :id="'is-active'" :label="__('Active')" :is-required="!isset($model)" :name="'is_active'" :is-checked="isset($model) ? $model->getIsActive() : true "> </x-form.checkbox>
                                                 </div> --}}
@@ -66,6 +72,6 @@
     </div>
 </div>
 @push('js')
- 
+
 @endpush
 @endsection

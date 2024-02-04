@@ -83,12 +83,12 @@ Route::group(['namespace' => 'Admin', 'middleware' => 'auth:admin'], function ()
     });
 
     //###################### coupons #########################
-    Route::get('/coupons', [CouponsController::class, 'index'])->name('admin.coupons.index');
-    Route::get('/create-coupon', [CouponsController::class, 'create'])->name('admin.coupons.create');
-    Route::post('/store-coupon', [CouponsController::class, 'store'])->name('admin.coupons.store');
-    Route::get('/edit-coupon/{id}', [CouponsController::class, 'edit'])->name('admin.coupons.edit');
-    Route::post('/update-coupon/{id}', [CouponsController::class, 'update'])->name('admin.coupons.update');
-    Route::post('/delete-coupon', [CouponsController::class, 'delete'])->name('admin.coupons.delete');
+    // Route::get('/coupons', [CouponsController::class, 'index'])->name('admin.coupons.index');
+    // Route::get('/create-coupon', [CouponsController::class, 'create'])->name('admin.coupons.create');
+    // Route::post('/store-coupon', [CouponsController::class, 'store'])->name('admin.coupons.store');
+    // Route::get('/edit-coupon/{id}', [CouponsController::class, 'edit'])->name('admin.coupons.edit');
+    // Route::post('/update-coupon/{id}', [CouponsController::class, 'update'])->name('admin.coupons.update');
+    // Route::post('/delete-coupon', [CouponsController::class, 'delete'])->name('admin.coupons.delete');
     //############################ chat ####################################
     Route::get('/chat/{id?}/{id2?}', [ChatController::class, 'index'])->name('admin.chat.index');
     Route::get('/chat-users', [ChatController::class, 'getUsersList'])->name('admin.chat.users');

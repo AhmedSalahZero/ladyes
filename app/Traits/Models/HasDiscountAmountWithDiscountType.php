@@ -3,7 +3,7 @@ namespace App\Traits\Models;
 
 use App\Enum\DiscountType;
 
-trait HasAmountWithDiscountType 
+trait HasDiscountAmountWithDiscountType 
 {
 	public function getDiscountType()
 	{
@@ -14,17 +14,17 @@ trait HasAmountWithDiscountType
 		$discountType = $this->getDiscountType() ;
 		return $discountType ? __($discountType) : __('N/A');
 	}
-	public function getAmount()
+	public function getDiscountAmount()
 	{
-		return (float)$this->amount; 
+		return (float)$this->discount_amount ; 
 	}
-	public function getAmountFormatted()
+	public function getDiscountAmountFormatted()
 	{
 		$discountType = $this->getDiscountType();
-		$amount = $this->getAmount() ;
+		$discountAmount = $this->getDiscountAmount() ;
 		if($discountType == DiscountType::PERCENTAGE){
-			return $amount .' %';
+			return $discountAmount .' %';
 		}
-		return $amount  ;
+		return $discountAmount  ;
 	}
 }

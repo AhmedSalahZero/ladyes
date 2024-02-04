@@ -14,8 +14,8 @@ function getPermissions():array
 {
 	$permissions[] = ['name'=>'view home','title'=>__('View :page',['page'=>__('Home')])];
 	$permissions[] = ['name'=>'view notifications','title'=>__('View :page',['page'=>__('Notifications')])];
-	$normalPermissions = ['admins','roles-and-permissions','car-makes','car-models','drivers','cities'
-	,'travel-conditions','cancellation-reasons','emergency-contacts','promotions','helps','information'
+	$normalPermissions = ['admins','roles-and-permissions','car-makes','car-models','drivers','clients','cities'
+	,'travel-conditions','cancellation-reasons','emergency-contacts','promotions','helps','information','coupons'
 
 ];
 	foreach($normalPermissions as $permissionName){
@@ -99,6 +99,16 @@ function getSidebars($user):array
 			[
 				createSidebarItem($pageName, __('View :page' , ['page' => __('Drivers')]) , route('drivers.index') , $user->can('view ' .$pageName)  ),
 				createSidebarItem($pageName, __('Create :page' , ['page'=>__('Driver')]) , route('drivers.create') , $user->can('create ' .$pageName)  ),
+			]),
+			$pageName = 'clients'=> createSidebarItem( $pageName, __('Clients') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-user',
+			[
+				createSidebarItem($pageName, __('View :page' , ['page' => __('Clients')]) , route('clients.index') , $user->can('view ' .$pageName)  ),
+				createSidebarItem($pageName, __('Create :page' , ['page'=>__('Client')]) , route('clients.create') , $user->can('create ' .$pageName)  ),
+			]),
+			$pageName = 'coupons'=> createSidebarItem( $pageName, __('Coupons') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-book',
+			[
+				createSidebarItem($pageName, __('View :page' , ['page' => __('Coupons')]) , route('coupons.index') , $user->can('view ' .$pageName)  ),
+				createSidebarItem($pageName, __('Create :page' , ['page'=>__('Coupon')]) , route('coupons.create') , $user->can('create ' .$pageName)  ),
 			]),
 			$pageName = 'promotions'=> createSidebarItem( $pageName, __('Promotions') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-archive',
 			[

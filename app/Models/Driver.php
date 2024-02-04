@@ -3,7 +3,6 @@
 namespace App\Models;
 use App\Helpers\HDate;
 use App\Helpers\HHelpers;
-use App\Helpers\HStr;
 use App\Settings\SiteSetting;
 use App\Traits\Accessors\IsBaseModel;
 use App\Traits\Models\HasBasicStoreRequest;
@@ -11,12 +10,14 @@ use App\Traits\Models\HasCanReceiveOrders;
 use App\Traits\Models\HasCity;
 use App\Traits\Models\HasCountry;
 use App\Traits\Models\HasEmail;
+use App\Traits\Models\HasEmergencyContacts;
 use App\Traits\Models\HasInvitationCode;
 use App\Traits\Models\HasIsListingToOrdersNow;
 use App\Traits\Models\HasIsVerified;
 use App\Traits\Models\HasMake;
 use App\Traits\Models\HasModel;
 use App\Traits\Models\HasPhone;
+use App\Traits\Models\HasRating;
 use App\Traits\Models\HasTrafficTickets;
 use App\Traits\Scope\HasDefaultOrderScope;
 use Cog\Contracts\Ban\Ban as BanContract;
@@ -37,7 +38,7 @@ class Driver extends Model implements HasMedia,BannableInterface
     use HasMake,HasFactory,IsBaseModel,HasDefaultOrderScope,
 	HasCountry,HasCity,HasIsVerified,InteractsWithMedia,HasBasicStoreRequest,
 	HasModel,HasTrafficTickets, Bannable,HasCanReceiveOrders,
-	HasInvitationCode,HasIsListingToOrdersNow,HasPhone,HasEmail;
+	HasInvitationCode,HasIsListingToOrdersNow,HasPhone,HasEmail,HasRating,HasEmergencyContacts;
 
 	
 	public function registerMediaCollections(): void
@@ -190,10 +191,6 @@ class Driver extends Model implements HasMedia,BannableInterface
 	{
 		return $this->id_number ;
 	}
-	public  function getMaxRatingPoint()
-	{
-		return 5 ;
-	}
 	public function getManufacturingYear()
 	{
 		return $this->manufacturing_year;
@@ -222,14 +219,6 @@ class Driver extends Model implements HasMedia,BannableInterface
     {
         return $this->morphMany(app(BanContract::class), 'bannable')->withoutGlobalScopes();
     }
-	public function emergencyContacts()
-	{
-		return $this->belongsToMany(EmergencyContact::class,'model_emergency_contact','model_id','emergency_contact_id')
-		->where('model_type',HStr::getClassNameWithoutNameSpace($this))
-		->withPivot(['model_type','can_receive_travel_info'])
-		->withTimestamps()
-		;
 		
-	}		
 	
 }

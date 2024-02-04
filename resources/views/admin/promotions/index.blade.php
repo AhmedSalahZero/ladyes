@@ -31,7 +31,7 @@
                                                 <td class="text-center">{{$model->getName($lang)}}</td>
 												 <td class="text-center">{{$model->getStartDateFormatted()}}</td>
 												 <td class="text-center">{{$model->getEndDateFormatted()}}</td>
-												 <td class="text-center">{{$model->getAmountFormatted()}}</td>
+												 <td class="text-center">{{$model->getDiscountAmountFormatted()}}</td>
                                                 <td class="text-center">
                                                     {{$model->getIsAvailable() ? __('Available') : __('Not Available')}}
                                                 </td>

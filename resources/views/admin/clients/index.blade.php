@@ -59,282 +59,13 @@
                                                         <i class="la la-trash"></i></a>
                                                     <x-modals.delete :deleteRoute="$deleteRouteName" :model-id="$model->id"></x-modals.delete>
                                                     @endif
-                                                    <a title="{{ __('View Details') }}" href="#" data-toggle="modal" data-target="#view-driver-details-popup{{ $model->id }}" class="btn btn-info ml-2  btn-sm">
-                                                        <i class="la la-eye"></i></a>
-
-                                                    <div class="modal fade" id="view-driver-details-popup{{ $model->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                        <div class="modal-dialog modal-xl modal-dialog modal-lg-centered" role="document">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="exampleModalLabel">{{ __('Driver Details :name',['name'=>$model->getFullName($lang)]) }}</h5>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                        <span aria-hidden="true">&times;</span>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-body">
-
-                                                                    <div class="container emp-profile">
-                                                                        {{-- <form method="post"> --}}
-                                                                        <div class="row">
-                                                                            <div class="col-md-2">
-                                                                                <div class="profile-img">
-                                                                                    <a target="_blank" href="{{ isset($model) && $model->getFirstMedia('image') ? $model->getFirstMedia('image')->getFullUrl() : getDefaultImage() }}">
-                                                                                        <img class="max-w-full profile-max-height" src="{{ isset($model) && $model->getFirstMedia('image') ? $model->getFirstMedia('image')->getFullUrl() : getDefaultImage() }}" alt="{{ $model->getFullName() }}" title="{{ $model->getFullName() }}" />
-                                                                                    </a>
-                                                                                    {{-- <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog" alt="" /> --}}
-                                                                                    {{-- <div class="file btn btn-lg btn-primary">
-                                                                                                        Change Photo
-                                                                                                        <input type="file" name="file" />
-                                                                                                    </div> --}}
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-6">
-                                                                                <div class="profile-head">
-                                                                                    <h3 class="font-weight-bold">
-                                                                                        {{ $model->getFullName() }}
-                                                                                    </h3>
-                                                                                    <h4 class="font-weight-bold">
-                                                                                        {{ $model->getPhone() }}
-                                                                                    </h4>
-                                                                                    <h4 class="font-weight-bold">
-                                                                                        {{ $model->getEmail() }}
-                                                                                    </h4>
-
-                                                                                    <h4 class="proile-rating font-weight-bold">{{ __('Rating') }} : <span class="font-weight-bold">0/{{ $model->getMaxRatingPoint() }}</span></h4>
-                                                                                    <ul class="nav nav-tabs mb-2" id="myTab" role="tablist">
-                                                                                        <li class="nav-item">
-                                                                                            <a class="nav-link active" id="details-tab" data-toggle="tab" href="#details{{ $model->id }}" role="tab" aria-controls="home" aria-selected="true">{{ __('Driver Details') }}</a>
-                                                                                        </li>
-                                                                                        <li class="nav-item">
-                                                                                            <a class="nav-link " id="driver-images-tab" data-toggle="tab" href="#driver-images{{ $model->id }}" role="tab" aria-controls="home" aria-selected="true">{{ __('Driver Images') }}</a>
-                                                                                        </li>
-                                                                                        <li class="nav-item">
-                                                                                            <a class="nav-link" id="card-details-tab" data-toggle="tab" href="#car-details{{ $model->id }}" role="tab" aria-controls="profile" aria-selected="false">{{ __('Car Infos') }}</a>
-                                                                                        </li>
-
-                                                                                        <li class="nav-item">
-                                                                                            <a class="nav-link " id="car-images-tab" data-toggle="tab" href="#car-images{{ $model->id }}" role="tab" aria-controls="home" aria-selected="true">{{ __('Car Images') }}</a>
-                                                                                        </li>
-
-                                                                                    </ul>
-                                                                                </div>
-                                                                            </div>
-                                                                            @if($user->can(getPermissionName('update')))
-                                                                            <div class="col-md-2">
-                                                                                <a href="{{route($editRouteName,$model->id)}}" class="btn btn-primary ">{{ __('Edit') }}
-                                                                                    <i class="la la-pencil"></i>
-                                                                                </a>
-
-
-
-                                                                            </div>
-                                                                            <div class="col-md-2">
-                                                                                <a data-toggle="modal" data-target="#ban-account-popup{{ $model->id }}" href="#" class="btn @if($model->isBanned()) btn-success @else btn-danger @endif  ban-account-js">
-                                                                                    @if($model->isBanned())
-                                                                                    {{ __('Unban') }}
-                                                                                    @else
-                                                                                    {{ __('Ban') }}
-                                                                                    @endif
-                                                                                    <i class="la la-ban"></i>
-                                                                                </a>
-
-
-
-
-                                                                            </div>
-                                                                            @endif
-                                                                        </div>
-                                                                        <div class="row">
-                                                                            <div class="col-md-2">
-                                                                                {{-- <div class="profile-work">
-                                                                                                    <p>WORK LINK</p>
-                                                                                                    <a href="">Website Link</a><br />
-                                                                                                    <a href="">Bootsnipp Profile</a><br />
-                                                                                                    <a href="">Bootply Profile</a>
-                                                                                                    <p>SKILLS</p>
-                                                                                                    <a href="">Web Designer</a><br />
-                                                                                                    <a href="">Web Developer</a><br />
-                                                                                                    <a href="">WordPress</a><br />
-                                                                                                    <a href="">WooCommerce</a><br />
-                                                                                                    <a href="">PHP, .Net</a><br />
-                                                                                                </div> --}}
-                                                                            </div>
-                                                                            <div class="col-md-10">
-                                                                                <div class="tab-content card-details-tab" id="myTabContent">
-                                                                                    <div class="tab-pane fade show active" id="details{{ $model->id }}" role="tabpanel" aria-labelledby="details-tab">
-                                                                                        <div class="row">
-                                                                                            <div class="col-md-6">
-                                                                                                <label class="font-weight-bold">{{ __('Id Number') }}</label>
-                                                                                            </div>
-                                                                                            <div class="col-md-6">
-                                                                                                <p class="font-weight-bold">{{ $model->getIdNumber() }}</p>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="row">
-                                                                                            <div class="col-md-6">
-                                                                                                <label class="font-weight-bold">{{ __('Deduction Percentage') }}</label>
-                                                                                            </div>
-                                                                                            <div class="col-md-6">
-                                                                                                <p class="font-weight-bold">{{ $model->getDeductionPercentage() . ' %' }}</p>
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                        <div class="row">
-                                                                                            <div class="col-md-6">
-                                                                                                <label class="font-weight-bold">{{ __('Country Name') }}</label>
-                                                                                            </div>
-                                                                                            <div class="col-md-6">
-                                                                                                <p class="font-weight-bold">{{ $model->getCountryName($lang) }}</p>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="row">
-                                                                                            <div class="col-md-6">
-                                                                                                <label class="font-weight-bold">{{ __('City Name') }}</label>
-                                                                                            </div>
-                                                                                            <div class="col-md-6">
-                                                                                                <p class="font-weight-bold">{{ $model->getCityName($lang) }}</p>
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                        <div class="row">
-                                                                                            <div class="col-md-6">
-                                                                                                <label class="font-weight-bold">{{ __('Is Verified') }}</label>
-                                                                                            </div>
-                                                                                            <div class="col-md-6">
-                                                                                                <p class="font-weight-bold js-is-verified" data-model-id="{{ $model->id }}">{{ $model->getIsVerifiedFormatted() }}</p>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="row">
-                                                                                            <div class="col-md-6">
-                                                                                                <label class="font-weight-bold">{{ __('Banned') }}</label>
-                                                                                            </div>
-                                                                                            <div class="col-md-6">
-                                                                                                <p class="font-weight-bold ">{{ $model->isBanned() ? __('Yes') : __('No') }}</p>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="row">
-                                                                                            <div class="col-md-6">
-                                                                                                <label class="font-weight-bold">{{ __('Is Listing To Orders Now') }}</label>
-                                                                                            </div>
-                                                                                            <div class="col-md-6">
-                                                                                                <p class="font-weight-bold"> {{ $model->getIsListingToOrdersFormatted() }}</p>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="row">
-
-                                                                                            <div class="col-md-6">
-                                                                                                <label class="font-weight-bold">{{ __('Verification Code') }}</label>
-                                                                                            </div>
-                                                                                            <div class="col-md-6">
-                                                                                                <p class="font-weight-bold">{{ $model->getVerificationCode() }}</p>
-                                                                                            </div>
-
-                                                                                        </div>
-
-                                                                                        <div class="row">
-                                                                                            <div class="col-md-6">
-                                                                                                <label class="font-weight-bold">{{ __('Invitation Code') }}</label>
-                                                                                            </div>
-                                                                                            <div class="col-md-6">
-                                                                                                <p class="font-weight-bold">{{ $model->getInvitationCode() }}</p>
-                                                                                            </div>
-                                                                                        </div>
-
-                                                                                        <div class="row">
-                                                                                            <div class="col-md-6">
-                                                                                                <label class="font-weight-bold">{{ __('Birth Date') }}</label>
-                                                                                            </div>
-                                                                                            <div class="col-md-6">
-                                                                                                <p class="font-weight-bold">{{ $model->getBirthDateFormatted() }}</p>
-                                                                                            </div>
-                                                                                        </div>
-
-
-
-
-
-
-
-
-                                                                                    </div>
-                                                                                    <div class="tab-pane fade" id="driver-images{{ $model->id }}" role="tabpanel" aria-labelledby="driver-images-tab">
-                                                                                        <div class="row">
-                                                                                            <div class="col-md-6">
-                                                                                                <x-form.image-uploader :click-to-enlarge="true" :editable="false" :required="false" :name="'image'" :id="'image--id'" :label="__('Image')" :image="isset($model) && $model->getFirstMedia('image') ? $model->getFirstMedia('image')->getFullUrl() : getDefaultImage()"></x-form.image-uploader>
-                                                                                            </div>
-                                                                                            <div class="col-md-6">
-                                                                                                <x-form.image-uploader :click-to-enlarge="true" :editable="false" :required="false" :name="'id_number_image'" :id="'id_number_image'" :label="__('Id Number')" :image="isset($model) && $model->getFirstMedia('id_number_image') ? $model->getFirstMedia('id_number_image')->getFullUrl() : getDefaultImage()"></x-form.image-uploader>
-                                                                                            </div>
-
-                                                                                            <div class="col-md-6">
-                                                                                                <x-form.image-uploader :click-to-enlarge="true" :editable="false" :required="false" :name="'insurance_image'" :id="'insurance_image'" :label="__('Insurance Image')" :image="isset($model) && $model->getFirstMedia('insurance_image') ? $model->getFirstMedia('insurance_image')->getFullUrl() : getDefaultImage()"></x-form.image-uploader>
-                                                                                            </div>
-
-                                                                                            <div class="col-md-6">
-                                                                                                <x-form.image-uploader :click-to-enlarge="true" :editable="false" :required="false" :name="'driver_license_image'" :id="'driver_license_image'" :label="__('Driver License Image')" :image="isset($model) && $model->getFirstMedia('driver_license_image') ? $model->getFirstMedia('driver_license_image')->getFullUrl() : getDefaultImage()"></x-form.image-uploader>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                    <div class="tab-pane fade" id="car-details{{ $model->id }}" role="tabpanel" aria-labelledby="card-details-tab">
-                                                                                        @foreach ( [
-                                                                                        __('Car Size')=> $model->getSizeName($lang),
-                                                                                        __('Car Make')=> $model->getMakeName($lang),
-                                                                                        __('Car Model') => $model->getModelName($lang),
-                                                                                        __('Manufacturing Year')=>$model->getManufacturingYear(),
-                                                                                        __('Plate Letters') => $model->getPlateLetters(),
-                                                                                        __('Plate Number') => $model->getPlateNumbers(),
-                                                                                        __('Car Color') =>$model->getCarColorName(),
-                                                                                        __('Car Max Capacity')=>$model->getCarMaxCapacity(),
-                                                                                        __('Car Id Number') => $model->getCarIdNumber(),
-                                                                                        __('Has Traffic Tickets') => $model->getHasTrafficTicketsFormatted()
-                                                                                        ] as $title => $value )
-                                                                                        <div class="row">
-                                                                                            <div class="col-md-6">
-                                                                                                <label class="font-weight-bold">{{ $title }}</label>
-                                                                                            </div>
-                                                                                            <div class="col-md-6">
-                                                                                                <p class="font-weight-bold">{{ $value }}</p>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        @endforeach
-                                                                                    </div>
-
-
-                                                                                    <div class="tab-pane fade" id="car-images{{ $model->id }}" role="tabpanel" aria-labelledby="car-images-tab">
-                                                                                        <div class="row">
-
-                                                                                            <div class="col-md-6">
-                                                                                                <x-form.image-uploader :click-to-enlarge="true" :editable="false" :required="false" :name="'front_image'" :id="'front_image'" :label="__('Front Car Image')" :image="isset($model) && $model->getFirstMedia('front_image') ? $model->getFirstMedia('front_image')->getFullUrl() : getDefaultImage()"></x-form.image-uploader>
-                                                                                            </div>
-
-                                                                                            <div class="col-md-6">
-                                                                                                <x-form.image-uploader :click-to-enlarge="true" :editable="false" :required="false" :name="'back_image'" :id="'back_image'" :label="__('Back Car Image')" :image="isset($model) && $model->getFirstMedia('back_image') ? $model->getFirstMedia('back_image')->getFullUrl() : getDefaultImage()"></x-form.image-uploader>
-                                                                                            </div>
-
-                                                                                        </div>
-                                                                                    </div>
-
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        {{-- </form> --}}
-                                                                    </div>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close') }}</button>
-                                                                    <button type="submit" class="btn btn-primary">{{ __('Send') }}</button>
-                                                                </div>
-
-                                                                {{-- </form> --}}
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                     
+                                                  
 
                                                     <div class="modal fade inner-modal" id="ban-account-popup{{ $model->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                         <div class="modal-dialog modal-lg  modal-dialog modal-lg-centered" role="document">
                                                             <div class="modal-content">
-                                                                <form action="{{ route('driver.toggle.is.banned') }}" method="post">
+                                                                <form action="{{ route('client.toggle.is.banned') }}" method="post">
                                                                     @method('put')
                                                                     @csrf
                                                                     <input type="hidden" name="id" value="{{ $model->id }}">
@@ -470,7 +201,7 @@
 
                                                         </div>
 
-                                                        <div class="dropdown ml-2 inventation-codes">
+                                                        {{-- <div class="dropdown ml-2 inventation-codes">
 
                                                             <button type="button" class="dropdown-toggle btn btn-outline-primary bg-primary " data-toggle="dropdown"> {{ __('Invention Codes') }} </button>
                                                             <div class="dropdown-menu">
@@ -567,7 +298,6 @@
                                                                         <form action="{{ route('add.invitation.code.to.driver') }}" method="post">
                                                                             @csrf
                                                                             <input type="hidden" name="receiver_id" value="{{ $model->id }}">
-                                                                            {{-- <input type="hidden" name="name" value="{{ $model->getFullName() }}"> --}}
                                                                             <div class="modal-header">
                                                                                 <h5 class="modal-title" id="exampleModalLabel">{{ __('Send Email Message To :name',['name'=>$model->getFullName($lang)]) }}</h5>
                                                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -594,7 +324,7 @@
 
 
 
-                                                        </div>
+                                                        </div> --}}
 
 
 
@@ -606,7 +336,7 @@
 
 
 
-                                                        <div class="dropdown ml-2 inventation-codes">
+                                                        <div class="dropdown ml-2 emergency-contacts">
 
                                                             <button type="button" class="dropdown-toggle btn btn-outline-primary bg-primary " data-toggle="dropdown"> {{ __('Emergency Contacts') }} </button>
                                                             <div class="dropdown-menu">
@@ -645,7 +375,7 @@
                                                                                         <td>{{ $emergencyContact->getPhone() }}</td>
                                                                                         <td>{{ $emergencyContact->getEmail() }}</td>
                                                                                         <td class="form-group pb-1">
-                                                                                            <x-form.checkbox-element data-toggle-route="{{ $toggleCanReceiveTravelInfos }}" data-model-id="{{ $model->id }}" data-model-type="Driver" data-id="{{ $emergencyContact->id }}" class="switch-trigger-js" :is-required="false" :name="'can_receive_travel_info'" :is-checked="$emergencyContact->pivot->can_receive_travel_info"> </x-form.checkbox-element>
+                                                                                            <x-form.checkbox-element data-toggle-route="{{ $toggleCanReceiveTravelInfos }}" data-model-id="{{ $model->id }}" data-model-type="{{ $modelType }}" data-id="{{ $emergencyContact->id }}" class="switch-trigger-js" :is-required="false" :name="'can_receive_travel_info'" :is-checked="$emergencyContact->pivot->can_receive_travel_info"> </x-form.checkbox-element>
                                                                                         </td>
                                                                                         <td>{{ formatForView($emergencyContact->pivot->created_at) }}</td>
                                                                                         <td class="d-flex align-items-center justify-content-sm-center">
@@ -657,7 +387,7 @@
                                                                                             @if($user->can(getPermissionName('delete')))
                                                                                             <a href="#" data-toggle="modal" data-target="#detach-{{ $model->id }}emergency-contacts-{{ $emergencyContact->id }}" class="delete-modal-trigger-js btn btn-danger btn-sm">
                                                                                                 <i class="la la-trash"></i></a>
-                                                                                            <x-modals.delete :model-full-id="'detach-'.$model->id.'emergency-contacts-'.$emergencyContact->id" :full-delete-route="route('detach.modal.emergency-contacts',['model_id'=>$model->id ,'model_type'=>'Driver', 'emergency_contact_id'=>$emergencyContact->id ])" :model-id="$model->id"></x-modals.delete>
+                                                                                            <x-modals.delete :model-full-id="'detach-'.$model->id.'emergency-contacts-'.$emergencyContact->id" :full-delete-route="route('detach.modal.emergency-contacts',['model_id'=>$model->id ,'model_type'=>$modelType, 'emergency_contact_id'=>$emergencyContact->id ])" :model-id="$model->id"></x-modals.delete>
                                                                                             @endif
                                                                                         </td>
                                                                                     </tr>
@@ -843,8 +573,8 @@
                                                                     <div class="modal-content">
                                                                         <form action="{{ route('send.verification.code.through.sms') }}" method="post">
                                                                             @csrf
-                                                                            <input type="hidden" name="model_id" value="{{ $model->id }}">
-                                                                            <input type="hidden" name="model_type" value="{{ $modelType }}">
+                                                                               <input type="hidden" name="model_id" value="{{ $model->id }}">
+                                                                           	 <input type="hidden" name="model_type" value="{{ $modelType }}">
 
                                                                             <div class="modal-header">
                                                                                 <h5 class="modal-title" id="exampleModalLabel">{{ __('Send Sms Verification Code To :name',['name'=>$model->getFullName($lang)]) }}</h5>

@@ -6,7 +6,7 @@ use App\Traits\HasFailedValidation;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 
-class StorePromotionRequest extends FormRequest
+class StoreCouponRequest extends FormRequest
 { 
 	use HasFailedValidation;
 
@@ -25,16 +25,14 @@ class StorePromotionRequest extends FormRequest
     {
 	
 		$model = $this->route('promotion') ;
-		$HValidationRules = HValidation::rules('promotions', $model , Request::isMethod('post') , ['name']);
+		$HValidationRules = HValidation::rules('promotions', $model , Request::isMethod('post'));
         return 
 		[
 			'name_en'=>$HValidationRules['name_en'],
 			'name_ar'=>$HValidationRules['name_ar'],
-			'start_date'=>$HValidationRules['start_date'],
-			'end_date'=>$HValidationRules['end_date'],
-			'discount_type'=>$HValidationRules['discount_type'],
+			'start_date'=>'sometimes|nullable|date|date_format:Y-m-d',
+			'end_date'=>'sometimes|nullable|date|date_format:Y-m-d|after:start_date',
 			'discount_amount'=>$HValidationRules['amount_or_percentage'],
-			// 'is_active'=>$HValidationRules['is_active'],
         ];
     }
 	public function messages()

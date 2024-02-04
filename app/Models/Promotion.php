@@ -3,11 +3,9 @@
 namespace App\Models;
 
 use App\Traits\Accessors\IsBaseModel;
-use App\Traits\Models\HasAmountWithDiscountType;
+use App\Traits\Models\HasDiscountAmountWithDiscountType;
 use App\Traits\Models\HasExpiredDate;
-use App\Traits\Models\HasIsActive;
 use App\Traits\Models\HasStartAndEndDate;
-use App\Traits\Models\HasStartAndEndDateTime;
 use App\Traits\Models\HasTransNames;
 use App\Traits\Scope\HasDefaultOrderScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,7 +17,7 @@ use Illuminate\Database\Eloquent\Model;
 */
 class Promotion extends Model
 {
-    use  IsBaseModel,HasDefaultOrderScope,HasFactory,HasTransNames,HasExpiredDate,HasStartAndEndDate,HasAmountWithDiscountType;
+    use  IsBaseModel,HasDefaultOrderScope,HasFactory,HasTransNames,HasExpiredDate,HasStartAndEndDate,HasDiscountAmountWithDiscountType;
 	
     public function syncFromRequest($request)
     {
@@ -32,8 +30,8 @@ class Promotion extends Model
 		if ($request->has('discount_type')) {
             $this->discount_type = $request->discount_type;
         }
-		if ($request->has('amount')) {
-            $this->amount = $request->amount;
+		if ($request->has('discount_amount')) {
+            $this->discount_amount = $request->discount_amount;
         }
 		if ($request->has('start_date')) {
             $this->start_date = $request->start_date;

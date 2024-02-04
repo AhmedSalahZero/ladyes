@@ -4,7 +4,8 @@
 'name',
 'placeholder',
 'isRequired' ,
-"id"
+"id",
+'hint'=>''
 ])
 <div class="form-group row">
     <div class="col-md-3">
@@ -27,5 +28,10 @@
                 </div>
             </div>
         </div>
+		
+			@if($hint)
+        <span class="text-gray">{{$hint}}</span>
+		@endif 
+		
     </div>
 </div>

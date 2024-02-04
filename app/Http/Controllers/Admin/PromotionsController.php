@@ -10,7 +10,7 @@ use App\Models\Promotion;
 use App\Traits\Controllers\Globals;
 use Illuminate\Http\Request;
 
-class PromotionController extends Controller
+class PromotionsController extends Controller
 {
 	use Globals;
 	
@@ -33,8 +33,7 @@ class PromotionController extends Controller
 			'pageTitle'=>__('Promotions'),
 			'createRoute'=>route('promotions.create'),
 			'editRouteName'=>'promotions.edit',
-			'deleteRouteName'=>'promotions.destroy',
-			'toggleIsActiveRoute'=>route('promotions.toggle.is.active')
+			'deleteRouteName'=>'promotions.destroy'
 		]);
     }
 
@@ -115,23 +114,6 @@ class PromotionController extends Controller
 		return $this->getWebDeleteRedirectRoute();
     }
 
-    public function toggleIsActive(Request $request)
-    {
-        $model = Promotion::find($request->id);
-		if($model){
-			$model->toggleIsActive();
-			Notification::storeNewNotification(
-				__('New Update',[],'en'),
-				__('New Update',[],'ar'),
-				$request->user('admin')->getName() .' '.__('Has Updated',[],'en') . __('Promotion',[],'en') .' [ ' . $model->getName('en') . ' ]' ,
-				$request->user('admin')->getName() .' '.__('Has Updated',[],'ar') . __('Promotion',[],'ar') .' [ ' . $model->getName('ar') . ' ]' ,
-			);
-			
-		}
-            return response()->json([
-                'status' => true,
-                'id' => $request->id,
-            ]);
-    }
+   
 
 }

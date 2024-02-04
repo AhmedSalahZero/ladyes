@@ -5,13 +5,15 @@ use App\Http\Controllers\Admin\CancellationReasonsController;
 use App\Http\Controllers\Admin\CarMakeController;
 use App\Http\Controllers\Admin\CarModelController;
 use App\Http\Controllers\Admin\CitiesController;
+use App\Http\Controllers\Admin\ClientsController;
 use App\Http\Controllers\Admin\CountriesController;
+use App\Http\Controllers\Admin\CouponsController;
 use App\Http\Controllers\Admin\DriversController;
 use App\Http\Controllers\Admin\EmergencyContactsController;
 use App\Http\Controllers\Admin\HelpsController;
 use App\Http\Controllers\Admin\InformationController;
 use App\Http\Controllers\Admin\NotificationsController;
-use App\Http\Controllers\Admin\PromotionController;
+use App\Http\Controllers\Admin\PromotionsController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\TravelConditionsController;
 use App\Http\Controllers\Helpers\AddInvitationCodeToController;
@@ -63,6 +65,10 @@ Route::group(['middleware' => 'auth:admin'], function () {
     //###################### travel conditions #########################
     Route::resource('travel-conditions', TravelConditionsController::class);
     Route::put('travels-toggle-is-active', [TravelConditionsController::class, 'toggleIsActive'])->name('travel-conditions.toggle.is.active');
+	
+    //###################### coupons #########################
+	Route::resource('coupons',CouponsController::class);
+	
     //###################### helps #########################
     Route::resource('helps', HelpsController::class);
     Route::put('helps-toggle-is-active', [HelpsController::class, 'toggleIsActive'])->name('helps.toggle.is.active');
@@ -81,8 +87,7 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::put('emergency-contacts-toggle-can-receive-travel-infos', [EmergencyContactsController::class, 'toggleCanReceiveTravelInfo'])->name('emergency-contacts.toggle.can.receive.travel.infos');
 
     //###################### promotions #########################
-    Route::resource('promotions', PromotionController::class);
-    Route::put('promotions-toggle-is-active', [PromotionController::class, 'toggleIsActive'])->name('promotions.toggle.is.active');
+    Route::resource('promotions', PromotionsController::class);
 
     //###################### car makes #########################
     Route::resource('car-makes', CarMakeController::class);
@@ -92,6 +97,11 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::put('drivers/toggle-is-banned', [DriversController::class, 'toggleIsBanned'])->name('driver.toggle.is.banned');
     Route::put('drivers/toggle-is-verified', [DriversController::class, 'toggleIsVerified'])->name('driver.toggle.is.verified');
     Route::resource('drivers', DriversController::class);
+    //###################### clients #########################
+    Route::put('clients/toggle-is-banned', [ClientsController::class, 'toggleIsBanned'])->name('client.toggle.is.banned');
+    Route::put('clients/toggle-is-verified', [ClientsController::class, 'toggleIsVerified'])->name('client.toggle.is.verified');
+    Route::resource('clients', ClientsController::class);
+	
     //###################### countries #########################
     Route::resource('countries', CountriesController::class)->only(['index']);
 

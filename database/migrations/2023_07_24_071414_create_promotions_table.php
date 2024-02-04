@@ -21,7 +21,7 @@ class CreatePromotionsTable extends Migration
 			$table->date('start_date')->comment('تاريخ بداية العرض');
 			$table->date('end_date')->comment('تاريخ نهاية العرض');
 			$table->enum('discount_type',array_keys(DiscountType::all()))->comment('نوع الخصم هيكون نسبة ولا قيمة ثابتة');
-			$table->string('amount')->comment('قد تكون نسبة او قيمة ثابتة علي حسب النوع ');
+			$table->string('discount_amount')->comment('قد تكون نسبة او قيمة ثابتة علي حسب النوع ');
             // $table->string('is_active')->default(0)->boolean();
             $table->timestamps();
         });

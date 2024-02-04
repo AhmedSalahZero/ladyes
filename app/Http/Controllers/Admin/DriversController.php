@@ -34,6 +34,7 @@ class DriversController extends Controller
         return view('admin.drivers.index', [
 			'models'=>$models,
 			'pageTitle'=>__('Drivers'),
+			'modelType'=>'Driver',
 			'createRoute'=>route('drivers.create'),
 			'editRouteName'=>'drivers.edit',
 			'deleteRouteName'=>'drivers.destroy',

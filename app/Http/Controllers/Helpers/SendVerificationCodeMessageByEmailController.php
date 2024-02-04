@@ -9,11 +9,12 @@ use Illuminate\Http\Request;
 class SendVerificationCodeMessageByEmailController extends Controller
 {
     public function send(Request $request){
-		$driver = Driver::find($request->get('driver_id'));
-		if(!$driver){
+		$modelType = $request->get('model_type');
+		$model = ('\App\Models\\'.$modelType)::find($request->get('model_id'));
+		if(!$model){
 			return redirect()->back()->with('fail',__('Driver Not Found'));
 		}
-		$responseArr = $driver->sendVerificationCodeViaEmail();
+		$responseArr = $model->sendVerificationCodeViaEmail();
 		$status = isset($responseArr['status']) && $responseArr['status'] ? 'success' : 'fail';
 		$message = isset($responseArr['message']) && $responseArr['message'] ? $responseArr['message'] : null;
 		return redirect()->back()->with($status,$message);
