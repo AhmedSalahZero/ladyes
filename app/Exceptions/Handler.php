@@ -2,12 +2,17 @@
 
 namespace App\Exceptions;
 
-use App\Http\Controllers\Admin\AdminController;
+use App\Traits\Api\HasApiResponse;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
 {
+	use HasApiResponse;
     /**
      * A list of the exception types that are not reported.
      *
@@ -34,15 +39,36 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-
+		
+		$this->renderable(function (NotFoundHttpException $e, Request $request) {
+			if ($request->is('api/*')) {
+				return response()->json([
+					'status'=>Response::HTTP_NOT_FOUND,
+					'data'=>[],
+					'message' => __('Record Not Found',[],getApiLang()),
+				], Response::HTTP_NOT_FOUND);
+			}
+		});
+		$this->renderable(function (\Exception $e, Request $request) {
+			if ($request->is('api/*')) {
+				return response()->json([
+					'status'=>Response::HTTP_INTERNAL_SERVER_ERROR,
+					'data'=>[],
+					'message' => $e->getMessage(),
+				], Response::HTTP_INTERNAL_SERVER_ERROR);
+			}
+		});
+        $this->reportable(function (Throwable $e) {
+            //
+        });
     }
-//    public function render($request, Exception $exception)
-//    {
-//        if ($this->isHttpException($exception))
-//            if ($exception->getStatusCode() == 404)
-//                return response()->view('site.404.' . '404', [], 404);
-//
-//
-//        return parent::render($request, $exception);
-//    }
+	protected function unauthenticated($request, AuthenticationException $exception)
+{
+    if ($request->expectsJson()) {
+        return $this->apiResponse(__('Unauthenticated',[],getApiLang()));
+    }
+
+    return redirect()->guest($exception->redirectTo() ?? route('login'));
+}
+
 }

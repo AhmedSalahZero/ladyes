@@ -36,10 +36,11 @@ class MacrosServiceProvider extends ServiceProvider
 		
 		// query builder macros 
 		
-		Builder::macro('onlyAvailable', function(string $date){
+		Builder::macro('onlyAvailable', function(string $date =null ){
 			/**
 			 * @var Builder $this
 			 */
+			$date = $date ?: now()->format('Y-m-d'); 
 			return $this->where('start_date','<=',$date)->where('end_date','>',$date);
 		});
 		

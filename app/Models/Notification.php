@@ -16,11 +16,11 @@ class Notification extends Model
 
 	public static function storeNewNotification(string $titleEn , string $titleAr  , string $messageEn , string $messageAr)
 	{
+
 		foreach(Admin::onlyIsActive()->get() as $admin){
-			if($admin->isNot(auth('admin')->user()) && $admin->can('view notifications')){
+			if($admin->isNot(auth('admin')->user()) && $admin->hasPermissionTo('view notifications','admin')){
 				$admin->notify(new AdminNotification($titleEn,$titleAr,$messageEn,$messageAr,formatForView(now())));
             }
-
 		}
 	}
 

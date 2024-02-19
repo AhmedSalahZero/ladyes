@@ -49,4 +49,13 @@ class Help extends Model
         // }
         $this->save();
     }
+	public static function getForModelTypeFormatted(string $modelType,string $lang):array 
+	{
+		return self::where('model_type',$modelType)->get(['name_'.$lang,'description_'.$lang])->toArray();
+	}
+	function getTableNameFromRequest()
+	{
+		// returns clients or drivers 
+		return Request()->segment(2);
+	}
 }

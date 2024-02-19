@@ -44,7 +44,7 @@ class CreateDriversTable extends Migration
 			$table->string('car_max_capacity')->comment('السعة القصوى للمركبة')->nullable();
 			$table->string('car_id_number')->comment('الرقم التسلسلي للمركبة')->nullable();
 			$table->boolean('has_traffic_tickets')->comment('هل لديك مخالفات مروريه')->nullable()->default(0);
-            $table->string('invitation_code')->unique()->nullable();
+            $table->string('invitation_code')->comment('رمز الدعوة الخاص بالسائق اللي يمكن ارسالة الي سائقين اخرين')->unique()->nullable();
 			$table->timestamp('banned_at')->nullable();
             $table->timestamps();
         });

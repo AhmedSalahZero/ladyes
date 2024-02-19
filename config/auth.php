@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Client;
+use App\Models\Driver;
+
 return [
 
     /*
@@ -36,19 +39,25 @@ return [
     */
 
     'guards' => [
-        'web' => [
-            'driver' => 'session',
-            'provider' => 'users',
-        ],
-        'admin' => [
+		'admin' => [
             'driver' => 'session',
             'provider' => 'admins',
         ],
-        'api' => [
-            'driver' => 'jwt',
-            'provider' => 'users',
+        'web' => [
+            'driver' => 'session',
+            'provider' => 'admins',
+        ],
+        'driver' => [
+            'driver' => 'sanctum',
+            'provider' => 'drivers',
             'hash' => false,
         ],
+		'client' => [
+            'driver' => 'sanctum',
+            'provider' => 'clients',
+            'hash' => false,
+        ],
+		
     ],
 
     /*
@@ -69,9 +78,13 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        'drivers' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => Driver::class,
+        ],
+		'clients' => [
+            'driver' => 'eloquent',
+            'model' => Client::class,
         ],
         'admins' => [
             'driver' => 'eloquent',

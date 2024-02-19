@@ -5,17 +5,13 @@ namespace App\Models;
 use App\Enum\DiscountType;
 use App\Helpers\HStr;
 use App\Traits\Accessors\IsBaseModel;
-use App\Traits\Models\HasAmountWithDiscountType;
 use App\Traits\Models\HasDiscountAmountWithDiscountType;
 use App\Traits\Models\HasExpiredDate;
-use App\Traits\Models\HasIsActive;
 use App\Traits\Models\HasStartAndEndDate;
-use App\Traits\Models\HasStartAndEndDateTime;
 use App\Traits\Models\HasTransNames;
 use App\Traits\Scope\HasDefaultOrderScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
@@ -60,7 +56,7 @@ class Coupon extends Model
 		$clientUsedItBefore = $this->travels->where('client_id',$clientId)->exists();
 		return $isAvailable && ! $clientUsedItBefore;
 	}
-	
+	// yyyy
 	
 	
 	public function getCode():string 

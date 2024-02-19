@@ -28,4 +28,13 @@ class HHelpers
         }
 		return $randomString ;
 	}
+	public static function getModelFullNameFromTableName(?string $tableName = null):string 
+	{
+		$tableName = $tableName?: self::getTableNameFromRequest();
+		return 'App\Models\\' . Str::studly(Str::singular($tableName));
+	}
+	public static function getTableNameFromRequest()
+	{
+		return Request()->segment(2);
+	}
 }

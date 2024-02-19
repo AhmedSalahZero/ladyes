@@ -8,4 +8,6 @@ trait HasPhone
 		return $this->phone ;
 	}
 	
+	
+	
 }

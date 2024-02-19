@@ -34,8 +34,7 @@ class TravelCondition extends Model
             $this->model_type = $request->model_type;
         }
 		$this->is_active = $request->boolean('is_active');
-		// if ($request->has('is_active')) {
-        // }
+		
         $this->save();
     }
 }

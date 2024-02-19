@@ -47,6 +47,7 @@ class HValidation
 			
 			'email'=>[$isRequired,'max:255','unique:'.$tableName .',email'.','.$currentItemId] ,
 			'invitation_code'=>['sometimes','required','max:255','unique:'.$tableName .',invitation_code'.','.$currentItemId] ,
+			'received_invitation_code'=>['sometimes','max:255','exists:drivers,invitation_code'] ,
 			'password'=>[$isRequired] ,
 			'deduction_percentage'=>['sometimes','nullable','numeric','gte:-1'] ,
 			'driving_range'=>['sometimes','nullable'] ,
@@ -54,6 +55,7 @@ class HValidation
 			// start images validation
 			
 			'image'=>$isRequired.'|file|mimes:'.self::getAllowedUploadImageAsString(),
+			'client_image'=>'sometimes|file|mimes:'.self::getAllowedUploadImageAsString(),
 			'id_number_image'=>$isRequired.'|file|mimes:'.self::getAllowedUploadImageAsString(),
 			'insurance_image'=>$isRequired.'|file|mimes:'.self::getAllowedUploadImageAsString(),
 			// 'insurance_image'=>$isRequired.'|file|mimes:'.self::getAllowedUploadImageAsString(),
@@ -105,6 +107,7 @@ class HValidation
 			'manufacturing_year'=>[$isRequired ,'digits:4','integer','min:1900'],
 			'car_max_capacity'=>[$isRequired ,'gte:1'],
 			'stock_category_id'=>[$isRequired , Rule::exists('stock_categories','id')->where('vendor_id',$vendorOrEmployee->id)],
+			'birth_date'=>$isRequired.'|required|date',
 			'start_date'=>$isRequired.'|required|date|date_format:Y-m-d',
 			'end_date'=>$isRequired.'|required|date|date_format:Y-m-d|after:start_date',
 			'storage_unit'=>$isRequired.'|required',

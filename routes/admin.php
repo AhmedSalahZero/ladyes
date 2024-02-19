@@ -38,14 +38,14 @@ Route::group(['namespace' => 'Admin', 'middleware' => 'auth:admin'], function ()
     Route::post('/delete-onbording', [OnbordingController::class, 'delete'])->name('admin.onbording.delete');
     Route::post('/update-onbording-status', [OnbordingController::class, 'updateStatus'])->name('admin.onbording.update.status');
     //###################### users #########################
-    Route::get('/users', [UsersController::class, 'index'])->name('admin.users.index');
-    Route::get('/create-user', [UsersController::class, 'create'])->name('admin.users.create');
-    Route::post('/store-user', [UsersController::class, 'store'])->name('admin.users.store');
-    Route::get('/edit-user/{id}', [UsersController::class, 'edit'])->name('admin.users.edit');
-    Route::get('/show-user/{id}', [UsersController::class, 'show'])->name('admin.users.show');
-    Route::post('/update-user/{id}', [UsersController::class, 'update'])->name('admin.users.update');
-    Route::post('/delete-user', [UsersController::class, 'delete'])->name('admin.users.delete');
-    Route::put('/update-user-status', [UsersController::class, 'updateStatus'])->name('admin.users.update.status');
+    // Route::get('/users', [UsersController::class, 'index'])->name('admin.users.index');
+    // Route::get('/create-user', [UsersController::class, 'create'])->name('admin.users.create');
+    // Route::post('/store-user', [UsersController::class, 'store'])->name('admin.users.store');
+    // Route::get('/edit-user/{id}', [UsersController::class, 'edit'])->name('admin.users.edit');
+    // Route::get('/show-user/{id}', [UsersController::class, 'show'])->name('admin.users.show');
+    // Route::post('/update-user/{id}', [UsersController::class, 'update'])->name('admin.users.update');
+    // Route::post('/delete-user', [UsersController::class, 'delete'])->name('admin.users.delete');
+    // Route::put('/update-user-status', [UsersController::class, 'updateStatus'])->name('admin.users.update.status');
     //###################### users #########################
     // Route::get('/drivers',[DriverController::class,'index'])->name('admin.drivers.index');
     // Route::get('/create-driver',[DriverController::class,'create'])->name('admin.drivers.create');
@@ -57,10 +57,10 @@ Route::group(['namespace' => 'Admin', 'middleware' => 'auth:admin'], function ()
     // Route::post('/country-cities',[DriverController::class,'getCountryCities'])->name('admin.drivers.country_cities');
     // Route::post('/cities-area',[DriverController::class,'getCityArea'])->name('admin.drivers.country_area');
     //##################### contactus ########################
-    Route::get('/contact-us', [ContactUsController::class, 'index'])->name('admin.contacts.index');
-    Route::get('/contact-us/{id}', [ContactUsController::class, 'show'])->name('admin.contacts.show');
-    Route::post('/update-contact-us/{id}', [ContactUsController::class, 'update'])->name('admin.contacts.update');
-    Route::post('/delete-contact', [ContactUsController::class, 'delete'])->name('admin.contacts.delete');
+    // Route::get('/contact-us', [ContactUsController::class, 'index'])->name('admin.contacts.index');
+    // Route::get('/contact-us/{id}', [ContactUsController::class, 'show'])->name('admin.contacts.show');
+    // Route::post('/update-contact-us/{id}', [ContactUsController::class, 'update'])->name('admin.contacts.update');
+    // Route::post('/delete-contact', [ContactUsController::class, 'delete'])->name('admin.contacts.delete');
     //##################### settings ########################
     Route::get('/settings', [SettingsController::class, 'settings'])->name('admin.settings.edit');
     Route::post('/setting-update', [SettingsController::class, 'update'])->name('admin.settings.update');
@@ -73,14 +73,7 @@ Route::group(['namespace' => 'Admin', 'middleware' => 'auth:admin'], function ()
     // Route::post('/send-order-user-email', [OrderController::class, 'sendUserEmail'])->name('admin.orders.send_user_email');
     // //###################### permission_group #########################
 
-    Route::group(['prefix' => 'roles-and-permissions/', 'as' => 'roles.permissions.'], function () {
-        Route::get('/index', [RolesAndPermissionsController::class, 'index'])->name('index');
-        Route::get('/create', [RolesAndPermissionsController::class, 'create'])->name('create');
-        Route::post('/store', [RolesAndPermissionsController::class, 'store'])->name('store');
-        Route::get('/edit/{role}', [RolesAndPermissionsController::class, 'edit'])->name('edit');
-        Route::put('/update/{role}', [RolesAndPermissionsController::class, 'update'])->name('update');
-        Route::delete('/delete/{role}', [RolesAndPermissionsController::class, 'delete'])->name('delete');
-    });
+ 
 
     //###################### coupons #########################
     // Route::get('/coupons', [CouponsController::class, 'index'])->name('admin.coupons.index');

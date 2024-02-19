@@ -10,8 +10,7 @@ use App\Models\EmergencyContact;
 use App\Models\Notification;
 use App\Traits\Controllers\Globals;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Validator;
+
 
 class EmergencyContactsController extends Controller
 {
@@ -21,7 +20,6 @@ class EmergencyContactsController extends Controller
     {
         $this->middleware('permission:' . getPermissionName('view'), ['only' => ['index']]) ;
         $this->middleware('permission:' . getPermissionName('create'), ['only' => ['create', 'store']]) ;
-
         $this->middleware('permission:' . getPermissionName('update'), ['only' => ['edit', 'update']]) ;
         $this->middleware('permission:' . getPermissionName('delete'), ['only' => ['destroy']]) ;
     }
@@ -151,43 +149,10 @@ class EmergencyContactsController extends Controller
      */
     public function attach(Request $request)
     {
-        $addEmergencyContactFromExisting = $request->has('from_existing_contact');
-        $modelType = $request->get('model_type') ; // Driver For Example
-        $driverOrClient = ('\App\Models\\' . $modelType)::find($request->get('model_id'));
-        $emergencyContactId = $request->get('emergency_contact_id') ;
-
-        $emergencyContact = EmergencyContact::find($emergencyContactId);
-        /**
-         * * add emergency contact from existing emergency contact id
-         */
-        if ($addEmergencyContactFromExisting) {
-            $driverOrClient->emergencyContacts()->syncWithoutDetaching([
-                $emergencyContactId => [
-                    'model_type' => $modelType,
-                    'can_receive_travel_info' => $request->boolean('can_receive_travel_info')
-                ]
-            ]);
-        } else {
-            /**
-             * * add new emergency contact add assign it to the driver or client
-             */
-            $emergencyContactRequest = new StoreEmergencyContactRequest() ;
-            $validator = Validator::make($request->all(), $emergencyContactRequest->rules(), $emergencyContactRequest->messages());
-            if ($validator->fails()) {
-                return response()->json([
-                    'status' => Response::HTTP_BAD_REQUEST,
-                    'message' => $validator->errors()->first()
-                ], Response::HTTP_BAD_REQUEST);
-            }
-            $emergencyContact = new EmergencyContact();
-            $emergencyContact = $emergencyContact->syncFromRequest($request);
-            $driverOrClient->emergencyContacts()->syncWithoutDetaching([
-                $emergencyContact->id => [
-                    'model_type' => $modelType,
-                    'can_receive_travel_info' => $request->boolean('can_receive_travel_info')
-                ]
-            ]);
-        }
+		$modelId = $request->get('model_id');
+		$modelType = $request->get('model_type');
+		$driverOrClient = ('\App\Models\\' . $modelType)::find($modelId);
+        $emergencyContact = EmergencyContact::sync($driverOrClient,$request->get('emergency_contact_id'),$request->boolean('can_receive_travel_info'),$request->has('from_existing_contact'));
 
         Notification::storeNewNotification(
             __('New Creation', [], 'en'),

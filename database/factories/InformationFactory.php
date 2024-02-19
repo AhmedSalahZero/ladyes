@@ -15,7 +15,7 @@ class InformationFactory extends Factory
     public function definition()
     {
         return [
-				'section_name'=>InformationSection::PROFILE,
+				'section_name'=>InformationSection::CLIENT_PROFILE,
 				'name_en'=>$this->faker->name ,
 				'name_ar'=>$this->faker->name ,
 				'description_en'=>$this->faker->sentences(100) ,

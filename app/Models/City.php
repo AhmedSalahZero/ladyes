@@ -6,7 +6,6 @@ use App\Traits\Accessors\IsBaseModel;
 use App\Traits\Models\HasKmPrice;
 use App\Traits\Models\HasTransNames;
 use App\Traits\Scope\HasDefaultOrderScope;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -65,6 +64,10 @@ class City extends Model
 	{
 		return $this->belongsTo(Country::class , 'country_id','id');
 	}	
+	public function getCountry():?Country
+	{
+		return $this->country ;
+	}
 	public function getCountryId():int 
 	{
 		$country = $this->country ; 
@@ -90,7 +93,6 @@ class City extends Model
 		$country = $this->country ; 
 		return $country ? $country->getCurrencySymbol($lang) : null ;
 	}
-
 	public function syncFromRequest($request){
 		if ($request->has('name_en')){
 			$this->name_en = $request->name_en;
@@ -132,6 +134,8 @@ class City extends Model
 		
 
 	}
+	
+	
 
 	
 }

@@ -33,6 +33,8 @@ class SiteSetting extends Settings
 	
 	public $app_guideline_into_en ;
 	public $app_guideline_into_ar ;
+	public $after_signup_message_en ;
+	public $after_signup_message_ar ;
 	public $app_guideline_items_en ;
 	public $app_guideline_items_ar ;
 	public $app_guideline_outro_en ;

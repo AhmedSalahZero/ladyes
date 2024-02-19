@@ -2,6 +2,7 @@
 
 namespace App\Traits\Models;
 
+use App\Helpers\HHelpers;
 use App\Mail\SendMessageMail;
 use App\Services\PhoneNumberService;
 use App\Services\SMS\SmsService;
@@ -56,9 +57,9 @@ trait HasIsVerified
         ];
     }
 
-    public function sendVerificationCodeMessage(bool $viaSms = true, bool $viaWhatsapp = true, bool $viaEmail = true): array
+    public function sendVerificationCodeMessage(bool $viaSms = true, bool $viaWhatsapp = true, bool $viaEmail = true,bool $forceSend = false): array
     {
-        if ($this->getIsVerified()) {
+        if ($this->getIsVerified() && !$forceSend) {
             return [];
         }
         $phone = $this->getPhone();
@@ -122,9 +123,17 @@ trait HasIsVerified
         if ($this->verification_code) {
             return $this ;
         }
-        $this->verification_code = random_int(1000, 9999);
-        $this->save();
-
+        $this->renewVerificationCode();
         return $this ;
     }
+	public function renewVerificationCode()
+    {
+        $this->verification_code = $this->generateRandomVerificationCode();
+        $this->save();
+        return $this ;
+    }
+	public function generateRandomVerificationCode()
+	{
+		return random_int(1000, 9999) ;
+	}
 }

@@ -17,16 +17,19 @@ class CarSizeSeeder extends Seeder
         CarSize::factory()->create([
 			'name_en'=>'vip',
 			'name_ar'=>'متميز',
+			'image'=>CarSize::VIP_IMAGE
 		]);
 		
 		CarSize::factory()->create([
 			'name_en'=>'family',
 			'name_ar'=>'عائلي',
+			'image'=>CarSize::FAMILY_IMAGE
 		]);
 		
 		CarSize::factory()->create([
 			'name_en'=>'private',
 			'name_ar'=>'خاص',
+			'image'=>CarSize::PRIVATE_IMAGE
 		]);
     }
 }

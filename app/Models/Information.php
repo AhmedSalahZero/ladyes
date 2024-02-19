@@ -13,11 +13,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- ** التعليمات الخاصة بالعميل
+ ** التعليمات الخاصة بالعميل او السائق
  ** علي سبيل المثال 
  ** كيف اقوم بتقيم الكاابتن؟
  ** كيف يتم تسعير الرحلة ؟
- ** كيف اعلم هل تم قبولي ام لا
+ ** كيف يتم تسعير الرحلة ؟
  ** وبالتالي هي تختلف علي حسب السكشن
  ** InformationSection::class 
  */
@@ -47,4 +47,8 @@ class Information extends Model
         // }
         $this->save();
     }
+	public static function getForSection(string $sectionName , string $lang):array 
+	{
+		return self::where('section_name',$sectionName)->get(['name_'.$lang,'description_'.$lang])->toArray();
+	}
 }

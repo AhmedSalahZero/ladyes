@@ -26,5 +26,11 @@ class TravelConditionSeeder extends Seeder
 			'model_type'=>'Driver'
 		]);
 		
+		TravelCondition::factory()->create([
+			'name_en'=>'Allowing Smoking',
+			'name_ar'=>'السماح بالتدخين',
+			'model_type'=>'Client'
+		]);
+		
     }
 }

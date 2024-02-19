@@ -14,6 +14,13 @@ class DriverSeeder extends Seeder
      */
     public function run()
     {
-		Driver::factory()->create();
+		 Driver::factory()->create([
+			'first_name'=>'ahmed',
+			'last_name'=>'salah',
+			'email'=>'asalahdev5@gmail.com',
+			'phone'=>'01025894984',
+			'country_id'=>65,
+			'city_id'=>2
+		]);
     }
 }

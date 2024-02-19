@@ -22,7 +22,7 @@ class ClientFactory extends Factory
 				'phone'=>$this->faker->phoneNumber() ,
 				'is_verified'=>$this->faker->boolean(),
 				'can_pay_by_cash'=>1 ,
-				'verification_code'=>$this->faker->name 
+				'verification_code'=>random_int(1000, 9999)
         ];
     }
 }

@@ -22,6 +22,10 @@ class Country extends Model
     use HasFactory;
     use HasLatitudeAndLatitude ;
 
+	public function getName(string $lang)
+	{
+		return $this['name_'.$lang] ;
+	}
     public function cities()
     {
         return $this->hasMany(City::class, 'country_id', 'id');
@@ -82,23 +86,9 @@ class Country extends Model
         // for example [Egyptian]
         return $this->nationality;
     }
-    // public function registerMediaCollections(): void
-    // {
-    // 	 $this->addMediaCollection('logo')->singleFile();
-    // }
-    // public function syncFromRequest($request){
-    // 	if ($request->has('name_en')){
-    // 		$this->name_en = $request->name_en;
-    // 	}
-    // 	if ($request->has('name_ar')){
-    // 		$this->name_ar = $request->name_ar;
-    // 	}
-    // 	if ($request->has('code')){
-    // 		$this->name_ar = $request->name_ar;
-    // 	}
-    // 	if ($request->has('logo')){
-    // 		static::addMediaFromRequest('logo')->toMediaCollection('logo');
-    // 	}
-    // 	$this->save();
-    // }
+  
+	public static function findByCode(?string $code):?self
+	{
+		return self::where('phonecode',$code)->first();
+	}
 }

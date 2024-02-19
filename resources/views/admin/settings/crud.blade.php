@@ -66,17 +66,26 @@
                                                 <div class="col-md-6">
                                                     <x-form.input :id="'deduction_percentage'" :label="__('Deduction Percentage'). ' %'" :type="'text'" :name="'deduction_percentage'" :is-required="false" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Deduction Percentage')])"></x-form.input>
                                                 </div>
-												
-												<div class="col-md-6">
-                                                    <x-form.select  :is-required="true" :is-select2="true" :options="$drivingRangeFormatted" :add-new="false" :label="__('Driving Range')" :all="false" name="driving_range" id="driving_range" :selected-value="getSetting('driving_range')"></x-form.select>
+
+                                                <div class="col-md-6">
+                                                    <x-form.select :is-required="true" :is-select2="true" :options="$drivingRangeFormatted" :add-new="false" :label="__('Driving Range')" :all="false" name="driving_range" id="driving_range" :selected-value="getSetting('driving_range')"></x-form.select>
                                                 </div>
-												
-												
-												
+
+
+
 
                                                 <div class="col-md-12">
                                                     <hr>
                                                 </div>
+
+                                                
+
+                                                <div class="col-md-12">
+                                                    <hr>
+                                                </div>
+
+
+
 
                                                 <div class="col-md-6">
                                                     <x-form.input :id="'WHATSAPP_APP_KEY'" :label="__('Whatsapp App Key')" :type="'text'" :name="'WHATSAPP_APP_KEY'" :is-required="false" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Whatsapp App Key')])"></x-form.input>

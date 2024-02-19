@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\HelpsController;
 use App\Http\Controllers\Admin\InformationController;
 use App\Http\Controllers\Admin\NotificationsController;
 use App\Http\Controllers\Admin\PromotionsController;
+use App\Http\Controllers\Admin\RolesAndPermissionsController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\TravelConditionsController;
 use App\Http\Controllers\Helpers\AddInvitationCodeToController;
@@ -60,6 +61,16 @@ Route::get('make-migrate', function () {
 
 Route::group(['middleware' => 'auth:admin'], function () {
     //###################### admins #########################
+	
+	Route::group(['prefix' => 'roles-and-permissions/', 'as' => 'roles.permissions.'], function () {
+		Route::get('/index', [RolesAndPermissionsController::class, 'index'])->name('index');
+		Route::get('/create', [RolesAndPermissionsController::class, 'create'])->name('create');
+		Route::post('/store', [RolesAndPermissionsController::class, 'store'])->name('store');
+		Route::get('/edit/{role}', [RolesAndPermissionsController::class, 'edit'])->name('edit');
+		Route::put('/update/{role}', [RolesAndPermissionsController::class, 'update'])->name('update');
+		Route::delete('/delete/{role}', [RolesAndPermissionsController::class, 'delete'])->name('delete');
+	});
+	
     Route::resource('admins', AdminController::class);
     Route::put('admins-toggle-is-active', [AdminController::class, 'toggleIsActive'])->name('admins.toggle.is.active');
     //###################### travel conditions #########################
@@ -116,6 +127,11 @@ Route::group(['middleware' => 'auth:admin'], function () {
     //###################### app guidelines #########################
     Route::get('app-guidelines/create', [SettingsController::class, 'createAppGuidelines'])->name('app-guidelines.create');
     Route::post('app-guidelines/create', [SettingsController::class, 'storeAppGuidelines'])->name('app-guidelines.store');
+	
+	    //###################### app text #########################
+		// ترجمة  نصوص التطبيق
+		Route::get('app-text/create', [SettingsController::class, 'createAppText'])->name('app-text.create');
+		Route::post('app-text/create', [SettingsController::class, 'storeAppText'])->name('app-text.store');
 
     //###################### countries #########################
     Route::resource('notifications', NotificationsController::class)->only(['index']);
@@ -136,6 +152,10 @@ Route::prefix('helpers')->group(function () {
     Route::put('mark-notifications-as-read/{admin}', [NotificationsController::class, 'markAsRead'])->name('mark.notifications.as.read');
     ;
 });
+
+
+
+
 // Route::get('test-notification',function(){
 // 	$admin = Admin::first();
 // 	$admin->notify(new AdminNotification('title','نص','message here','نص الرسالة',formatForView(now())));

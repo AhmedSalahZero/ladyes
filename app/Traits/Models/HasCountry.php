@@ -41,4 +41,6 @@ trait HasCountry
 		return $country ? $country->getIso2() : null ;
 	}
 	
+	
+	
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Driver;
 use App\Models\EmergencyContact;
 use Illuminate\Database\Seeder;
 
@@ -20,5 +21,12 @@ class EmergencyContactsSeeder extends Seeder
 			'phone'=>'01025894984',
 			'country_id'=>65,
 		]);
+		
+		EmergencyContact::factory()->count(10)->create()->each(function(EmergencyContact $emergencyContact){
+			$emergencyContact->drivers()->attach(Driver::first()->id,[
+				'model_type'=>'Driver',
+				'can_receive_travel_info'=>1
+			]);
+		});
     }
 }

@@ -104,12 +104,7 @@ class RolesAndPermissionsController extends Controller
 		$admins = Admin::get();
 		foreach($admins as $admin){
 			if($admin->hasRole($role,$role->guard_name)){
-				// return response()->json([
-				// 	'status'=>false ,
-				// 	'message'=>__('This Role Can Not Be Deleted .. Its Attached For Admins')
-				// ]);
 				return redirect()->back()->with('fail',__('This Role Can Not Be Deleted .. Its Attached For Admins'));
-				// return redirect()->back()->with('fail',__('This Role Can Not Be Deleted .. Its Attached For Admins'));
 			}
 		}
 		$role->delete();

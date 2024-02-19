@@ -16,7 +16,7 @@ class InformationSeeder extends Seeder
     public function run()
     {
 		Information::factory()->create([
-			'section_name'=>InformationSection::PROFILE,
+			'section_name'=>InformationSection::CLIENT_PROFILE,
 			'name_en'=>'How It Works',
 			'name_ar'=>'كيف اقوم بتقيم الكابتن',
 			'description_en'=>'Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit, saepe. Totam in iure voluptatibus repellendus maiores dolorem molestiae alias est corrupti aspernatur. Quos, sit pariatur culpa ratione quia dolorem! Culpa.',
@@ -24,7 +24,7 @@ class InformationSeeder extends Seeder
 		]);
 		
 		Information::factory()->create([
-			'section_name'=>InformationSection::PROFILE,
+			'section_name'=>InformationSection::CLIENT_PROFILE,
 			'name_en'=>'How It Works',
 			'name_ar'=>'كيف يتم تسعير الرحلة',
 			'description_en'=>'Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit, saepe. Totam in iure voluptatibus repellendus maiores dolorem molestiae alias est corrupti aspernatur. Quos, sit pariatur culpa ratione quia dolorem! Culpa.',
@@ -33,7 +33,7 @@ class InformationSeeder extends Seeder
 		
 		
 		Information::factory()->create([
-			'section_name'=>InformationSection::AFTER_LOGIN,
+			'section_name'=>InformationSection::AFTER_DRIVER_SIGNUP,
 			'name_en'=>'How It Works',
 			'name_ar'=>'كيف اعلم هل تم قبولي او لا',
 			'description_en'=>'Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit, saepe. Totam in iure voluptatibus repellendus maiores dolorem molestiae alias est corrupti aspernatur. Quos, sit pariatur culpa ratione quia dolorem! Culpa.',

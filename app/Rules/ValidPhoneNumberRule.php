@@ -12,7 +12,7 @@ class ValidPhoneNumberRule implements Rule
 	protected ?Country $country ; 
 	protected phoneNumberService $phoneNumberService ; 
 	
-    public function __construct(?int $countryId)
+    public function __construct( $countryId)
     {
 		$this->country = Country::find($countryId) ; 
 		$this->phoneNumberService = new PhoneNumberService();
@@ -21,7 +21,7 @@ class ValidPhoneNumberRule implements Rule
 
     public function passes($attribute, $phone)
     {
-		return $this->phoneNumberService->isValidNumber($phone,$this->country->getIso2());
+		return $this->country && $this->phoneNumberService->isValidNumber($phone,$this->country->getIso2());
     }
     public function message()
     {

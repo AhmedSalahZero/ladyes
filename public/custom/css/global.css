@@ -105,3 +105,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     top: 0;
     width: auto;
 }
+.dropdown-grid-css{
+	margin-top:20px;
+	grid-template-columns: 1fr 1fr;
+    display: grid;
+    row-gap: 20px;
+    text-align: center;
+}

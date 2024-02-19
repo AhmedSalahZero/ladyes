@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Address;
 use App\Models\Client;
 use Illuminate\Database\Seeder;
 
@@ -14,6 +15,9 @@ class ClientSeeder extends Seeder
      */
     public function run()
     {
-		Client::factory()->create();
+		$client = Client::factory()->create();
+		$address = Address::factory()->make()->toArray();
+		$client->addresses()->create($address);
+		
     }
 }

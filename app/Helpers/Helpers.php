@@ -28,6 +28,7 @@ function getPermissions():array
 	$permissions[] = ['name'=>'view' .' ' . 'countries' , 'title'=>__('View' .' :page' , ['page'=>__('Countries')]) ] ;
 	$permissions[] = ['name'=>'create' .' ' . 'settings' , 'title'=>__('View' .' :page' , ['page'=>__('Settings')]) ] ;
 	$permissions[] = ['name'=>'create' .' ' . 'app-guidelines' , 'title'=>__('View' .' :page' , ['page'=>__('App Guidelines')]) ] ;
+	$permissions[] = ['name'=>'create' .' ' . 'app-text' , 'title'=>__('View' .' :page' , ['page'=>__('App Text')]) ] ;
     return $permissions;
 }
 
@@ -131,7 +132,12 @@ function getSidebars($user):array
 			])
 			
 			,
+			$pageName = 'app-text'=> createSidebarItem( $pageName, __('App Text') ,  '#' ,$user->can('create '.$pageName) || $user->can('create '.$pageName) ,'la la-pencil',
+			[
+				createSidebarItem($pageName, __('View :page' , ['page' => __('App Text')]) , route('app-text.create') , $user->can('create ' .$pageName)  ),
+			])
 			
+			,
 			$pageName = 'information'=> createSidebarItem( $pageName , __('Information') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-question',
 			[
 				createSidebarItem($pageName, __('View :page' , ['page' => __('Information')]) , route('information.index') , $user->can('view ' .$pageName)  ),
@@ -190,4 +196,8 @@ function getSetting($settingName){
 function formatForView(?string $date ,bool $onlyDate = false )
 {
 	return HDate::formatForView($date,$onlyDate);
+}
+function getApiLang()
+{
+	return Request('lang','ar');
 }

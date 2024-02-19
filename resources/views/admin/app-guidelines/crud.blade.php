@@ -27,7 +27,14 @@
                                                     <x-form.textarea :rows="3" :id="'intro_ar'" :label="__('Arabic Intro')" :type="'text'" :name="'app_guideline_into_ar'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Arabic Intro')])"></x-form.textarea>
                                                 </div>
 
-                                            
+
+
+                                               
+
+
+
+
+
 
                                                 <div class="col-md-6">
                                                     <x-form.textarea :rows="3" :id="'app_guideline_outro_en'" :label="__('English Outro')" :type="'text'" :name="'app_guideline_outro_en'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('English Outro')])"></x-form.textarea>
@@ -36,12 +43,12 @@
                                                 <div class="col-md-6">
                                                     <x-form.textarea :rows="3" :id="'app_guideline_outro_ar'" :label="__('Arabic Outro')" :type="'text'" :name="'app_guideline_outro_ar'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Arabic Outro')])"></x-form.textarea>
                                                 </div>
-												
-												
-												
-												    <div class="col-md-12">
-														<hr>
-														<br>
+
+
+
+                                                <div class="col-md-12">
+                                                    <hr>
+                                                    <br>
                                                     <div class="repeater mt-2">
                                                         <div data-repeater-list="guidelines">
                                                             @foreach($model ? $model->app_guideline_items_ar : [null] as $index=>$arGuideline)
@@ -73,7 +80,7 @@
                                                         </button>
                                                     </div>
                                                 </div>
-												
+
 
 
 

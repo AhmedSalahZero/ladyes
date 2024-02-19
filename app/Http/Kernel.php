@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\authClientOrDriver;
 use App\Http\Middleware\JwtMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -67,5 +68,6 @@ class Kernel extends HttpKernel
         'JwtMiddleware' => JwtMiddleware::class,
 		'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
 		'role' => \Spatie\Permission\Middleware\roleMiddleware::class,
+		'authClientOrDriver' => authClientOrDriver::class,
     ];
 }

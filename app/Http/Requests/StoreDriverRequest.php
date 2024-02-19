@@ -22,13 +22,13 @@ class StoreDriverRequest extends FormRequest
    
     public function rules()
     {
-		$model = $this->route('driver') ;
+		$model = $this->route('driver') ?: Request()->user('driver') ;
 		$HValidationRules = HValidation::rules('drivers', $model , Request::isMethod('post') );
-		// dd($HValidationRules['phone']);
         return 
 		[
 			'first_name'=>$HValidationRules['first_name'],
 			'last_name'=>$HValidationRules['last_name'],
+			'birth_date'=>$HValidationRules['birth_date'],
 			'country_id'=>$HValidationRules['country_id'],
 			'city_id'=>$HValidationRules['city_id'],
 			'email'=>$HValidationRules['email'],
@@ -36,12 +36,13 @@ class StoreDriverRequest extends FormRequest
 			'id_number'=>$HValidationRules['id_number'],
 			'deduction_percentage'=>$HValidationRules['deduction_percentage'],
 			'driving_range'=>$HValidationRules['driving_range'],
-			
 			'make_id'=>$HValidationRules['make_id'],
 			'model_id'=>$HValidationRules['model_id'],
 			'size_id'=>$HValidationRules['size_id'],
 			'image'=>$HValidationRules['image'],
 			'id_number_image'=>$HValidationRules['id_number_image'],
+			'insurance_image'=>$HValidationRules['insurance_image'],
+			'driver_license_image'=>$HValidationRules['driver_license_image'],
 			'manufacturing_year'=>$HValidationRules['manufacturing_year'],
 			'car_max_capacity'=>$HValidationRules['car_max_capacity'],
 			'front_image'=>$HValidationRules['front_image'],
@@ -51,22 +52,17 @@ class StoreDriverRequest extends FormRequest
 			'car_color'=>$HValidationRules['car_color'],
 			'car_id_number'=>$HValidationRules['car_id_number'],
 			'invitation_code'=>$HValidationRules['invitation_code'],
-			
-			
+			'received_invitation_code'=>$HValidationRules['received_invitation_code']
         ];
     }
 	public function messages()
 	{
+	
 		return [
 			'first_name.required'=>__('Please Enter :attribute' , ['attribute'=>__('First Name')]),
 			'first_name.max'=> __(':attribute Exceed The Max Letter Length :max Letter',['attribute'=>__('First Name'),'max'=>255	]),
-			
-			
-			
 			'last_name.required'=>__('Please Enter :attribute' , ['attribute'=>__('Last Name')]),
 			'last_name.max'=> __(':attribute Exceed The Max Letter Length :max Letter',['attribute'=>__('Last Name'),'max'=>255	]),
-			// 'last_name.unique'=> __(':attribute Already Exist',['attribute'=>__('Last Name')]),
-			
 			'manufacturing_year.required'=>__('Please Enter :attribute' , ['attribute'=>__('Manufacturing Year')]),
 			'manufacturing_year.integer'=>__('Please Enter Valid :attribute' , ['attribute'=>__('Manufacturing Year')]),
 			
@@ -76,6 +72,10 @@ class StoreDriverRequest extends FormRequest
 			'email.unique'=> __(':attribute Already Exist',['attribute'=>__('Email')]),
 			
 			
+			'birth_date.required'=>__('Please Enter :attribute' , ['attribute'=>__('Birth Date')]),
+			'birth_date.date_format'=>__('Invalid :attribute' , ['attribute'=>__('Birth Date')]),
+			'birth_date.date'=>__('Invalid :attribute' , ['attribute'=>__('Birth Date')]),
+			
 			'phone.required'=>__('Please Enter :attribute' , ['attribute'=>__('Phone')]),
 			'phone.unique'=> __(':attribute Already Exist',['attribute'=>__('Phone')]),
 			
@@ -84,6 +84,7 @@ class StoreDriverRequest extends FormRequest
 			
 			// 'invitation_code.sometimes'=>__('Please Enter :attribute' , ['attribute'=>__('Invitation Code')]),
 			'invitation_code.required'=>__('Please Enter :attribute' , ['attribute'=>__('Invitation Code')]),
+			'received_invitation_code.exists'=>__('Invitation Code Not Found' ,[]),
 			'invitation_code.unique'=> __(':attribute Already Exist',['attribute'=>__('Invitation Code')]),
 			'invitation_code.max'=> __(':attribute Exceed The Max Letter Length :max Letter',['attribute'=>__('Invitation Code'),'max'=>255	]),
 			
@@ -104,11 +105,18 @@ class StoreDriverRequest extends FormRequest
 			'id_number_image.file'=>__('Please Enter Valid File For :attribute' , ['attribute'=>__('Id Number Image')]),
 			'id_number_image.mimes'=>__('Unsupported File Type :attribute' , ['attribute'=>__('Id Number Image')]),
 			
+			'insurance_image.required'=>__('Please Enter :attribute' , ['attribute'=>__('Insurance Image')]),
+			'insurance_image.file'=>__('Please Enter Valid File For :attribute' , ['attribute'=>__('Insurance Image')]),
+			'insurance_image.mimes'=>__('Unsupported File Type :attribute' , ['attribute'=>__('Insurance Image')]),
+			
+			'driver_license_image.required'=>__('Please Enter :attribute' , ['attribute'=>__('Driver License Image')]),
+			'driver_license_image.file'=>__('Please Enter Valid File For :attribute' , ['attribute'=>__('Driver License Image')]),
+			'driver_license_image.mimes'=>__('Unsupported File Type :attribute' , ['attribute'=>__('Driver License Image')]),
+			
 			
 			'front_image.required'=>__('Please Enter :attribute' , ['attribute'=>__('Front Car Image')]),
 			'front_image.file'=>__('Please Enter Valid File For :attribute' , ['attribute'=>__('Front Car Image')]),
 			'front_image.mimes'=>__('Unsupported File Type :attribute' , ['attribute'=>__('Front Car Image')]),
-			
 			
 			'back_image.required'=>__('Please Enter :attribute' , ['attribute'=>__('Back Car Image')]),
 			'back_image.file'=>__('Please Enter Valid File For :attribute' , ['attribute'=>__('Back Car Image')]),

@@ -13,7 +13,6 @@ class AddInvitationCodeToController extends Controller
 		$code = $request->get('invitation_code');
 		$senderIdOrEmailOrPhone = $request->get('sender_id_or_email_or_phone') ;
 		$sender = Driver::findByIdOrEmailOrPhone($senderIdOrEmailOrPhone);
-	
 		$receiver = Driver::find($request->get('receiver_id'));
 		if(!$sender){
 			return redirect()->back()->with('fail',__('Invalid Sender'));

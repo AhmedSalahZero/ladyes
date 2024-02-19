@@ -4,10 +4,11 @@ namespace App\Http\Requests;
 use App\Helpers\HValidation;
 use App\Traits\HasFailedValidation;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Request;
 
 class StoreEmergencyContactRequest extends FormRequest
 { 
+	protected $stopOnFirstFailure = true;
+	
 	use HasFailedValidation;
 
 

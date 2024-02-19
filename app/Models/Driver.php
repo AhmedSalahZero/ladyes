@@ -9,11 +9,13 @@ use App\Traits\Models\HasBasicStoreRequest;
 use App\Traits\Models\HasCanReceiveOrders;
 use App\Traits\Models\HasCity;
 use App\Traits\Models\HasCountry;
+use App\Traits\Models\HasCreatedAt;
 use App\Traits\Models\HasEmail;
 use App\Traits\Models\HasEmergencyContacts;
 use App\Traits\Models\HasInvitationCode;
 use App\Traits\Models\HasIsListingToOrdersNow;
 use App\Traits\Models\HasIsVerified;
+use App\Traits\Models\HasLoginByPhone;
 use App\Traits\Models\HasMake;
 use App\Traits\Models\HasModel;
 use App\Traits\Models\HasPhone;
@@ -29,6 +31,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Http\Request;
+use Laravel\Sanctum\HasApiTokens;
 use Laravolt\Avatar\Avatar;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -38,7 +41,9 @@ class Driver extends Model implements HasMedia,BannableInterface
     use HasMake,HasFactory,IsBaseModel,HasDefaultOrderScope,
 	HasCountry,HasCity,HasIsVerified,InteractsWithMedia,HasBasicStoreRequest,
 	HasModel,HasTrafficTickets, Bannable,HasCanReceiveOrders,
-	HasInvitationCode,HasIsListingToOrdersNow,HasPhone,HasEmail,HasRating,HasEmergencyContacts;
+	HasInvitationCode,HasIsListingToOrdersNow,HasPhone,HasEmail,HasRating,HasEmergencyContacts,
+	HasApiTokens,HasCreatedAt, HasLoginByPhone
+	;
 
 	
 	public function registerMediaCollections(): void
@@ -135,7 +140,8 @@ class Driver extends Model implements HasMedia,BannableInterface
 		$driver = $this->storeInventionCodeIfNotExist();
 		$driver = $this->storeVerificationCodeIfNotExist();
 		// 2- if not confirmed then send verification code 
-		$driver->sendVerificationCodeMessage();
+		return $driver->sendVerificationCodeMessage();
+		
 	}
 	public function storeInventionCodeIfNotExist()
 	{
@@ -179,6 +185,7 @@ class Driver extends Model implements HasMedia,BannableInterface
 			$builder->where('id',$idOrEmailOrPhone)->orWhere('email',$idOrEmailOrPhone)->orWhere('phone',$idOrEmailOrPhone);
 		})->first();
 	} 
+	
 	public function getInvitationCode()
 	{
 		return $this->invitation_code ;
@@ -219,6 +226,17 @@ class Driver extends Model implements HasMedia,BannableInterface
     {
         return $this->morphMany(app(BanContract::class), 'bannable')->withoutGlobalScopes();
     }
-		
+	public static function getByInvitationCode(string $invitationCode):?self
+	{
+		return self::where('invitation_code',$invitationCode)->first();
+	}		
+	public function getCountry():?Country
+	{
+		return $this->city ? $this->city->country : null ;
+	}
+	public function sendNotificationToAdminAfterLogin():bool
+	{
+		return true ;
+	}
 	
 }

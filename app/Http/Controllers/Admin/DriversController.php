@@ -24,8 +24,6 @@ class DriversController extends Controller
         foreach(['view'=>['index'] , 'create'=>['create','store'],'update'=>['edit','update'],'delete'=>['destroy']] as $name => $method ){
             $this->middleware('permission:'.getPermissionName($name) , ['only'=>$method]) ;
         }
-
-
 	}
 
     public function index()
@@ -52,7 +50,6 @@ class DriversController extends Controller
 	public function getViewUrl($model = null ):array
 	{
 		$selectedCountryId = $model ? $model->getCountryId() : 0 ;
-		$selectedCityId = $model ? $model->getCityId() : 0 ;
 		$selectedMakeId = $model ? $model->getMakeId() : 0 ;
 
 		$breadCrumbs = [

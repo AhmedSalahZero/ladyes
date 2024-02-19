@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Admin;
+use App\Models\Client;
 use App\Services\SMS\TwilioService;
 use Exception;
 use Illuminate\Pagination\Paginator;
@@ -30,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // dd((new TwilioService())->sendSmsMessage('01025894984','eg','thanks for your register'));
+	
         Paginator::useBootstrap();
         if (true) {
             app()->make(PermissionRegistrar::class)->forgetCachedPermissions();

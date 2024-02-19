@@ -22,7 +22,7 @@ class StoreClientRequest extends FormRequest
    
     public function rules()
     {
-		$model = $this->route('client') ;
+		$model = $this->route('client')?:Request()->user('client') ;
 		$HValidationRules = HValidation::rules('clients', $model , Request::isMethod('post') );
 		// dd($HValidationRules['phone']);
         return 
@@ -33,7 +33,7 @@ class StoreClientRequest extends FormRequest
 			// 'city_id'=>$HValidationRules['city_id'],
 			'email'=>$HValidationRules['email'],
 			'phone'=>$HValidationRules['phone'],
-			'image'=>$HValidationRules['image'],
+			'image'=>$HValidationRules['client_image'],
         ];
     }
 	public function messages()

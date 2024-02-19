@@ -1,13 +1,16 @@
 <?php 
 namespace App\Traits\Models;
+
+use Illuminate\Database\Eloquent\Builder;
+
 trait HasExpiredDate 
 {
-	public function scopeOnlyAvailable($q){
+	public function scopeOnlyAvailable(Builder $builder){
 		$today = now()->format('Y-m-d');
 		/**
-		 * marco [MarcoServiceProvider]
+		 ** marco [MacrosServiceProvider]
 		 */
-		return $q->onlyAvailable($today );
+		return $builder->onlyAvailable($today );
     }
 	// use isAvailableForUsing for coupons 
 	public function getIsAvailable()

@@ -44,7 +44,6 @@ return new class extends SettingsMigration
         $this->migrator->add('site.MAIL_ENCRYPTION', 'ssl');
         $this->migrator->add('site.MAIL_FROM_ADDRESS', 'nqde@mymnjz.com');
         $this->migrator->add('site.MAIL_FROM_NAME', 'mymnjz');
-		
 		$this->migrator->add('site.app_guideline_into_en', 'English Guideline');
 		$this->migrator->add('site.app_guideline_into_ar', 'السلامة و احترام الجميع ..نحن ملتزمون بما يلي');
 		$this->migrator->add('site.app_guideline_items_en', []);
@@ -52,6 +51,12 @@ return new class extends SettingsMigration
 		
 		$this->migrator->add('site.app_guideline_outro_en', 'English Guideline');
 		$this->migrator->add('site.app_guideline_outro_ar', 'يجب علي الجميع الالتزام بهذه التعليمات');
+		
+		
+		
+		$this->migrator->add('site.after_signup_message_en', 'English Message');
+		$this->migrator->add('site.after_signup_message_ar', 'نحن نقوم الان بعملية التحقق من المعلومات في حال توافق المعلومات واعتمادها يمكنك البدء في استخدام تطبيق الشريك في ليدز');
+		
 		
     }
 };

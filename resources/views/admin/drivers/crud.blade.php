@@ -45,9 +45,8 @@
                                                 <div class="col-md-6">
                                                     <x-form.input :id="'phone'" :label="__('Phone')" :type="'text'" :name="'phone'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Phone')])"></x-form.input>
                                                 </div>
-
                                                 <div class="col-md-6">
-                                                    <x-form.date :id="'birth_date'" :label="__('Birth Date')" :is-required="!isset($model)" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Birth Date')])" :name="'birth_date'" :isRequired="isset($model) ? $model->getBirthDate() : null "> </x-form.date>
+                                                    <x-form.date :id="'birth_date'" :label="__('Birth Date')" :is-required="!isset($model)" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Birth Date')])" :name="'birth_date'" :value="isset($model) ? $model->getBirthDate() : null "> </x-form.date>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <x-form.checkbox :id="'is_verified'" :label="__('Is Verified')" :is-required="!isset($model)" :name="'is_verified'" :is-checked="isset($model) ? $model->getIsVerified() : true "> </x-form.checkbox>

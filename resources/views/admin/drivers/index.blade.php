@@ -369,11 +369,8 @@
 
                                                     @if($user->can(getPermissionName('update')))
                                                     <a href="{{route($editRouteName,$model->id)}}" class="block-page ml-2 btn btn-primary btn-sm"><i class="la la-pencil"></i></a>
-                                                    <div class="d-flex mt-2  " style="gap:12px;flex-wrap:wrap">
-
-
+                                                    <div class="dropdown-grid-css" >
                                                         <div class="dropdown  send-message">
-
                                                             <button type="button" class="dropdown-toggle btn btn-outline-primary bg-primary " data-toggle="dropdown"> {{ __('Send Message') }} </button>
                                                             <div class="dropdown-menu">
                                                                 <a data-toggle="modal" data-target="#send-whatsapp-message-popup{{ $model->id }}" class="dropdown-item" href="#"> {{ __('Through Whatsapp') }} </a>
@@ -569,7 +566,7 @@
                                                                             <input type="hidden" name="receiver_id" value="{{ $model->id }}">
                                                                             {{-- <input type="hidden" name="name" value="{{ $model->getFullName() }}"> --}}
                                                                             <div class="modal-header">
-                                                                                <h5 class="modal-title" id="exampleModalLabel">{{ __('Send Email Message To :name',['name'=>$model->getFullName($lang)]) }}</h5>
+                                                                                <h5 class="modal-title" id="exampleModalLabel">{{ __('Attach Invitation Code To :name' ,['name'=>$model->getFullName($lang)]) }}</h5>
                                                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                                     <span aria-hidden="true">&times;</span>
                                                                                 </button>
