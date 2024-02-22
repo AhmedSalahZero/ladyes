@@ -73,7 +73,7 @@ class EmergencyContactsController extends Controller
     {
         $model = new EmergencyContact();
         $model->syncFromRequest($request);
-        Notification::storeNewNotification(
+        Notification::storeNewAdminNotification(
             __('New Creation', [], 'en'),
             __('New Creation', [], 'ar'),
             $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'en') . __('Emergency Contact', [], 'en') . ' [ ' . $model->getName() . ' ]',
@@ -95,7 +95,7 @@ class EmergencyContactsController extends Controller
     {
         $emergency_contact->syncFromRequest($request);
 
-        Notification::storeNewNotification(
+        Notification::storeNewAdminNotification(
             __('New Update', [], 'en'),
             __('New Update', [], 'ar'),
             $request->user('admin')->getName() . ' ' . __('Has Updated', [], 'en') . __('Emergency Contact', [], 'en') . ' [ ' . $emergency_contact->getName() . ' ]',
@@ -109,7 +109,7 @@ class EmergencyContactsController extends Controller
     {
         $emergency_contact->delete();
 
-        Notification::storeNewNotification(
+        Notification::storeNewAdminNotification(
             __('New Deletion', [], 'en'),
             __('New Deletion', [], 'ar'),
             $request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'en') . __('Emergency Contact', [], 'en') . ' [ ' . $emergency_contact->getName('en') . ' ]',
@@ -130,7 +130,7 @@ class EmergencyContactsController extends Controller
                 'can_receive_travel_info' => $request->boolean('is_active')
             ]);
 
-            Notification::storeNewNotification(
+            Notification::storeNewAdminNotification(
                 __('New Update', [], 'en'),
                 __('New Update', [], 'ar'),
                 $request->user('admin')->getName() . ' ' . __('Has Updated', [], 'en') . __('Emergency Contact', [], 'en') . ' [ ' . $emergencyContact->getName('en') . ' ] ' . __('For') . ' ' . $driverOrClient->getFullName(),
@@ -154,7 +154,7 @@ class EmergencyContactsController extends Controller
 		$driverOrClient = ('\App\Models\\' . $modelType)::find($modelId);
         $emergencyContact = EmergencyContact::sync($driverOrClient,$request->get('emergency_contact_id'),$request->boolean('can_receive_travel_info'),$request->has('from_existing_contact'));
 
-        Notification::storeNewNotification(
+        Notification::storeNewAdminNotification(
             __('New Creation', [], 'en'),
             __('New Creation', [], 'ar'),
             $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'en') . __('Emergency Contact', [], 'en') . ' [ ' . $emergencyContact->getName('en') . ' ] ' . __('To') . ' ' . $driverOrClient->getFullName(),
@@ -177,7 +177,7 @@ class EmergencyContactsController extends Controller
         $emergencyContact = EmergencyContact::find($emergencyContactId);
         if ($driverOrClient && $emergencyContactId) {
             $driverOrClient->emergencyContacts()->detach($emergencyContactId);
-            Notification::storeNewNotification(
+            Notification::storeNewAdminNotification(
                 __('New Deletion', [], 'en'),
                 __('Has Detached', [], 'ar'),
                 $request->user('admin')->getName() . ' ' . __('Has Detached', [], 'en') . __('Emergency Contact', [], 'en') . ' [ ' . $emergencyContact->getName('en') . ' ] ' . __('To') . ' ' . $driverOrClient->getFullName(),

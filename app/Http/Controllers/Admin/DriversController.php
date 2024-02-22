@@ -85,7 +85,7 @@ class DriversController extends Controller
     {
         $model = new Driver();
 		$model->syncFromRequest($request);
-		Notification::storeNewNotification(
+		Notification::storeNewAdminNotification(
             __('New Creation', [], 'en'),
             __('New Creation', [], 'ar'),
             $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'en') . __('Driver', [], 'en') . ' [ ' . $model->getName('en') . ' ]',
@@ -104,7 +104,7 @@ class DriversController extends Controller
     {
 			$driver->syncFromRequest($request);
 
-			Notification::storeNewNotification(
+			Notification::storeNewAdminNotification(
 				__('New Update', [], 'en'),
 				__('New Update', [], 'ar'),
 				$request->user('admin')->getName() . ' ' . __('Has Update', [], 'en') . __('Driver', [], 'en') . ' [ ' . $driver->getName('en') . ' ]',
@@ -117,7 +117,7 @@ class DriversController extends Controller
     public function destroy(Request $request,Driver $driver)
     {
 		$driver->delete();
-		Notification::storeNewNotification(
+		Notification::storeNewAdminNotification(
 			__('New Deletion', [], 'en'),
 			__('New Deletion', [], 'ar'),
 			$request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'en') . __('Driver', [], 'en') . ' [ ' . $driver->getName('en') . ' ]',
@@ -137,7 +137,7 @@ class DriversController extends Controller
 				'comment'=>$request->get('comment')
 				]) ;
 
-			Notification::storeNewNotification(
+			Notification::storeNewAdminNotification(
 				__('New Update', [], 'en'),
 				__('New Update', [], 'ar'),
 				$request->user('admin')->getName() . ' ' . $banMessageEn . __('Driver', [], 'en') . ' [ ' . $driver->getName('en') . ' ]',
@@ -158,7 +158,7 @@ class DriversController extends Controller
 
 			$driver->toggleIsVerified();
 
-			Notification::storeNewNotification(
+			Notification::storeNewAdminNotification(
 				__('New Update', [], 'en'),
 				__('New Update', [], 'ar'),
 				$request->user('admin')->getName() . ' ' . $verifiedMessageEn . __('Driver', [], 'en') . ' [ ' . $driver->getName('en') . ' ]',

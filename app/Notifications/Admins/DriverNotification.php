@@ -10,7 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
 
-class AdminNotification extends Notification implements ShouldBroadcastNow
+class DriverNotification extends Notification implements ShouldBroadcastNow
 {
     use Queueable,InteractsWithSockets;
 

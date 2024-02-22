@@ -55,7 +55,6 @@ class CarMakeController extends Controller
                 'route' => '#'
             ]
         ];
-
         return [
             'breadCrumbs' => $breadCrumbs,
             'pageTitle' => __('Car Makes'),
@@ -70,7 +69,7 @@ class CarMakeController extends Controller
         $model = new CarMake();
         $model->syncFromRequest($request);
 
-        Notification::storeNewNotification(
+        Notification::storeNewAdminNotification(
             __('New Creation', [], 'en'),
             __('New Creation', [], 'ar'),
             $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'en') . __('Car Make', [], 'en') . ' [ ' . $model->getName('en') . ' ]',
@@ -91,7 +90,7 @@ class CarMakeController extends Controller
     public function update(StoreCarMakeRequest $request, CarMake $carMake)
     {
         $carMake->syncFromRequest($request);
-        Notification::storeNewNotification(
+        Notification::storeNewAdminNotification(
             __('New Update', [], 'en'),
             __('New Update', [], 'ar'),
             $request->user('admin')->getName() . ' ' . __('Has Update', [], 'en') . __('Car Make', [], 'en') . ' [ ' . $carMake->getName('en') . ' ]',
@@ -105,7 +104,7 @@ class CarMakeController extends Controller
     {
         $car_make->delete();
 
-        Notification::storeNewNotification(
+        Notification::storeNewAdminNotification(
             __('New Deletion', [], 'en'),
             __('New Deletion', [], 'ar'),
             $request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'en') . __('Car Make', [], 'en') . ' [ ' . $car_make->getName('en') . ' ]',

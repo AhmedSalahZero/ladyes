@@ -3,7 +3,8 @@
 namespace App\Models;
 
 use App\Helpers\HDate;
-use App\Helpers\HHelpers;
+use App\Interfaces\IHaveAppNotification;
+use App\Notifications\Admins\ClientNotification;
 use App\Traits\Accessors\IsBaseModel;
 use App\Traits\Models\HasBasicStoreRequest;
 use App\Traits\Models\HasCanPayByCash;
@@ -27,15 +28,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Laravolt\Avatar\Avatar;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Client extends Model implements HasMedia, BannableInterface
+class Client extends Model implements HasMedia, BannableInterface,IHaveAppNotification
 {
 	
     use HasMake;
+    use Notifiable;
     use HasFactory;
     use IsBaseModel;
     use HasDefaultOrderScope;
@@ -210,5 +213,11 @@ class Client extends Model implements HasMedia, BannableInterface
 	{
 		return false ;
 	}
-	
+	/**
+	 * * هي الاشعارات اللي بتتبعت للعميل في الموبايل ابلكيشن
+	 */
+	public function sendAppNotification(string $titleEn,string $titleAr,string $messageEn,string $messageAr)
+	{
+		$this->notify(new ClientNotification($titleEn,$titleAr,$messageEn,$messageAr,formatForView(now())));
+	}
 }

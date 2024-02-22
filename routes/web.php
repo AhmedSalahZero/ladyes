@@ -133,8 +133,11 @@ Route::group(['middleware' => 'auth:admin'], function () {
 		Route::get('app-text/create', [SettingsController::class, 'createAppText'])->name('app-text.create');
 		Route::post('app-text/create', [SettingsController::class, 'storeAppText'])->name('app-text.store');
 
-    //###################### countries #########################
-    Route::resource('notifications', NotificationsController::class)->only(['index']);
+    //###################### notifications #########################
+    Route::get('admin-notifications', [NotificationsController::class,'viewAdminNotifications'])->name('admin.notifications.index');
+    Route::get('app-notifications', [NotificationsController::class,'viewAppNotifications'])->name('app.notifications.index');
+    Route::get('app-notifications/create', [NotificationsController::class,'createAppNotifications'])->name('app.notifications.create');
+    Route::post('app-notifications/create', [NotificationsController::class,'storeAppNotifications'])->name('app.notifications.store');
 
     //###################### messages #########################
     Route::post('send-sms-message', [SendSmsMessageController::class, 'send'])->name('send.sms.message');

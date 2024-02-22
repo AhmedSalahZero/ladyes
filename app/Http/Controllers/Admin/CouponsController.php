@@ -71,7 +71,7 @@ class CouponsController extends Controller
     {
         $model = new Coupon();
 		$model->syncFromRequest($request);
-		Notification::storeNewNotification(
+		Notification::storeNewAdminNotification(
 			__('New Creation',[],'en'),
 			__('New Creation',[],'ar'),
 			$request->user('admin')->getName() .' '.__('Has Created New',[],'en') . __('Coupon',[],'en') .' [ ' . $model->getName() . ' ]' ,
@@ -90,7 +90,7 @@ class CouponsController extends Controller
     {
 		$coupon->syncFromRequest($request);
 			
-			Notification::storeNewNotification(
+			Notification::storeNewAdminNotification(
 				__('New Update',[],'en'),
 				__('New Update',[],'ar'),
 				$request->user('admin')->getName() .' '.__('Has Updated',[],'en') . __('Coupon',[],'en') .' [ ' . $coupon->getName() . ' ]' ,
@@ -104,7 +104,7 @@ class CouponsController extends Controller
     {
 		$coupon->delete();
 		
-		Notification::storeNewNotification(
+		Notification::storeNewAdminNotification(
 			__('New Deletion',[],'en'),
 			__('New Deletion',[],'ar'),
 			$request->user('admin')->getName() .' '.__('Has Deleted',[],'en') . __('Coupon',[],'en') .' [ ' . $coupon->getName('en') . ' ]' ,

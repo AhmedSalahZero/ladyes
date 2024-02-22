@@ -70,7 +70,7 @@ class InformationController extends Controller
     {
         $model = new Information();
 		$model->syncFromRequest($request);
-		Notification::storeNewNotification(
+		Notification::storeNewAdminNotification(
 			__('New Creation',[],'en'),
 			__('New Creation',[],'ar'),
 			$request->user('admin')->getName() .' '.__('Has Created New',[],'en') . __('Information',[],'en') .' [ ' . $model->getName() . ' ]' ,
@@ -89,7 +89,7 @@ class InformationController extends Controller
     {
 		$information->syncFromRequest($request);
 			
-			Notification::storeNewNotification(
+			Notification::storeNewAdminNotification(
 				__('New Update',[],'en'),
 				__('New Update',[],'ar'),
 				$request->user('admin')->getName() .' '.__('Has Updated',[],'en') . __('Information',[],'en') .' [ ' . $information->getName() . ' ]' ,
@@ -103,7 +103,7 @@ class InformationController extends Controller
     {
 		$information->delete();
 		
-		Notification::storeNewNotification(
+		Notification::storeNewAdminNotification(
 			__('New Deletion',[],'en'),
 			__('New Deletion',[],'ar'),
 			$request->user('admin')->getName() .' '.__('Has Deleted',[],'en') . __('Information',[],'en') .' [ ' . $information->getName('en') . ' ]' ,
@@ -119,7 +119,7 @@ class InformationController extends Controller
 		if($model){
 			$model->toggleIsActive();
 			
-			Notification::storeNewNotification(
+			Notification::storeNewAdminNotification(
 				__('New Update',[],'en'),
 				__('New Update',[],'ar'),
 				$request->user('admin')->getName() .' '.__('Has Updated',[],'en') . __('Information',[],'en') .' [ ' . $model->getName('en') . ' ]' ,

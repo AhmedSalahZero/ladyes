@@ -72,7 +72,7 @@ class CarModelController extends Controller
         $model = new CarModel();
         $model->syncFromRequest($request);
 
-        Notification::storeNewNotification(
+        Notification::storeNewAdminNotification(
             __('New Creation', [], 'en'),
             __('New Creation', [], 'ar'),
             $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'en') . __('Car Make', [], 'en') . ' [ ' . $model->getName('en') . ' ]',
@@ -94,7 +94,7 @@ class CarModelController extends Controller
     {
         $carModel->syncFromRequest($request);
 
-        Notification::storeNewNotification(
+        Notification::storeNewAdminNotification(
             __('New Update', [], 'en'),
             __('New Update', [], 'ar'),
             $request->user('admin')->getName() . ' ' . __('Has Update', [], 'en') . __('Car Model', [], 'en') . ' [ ' . $carModel->getName('en') . ' ]',
@@ -108,7 +108,7 @@ class CarModelController extends Controller
     {
         $car_model->delete();
 
-        Notification::storeNewNotification(
+        Notification::storeNewAdminNotification(
             __('New Deletion', [], 'en'),
             __('New Deletion', [], 'ar'),
             $request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'en') . __('Car Model', [], 'en') . ' [ ' . $car_model->getName('en') . ' ]',

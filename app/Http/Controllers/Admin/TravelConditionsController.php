@@ -83,7 +83,7 @@ class TravelConditionsController extends Controller
     {
         $model = new TravelCondition();
 		$model->syncFromRequest($request);
-		Notification::storeNewNotification(
+		Notification::storeNewAdminNotification(
 			__('New Creation',[],'en'),
 			__('New Creation',[],'ar'),
 			$request->user('admin')->getName() .' '.__('Has Created New',[],'en') . __('Travel Condition',[],'en') .' [ ' . $model->getName() . ' ]' ,
@@ -102,7 +102,7 @@ class TravelConditionsController extends Controller
     {
 		$travel_condition->syncFromRequest($request);
 			
-			Notification::storeNewNotification(
+			Notification::storeNewAdminNotification(
 				__('New Update',[],'en'),
 				__('New Update',[],'ar'),
 				$request->user('admin')->getName() .' '.__('Has Updated',[],'en') . __('Travel Condition',[],'en') .' [ ' . $travel_condition->getName() . ' ]' ,
@@ -116,7 +116,7 @@ class TravelConditionsController extends Controller
     {
 		$travel_condition->delete();
 		
-		Notification::storeNewNotification(
+		Notification::storeNewAdminNotification(
 			__('New Deletion',[],'en'),
 			__('New Deletion',[],'ar'),
 			$request->user('admin')->getName() .' '.__('Has Deleted',[],'en') . __('Travel Condition',[],'en') .' [ ' . $travel_condition->getName('en') . ' ]' ,
@@ -132,7 +132,7 @@ class TravelConditionsController extends Controller
 		if($model){
 			$model->toggleIsActive();
 			
-			Notification::storeNewNotification(
+			Notification::storeNewAdminNotification(
 				__('New Update',[],'en'),
 				__('New Update',[],'ar'),
 				$request->user('admin')->getName() .' '.__('Has Updated',[],'en') . __('Travel Condition',[],'en') .' [ ' . $model->getName('en') . ' ]' ,

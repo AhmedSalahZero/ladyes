@@ -69,7 +69,7 @@ class CitiesController extends Controller
     {
         $model = new City();
 		$model->syncFromRequest($request);
-		Notification::storeNewNotification(
+		Notification::storeNewAdminNotification(
             __('New Creation', [], 'en'),
             __('New Creation', [], 'ar'),
             $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'en') . __('City', [], 'en') . ' [ ' . $model->getName('en') . ' ]',
@@ -88,7 +88,7 @@ class CitiesController extends Controller
     {
 			$city->syncFromRequest($request);
 			
-			Notification::storeNewNotification(
+			Notification::storeNewAdminNotification(
 				__('New Update', [], 'en'),
 				__('New Update', [], 'ar'),
 				$request->user('admin')->getName() . ' ' . __('Has Updated', [], 'en') . __('City', [], 'en') . ' [ ' . $city->getName('en') . ' ]',
@@ -101,7 +101,7 @@ class CitiesController extends Controller
     public function destroy(Request $request,City $city)
     {
 		$city->delete();
-		Notification::storeNewNotification(
+		Notification::storeNewAdminNotification(
 			__('New Deletion', [], 'en'),
 			__('New Deletion', [], 'ar'),
 			$request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'en') . __('City', [], 'en') . ' [ ' . $city->getName('en') . ' ]',

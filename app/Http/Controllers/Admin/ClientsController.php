@@ -79,7 +79,7 @@ class ClientsController extends Controller
     {
         $model = new Client();
         $model->syncFromRequest($request);
-        Notification::storeNewNotification(
+        Notification::storeNewAdminNotification(
             __('New Creation', [], 'en'),
             __('New Creation', [], 'ar'),
             $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'en') . __('Client', [], 'en') . ' [ ' . $model->getName('en') . ' ]',
@@ -101,7 +101,7 @@ class ClientsController extends Controller
     {
         $client->syncFromRequest($request);
 
-        Notification::storeNewNotification(
+        Notification::storeNewAdminNotification(
             __('New Update', [], 'en'),
             __('New Update', [], 'ar'),
             $request->user('admin')->getName() . ' ' . __('Has Update', [], 'en') . __('Client', [], 'en') . ' [ ' . $client->getName('en') . ' ]',
@@ -114,7 +114,7 @@ class ClientsController extends Controller
     public function destroy(Request $request, Client $client)
     {
         $client->delete();
-        Notification::storeNewNotification(
+        Notification::storeNewAdminNotification(
             __('New Deletion', [], 'en'),
             __('New Deletion', [], 'ar'),
             $request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'en') . __('Client', [], 'en') . ' [ ' . $client->getName('en') . ' ]',
@@ -135,7 +135,7 @@ class ClientsController extends Controller
                 'comment' => $request->get('comment')
             ]) ;
 
-            Notification::storeNewNotification(
+            Notification::storeNewAdminNotification(
                 __('New Update', [], 'en'),
                 __('New Update', [], 'ar'),
                 $request->user('admin')->getName() . ' ' . $banMessageEn . __('Client', [], 'en') . ' [ ' . $client->getName('en') . ' ]',
@@ -155,7 +155,7 @@ class ClientsController extends Controller
 
             $client->toggleIsVerified();
 
-            Notification::storeNewNotification(
+            Notification::storeNewAdminNotification(
                 __('New Update', [], 'en'),
                 __('New Update', [], 'ar'),
                 $request->user('admin')->getName() . ' ' . $verifiedMessageEn . __('Client', [], 'en') . ' [ ' . $client->getName('en') . ' ]',

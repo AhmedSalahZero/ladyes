@@ -112,3 +112,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     row-gap: 20px;
     text-align: center;
 }
+.bs-select-all,
+.bs-deselect-all
+{
+	background-color:#f0f0f0;
+}
+.bs-select-all:hover,
+.bs-deselect-all:hover
+{
+	background-color:#f3f5ff;
+}

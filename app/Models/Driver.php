@@ -3,6 +3,8 @@
 namespace App\Models;
 use App\Helpers\HDate;
 use App\Helpers\HHelpers;
+use App\Interfaces\IHaveAppNotification;
+use App\Notifications\Admins\DriverNotification;
 use App\Settings\SiteSetting;
 use App\Traits\Accessors\IsBaseModel;
 use App\Traits\Models\HasBasicStoreRequest;
@@ -31,16 +33,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Laravolt\Avatar\Avatar;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Driver extends Model implements HasMedia,BannableInterface
+class Driver extends Model implements HasMedia,BannableInterface,IHaveAppNotification
 {
     use HasMake,HasFactory,IsBaseModel,HasDefaultOrderScope,
 	HasCountry,HasCity,HasIsVerified,InteractsWithMedia,HasBasicStoreRequest,
-	HasModel,HasTrafficTickets, Bannable,HasCanReceiveOrders,
+	HasModel,HasTrafficTickets, Bannable,HasCanReceiveOrders,Notifiable,
 	HasInvitationCode,HasIsListingToOrdersNow,HasPhone,HasEmail,HasRating,HasEmergencyContacts,
 	HasApiTokens,HasCreatedAt, HasLoginByPhone
 	;
@@ -238,5 +241,12 @@ class Driver extends Model implements HasMedia,BannableInterface
 	{
 		return true ;
 	}
-	
+	/**
+	 * * هي الاشعارات اللي بتتبعت للعميل في الموبايل ابلكيشن
+	 */
+	public function sendAppNotification(string $titleEn,string $titleAr,string $messageEn,string $messageAr)
+	{
+		$this->notify(new DriverNotification($titleEn,$titleAr,$messageEn,$messageAr,formatForView(now())));
+	}
+		
 }

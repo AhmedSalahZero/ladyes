@@ -59,11 +59,7 @@ window.Echo.private('App.Models.Admin.' + adminId)
 		incrementTotalNumberOfNotifications()
     });
 	
-// window.Echo.channel('channelname')
-//     .listen('TestEvent', (e) => {
-//         console.log(e);
-// 		toastr.success('قام احمد صلاح بانشاء مشروع جديد', 'تم انشاء منشور جديد')
-//     });
+
 
 
 

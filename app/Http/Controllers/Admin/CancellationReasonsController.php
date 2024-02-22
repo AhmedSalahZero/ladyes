@@ -83,7 +83,7 @@ class CancellationReasonsController extends Controller
     {
         $model = new CancellationReason();
 		$model->syncFromRequest($request);
-		Notification::storeNewNotification(
+		Notification::storeNewAdminNotification(
 			__('New Creation',[],'en'),
 			__('New Creation',[],'ar'),
 			$request->user('admin')->getName() .' '.__('Has Created New',[],'en') . __('Cancellation Reason',[],'en') .' [ ' . $model->getName() . ' ]' ,
@@ -102,7 +102,7 @@ class CancellationReasonsController extends Controller
     {
 		$cancellation_reason->syncFromRequest($request);
 			
-			Notification::storeNewNotification(
+			Notification::storeNewAdminNotification(
 				__('New Update',[],'en'),
 				__('New Update',[],'ar'),
 				$request->user('admin')->getName() .' '.__('Has Updated',[],'en') . __('Cancellation Reason',[],'en') .' [ ' . $cancellation_reason->getName() . ' ]' ,
@@ -116,7 +116,7 @@ class CancellationReasonsController extends Controller
     {
 		$cancellation_reason->delete();
 		
-		Notification::storeNewNotification(
+		Notification::storeNewAdminNotification(
 			__('New Deletion',[],'en'),
 			__('New Deletion',[],'ar'),
 			$request->user('admin')->getName() .' '.__('Has Deleted',[],'en') . __('Cancellation Reason',[],'en') .' [ ' . $cancellation_reason->getName('en') . ' ]' ,
@@ -132,7 +132,7 @@ class CancellationReasonsController extends Controller
 		if($model){
 			$model->toggleIsActive();
 			
-			Notification::storeNewNotification(
+			Notification::storeNewAdminNotification(
 				__('New Update',[],'en'),
 				__('New Update',[],'ar'),
 				$request->user('admin')->getName() .' '.__('Has Updated',[],'en') . __('Cancellation Reason',[],'en') .' [ ' . $model->getName('en') . ' ]' ,

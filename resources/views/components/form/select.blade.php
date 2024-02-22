@@ -60,10 +60,13 @@ $basicClasses = $isSelect2 ? "form-control  select select2-select btn-white" :"f
 
 <select 
 data-container="body"
-
+@if($multiple)
+data-actions-box="true"
+@endif
 @if($isRequired)
 required
 @endif 
+data-tags="true"
  data-dir="{{ app()->getLocale() }}" data-style="btn border-primary text-light" title="{{ __('Please Select') }}" @if($addNewModalModalName) data-modal-name="{{ $addNewModalModalName }}" data-modal-type="{{ $addNewModalModalType }}" @endif  @if($disabled) disabled @endif {{ $attributes->merge(['class'=>$basicClasses]) }} data-live-search="true" data-add-new="{{ $addNew ? 1 : 0 }}" data-all="{{ $all ? 1 :0 }}" @if($multiple) multiple @endif>
 
     @if($pleaseSelect)

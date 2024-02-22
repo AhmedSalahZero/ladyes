@@ -17,6 +17,10 @@ class HValidation
 		// $uniqueExcept = $currentItemId;
 		$isRequired = $isRequired && !$model ? 'required' : 'sometimes'; 
 		return array_merge([
+			'title_en'=>['required' , 'max:255'],
+			'title_ar'=>['required' , 'max:255'],
+			'message_en'=>['required' , 'max:255'],
+			'message_ar'=>['required' , 'max:255'],
 			'app_name_en'=>['required' , 'max:255'],
 			'app_name_ar'=>['required' , 'max:255'],
 			'app_phone'=>['required' , 'max:255'],
@@ -78,16 +82,6 @@ class HValidation
 			'max_discount'=>['sometimes','numeric','gte:0'] ,
 			'discount'=>['sometimes','numeric','gte:0'] ,
 			'cost_price'=>['sometimes','numeric','gte:0'] ,
-			'pricing_method'=>[$isRequired,'numeric','in:1,2,3'] ,
-			'cost_calculation_method'=>[$isRequired,'numeric','in:1,2'] ,
-			'device_status_id'=>[$isRequired,'numeric','in:1,2'] ,
-			'price_method_price'=>['required_if:cost_calculation_method,==1,','numeric','gte:0'] ,
-			'product_min_price'=>['sometimes','numeric','gte:0'] ,
-			'order_min_price'=>['sometimes','numeric','gte:0'] ,
-			
-			'tax_group_id'=>['sometimes' , Rule::exists('tax_groups','id')->where('vendor_id',$vendorOrEmployee->id)] ,
-			'store_house_id'=>['sometimes' , Rule::exists('store_houses','id')->where('vendor_id',$vendorOrEmployee->id)] ,
-			// 'apply_order_type'=>['sometimes' , Rule::exists('vendor_order_types','id')->where('vendor_id',$vendorOrEmployee->id)] ,
 			'description_en'=>'sometimes|max:'.self::MAX_DESCRIPTION_LENGTH,
 			'description_ar'=>'sometimes|max:'.self::MAX_DESCRIPTION_LENGTH,
 			'is_active'=>'sometimes|in:0,1',

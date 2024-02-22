@@ -31,7 +31,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-	
         Paginator::useBootstrap();
         if (true) {
             app()->make(PermissionRegistrar::class)->forgetCachedPermissions();

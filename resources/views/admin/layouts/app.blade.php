@@ -78,6 +78,7 @@
 
     <script>
         function reinitializeSelect2() {
+			
             let numberOfMulteSelects = $(document).find('select.select2-select').length;
             $(document).find('select.select2-select').each(function(index, value) {
 
@@ -85,7 +86,10 @@
                     $(this).selectpicker({
                         maxOptions: 0
                         , dir: 'rtl'
-                        , buttons: ['selectMax', 'disableAll']
+                        , buttons: ['selectMax', 'disableAll'],
+						  noneSelectedText: '{{ __("Nothing Selected") }}',
+						selectAllText: "{{ __('Select All') }}",
+						deselectAllText: "{{ __('Deselect All') }}"
                     });
                     $(this).data('max-options', 0);
                 }

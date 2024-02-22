@@ -9,9 +9,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            {{-- <x-form.index-page-header :create-route="$createRoute" :page-title="$pageTitle"> </x-form.index-page-header> --}}
-                            {{-- @include('admin.layouts.alerts.success') --}}
-                            {{-- @include('admin.layouts.alerts.errors') --}}
+                            <x-form.index-page-header :create-route="$createRoute" :page-title="$pageTitle"> </x-form.index-page-header>
                             <div class="card-content collapse show" style="margin-top: -12px">
                                 <div class="card-body card-dashboard">
                                     <x-tables.basic-table>

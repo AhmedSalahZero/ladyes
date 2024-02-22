@@ -13,7 +13,9 @@ use App\Settings\SiteSetting;
 function getPermissions():array
 {
 	$permissions[] = ['name'=>'view home','title'=>__('View :page',['page'=>__('Home')])];
-	$permissions[] = ['name'=>'view notifications','title'=>__('View :page',['page'=>__('Notifications')])];
+	$permissions[] = ['name'=>'view admin-notifications','title'=>__('View :page',['page'=>__('Admin Notifications')])];
+	$permissions[] = ['name'=>'view app-notifications','title'=>__('View :page',['page'=>__('App Notifications')])];
+	$permissions[] = ['name'=>'create app-notifications','title'=>__('Create :page',['page'=>__('App Notifications')])];
 	$normalPermissions = ['admins','roles-and-permissions','car-makes','car-models','drivers','clients','cities'
 	,'travel-conditions','cancellation-reasons','emergency-contacts','promotions','helps','information','coupons'
 
@@ -119,9 +121,10 @@ function getSidebars($user):array
 			[
 				createSidebarItem($pageName, __('View :page' , ['page' => __('Settings')]) , route('settings.create') , $user->can('create ' .$pageName)  ),
 			]),
-			$pageName = 'notifications'=> createSidebarItem( $pageName, __('Notifications') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-bell',
+			$pageName = 'admin-notifications'=> createSidebarItem( $pageName, __('Notifications') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-bell',
 			[
-				createSidebarItem($pageName, __('View :page' , ['page' => __('Notifications')]) , route('notifications.index') , $user->can('view ' .$pageName)  ),
+				createSidebarItem($pageName, __('View :page' , ['page' => __('Admin Notifications')]) , route('admin.notifications.index') , $user->can('view ' .$pageName)  ),
+				createSidebarItem($pageName, __('View :page' , ['page' => __('App Notifications')]) , route('app.notifications.index') , $user->can('view app-notifications')  ),
 			])
 			,
 			

@@ -98,7 +98,7 @@ class AdminController extends Controller
     {
         $admin = new Admin();
         $admin->syncFromRequest($request);
-        Notification::storeNewNotification(
+        Notification::storeNewAdminNotification(
             __('New Creation', [], 'en'),
             __('New Creation', [], 'ar'),
             $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'en') . __('Admin', [], 'en') . ' [ ' . $admin->getName() . ' ]',
@@ -124,7 +124,7 @@ class AdminController extends Controller
     {
         $admin->syncFromRequest($request);
 
-        Notification::storeNewNotification(
+        Notification::storeNewAdminNotification(
             __('New Update', [], 'en'),
             __('New Update', [], 'ar'),
             $request->user('admin')->getName() . ' ' . __('Has Updated', [], 'en') . __('Admin', [], 'en') . ' [ ' . $admin->getName() . ' ]',
@@ -138,7 +138,7 @@ class AdminController extends Controller
     {
         $admin->delete();
 
-        Notification::storeNewNotification(
+        Notification::storeNewAdminNotification(
             __('New Deletion', [], 'en'),
             __('New Deletion', [], 'ar'),
             $request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'en') . __('Admin', [], 'en') . ' [ ' . $admin->getName() . ' ]',
@@ -153,7 +153,7 @@ class AdminController extends Controller
         if ($admin) {
             $admin->toggleIsActive();
 
-            Notification::storeNewNotification(
+            Notification::storeNewAdminNotification(
                 __('New Update', [], 'en'),
                 __('New Update', [], 'ar'),
                 $request->user('admin')->getName() . ' ' . __('Has Updated', [], 'en') . __('Admin', [], 'en') . ' [ ' . $admin->getName() . ' ]',

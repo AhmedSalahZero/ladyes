@@ -18,7 +18,7 @@ class DriversController extends Controller
 	}
 	public function update(StoreDriverRequest $request){
 		$request->user('driver')->syncFromRequest($request);
-		Notification::storeNewNotification(
+		Notification::storeNewAdminNotification(
 			__('Profile Update', [], 'en'),
 			__('Profile Update', [], 'ar'),
 			$request->user('driver')->getFullName('en') . ' ' . __('Has Updated His Profile Info', [], 'en') ,

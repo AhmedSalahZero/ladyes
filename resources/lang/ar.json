@@ -341,5 +341,16 @@
 	"Country Id":"كود الدولة (الاي دي)",
 	"Make Id":"كود ماركة السيارة (الاي دي)",
 	"Please Enter Verification Code":"برجاء ادخال رمز التاكيد",
-	"Please Enter Valid Verification Code":"رمز التاكيد غير صحيح"
+	"Please Enter Valid Verification Code":"رمز التاكيد غير صحيح",
+	"App Notifications":"اشعارات التطبيق",
+	"Admin Notifications":"اشعارات اللوحة",
+	"English Title":"عنوان باللغة الانجليزية",
+	"Arabic Title":"عنوان باللغة العربية",
+	"English Message":"الرسالة باللغة الانجليزية",
+	"Arabic Message":"الرسالة باللغة العربية",
+	"Nothing Selected":"لم يتم اختيار شئ بعد",
+	"Select All":"اختار الكل",
+	"Deselect All":"الغاء اختيار الكل",
+	"Client Name":"اسم العميل",
+	"Driver Name":"اسم السائف"
 }

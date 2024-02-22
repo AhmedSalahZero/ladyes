@@ -24,7 +24,7 @@ trait HasLoginByPhone
 			return $this->apiResponse(__('Verification Code Has Been Sent Successfully',[],getApiLang()));
 		}
 		if($model->sendNotificationToAdminAfterLogin()){
-			Notification::storeNewNotification(
+			Notification::storeNewAdminNotification(
 				__('New Login', [], 'en'),
 				__('New Login', [], 'ar'),
 				__('Driver :modelName Has Logged In',['modelName'=>$model->getName('en')],'en'),

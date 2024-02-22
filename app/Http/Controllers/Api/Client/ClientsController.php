@@ -23,7 +23,7 @@ class ClientsController extends Controller
 		 */
 		$client = $request->user('client');
 		$client->syncFromRequest($request);
-		// Notification::storeNewNotification(
+		// Notification::storeNewAdminNotification(
 		// 	__('Profile Update', [], 'en'),
 		// 	__('Profile Update', [], 'ar'),
 		// 	$request->user('client')->getFullName('en') . ' ' . __('Has Updated His Profile Info', [], 'en') ,

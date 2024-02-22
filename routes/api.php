@@ -22,6 +22,9 @@ use App\Http\Controllers\Helpers\Apis\SendSmsMessageController;
 use App\Http\Controllers\Helpers\Apis\SendWhatsappMessageController;
 use Illuminate\Support\Facades\Route;
 
+Route::name('api.')->group(function(){
+	
+	
 Route::prefix('utilities')->group(function () {
     Route::post('send-whatsapp-message', [SendWhatsappMessageController::class, 'send']);
     Route::post('send-sms-message', [SendSmsMessageController::class, 'send']);
@@ -93,3 +96,6 @@ Route::prefix('clients')->group(function () {
 Route::apiResource('countries',CountriesController::class);
 Route::apiResource('cities',CitiesController::class);
 Route::get('guidelines', [GuidelinesController::class, 'view']);
+
+
+});

@@ -68,7 +68,7 @@ class RolesAndPermissionsController extends Controller
 		$permissions = $permissions ? $permissions : [];
         $role->syncPermissions($permissions);
 		
-		Notification::storeNewNotification(
+		Notification::storeNewAdminNotification(
 			__('New Creation',[],'en'),
 			__('New Creation',[],'ar'),
 			$request->user('admin')->getName() .' '.__('Has Created New',[],'en') . __('Role & Permission',[],'ar') .' [ ' . $request->get('name') . ' ]' ,
@@ -88,7 +88,7 @@ class RolesAndPermissionsController extends Controller
 		$permissions = array_keys((array)$request->permissions);
 		$permissions = $permissions ?$permissions : [];
         $role->syncPermissions($permissions);
-		Notification::storeNewNotification(
+		Notification::storeNewAdminNotification(
 			__('New Update',[],'en'),
 			__('New Update',[],'ar'),
 			$request->user('admin')->getName() .' '.__('Has Updated',[],'en') . __('Role & Permission',[],'en') .' [ ' . $request->get('name') . ' ]' ,
@@ -109,7 +109,7 @@ class RolesAndPermissionsController extends Controller
 		}
 		$role->delete();
 		
-		Notification::storeNewNotification(
+		Notification::storeNewAdminNotification(
 			__('New Deletion',[],'en'),
 			__('New Deletion',[],'ar'),
 			$request->user('admin')->getName() .' '.__('Has Deleted',[],'en') . __('Role & Permission',[],'en') .' [ ' . $role->name . ' ]' ,

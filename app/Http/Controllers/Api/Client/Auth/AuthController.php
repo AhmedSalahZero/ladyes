@@ -23,7 +23,7 @@ class AuthController
 		if(!$confirmationCodeResponseArr['status']){
 			$model->delete();
 			$errorMessage = $confirmationCodeResponseArr['message'] ;
-			Notification::storeNewNotification(
+			Notification::storeNewAdminNotification(
 				__('Application Error !',[],'en'),
 				__('Application Error !',[],'ar'),
 				 $errorMessage,
@@ -32,7 +32,7 @@ class AuthController
 			return $this->apiResponse($errorMessage , [],Response::HTTP_INTERNAL_SERVER_ERROR);
 		}
 		
-		// Notification::storeNewNotification(
+		// Notification::storeNewAdminNotification(
 		// 	__('New Creation', [], 'en'),
 		// 	__('New Creation', [], 'ar'),
 		// 	__('New :modelName Has Been Registered',['modelName'=>$model->getName('en')],'en'),
@@ -58,7 +58,7 @@ class AuthController
 		 */
 		$model = $request->user('client');
 
-		// Notification::storeNewNotification(
+		// Notification::storeNewAdminNotification(
 		// 	__('New Logout', [], 'en'),
 		// 	__('New Logout', [], 'ar'),
 		// 	__('Client :modelName Has Logged Out',['modelName'=>$model->getName('en')],'en'),

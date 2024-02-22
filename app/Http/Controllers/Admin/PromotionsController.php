@@ -71,7 +71,7 @@ class PromotionsController extends Controller
     {
         $model = new Promotion();
 		$model->syncFromRequest($request);
-		Notification::storeNewNotification(
+		Notification::storeNewAdminNotification(
 			__('New Creation',[],'en'),
 			__('New Creation',[],'ar'),
 			$request->user('admin')->getName() .' '.__('Has Created New',[],'en') . __('Promotion',[],'en') .' [ ' . $model->getName() . ' ]' ,
@@ -90,7 +90,7 @@ class PromotionsController extends Controller
     {
 		$promotion->syncFromRequest($request);
 			
-			Notification::storeNewNotification(
+			Notification::storeNewAdminNotification(
 				__('New Update',[],'en'),
 				__('New Update',[],'ar'),
 				$request->user('admin')->getName() .' '.__('Has Updated',[],'en') . __('Promotion',[],'en') .' [ ' . $promotion->getName() . ' ]' ,
@@ -104,7 +104,7 @@ class PromotionsController extends Controller
     {
 		$promotion->delete();
 		
-		Notification::storeNewNotification(
+		Notification::storeNewAdminNotification(
 			__('New Deletion',[],'en'),
 			__('New Deletion',[],'ar'),
 			$request->user('admin')->getName() .' '.__('Has Deleted',[],'en') . __('Promotion',[],'en') .' [ ' . $promotion->getName('en') . ' ]' ,

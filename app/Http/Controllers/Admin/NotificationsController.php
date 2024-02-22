@@ -3,23 +3,33 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreAppNotificationRequest;
+use App\Jobs\SendAppNotificationsJob;
 use App\Models\Admin;
+use App\Models\Client;
+use App\Models\Driver;
 use App\Models\Notification;
+use App\Traits\Controllers\Globals;
+use Illuminate\Http\Request;
 
 class NotificationsController extends Controller
 {
+    use Globals;
+	
     public function __construct()
     {
-        $this->middleware('permission:' . getPermissionName('view'), ['only' => ['index']]) ;
-        // $this->middleware('permission:'.getPermissionName('update') , ['only'=>['edit','update']]) ;
-        // $this->middleware('permission:'.getPermissionName('delete') , ['only'=>['destroy']]) ;
+        $this->middleware('permission:' . getPermissionName('view'), ['only' => ['viewAdminNotifications']]) ;
+        $this->middleware('permission:' . getPermissionName('view'), ['only' => ['viewAppNotifications']]) ;
     }
-
-    public function index()
+	
+	
+	/**
+	 * * الاشعارات التلقائيه الخاصة بالادمن بانل وليكن مثلا تم انشاء عميل او سائق او تم تحديثه او حذفه الخ
+	 */
+    public function viewAdminNotifications()
     {
-        $models = Notification::defaultOrdered()->paginate(static::DEFAULT_PAGINATION_LENGTH_FOR_ADMIN);
-
-        return view('admin.notifications.index', [
+        $models = Notification::onlyAdminsNotifications()->defaultOrdered()->paginate(static::DEFAULT_PAGINATION_LENGTH_FOR_ADMIN);
+        return view('admin.notifications.view-admin', [
             'models' => $models,
             'pageTitle' => __('Notifications')
         ]);
@@ -34,15 +44,21 @@ class NotificationsController extends Controller
             ],
             'notifications' => [
                 'title' => __('Notifications'),
-                'route' => route('notifications.index'),
+                'route' => route('app.notifications.index'),
             ],
+			'dd'=>[
+				'title'=>'e',
+				'route'=>'#'
+			]
         ];
 
         return [
             'breadCrumbs' => $breadCrumbs,
             'pageTitle' => __('Notifications'),
             'model' => $model,
-            'indexRoute' => route('notifications.index')
+            'indexRoute' => route('admin.notifications.index'),
+			'createRoute'=>route('app.notifications.create')
+			
         ];
     }
 
@@ -56,4 +72,46 @@ class NotificationsController extends Controller
             'status' => true,
         ]);
     }
+	/**
+	 * * الاشعارات اللي بيتم ارسالها للعملاء و السائقين او لكلايهما في التطبيق ( الموبايل ابلكيشن)
+	 */
+	public function viewAppNotifications()
+    {
+        $models = Notification::onlyAppNotifications()->defaultOrdered()->paginate(static::DEFAULT_PAGINATION_LENGTH_FOR_ADMIN);
+        return view('admin.notifications.view-app', [
+            'models' => $models,
+			'pageTitle'=>__('App Notifications'),
+			'createRoute'=>route('app.notifications.create')
+        ]);
+    }
+	public function createAppNotifications(Request $request){
+		$clientsFormatted = Client::onlyIsVerified()->get()->formattedForSelect(true,'getId','getName');
+		$driversFormatted = Driver::onlyIsVerified()->get()->formattedForSelect(true,'getId','getName');
+		return view('admin.notifications.create',array_merge(
+			$this->getViewUrl(),
+			[
+				'clientsFormatted'=>$clientsFormatted,
+				'driversFormatted'=>$driversFormatted,
+				'indexRoute' => route('admin.notifications.index'),
+				'route'=>'#'
+			]
+		));
+	}
+	public function storeAppNotifications(StoreAppNotificationRequest $request){
+		$titleEn = $request->get('title_en');
+		$titleAr = $request->get('title_ar');
+		$messageAr = $request->get('message_ar');
+		$messageEn = $request->get('message_en');
+		
+		foreach($request->get('client_ids',[]) as $clientId){
+			$client = Client::find($clientId);
+				dispatch(new SendAppNotificationsJob($client,$titleEn,$titleAr,$messageEn,$messageAr));
+		}
+		foreach($request->get('driver_ids',[]) as $driverId){
+			$driver = Driver::find($driverId);
+			dispatch(new SendAppNotificationsJob($driver,$titleEn,$titleAr,$messageEn,$messageAr));
+		}
+        return $this->getWebRedirectRoute($request, route('app.notifications.create'), route('app.notifications.create'));
+	}
+	
 }

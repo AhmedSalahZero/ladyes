@@ -81,7 +81,7 @@ class HelpsController extends Controller
     {
         $model = new Help();
 		$model->syncFromRequest($request);
-		Notification::storeNewNotification(
+		Notification::storeNewAdminNotification(
 			__('New Creation',[],'en'),
 			__('New Creation',[],'ar'),
 			$request->user('admin')->getName() .' '.__('Has Created New',[],'en') . __('Help',[],'en') .' [ ' . $model->getName() . ' ]' ,
@@ -100,7 +100,7 @@ class HelpsController extends Controller
     {
 		$help->syncFromRequest($request);
 			
-			Notification::storeNewNotification(
+			Notification::storeNewAdminNotification(
 				__('New Update',[],'en'),
 				__('New Update',[],'ar'),
 				$request->user('admin')->getName() .' '.__('Has Updated',[],'en') . __('Help',[],'en') .' [ ' . $help->getName() . ' ]' ,
@@ -114,7 +114,7 @@ class HelpsController extends Controller
     {
 		$help->delete();
 		
-		Notification::storeNewNotification(
+		Notification::storeNewAdminNotification(
 			__('New Deletion',[],'en'),
 			__('New Deletion',[],'ar'),
 			$request->user('admin')->getName() .' '.__('Has Deleted',[],'en') . __('Help',[],'en') .' [ ' . $help->getName('en') . ' ]' ,
@@ -130,7 +130,7 @@ class HelpsController extends Controller
 		if($model){
 			$model->toggleIsActive();
 			
-			Notification::storeNewNotification(
+			Notification::storeNewAdminNotification(
 				__('New Update',[],'en'),
 				__('New Update',[],'ar'),
 				$request->user('admin')->getName() .' '.__('Has Updated',[],'en') . __('Help',[],'en') .' [ ' . $model->getName('en') . ' ]' ,
