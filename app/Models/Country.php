@@ -22,8 +22,9 @@ class Country extends Model
     use HasFactory;
     use HasLatitudeAndLatitude ;
 
-	public function getName(string $lang)
+	public function getName(string $lang = null)
 	{
+		$lang = $lang ?: app()->getLocale();
 		return $this['name_'.$lang] ;
 	}
     public function cities()
