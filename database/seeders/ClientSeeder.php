@@ -15,8 +15,16 @@ class ClientSeeder extends Seeder
      */
     public function run()
     {
-		$client = Client::factory()->create();
-		$address = Address::factory()->make()->toArray();
+		$client = Client::factory()->create([
+			'phone'=>'01025894984',
+			'country_id'=>65,
+			'email'=>'asalahdev5@gmail.com',
+			'verification_code'=>1234
+		]);
+		$address = Address::factory()->make([
+			'category'=>'المنزل',
+			'description'=>'عنوان المنزل',
+		])->toArray();
 		$client->addresses()->create($address);
 		
     }

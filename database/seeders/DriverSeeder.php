@@ -20,7 +20,10 @@ class DriverSeeder extends Seeder
 			'email'=>'asalahdev5@gmail.com',
 			'phone'=>'01025894984',
 			'country_id'=>65,
-			'city_id'=>2
+			'city_id'=>2,
+			'verification_code'=>1234
 		]);
+		
+		Driver::factory()->count(50)->create();
     }
 }

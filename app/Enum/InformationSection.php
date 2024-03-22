@@ -1,6 +1,10 @@
 <?php 
 namespace App\Enum;
-class InformationSection {
+
+use App\Helpers\HHelpers;
+use App\Interfaces\IEnum;
+
+class InformationSection implements IEnum {
 	public const AFTER_DRIVER_SIGNUP = 'after_driver_login'; 
 	public const CLIENT_PROFILE = 'client_profile'; 
 	public static function all():array 
@@ -12,11 +16,6 @@ class InformationSection {
 	}
 	public static function allFormattedForSelect2():array 
 	{
-		$formatted = [];
-		$types = self::all();
-		foreach($types as $value => $title){
-			$formatted[] = ['title'=>$title,'value'=>$value];
-		}
-		return $formatted ; 
-	}
+		return HHelpers::formatForSelect2(self::all());
+	} 
 }

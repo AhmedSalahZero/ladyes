@@ -70,6 +70,12 @@
                                                 <div class="col-md-6">
                                                     <x-form.select :is-required="true" :is-select2="true" :options="$drivingRangeFormatted" :add-new="false" :label="__('Driving Range')" :all="false" name="driving_range" id="driving_range" :selected-value="getSetting('driving_range')"></x-form.select>
                                                 </div>
+												
+												
+												  <div class="col-md-6">
+                                                    <x-form.input :id="'coupon_discount_percentage'" :label="__('Coupon Discount Percentage'). ' %'" :type="'text'" :name="'coupon_discount_percentage'" :is-required="false" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Coupon Discount Percentage')])"></x-form.input>
+                                                </div>
+												
 
 
 

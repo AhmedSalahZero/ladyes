@@ -52,7 +52,9 @@ class StoreDriverRequest extends FormRequest
 			'car_color'=>$HValidationRules['car_color'],
 			'car_id_number'=>$HValidationRules['car_id_number'],
 			'invitation_code'=>$HValidationRules['invitation_code'],
-			'received_invitation_code'=>$HValidationRules['received_invitation_code']
+			'received_invitation_code'=>$HValidationRules['received_invitation_code'],
+			'current_latitude' => ['sometimes','required', 'regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
+			'current_longitude' => ['sometimes','required', 'regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
         ];
     }
 	public function messages()
@@ -137,6 +139,16 @@ class StoreDriverRequest extends FormRequest
 			
 			'car_id_number.required'=>__('Please Enter :attribute' , ['attribute'=>__('Car Id Number')]),
 			'car_id_number.max'=> __(':attribute Exceed The Max Letter Length :max Letter',['attribute'=>__('Car Id Number'),'max'=>255	]),
+			
+			
+			'driver_latitude' => ['required', 'regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
+			'driver_longitude' => ['required', 'regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
+       
+			'current_latitude.required' => __('Please Enter :attribute', ['attribute' => __('Latitude',[],getApiLang())],getApiLang()),
+			'current_latitude.regex'=>__('Invalid :attribute' , ['attribute'=>__('Latitude')]),
+			'current_longitude.required' => __('Please Enter :attribute', ['attribute' => __('Longitude',[],getApiLang())],getApiLang()),
+			'current_longitude.regex'=>__('Invalid :attribute' , ['attribute'=>__('Longitude')]),
+			
 		];
 	}
 	

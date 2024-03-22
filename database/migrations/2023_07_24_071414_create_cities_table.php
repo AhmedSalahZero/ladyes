@@ -17,7 +17,7 @@ class CreateCitiesTable extends Migration
             $table->id();
 			$table->string('name_en')->nullable();
 			$table->string('name_ar')->nullable();
-			$table->string('price')->comment('الاجرة الاساسية للمدينة (خارج اوقات الذروة)');
+			// $table->string('price')->comment('الاجرة الاساسية للمدينة (خارج اوقات الذروة)');
 			$table->string('km_price')->comment('السعر لكل كيلو متر');
 			$table->string('minute_price')->comment('السعر لكل دقيقة');
 			$table->string('operating_fees')->comment('رسوم التشغيل');

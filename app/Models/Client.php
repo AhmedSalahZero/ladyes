@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Helpers\HDate;
+use App\Helpers\HHelpers;
 use App\Interfaces\IHaveAppNotification;
 use App\Notifications\Admins\ClientNotification;
 use App\Traits\Accessors\IsBaseModel;
@@ -12,13 +13,17 @@ use App\Traits\Models\HasCountry;
 use App\Traits\Models\HasCreatedAt;
 use App\Traits\Models\HasEmail;
 use App\Traits\Models\HasEmergencyContacts;
+use App\Traits\Models\HasGeoLocation;
 use App\Traits\Models\HasIsVerified;
 use App\Traits\Models\HasLoginByPhone;
 use App\Traits\Models\HasMake;
 use App\Traits\Models\HasModel;
 use App\Traits\Models\HasPhone;
 use App\Traits\Models\HasRating;
+use App\Traits\Models\HasWallet;
 use App\Traits\Scope\HasDefaultOrderScope;
+use Codebyray\ReviewRateable\Contracts\ReviewRateable;
+use Codebyray\ReviewRateable\Traits\ReviewRateable as ReviewRateableTrait;
 use Cog\Contracts\Ban\Ban as BanContract;
 use Cog\Contracts\Ban\Bannable as BannableInterface;
 use Cog\Laravel\Ban\Traits\Bannable;
@@ -26,6 +31,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
@@ -34,11 +40,14 @@ use Laravolt\Avatar\Avatar;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Client extends Model implements HasMedia, BannableInterface,IHaveAppNotification
+class Client extends Model implements HasMedia, BannableInterface,IHaveAppNotification,ReviewRateable 
 {
-	
+	use HasWallet ;
+    use ReviewRateableTrait;
     use HasMake;
+    use HasGeoLocation;
     use Notifiable;
+    use HasRating;
     use HasFactory;
     use IsBaseModel;
     use HasDefaultOrderScope;
@@ -97,16 +106,6 @@ class Client extends Model implements HasMedia, BannableInterface,IHaveAppNotifi
         return $client->sendVerificationCodeMessage();
     }
 
-    // public function storeInventionCodeIfNotExist()
-    // {
-    // 	if($this->invitation_code){
-    // 		return $this ;
-    // 	}
-    // 	$inventionCodeLength = getSetting('invitation_code_length');
-    // 	$this->invitation_code = HHelpers::generateUniqueCodeForModel('Driver','invitation_code',$inventionCodeLength);
-    // 	$this->save();
-    // 	return $this ;
-    // }
     public function getImage()
     {
         // not that : it will return svg for avatar not url for
@@ -114,23 +113,6 @@ class Client extends Model implements HasMedia, BannableInterface,IHaveAppNotifi
 
         return $image ? $image->getFullUrl() : (new Avatar())->create($this->getFullName())->setFontFamily('/custom/fonts/Cairo-Medium.ttf')->toSvg();
     }
-
-    // invitation codes
-
-    // المرسلة
-    // public function sentInvitationCodes()
-    // {
-    // 	return $this->belongsToMany(Driver::class , 'driver_invitation','sender_id','receiver_id')
-    // 	->withPivot(['code','created_at'])
-    // 	;
-    // }
-    // المستلمة
-    // public function receivedInvitationCodes()
-    // {
-    // 	return $this->belongsToMany(Driver::class , 'driver_invitation','receiver_id','sender_id')
-    // 	->withPivot(['code','created_at']);
-    // }
-
     public static function getNameById($id)
     {
         $model = self::find($id);
@@ -158,8 +140,6 @@ class Client extends Model implements HasMedia, BannableInterface,IHaveAppNotifi
     {
         return $this->morphMany(app(BanContract::class), 'bannable')->withoutGlobalScopes();
     }
-
-
 
     public function travels()
     {
@@ -216,8 +196,17 @@ class Client extends Model implements HasMedia, BannableInterface,IHaveAppNotifi
 	/**
 	 * * هي الاشعارات اللي بتتبعت للعميل في الموبايل ابلكيشن
 	 */
-	public function sendAppNotification(string $titleEn,string $titleAr,string $messageEn,string $messageAr)
+	public function sendAppNotification(string $titleEn,string $titleAr,string $messageEn,string $messageAr,string $type)
 	{
-		$this->notify(new ClientNotification($titleEn,$titleAr,$messageEn,$messageAr,formatForView(now())));
+		$this->notify(new ClientNotification($titleEn,$titleAr,$messageEn,$messageAr,formatForView(now()),$type));
 	}
+	public function payments():?HasOneThrough
+	{
+		return $this->hasMany(Payment::class,'model_id','id')->where('model_type',HHelpers::getClassNameWithoutNameSpace($this));
+	}
+	public function transactions()
+	{
+		return $this->hasMany(Transaction::class , 'model_id','id')->where('model_type',HHelpers::getClassNameWithoutNameSpace($this));
+	}
+	
 }

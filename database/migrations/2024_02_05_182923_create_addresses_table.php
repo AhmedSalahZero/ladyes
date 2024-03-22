@@ -17,12 +17,10 @@ class CreateAddressesTable extends Migration
             $table->id();
 			$table->unsignedBigInteger('client_id');
 			$table->foreign('client_id')->references('id')->on('clients')->cascadeOnDelete();
-			$table->string('name_en')->comment('نوع العنوان وليكن مثلا المنزل');
-			$table->string('name_ar')->comment('نوع العنوان وليكن مثلا المنزل');
+			$table->string('category')->comment('فئة العنوان وليكن مثلا المنزل');
 			$table->string('latitude');
 			$table->string('longitude');
-			$table->text('description_en')->comment('نوع العنوان وليكن مثلا المنزل');
-			$table->text('description_ar')->comment('نوع العنوان وليكن مثلا المنزل');
+			$table->text('description')->comment('وصف العنوان وليكن مثلا المنزل');
             $table->timestamps();
         });
     }

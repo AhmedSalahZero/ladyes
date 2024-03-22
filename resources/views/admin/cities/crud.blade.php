@@ -35,10 +35,10 @@
 
 
 
-
+{{-- 
                                                 <div class="col-md-6">
                                                     <x-form.input :id="'price'" :label="__('Main Price')" :type="'numeric'" :name="'price'" step="any" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Main Price')])"></x-form.input>
-                                                </div>
+                                                </div> --}}
 
                                                 <div class="col-md-6">
                                                     <x-form.input :id="'km_price'" :label="__('Km Price')" :type="'numeric'" :name="'km_price'" step="any" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Km Price')])"></x-form.input>
@@ -77,10 +77,10 @@
                                                                     </div>
 
 
-
+{{-- 
                                                                     <div class="col-md-6">
                                                                         <x-form.input :id="'price'" :label="__('Main Price')" :type="'numeric'" :name="'price'" step="any" :is-required="true" :model="$rushHour??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Main Price')])"></x-form.input>
-                                                                    </div>
+                                                                    </div> --}}
 
                                                                     <div class="col-md-6">
                                                                         <x-form.input :id="'km_price'" :label="__('Km Price')" :type="'numeric'" :name="'km_price'" step="any" :is-required="true" :model="$rushHour??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Km Price')])"></x-form.input>

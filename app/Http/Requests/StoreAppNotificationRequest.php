@@ -30,9 +30,9 @@ class StoreAppNotificationRequest extends FormRequest
 			'title_ar'=>$HValidationRules['title_ar'],
 			'message_en'=>$HValidationRules['message_en'],
 			'message_ar'=>$HValidationRules['message_ar'],
-			'client_ids'=>'required|exists:clients,id',
-			'driver_ids'=>'required|exists:drivers,id',
-			
+			'client_ids'=>'required_without:driver_ids|exists:clients,id',
+			'driver_ids'=>'required_without:client_ids|exists:drivers,id',
+			'type'=>'required'
         ];
     }
 	public function messages()
@@ -56,9 +56,9 @@ class StoreAppNotificationRequest extends FormRequest
 			'message_ar.unique'=> __(':attribute Already Exist',['attribute'=>__('Arabic Message')]),
 			
 			
-			'client_ids.required'=>__('Please Enter :attribute' , ['attribute'=>__('Client Name')]),
-			'driver_ids.required'=>__('Please Enter :attribute' , ['attribute'=>__('Driver Name')]),
-			
+			'client_ids.required_without'=>__('Please Enter At Least One Client Or Driver To Send Message'),
+			'driver_ids.required_without'=>__('Please Enter At Least One Client Or Driver To Send Message'),
+			'type.required'=>__('Please Select Notification Type')			
 		];
 	}
 	

@@ -23,13 +23,18 @@ class DriverNotification extends Notification implements ShouldBroadcastNow
 	protected string $title_ar ;
 	protected string $message_en ;
 	protected string $message_ar ;
+	protected string $type ;
 	protected string $createdAtFormatted ;
-    public function __construct(string $title_en,string $title_ar,string $message_en,string $message_ar , string $createdAtFormatted)
+    public function __construct(string $title_en,string $title_ar,string $message_en,string $message_ar , string $createdAtFormatted,string $type)
     {
         $this->title_en = $title_en ;
         $this->title_ar = $title_ar ;
         $this->message_en = $message_en ;
         $this->message_ar = $message_ar ;
+		/**
+		 * * // نوع الاشعار لتحديد الايكونة المناسب وليكن مثلا اشعار تحذير او خصم الخ
+		 */
+        $this->type = $type ; 
 		$this->createdAtFormatted = $createdAtFormatted;
     }
 

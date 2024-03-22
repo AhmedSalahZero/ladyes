@@ -1,5 +1,5 @@
 <?php 
 namespace App\Interfaces;
 interface IHaveAppNotification {
-	public function sendAppNotification(string $titleEn,string $titleAr,string $messageEn,string $messageAr);
+	public function sendAppNotification(string $titleEn,string $titleAr,string $messageEn,string $messageAr,string $type);
 }

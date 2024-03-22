@@ -43,6 +43,11 @@
                                                         <x-form.select :multiple="true" :please-select="false" :is-required="true" :is-select2="true" :options="$driversFormatted" :add-new="false" :label="__('Drivers')" :all="false" name="driver_ids[]"  id="drivers" :selected-value="old('driver_ids') "></x-form.select>
                                                 </div>
 												
+												<div class="col-md-6">
+                                                        <x-form.select :multiple="false" :please-select="false" :is-required="true" :is-select2="true" :options="$notificationTypesFormatted" :add-new="false" :label="__('Type')" :all="false" name="type"  id="type" :selected-value="old('driver_ids') "></x-form.select>
+                                                </div>
+												
+												
                                          
                                             </div>
 

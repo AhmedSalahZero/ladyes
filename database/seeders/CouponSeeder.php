@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Coupon;
 use Illuminate\Database\Seeder;
+use PHPUnit\Framework\Constraint\Count;
 
 class CouponSeeder extends Seeder
 {
@@ -14,6 +15,9 @@ class CouponSeeder extends Seeder
      */
     public function run()
     {
+		Coupon::factory()->create([
+			'code'=>'abc123'
+		]);
 		Coupon::factory()->count(10)->create();
     }
 }

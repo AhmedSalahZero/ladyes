@@ -20,14 +20,15 @@ class DatabaseSeeder extends Seeder
 		$this->call(CancellationReasonSeeder::class);
 		$this->call(RoleSeeder::class);
 		$this->call(AdminSeeder::class);
+		$this->call(CountrySeeder::class);
 		$this->call(CarSizeSeeder::class);
 		$this->call(CarMakeSeeder::class);
 		$this->call(CarModelSeeder::class);
-		$this->call(CountrySeeder::class);
 		$this->call(CitySeeder::class);
 		$this->call(DriverSeeder::class);
 		$this->call(ClientSeeder::class);
 		$this->call(EmergencyContactsSeeder::class);
 		$this->call(CouponSeeder::class);
+		$this->call(TravelSeeder::class);
     }
 }

@@ -4,8 +4,8 @@ namespace App\Models;
 
 use App\Traits\Accessors\IsBaseModel;
 use App\Traits\Models\HasLatitudeAndLatitude;
-use App\Traits\Models\HasTransDescriptions;
-use App\Traits\Models\HasTransNames;
+use App\Traits\Models\HasSingleCategories;
+use App\Traits\Models\HasSingleDescription;
 use App\Traits\Scope\HasDefaultOrderScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,8 +17,8 @@ class Address extends Model
 {
     use IsBaseModel ;
     use HasDefaultOrderScope ;
-    use HasTransNames;
-    use HasTransDescriptions ;
+    use HasSingleCategories;
+    use HasSingleDescription ;
     use HasLatitudeAndLatitude ;
     use HasFactory ;
 	

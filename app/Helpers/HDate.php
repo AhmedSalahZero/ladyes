@@ -10,7 +10,6 @@ class HDate
 	const TIME_FORMAT = 'g:i A';
 	public static function isValidDateFormat(?string $date , string $format)
 	{
-		// dd(Carbon::createFromFormat($format, $date),$format , $date);
 		return Carbon::createFromFormat($format, $date) !== false;
 	}
 	public static function formatForView(?string $date ,bool $onlyDate = false ){

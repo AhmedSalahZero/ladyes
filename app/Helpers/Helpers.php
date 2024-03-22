@@ -27,7 +27,11 @@ function getPermissions():array
 			$permissions[] = ['name'=>$permissionType .' ' . $permissionName , 'title'=>__($permissionTypeAsTitle .' :page' , ['page'=>__($title)]) ] ;
 		}
 	}
+	$permissions[] = ['name'=>'view' .' ' . 'transactions' , 'title'=>__('View' .' :page' , ['page'=>__('Transactions')]) ] ;
+	$permissions[] = ['name'=>'view' .' ' . 'travels' , 'title'=>__('View' .' :page' , ['page'=>__('Travels')]) ] ;
 	$permissions[] = ['name'=>'view' .' ' . 'countries' , 'title'=>__('View' .' :page' , ['page'=>__('Countries')]) ] ;
+	$permissions[] = ['name'=>'view' .' ' . 'car-sizes' , 'title'=>__('View' .' :page' , ['page'=>__('Car Sizes')]) ] ;
+	$permissions[] = ['name'=>'update' .' ' . 'car-sizes' , 'title'=>__('Update' .' :page' , ['page'=>__('Car Sizes')]) ] ;
 	$permissions[] = ['name'=>'create' .' ' . 'settings' , 'title'=>__('View' .' :page' , ['page'=>__('Settings')]) ] ;
 	$permissions[] = ['name'=>'create' .' ' . 'app-guidelines' , 'title'=>__('View' .' :page' , ['page'=>__('App Guidelines')]) ] ;
 	$permissions[] = ['name'=>'create' .' ' . 'app-text' , 'title'=>__('View' .' :page' , ['page'=>__('App Text')]) ] ;
@@ -87,6 +91,10 @@ function getSidebars($user):array
 				createSidebarItem($pageName, __('View :page' , ['page' => __('Car Models')]) , route('car-models.index') , $user->can('view ' .$pageName)  ),
 				createSidebarItem($pageName, __('Create :page' , ['page'=>__('Car Model')]) , route('car-models.create') , $user->can('create ' .$pageName)  ),
 			]),
+			$pageName = 'car-sizes'=> createSidebarItem( $pageName, __('Car Sizes') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-flag',
+			[
+				createSidebarItem($pageName, __('View :page' , ['page' => __('Car Sizes')]) , route('car-sizes.index') , $user->can('view ' .$pageName)  ),
+			]),
 			$pageName = 'countries'=> createSidebarItem( $pageName, __('Countries') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-flag',
 			[
 				createSidebarItem($pageName, __('View :page' , ['page' => __('Countries')]) , route('countries.index') , $user->can('view ' .$pageName)  ),
@@ -117,7 +125,18 @@ function getSidebars($user):array
 			[
 				createSidebarItem($pageName, __('View :page' , ['page' => __('Promotions')]) , route('promotions.index') , $user->can('view ' .$pageName)  ),
 				createSidebarItem($pageName, __('Create :page' , ['page'=>__('Promotion')]) , route('promotions.create') , $user->can('create ' .$pageName)  ),
-			]),$pageName = 'settings'=> createSidebarItem( $pageName, __('Settings') ,  '#' ,$user->can('create '.$pageName) || $user->can('create '.$pageName) ,'la la-cogs',
+			])
+			,
+			$pageName = 'transactions'=> createSidebarItem( $pageName, __('Transactions') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-money',
+			[
+				createSidebarItem($pageName, __('View :page' , ['page' => __('Transactions')]) , route('transactions.index') , $user->can('view ' .$pageName)  ),
+				// createSidebarItem($pageName, __('Create :page' , ['page'=>__('Transactions')]) , route('transactions.create') , $user->can('create ' .$pageName)  ),
+			]),$pageName = 'travels'=> createSidebarItem( $pageName, __('Travels') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-car',
+			[
+				createSidebarItem($pageName, __('View :page' , ['page' => __('Travels')]) , route('travels.index') , $user->can('view ' .$pageName)  ),
+				// createSidebarItem($pageName, __('Create :page' , ['page'=>__('Transactions')]) , route('transactions.create') , $user->can('create ' .$pageName)  ),
+			])
+			,$pageName = 'settings'=> createSidebarItem( $pageName, __('Settings') ,  '#' ,$user->can('create '.$pageName) || $user->can('create '.$pageName) ,'la la-cogs',
 			[
 				createSidebarItem($pageName, __('View :page' , ['page' => __('Settings')]) , route('settings.create') , $user->can('create ' .$pageName)  ),
 			]),
@@ -200,7 +219,15 @@ function formatForView(?string $date ,bool $onlyDate = false )
 {
 	return HDate::formatForView($date,$onlyDate);
 }
-function getApiLang()
+function getApiLang($lang = null)
 {
-	return Request('lang','ar');
+	if(Request()->is('api/*')){
+		return Request('lang','ar');
+	}
+	
+	return $lang ? $lang : app()->getLocale();
+}
+function getModelByNamespaceAndId(string $fullClass , int $id){
+	$model  =($fullClass)::find($id) ;
+	return $model ? $model->getName() : __('N/A');
 }

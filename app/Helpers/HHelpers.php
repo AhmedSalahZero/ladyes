@@ -37,4 +37,12 @@ class HHelpers
 	{
 		return Request()->segment(2);
 	}
+	public static function formatForSelect2(array $items):array
+	{
+		$formatted = [];
+		foreach($items as $value => $title){
+			$formatted[] = ['title'=>$title,'value'=>$value];
+		}
+		return $formatted ; 		
+	}
 }

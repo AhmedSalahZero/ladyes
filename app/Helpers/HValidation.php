@@ -54,6 +54,7 @@ class HValidation
 			'received_invitation_code'=>['sometimes','max:255','exists:drivers,invitation_code'] ,
 			'password'=>[$isRequired] ,
 			'deduction_percentage'=>['sometimes','nullable','numeric','gte:-1'] ,
+			'coupon_discount_percentage'=>['sometimes','nullable','numeric','gte:-1'] ,
 			'driving_range'=>['sometimes','nullable'] ,
 			'role_name'=>[$isRequired] ,
 			// start images validation

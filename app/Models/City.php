@@ -6,6 +6,7 @@ use App\Traits\Accessors\IsBaseModel;
 use App\Traits\Models\HasKmPrice;
 use App\Traits\Models\HasTransNames;
 use App\Traits\Scope\HasDefaultOrderScope;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -17,45 +18,8 @@ class City extends Model
  * * city == govern 
  */
 
-    use
-	 IsBaseModel,HasDefaultOrderScope , HasTransNames , HasFactory,HasKmPrice ;
-	 
-	//  public static function getRushHourPercentage(?Carbon $dateTime = null) {
-	// 	// نسبه للعرض فقط
-	// 	$dateTime = $dateTime ?: now();
-	// 	$dateTime = Carbon::create(2024,1,23,13,35);
+	 use IsBaseModel,HasDefaultOrderScope , HasTransNames , HasFactory,HasKmPrice ;
 		
-	// 	$morning = Carbon::create($dateTime->year, $dateTime->month, $dateTime->day, 11, 0, 0); //set time to 08:00
-	// 	$evening = Carbon::create($dateTime->year, $dateTime->month, $dateTime->day, 13, 30, 0); //set time to 18:00
-		
-	// 	$currentDataTime = Carbon::make($dateTime) ;
-		
-	// 	 $hour = $dateTime->format('H');
-
-	// 	//  من الساعة 6 صباحا وحتى الساعة 10 صباحا
-	// 	 if($hour >= 6 && $hour <= 10){
-	// 		return '5/5';			
-	// 	}
-	// 	// من الساعة 11 صباحا وحتى الساعة 1:30 الظهر
-	// 	 if($dateTime->between($morning,$evening)){
-	// 		 return '4.5/5';
-	// 		}
-	// 	 // من الساعة 4 العصر وحتى الساعة 6 المغرب
-	// 	 if($hour >= 16 && $hour <= 18){
-	// 		return '5/5';
-	// 	 }
-	// 	  // من الساعة 7 العصر وحتى الساعة 9 المغرب
-	// 	  if($hour >= 19 && $hour <= 21){
-	// 		return '4/5';
-	// 	 }
-	// 	 if(
-	// 		$currentDataTime->between(Carbon::create($dateTime->year, $dateTime->month, $dateTime->day, 22, 0, 0) , Carbon::create($dateTime->year, $dateTime->month, $dateTime->addDay()->day, 01, 0, 0))
-	// 	 ){
-	// 		return '3/5';
-	// 	 }
-		
-	// 	 return null ;
-	//  }
 	 public function rushHours():HasMany
 	 {
 		return $this->hasMany(RushHour::class,'city_id','id');
@@ -88,10 +52,30 @@ class City extends Model
 		$country = $this->country ; 
 		return $country ? $country->getIso2() : null ;
 	}
-	public function getCountrySymbol($lang)
+	public function getCurrency()
 	{
 		$country = $this->country ; 
-		return $country ? $country->getCurrencySymbol($lang) : null ;
+		return $country ? $country->getCurrency() : null ;
+	}
+	public function getCurrencyFormatted($lang)
+	{
+		$country = $this->country ; 
+		return $country ? __($country->getCurrency(),[],getApiLang()) : null ;
+	}
+	/**
+	 * * بنشوف هل المدينة دي في الوقت دا هل هي في وقت ذروة ولا لا 
+	 */
+	public function isInRushHourAt(string $dateTime){
+		$time = Carbon::make($dateTime)->format('H:i:');
+		$isInRushHour = false ;
+		foreach($this->rushHours as $rushHour){
+			$startFrom = $rushHour->getStartFrom();
+			$endFrom = $rushHour->getEndFrom();
+			if($time >= $startFrom && $time <= $endFrom){
+				return $rushHour ;
+			}
+		}
+		return $isInRushHour;
 	}
 	public function syncFromRequest($request){
 		if ($request->has('name_en')){
@@ -100,9 +84,9 @@ class City extends Model
 		if ($request->has('name_ar')){
 			$this->name_ar = $request->name_ar;
 		}	
-		if ($request->has('price')){
-			$this->price = $request->price;
-		}
+		// if ($request->has('price')){
+		// 	$this->price = $request->price;
+		// }
 		if ($request->has('km_price')){
 			$this->km_price = $request->km_price;
 		}

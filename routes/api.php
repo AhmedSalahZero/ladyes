@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\Api\AddressesController;
 use App\Http\Controllers\Api\CitiesController;
 use App\Http\Controllers\Api\Client\Auth\AuthController as ClientAuthController;
 use App\Http\Controllers\Api\Client\ClientsController;
 use App\Http\Controllers\Api\Client\CouponsController;
+use App\Http\Controllers\Api\Client\RatingController;
+use App\Http\Controllers\Api\Client\TravelsController;
 use App\Http\Controllers\Api\CountriesController;
 use App\Http\Controllers\Api\Driver\Auth\AuthController as DriverAuthController;
 use App\Http\Controllers\Api\Driver\CancellationReasonsController;
@@ -15,11 +18,16 @@ use App\Http\Controllers\Api\Driver\GuidelinesController;
 use App\Http\Controllers\Api\Driver\HelpController;
 use App\Http\Controllers\Api\Driver\InformationController;
 use App\Http\Controllers\Api\Driver\PromotionsController;
+use App\Http\Controllers\Api\Driver\RatingController as DriverRatingController;
 use App\Http\Controllers\Api\Driver\TravelConditionController;
 use App\Http\Controllers\Api\EmergencyContactsController;
+use App\Http\Controllers\Api\MyWalletController;
+use App\Http\Controllers\Api\NotificationsController;
 use App\Http\Controllers\Helpers\Apis\SendEmailMessageController;
 use App\Http\Controllers\Helpers\Apis\SendSmsMessageController;
 use App\Http\Controllers\Helpers\Apis\SendWhatsappMessageController;
+use App\Services\Payments\MyFatoorahService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::name('api.')->group(function(){
@@ -38,6 +46,9 @@ Route::prefix('utilities')->group(function () {
  */
 Route::middleware('authClientOrDriver')->group(function(){
 	Route::apiResource('emergency-contacts', EmergencyContactsController::class);
+	Route::get('my-transactions',[MyWalletController::class,'index']);
+	Route::get('my-notifications',[NotificationsController::class,'index']);
+	Route::delete('delete-my-notifications',[NotificationsController::class,'delete']);
 });
 
 Route::prefix('drivers')->group(function () {
@@ -58,6 +69,8 @@ Route::prefix('drivers')->group(function () {
 		Route::apiResource('car-makes',CarMakeController::class);
 		Route::apiResource('car-models',CarModelController::class);
 		Route::apiResource('promotions',PromotionsController::class);
+		Route::post('rating',[DriverRatingController::class,'rateWith']);
+		
 		
     });
 	
@@ -86,16 +99,29 @@ Route::prefix('clients')->group(function () {
 		Route::apiResource('travel-conditions',TravelConditionController::class);
 		Route::apiResource('cancellation-reasons',CancellationReasonsController::class);
 		Route::apiResource('coupons',CouponsController::class);
+		Route::post('rating',[RatingController::class,'rateWith']);
+		Route::apiResource('addresses', AddressesController::class);
+		Route::get('travels/available-drivers',[TravelsController::class,'getAvailableDriverForTravels']);
+		Route::get('travels/get-distance-and-duration-between-client-and-driver',[TravelsController::class,'getDistanceAndDurationBetweenClientAndDriver']);
+		Route::get('travels/show-available-car-sizes',[TravelsController::class,'getAvailableCarSizes']);
+		Route::patch('travels/{travelId}/markAsCompleted',[TravelsController::class,'markAsCompleted']);
+		Route::apiResource('travels', TravelsController::class);
     });
 });
 
 
 /**
- * * عامة ولا تحتاج الي تسجيل دخول
+ * * عامة .. اي لا تحتاج الي تسجيل دخول
  */
 Route::apiResource('countries',CountriesController::class);
 Route::apiResource('cities',CitiesController::class);
 Route::get('guidelines', [GuidelinesController::class, 'view']);
 
 
+});
+Route::post('store-payment',function(Request $request){
+	$myfatoorah = new MyFatoorahService;
+	return 
+	$myfatoorah->storeNewOrder(100,1,'product name here',2,'ahmed salah','1025894984','asalahdev5@gmail.com');
+	
 });

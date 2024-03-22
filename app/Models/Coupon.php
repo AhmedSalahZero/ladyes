@@ -53,7 +53,7 @@ class Coupon extends Model
 	public function canBeAppliedForClient(int $clientId):bool
 	{
 		$isAvailable = $this->isAvailableForUsing();
-		$clientUsedItBefore = $this->travels->where('client_id',$clientId)->exists();
+		$clientUsedItBefore = $this->travels->where('client_id',$clientId)->count();
 		return $isAvailable && ! $clientUsedItBefore;
 	}
 	// yyyy
@@ -62,6 +62,16 @@ class Coupon extends Model
 	public function getCode():string 
 	{
 		return $this->code ;
+	}
+	public static function generateGiftCouponForTravel(int $travelId,float $discountAmount)
+	{
+		return Coupon::create([
+			'name_en'=>__('Gift Coupon For Travel Number # :travelId' ,['travelId'=>$travelId ] , 'en'),
+			'name_ar'=>__('Gift Coupon For Travel Number # :travelId' ,['travelId'=>$travelId ] , 'en'),
+			'code'=>HStr::generateUniqueCodeForModel(HStr::getClassNameWithoutNameSpace(new Coupon)) ,
+			'discount_type'=>DiscountType::FIXED,
+			'discount_amount'=> $discountAmount
+		]);
 	}
     public function syncFromRequest($request)
     {
@@ -88,6 +98,9 @@ class Coupon extends Model
 	{
 		return $this->hasMany(Travel::class,'coupon_id','id');
 	}
-	
 
+	public static function findByCode($idOrCode):?self
+	{
+		return static::where('id',$idOrCode)->orWhere('code',$idOrCode)->first();
+	}
 }

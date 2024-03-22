@@ -5,7 +5,7 @@ use Illuminate\Http\JsonResponse;
 
 trait HasApiResponse
 {
-		public function apiResponse(string $message , array $data = [] , int $responseCode = 200 ):JsonResponse
+		public function apiResponse(string $message ,  $data = [] , int $responseCode = 200 ):JsonResponse
 		{
 			return Response()->json([
 				'status'=>$responseCode ,

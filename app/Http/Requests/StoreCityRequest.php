@@ -29,7 +29,7 @@ class StoreCityRequest extends FormRequest
 		[
 			'name_en'=>$HValidationRules['name_en'],
 			'name_ar'=>$HValidationRules['name_ar'],
-			'price'=>$HValidationRules['price'],
+			// 'price'=>$HValidationRules['price'],
 			// 'latitude'=>$HValidationRules['latitude'],
 			// 'longitude'=>$HValidationRules['longitude'],
 			'country_id'=>$HValidationRules['country_id'],
@@ -37,7 +37,7 @@ class StoreCityRequest extends FormRequest
 			'rush_hours.*.start_time'=>'required',
 			'rush_hours.*.end_time'=>'required',
 			'rush_hours.*.end_time'=>'required',
-			'rush_hours.*.price'=>$HValidationRules['price'],
+			// 'rush_hours.*.price'=>$HValidationRules['price'],
 			'rush_hours.*.km_price'=>$HValidationRules['price'],
 			'rush_hours.*.minute_price'=>$HValidationRules['price'],
 			'rush_hours.*.operating_fees'=>$HValidationRules['price'],

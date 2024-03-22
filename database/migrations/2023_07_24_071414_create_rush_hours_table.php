@@ -13,7 +13,7 @@ class CreateRushHoursTable extends Migration
             $table->id();
 			$table->time('start_time')->nullable();
 			$table->string('end_time')->nullable();
-			$table->string('price')->comment('الاجرة الاساسية في وقت الذروة');
+			// $table->string('price')->comment('الاجرة الاساسية في وقت الذروة');
 			$table->string('km_price')->comment('السعر لكل كيلو متر');
 			$table->string('minute_price')->comment('السعر لكل دقيقة');
 			$table->string('operating_fees')->comment('رسوم التشغيل');

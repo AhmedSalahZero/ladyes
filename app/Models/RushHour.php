@@ -18,14 +18,7 @@ class RushHour extends Model
 		'id'
 	];
 	
-	public function getCountrySymbol($lang)
-	{
-		$city = $this->city ; 
-		if(! $city){
-			return null ;
-		}
-		return $city->country ? $city->country->getCurrencySymbol($lang) : null ;
-	}
+
 	
 	public function syncFromRequest($request){
 		if ($request->has('start_time')){

@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CancellationReasonsController;
 use App\Http\Controllers\Admin\CarMakeController;
 use App\Http\Controllers\Admin\CarModelController;
+use App\Http\Controllers\Admin\CarSizesController;
 use App\Http\Controllers\Admin\CitiesController;
 use App\Http\Controllers\Admin\ClientsController;
 use App\Http\Controllers\Admin\CountriesController;
@@ -16,7 +17,9 @@ use App\Http\Controllers\Admin\NotificationsController;
 use App\Http\Controllers\Admin\PromotionsController;
 use App\Http\Controllers\Admin\RolesAndPermissionsController;
 use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\TransactionsController;
 use App\Http\Controllers\Admin\TravelConditionsController;
+use App\Http\Controllers\Admin\TravelsController;
 use App\Http\Controllers\Helpers\AddInvitationCodeToController;
 use App\Http\Controllers\Helpers\SendEmailMessageController;
 use App\Http\Controllers\Helpers\SendSmsMessageController;
@@ -113,8 +116,20 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::put('clients/toggle-is-verified', [ClientsController::class, 'toggleIsVerified'])->name('client.toggle.is.verified');
     Route::resource('clients', ClientsController::class);
 	
+    //###################### transactions #########################
+    Route::resource('transactions', TransactionsController::class)->only(['index']);	
+    //###################### travel #########################
+    Route::resource('travels', TravelsController::class)->only(['index']);
+	
+	
+	//###################### car sizes #########################
+	Route::patch('update-car-sizes-prices/{carSize}',[CarSizesController::class , 'updatePrices'])->name('car-sizes.update.prices');
+	Route::resource('car-sizes', CarSizesController::class)->only(['index','edit','update']);
+	
     //###################### countries #########################
     Route::resource('countries', CountriesController::class)->only(['index']);
+	
+	  
 
     //###################### cities #########################
     Route::resource('cities', CitiesController::class);
@@ -155,7 +170,6 @@ Route::prefix('helpers')->group(function () {
     Route::put('mark-notifications-as-read/{admin}', [NotificationsController::class, 'markAsRead'])->name('mark.notifications.as.read');
     ;
 });
-
 
 
 

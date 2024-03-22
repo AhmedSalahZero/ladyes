@@ -21,6 +21,7 @@ class SiteSetting extends Settings
 	public $WHATSAPP_APP_KEY;
 	public $WHATSAPP_AUTH_KEY;
 	public $deduction_percentage ;
+	public $coupon_discount_percentage ;
 	public $driving_range ;
 	public $MAIL_HOST ;
 	public $MAIL_PORT ;

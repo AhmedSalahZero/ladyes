@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enum\AppNotificationType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAppNotificationRequest;
 use App\Jobs\SendAppNotificationsJob;
@@ -93,6 +94,7 @@ class NotificationsController extends Controller
 				'clientsFormatted'=>$clientsFormatted,
 				'driversFormatted'=>$driversFormatted,
 				'indexRoute' => route('admin.notifications.index'),
+				'notificationTypesFormatted'=>AppNotificationType::allFormattedForSelect2(),
 				'route'=>'#'
 			]
 		));
@@ -102,14 +104,14 @@ class NotificationsController extends Controller
 		$titleAr = $request->get('title_ar');
 		$messageAr = $request->get('message_ar');
 		$messageEn = $request->get('message_en');
-		
+		$type = $request->get('type',AppNotificationType::DEFAULT);
 		foreach($request->get('client_ids',[]) as $clientId){
 			$client = Client::find($clientId);
-				dispatch(new SendAppNotificationsJob($client,$titleEn,$titleAr,$messageEn,$messageAr));
+				dispatch(new SendAppNotificationsJob($client,$titleEn,$titleAr,$messageEn,$messageAr,$type));
 		}
 		foreach($request->get('driver_ids',[]) as $driverId){
 			$driver = Driver::find($driverId);
-			dispatch(new SendAppNotificationsJob($driver,$titleEn,$titleAr,$messageEn,$messageAr));
+			dispatch(new SendAppNotificationsJob($driver,$titleEn,$titleAr,$messageEn,$messageAr,$type));
 		}
         return $this->getWebRedirectRoute($request, route('app.notifications.create'), route('app.notifications.create'));
 	}

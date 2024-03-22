@@ -62,6 +62,10 @@ class Country extends Model
         // for example [EGP]
         return $this->currency ;
     }
+	public function getCurrencyFormatted()
+	{
+		return __($this->getCurrency(),[],getApiLang());
+	}
 
     public function getCurrencyName()
     {
@@ -91,5 +95,9 @@ class Country extends Model
 	public static function findByCode(?string $code):?self
 	{
 		return self::where('phonecode',$code)->first();
+	}
+	public function travels()
+	{
+		return $this->hasMany(Travel::class,'country_id','id');
 	}
 }

@@ -1,7 +1,12 @@
 <?php 
 namespace App\Traits\Models;
+
+
+
 trait HasCountry 
 {
+	
+	
 	public function getCountryId():int 
 	{
 		$city = $this->city ;

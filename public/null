@@ -1,0 +1,43 @@
+$payment = \App\Models\Payment::first();
+$payment = \App\Models\Payment::first();
+return $payment->client;
+$payment = \App\Models\Payment::first();
+return $payment->client;
+$payment = \App\Models\Payment::first();
+return $payment->client;
+$payment = \App\Models\Payment::first();
+return $payment->client;
+$payment = \App\Models\Payment::first();
+return $payment->client;
+$payment = \App\Models\Payment::first();
+return $payment->client;
+$payment = \App\Models\Payment::first();
+return $payment->client;
+$payment = \App\Models\Payment::first();
+return $payment->client;
+$payment = \App\Models\Payment::first();
+return $payment->client;
+$payment = \App\Models\Payment::first();
+return $payment->client;
+$payment = \App\Models\Payment::first();
+return $payment->client;
+$payment = \App\Models\Payment::first();
+return $payment->client;
+$payment = \App\Models\Payment::first();
+return $payment->client;
+
+
+$client = \App\Models\Client::first();
+return $client->payment;
+
+
+$client = \App\Models\Client::find(2);
+return $client->payment;
+
+
+$client = \App\Models\Client::find(1);
+return $client->payment;
+$payment = \App\Models\Payment::first();
+return $payment->client;
+
+

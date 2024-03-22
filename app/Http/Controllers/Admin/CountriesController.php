@@ -41,16 +41,12 @@ class CountriesController extends Controller
                 'title' => __('Countries'),
                 'route' => route('countries.index'),
             ],
-            // 'create-car-makes'=>[
-            // 	'title'=>__('Create :page',['page'=>__('Car Make')]),
-            // 	'route'=>'#'
-            // ]
+    
         ];
 
         return [
             'breadCrumbs' => $breadCrumbs,
             'pageTitle' => __('Countries'),
-            // 'route'=>$model ? route('car-makesc.update',['car_make'=>$model->id]) : route('countries.store') ,
             'model' => $model,
             'indexRoute' => route('countries.index')
         ];

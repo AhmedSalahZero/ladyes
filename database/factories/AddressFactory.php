@@ -14,10 +14,8 @@ class AddressFactory extends Factory
     public function definition()
     {
         return [
-				'name_en'=>$this->faker->name ,
-				'name_ar'=>$this->faker->name ,
-				'description_en'=>$this->faker->address ,
-				'description_ar'=>$this->faker->address ,
+				'category'=>$this->faker->name ,
+				'description'=>$this->faker->address ,
 				'latitude'=>$this->faker->latitude(),
 				'longitude'=>$this->faker->longitude()
         ];

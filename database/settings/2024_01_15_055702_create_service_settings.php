@@ -31,6 +31,10 @@ return new class extends SettingsMigration
 		
 		// $this->migrator->add('driver.Deduction Percentage',4);
 		$this->migrator->add('site.deduction_percentage',14);
+		/**
+		 * * هي عبارة عن نسبة الخصم اللي بنضربها في سعر الرحلة علشان نجيب سعر الكوبون اللي بيتم انشائة بعد كل رحلة ناجه
+		 */
+		$this->migrator->add('site.coupon_discount_percentage',10);
 		$this->migrator->add('site.driving_range',15);
 		$this->migrator->add('site.invitation_code_length',6);
 		

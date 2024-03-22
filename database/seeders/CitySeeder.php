@@ -26,7 +26,6 @@ class CitySeeder extends Seeder
 	   $city->rushHours()->create([
 		'start_time'=>now()->toTimeString(),
 		'end_time'=>now()->addHour()->toTimeString(),
-		'price'=>$city->price + 10 ,
 		'percentage'=>'1/5',
 		'km_price'=>$city->km_price + 10 ,
 		'minute_price'=>$city->minute_price + 10 ,
@@ -47,7 +46,7 @@ class CitySeeder extends Seeder
 	   $city->rushHours()->create([
 		'start_time'=>now()->toTimeString(),
 		'end_time'=>now()->addHour()->toTimeString(),
-		'price'=>$city->price + 10 ,
+		// 'price'=>$city->price + 10 ,
 		'percentage'=>'2/5',
 		'km_price'=>$city->km_price + 10 ,
 		'minute_price'=>$city->minute_price + 10 ,

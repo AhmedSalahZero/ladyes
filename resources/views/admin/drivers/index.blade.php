@@ -100,7 +100,7 @@
                                                                                         {{ $model->getEmail() }}
                                                                                     </h4>
 
-                                                                                    <h4 class="proile-rating font-weight-bold">{{ __('Rating') }} : <span class="font-weight-bold">0/{{ $model->getMaxRatingPoint() }}</span></h4>
+                                                                                    <h4 class="proile-rating font-weight-bold">{{ __('Rating') }} : <span class="font-weight-bold">{{ $model->getAvgRate(true) }}/{{ $model->getMaxRatingPoint() }}</span></h4>
                                                                                     <ul class="nav nav-tabs mb-2" id="myTab" role="tablist">
                                                                                         <li class="nav-item">
                                                                                             <a class="nav-link active" id="details-tab" data-toggle="tab" href="#details{{ $model->id }}" role="tab" aria-controls="home" aria-selected="true">{{ __('Driver Details') }}</a>
@@ -369,7 +369,7 @@
 
                                                     @if($user->can(getPermissionName('update')))
                                                     <a href="{{route($editRouteName,$model->id)}}" class="block-page ml-2 btn btn-primary btn-sm"><i class="la la-pencil"></i></a>
-                                                    <div class="dropdown-grid-css" >
+                                                    <div class="dropdown-grid-css">
                                                         <div class="dropdown  send-message">
                                                             <button type="button" class="dropdown-toggle btn btn-outline-primary bg-primary " data-toggle="dropdown"> {{ __('Send Message') }} </button>
                                                             <div class="dropdown-menu">
@@ -404,8 +404,8 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-															
-															  <div class="modal fade" id="send-sms-message-popup{{ $model->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+                                                            <div class="modal fade" id="send-sms-message-popup{{ $model->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                                 <div class="modal-dialog modal-lg  modal-dialog modal-lg-centered" role="document">
                                                                     <div class="modal-content">
                                                                         <form action="{{ route('send.sms.message') }}" method="post">
@@ -597,8 +597,102 @@
 
 
 
+                                                        <div class="dropdown ml-2 address">
+                                                            <button type="button" class="dropdown-toggle btn btn-outline-primary bg-primary " data-toggle="dropdown"> {{ __('Rating') }} </button>
+                                                            <div class="dropdown-menu">
+                                                                <a data-toggle="modal" data-target="#view-received-rating-popup{{ $model->id }}" class="dropdown-item" href="#"> {{ __('View :page',['page'=>__('Received Rating')]) }} </a>
+                                                                <a data-toggle="modal" data-target="#view-sent-rating-popup{{ $model->id }}" class="dropdown-item" href="#"> {{ __('View :page',['page'=>__('Sent Rating')]) }} </a>
 
 
+                                                            </div>
+
+                                                            <div class="modal fade" id="view-received-rating-popup{{ $model->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog modal-xl modal-dialog modal-lg-centered" role="document">
+                                                                    <div class="modal-content">
+                                                                        @csrf
+
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title">{{ __('View Received Rating For :name',['name'=>$model->getFullName($lang)]) }}</h5>
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <table class="table datatable datatable-js">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th class="text-center">#</th>
+                                                                                        <th>{{ __('Client Name') }}</th>
+                                                                                        <th>{{ __('Rate') }}</th>
+                                                                                        <th>{{ __('Date') }}</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    @foreach($model->getReceivedRatings() as $index=>$rate)
+                                                                                    <tr>
+                                                                                        <td>{{ $index+1 }}</td>
+                                                                                        <td>{{ getModelByNamespaceAndId($rate->author_type,$rate->author_id) }}</td>
+                                                                                        <td>{{ $rate->rating }}</td>
+                                                                                        <td>{{ formatForView($rate->created_at) }}</td>
+                                                                                    </tr>
+                                                                                    @endforeach
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close') }}</button>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+
+
+
+
+                                                            <div class="modal fade" id="view-sent-rating-popup{{ $model->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog modal-xl modal-dialog modal-lg-centered" role="document">
+                                                                    <div class="modal-content">
+                                                                        @csrf
+
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title">{{ __('View Sent Rating For :name',['name'=>$model->getFullName($lang)]) }}</h5>
+                                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <table class="table datatable datatable-js">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th class="text-center">#</th>
+                                                                                        <th>{{ __('Client Name') }}</th>
+                                                                                        <th>{{ __('Rate') }}</th>
+                                                                                        <th>{{ __('Date') }}</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    @foreach($model->getSentRatings() as $index=>$rate)
+                                                                                    <tr>
+                                                                                        <td>{{ $index+1 }}</td>
+                                                                                        <td>{{ getModelByNamespaceAndId($rate->reviewrateable_type,$rate->reviewrateable_id) }}</td>
+                                                                                        <td>{{ $rate->rating }}</td>
+                                                                                        <td>{{ formatForView($rate->created_at) }}</td>
+                                                                                    </tr>
+                                                                                    @endforeach
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close') }}</button>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
 
 
@@ -834,8 +928,8 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-															
-															   <div class="modal fade" id="send-sms-verification-code-popup{{ $model->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+                                                            <div class="modal fade" id="send-sms-verification-code-popup{{ $model->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                                 <div class="modal-dialog modal-lg  modal-dialog modal-lg-centered" role="document">
                                                                     <div class="modal-content">
                                                                         <form action="{{ route('send.verification.code.through.sms') }}" method="post">

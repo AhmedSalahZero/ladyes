@@ -19,7 +19,7 @@
                                             <th class="th-global-class  text-center">#</th>
                                             <th class="th-global-class  text-center">{{__('Name')}}</th>
                                             <th class="th-global-class  text-center">{{__('Country Name')}}</th>
-                                            <th>{{ __('Main Price') }}</th>
+                                            {{-- <th>{{ __('Main Price') }}</th> --}}
                                             <th>{{ __('Km Price') }}</th>
                                             <th>{{ __('Minute Price') }}</th>
                                             <th>{{ __('Operating Fees') }}</th>
@@ -36,7 +36,7 @@
                                                 <td class="text-center">{{$loop->iteration}}</td>
                                                 <td class="text-center">{{$model->getName()}}</td>
                                                 <td class="text-center">{{$model->getCountryName($lang)}}</td>
-                                                <td class="text-center">{{$model->getPriceFormatted($lang)}}</td>
+                                                {{-- <td class="text-center">{{$model->getPriceFormatted($lang)}}</td> --}}
                                                 <td>{{ $model->getKmPriceFormatted($lang) }}</td>
                                                 <td>{{ $model->getMinutePriceFormatted($lang) }}</td>
                                                 <td>{{ $model->getOperatingFeesFormatted($lang) }}</td>
@@ -81,7 +81,7 @@
                                                                                 <th class="text-center">#</th>
                                                                                 <th>{{ __('Start Time') }}</th>
                                                                                 <th>{{ __('End Time') }}</th>
-                                                                                <th>{{ __('Main Price') }}</th>
+                                                                                {{-- <th>{{ __('Main Price') }}</th> --}}
                                                                                 <th>{{ __('Km Price') }}</th>
                                                                                 <th>{{ __('Minute Price') }}</th>
                                                                                 <th>{{ __('Operating Fees') }}</th>
@@ -94,7 +94,7 @@
                                                                                 <td>{{ $index+1 }}</td>
                                                                                 <td>{{ $rushHour->getStartFromFormatted() }}</td>
                                                                                 <td>{{ $rushHour->getEndFromFormatted() }}</td>
-                                                                                <td>{{ $rushHour->getPriceFormatted($lang) }}</td>
+                                                                                {{-- <td>{{ $rushHour->getPriceFormatted($lang) }}</td> --}}
                                                                                 <td>{{ $rushHour->getKmPriceFormatted($lang) }}</td>
                                                                                 <td>{{ $rushHour->getMinutePriceFormatted($lang) }}</td>
                                                                                 <td>{{ $rushHour->getOperatingFeesFormatted($lang) }}</td>

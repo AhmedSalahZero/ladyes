@@ -10,7 +10,7 @@ trait HasPrice
 	}
 	public function getPriceFormatted($lang)
 	{
-		return $this->price .' '.  $this->getCountrySymbol($lang) ;
+		return $this->price .' '.  $this->getCurrencyFormatted($lang) ;
 	}
 	
 	

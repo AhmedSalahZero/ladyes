@@ -21,9 +21,11 @@ class DriverResource extends JsonResource
 		$country = $this->getCountry() ;
         return [
 			'id'=>$this->id ,
+			'distance_in_km'=>$this->when(!is_null($this->distance_in_km) , $this->getDistanceInKm()),
 			'name'=>$this->getFullName(),
 			'email'=>$this->getEmail(),
 			'phone'=>$this->getPhone(),
+			'current_balance'=>$this->getTotalWalletBalance(),
 			'country'=>$country ? new CountryResource($country) : null,
 			'city'=> $this->city ? new CityResource($this->city) : null,
 			'is_verified'=>$this->getIsVerified(),
@@ -35,6 +37,8 @@ class DriverResource extends JsonResource
 			'deduction_percentage'=>$this->getDeductionPercentage(),
 			'driving_range'=>$this->getDrivingRange(),
 			'invitation_code'=>$this->getInvitationCode(),
+			'avg_rate'=>$this->getAvgRate(),
+			'location'=>$this->getLocation(),
 			'is_banned'=>$this->isBanned(),
 			'created_at'=>$this->getCreatedAtFormatted(),
 			'car'=>[
