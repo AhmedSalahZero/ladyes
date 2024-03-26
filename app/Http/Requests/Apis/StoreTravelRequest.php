@@ -32,7 +32,7 @@ class StoreTravelRequest extends FormRequest
 		
 		$model = $this->route('travel') ;
 		$requiredOrNot = $model ? 'sometimes' : 'required';
-		$id = $model ? $model->id : 0 ;
+		// $id = $model ? $model->id : 0 ;
         return 
 		[
 			'client_id' => ['required', 'exists:clients,id'],

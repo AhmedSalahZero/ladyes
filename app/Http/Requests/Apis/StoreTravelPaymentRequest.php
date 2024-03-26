@@ -6,7 +6,7 @@ use App\Enum\PaymentType;
 use App\Traits\HasFailedValidation;
 use Illuminate\Foundation\Http\FormRequest;
 
-class MarkTravelAsCompletedRequest extends FormRequest
+class StoreTravelPaymentRequest extends FormRequest
 { 
 	protected $stopOnFirstFailure = true;
 	
@@ -30,10 +30,10 @@ class MarkTravelAsCompletedRequest extends FormRequest
 
         return 
 		[
-			'travel_id' => ['required', 'exists:travels,id'],
-			'duration_in_minutes'=>['required','gt:0'],
-			'distance_in_km'=>['required','gt:0'],
-			'currency' => ['required', 'exists:countries,currency'],
+			// 'travel_id' => ['required', 'exists:travels,id'],
+			// 'duration_in_minutes'=>['required','gt:0'],
+			// 'distance_in_km'=>['required','gt:0'],
+			// 'currency' => ['required', 'exists:countries,currency'],
 			'payment_type'=>['required','in:'.implode(',',array_keys(PaymentType::all()))],
         ];
     }

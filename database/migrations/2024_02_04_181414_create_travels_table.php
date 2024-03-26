@@ -42,6 +42,7 @@ class CreateTravelsTable extends Migration
 			$table->dateTime('started_at')->nullable()->comment('الوقت اللي الرحلة بدات فيه .. يعني اول ما العميل ركب السيارة');
 			$table->dateTime('ended_at')->nullable()->comment('الوقت اللي الرحلة انتهت فيه ..  يعني اول ما العميل نزل  من السيارة');
 			$table->decimal('no_km',14,2)->comment('عدد الكيلوا مترات المقطوعه خلال كامل الرحلة')->nullable();
+			$table->enum('cancelled_by',['Driver','Client'])->nullable()->comment('في حاله الغاء الرحلة .. مين اللي لغاءها العميل ولا السائق');
             $table->timestamps();
         });
     }

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Api\Client;
 
+use App\Enum\TransactionType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Apis\MarkTravelAsCompletedRequest;
 use App\Http\Requests\Apis\ShowAvailableCarSizesForTravelRequest;
 use App\Http\Requests\Apis\ShowAvailableDriversForTravelRequest;
+use App\Http\Requests\Apis\StoreTravelPaymentRequest;
 use App\Http\Requests\Apis\StoreTravelRequest;
 use App\Http\Resources\CarSizeDriverResource;
 use App\Http\Resources\DriverResource;
@@ -24,14 +26,13 @@ class TravelsController extends Controller
 		$travel  = new Travel();
 		$travel = $travel->syncFromRequest($request);
 	}
-	/**
-	 * * 
-	 */
-	public function markAsCompleted(MarkTravelAsCompletedRequest $request,Travel $travel)
+	public function storePayment(StoreTravelPaymentRequest $request,Travel $travel)
 	{
-		$travel = $travel->markTravelAsCompleted($request);
+		$travel->storePayment($request);
+		return $this->apiResponse(__('Thanks For Your Travel',[],getApiLang()),[
+			'discount_coupon'=>$travel->getGiftCouponCode() 
+		]);
 	}
-	
 	/**
 	 * * هنجيب السواقين المتاحين 
 	 */

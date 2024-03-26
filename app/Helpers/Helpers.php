@@ -30,6 +30,7 @@ function getPermissions():array
 	$permissions[] = ['name'=>'view' .' ' . 'transactions' , 'title'=>__('View' .' :page' , ['page'=>__('Transactions')]) ] ;
 	$permissions[] = ['name'=>'view' .' ' . 'travels' , 'title'=>__('View' .' :page' , ['page'=>__('Travels')]) ] ;
 	$permissions[] = ['name'=>'view' .' ' . 'countries' , 'title'=>__('View' .' :page' , ['page'=>__('Countries')]) ] ;
+	$permissions[] = ['name'=>'update' .' ' . 'countries' , 'title'=>__('View' .' :page' , ['page'=>__('Countries')]) ] ;
 	$permissions[] = ['name'=>'view' .' ' . 'car-sizes' , 'title'=>__('View' .' :page' , ['page'=>__('Car Sizes')]) ] ;
 	$permissions[] = ['name'=>'update' .' ' . 'car-sizes' , 'title'=>__('Update' .' :page' , ['page'=>__('Car Sizes')]) ] ;
 	$permissions[] = ['name'=>'create' .' ' . 'settings' , 'title'=>__('View' .' :page' , ['page'=>__('Settings')]) ] ;

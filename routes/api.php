@@ -20,6 +20,7 @@ use App\Http\Controllers\Api\Driver\InformationController;
 use App\Http\Controllers\Api\Driver\PromotionsController;
 use App\Http\Controllers\Api\Driver\RatingController as DriverRatingController;
 use App\Http\Controllers\Api\Driver\TravelConditionController;
+use App\Http\Controllers\Api\Driver\TravelsController as DriverTravelsController;
 use App\Http\Controllers\Api\EmergencyContactsController;
 use App\Http\Controllers\Api\MyWalletController;
 use App\Http\Controllers\Api\NotificationsController;
@@ -62,7 +63,6 @@ Route::prefix('drivers')->group(function () {
         Route::put('update', [DriversController::class, 'update']);
         Route::get('information', [InformationController::class, 'viewAfterSignupMessage']);
         Route::get('help', [HelpController::class, 'viewForDriver']);
-        
 		Route::apiResource('travel-conditions',TravelConditionController::class);
 		Route::apiResource('cancellation-reasons',CancellationReasonsController::class);
 		Route::apiResource('car-sizes',CarSizesController::class);
@@ -70,12 +70,11 @@ Route::prefix('drivers')->group(function () {
 		Route::apiResource('car-models',CarModelController::class);
 		Route::apiResource('promotions',PromotionsController::class);
 		Route::post('rating',[DriverRatingController::class,'rateWith']);
-		
+		Route::patch('travels/{travel}/mark-as-started',[DriverTravelsController::class,'markAsStarted']);
+		Route::patch('travels/{travel}/mark-as-cancelled',[DriverTravelsController::class,'markAsCancelled']);
+		Route::patch('travels/{travel}/mark-as-completed',[DriverTravelsController::class,'markAsCompleted']);
 		
     });
-	
-	
-	
 });
 
 
@@ -104,8 +103,9 @@ Route::prefix('clients')->group(function () {
 		Route::get('travels/available-drivers',[TravelsController::class,'getAvailableDriverForTravels']);
 		Route::get('travels/get-distance-and-duration-between-client-and-driver',[TravelsController::class,'getDistanceAndDurationBetweenClientAndDriver']);
 		Route::get('travels/show-available-car-sizes',[TravelsController::class,'getAvailableCarSizes']);
-		Route::patch('travels/{travelId}/markAsCompleted',[TravelsController::class,'markAsCompleted']);
 		Route::apiResource('travels', TravelsController::class);
+		Route::post('travels/{travel}/store-payment',[TravelsController::class,'storePayment']);
+		
     });
 });
 

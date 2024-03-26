@@ -47,4 +47,5 @@ class TestCommand extends Command
 		 */
 		$travel->calculateClientActualPriceWithoutDiscount();
     }
+   
 }

@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
+use App\Enum\AppNotificationType;
 use App\Enum\PaymentStatus;
 use App\Enum\PaymentType;
 use App\Enum\TransactionType;
 use App\Enum\TravelStatus;
 use App\Exceptions\TravelEndTimeNotFoundException;
 use App\Exceptions\TravelStartTimeNotFoundException;
-use App\Exceptions\TravelStartTimeOrEndTomeNotFoundException;
 use App\Helpers\HHelpers;
 use App\Helpers\HStr;
-use App\Models\City;
+use App\Models\Driver;
 use App\Traits\Models\HasBasicStoreRequest;
 use App\Traits\Models\HasCity;
 use App\Traits\Models\HasCountry;
@@ -33,8 +33,8 @@ class Travel extends Model
     use HasStartedAtAndEndedAt;
     use HasCity;
     use HasCountry;
-	
-	protected $table = 'travels';
+
+    protected $table = 'travels';
 
     public function getId()
     {
@@ -74,20 +74,29 @@ class Travel extends Model
         return $this->belongsTo(Coupon::class, 'gift_coupon_id', 'id');
     }
 
+    public function getGiftCouponCode()
+    {
+        return $this->giftCoupon->code ;
+    }
+
     public function generateGiftCoupon(): self
     {
-        $giftCoupon = Coupon::generateGiftCouponForTravel($this->id, $this->calculateGiftCouponDiscountAmount() );
-		$this->gift_coupon_id = $giftCoupon->id ; 
+        $giftCoupon = Coupon::generateGiftCouponForTravel($this->id, $this->calculateGiftCouponDiscountAmount());
+        $this->gift_coupon_id = $giftCoupon->id ;
+        $this->save();
+
         return $this ;
     }
-	/**
-	 * * دا عباره عن نسبة الخصم اللي هياخدها الكوبون اللي بيتم انشائه لما الرحلة تنتهي 
-	 */
-	public function calculateGiftCouponDiscountAmount():?float 
-	{
-		$percentage = getSetting('coupon_discount_percentage') / 100;
-		return $percentage * $this->calculateClientActualPriceWithoutDiscount();
-	}
+
+    /**
+     * * دا عباره عن نسبة الخصم اللي هياخدها الكوبون اللي بيتم انشائه لما الرحلة تنتهي
+     */
+    public function calculateGiftCouponDiscountAmount(): ?float
+    {
+        $percentage = getSetting('coupon_discount_percentage') / 100;
+
+        return $percentage * $this->calculateClientActualPriceWithoutDiscount();
+    }
 
     /**
      * * دا الكوبون اللي تم تطبيقه علي الرحلة الحالية
@@ -171,24 +180,39 @@ class Travel extends Model
 
         return $travel;
     }
-	
 
     /**
-     * * هنا هنحدد ان الرحلة انتهت بالاضافة الي عمليه الدفع وانشاء كوبون خصم للعميل
+     * * هنا هنحدد ان الرحلة انتهت وخلي بالك ان عميله الدفع منفصلة عن تحديد الرحلة كمنتهيه
      */
-    public function markTravelAsCompleted(Request $request)
+    public function markAsCompleted(Request $request)
     {
-		$durationInMinutes = $request->get('duration_in_minutes');
-		$startedAt = $this->getStartedAt();
-		/**
-		 * @var City $city ;
-		 */
-        $city = City::find($this->getCityId());
-		$country = $city->getCountry() ;
-		
-        $currencyName = $country->getCurrency();
-        $client = $request->user('client');
+        $this->status = TravelStatus::COMPLETED;
+        $this->ended_at = now();
+        $this->save();
 
+        return $this;
+    }
+
+    /**
+     * * هنا هنحدد ان الرحلة بدات
+     */
+    public function markAsStarted(Request $request)
+    {
+        $this->status = TravelStatus::ON_THE_WAY;
+        $this->started_at = now();
+        $this->save();
+
+        return $this;
+    }
+
+    public function storePayment(Request $request)
+    {
+        /**
+         * @var City $city ;
+         */
+        $country = $this->city->getCountry() ;
+        $currencyName = $country->getCurrency();
+        $client = $this->client;
         $this->generateGiftCoupon();
         $couponAmount = $this->getCouponDiscountAmount();
         $paymentType = $request->get('payment_type');
@@ -203,12 +227,10 @@ class Travel extends Model
             'type' => $paymentType,
             'price' => $this->calculateClientActualPriceWithoutDiscount(),
             'coupon_amount' => $couponAmount,
-			'operational_fees'=>$operationalFees ,
-            'total_price' => $totalPrice = $this->getTotalPrice(),
+            'total_price' => $totalPrice = $this->calculateClientTotalActualPriceWithoutDiscount($couponAmount),
             'model_id' => $this->id,
             'model_type' => HHelpers::getClassNameWithoutNameSpace($this)
         ]);
-
         /**
          * * اولا هنضيف ايداع بسعر الرحلة لمحفظتة
          */
@@ -234,6 +256,8 @@ class Travel extends Model
             'note_en' => __('Amount Has Been Been Subtracted From Your Wallet :amount :currency', ['amount' => number_format($totalPrice), 'currency' => $currencyName], 'en'),
             'note_ar' => __('Amount Has Been Been Subtracted From Your Wallet :amount :currency For Travel # :travelId', ['amount' => number_format($totalPrice), 'currency' => __($currencyName, [], 'ar'), 'travelId' => $this->getId()], 'ar')
         ]);
+
+        return $this;
     }
 
     /**
@@ -279,156 +303,187 @@ class Travel extends Model
      * ! ملحوظه :- لحساب الخصم الخاص بالكوبون اللي بننشئة بعد اكتمال الرحلة بنستخدم هذه الفانكشن
      * ! لانة بيكون نسبة وليكن مثلا عشره في المية مضروبة في هذا الرقم .. هذه النسبه موجوده في الاعدادات
      * * لاحظ ايضا هذا السعر لا يشمل رسوم التشغيل
-	 * @see $mainFare الاجرة الاساسية
+     * @see $mainFare الاجرة الاساسية
      */
-	
-    public function calculateClientActualPriceWithoutDiscount( )
+    public function calculateClientActualPriceWithoutDiscount()
     {
-		
-		/**
-		 * @var City $city 
-		 */
-		
-		 $statedAt = $this->getStartedAt();
-		 $city = $this->getCity() ;
-		 $priceModel = $city;
-		 $carSizePrice = $this->driver->carSize->getPrice($city->getCountryId() , getApiLang() ) ;
-		 $rushHour = $city->isInRushHourAt($statedAt);
-		 if($rushHour){
-			$priceModel = $rushHour ; 
-		 }
-		 $kmPrice = $priceModel->getKmPrice();
-		 $minutePrice = $priceModel->getMinutePrice();
-		 $operationFees = $priceModel->getOperatingFeesPrice();
-		 $numberOfMinutes = $this->getNumberOfMinutes();
-		 $numberOfKms = $this->getNumberOfKms();
-		 return $carSizePrice + ($kmPrice * $numberOfKms) + ($minutePrice*$numberOfMinutes)  + $operationFees ;
-    }
-	/**
-	 * * هو نفس الحسبة السابقة مضاف اليها الغرامات ومنقوص منها الخصم .. وهو اجمالي ما سوف يتم دفعه للعميل
-	 */
-	public function calculateClientTotalActualPriceWithoutDiscount()
-	{
-		
-	}
-	/**
-	 * * النسبة اللي الابلكيشن هياخدها
-	 * * التطبيق هياخد
-	 * * سعر الرحلة الرئيسي - رسوم التشغيل لان السائق ملهوش دعوه بيها لانها فلوس سيرفرات .. الكل مضروب في نسبة الاستطقاع 
-	 */
-	public function calculateApplicationShare()
-	{
-		$statedAt = $this->getStartedAt();
-		$city = $this->getCity() ;
-		$priceModel = $city;
-		$rushHour = $city->isInRushHourAt($statedAt);
-		if($rushHour){
-		   $priceModel = $rushHour ; 
-		}
-		$operationFees = $priceModel->getOperatingFeesPrice();
-		return ($this->calculateClientActualPriceWithoutDiscount()  - $operationFees) * ($this->driver->getDeductionPercentage()/100) ;
-	}
-		/**
-	 * * النسبة اللي السائق هياخدها
-	 * * السائق هياخد
-	 * * سعر الرحلة الرئيسي - رسوم التشغيل - رسوم التطبيق 
-	 */
-	public function calculateDriverShare()
-	{
-		$statedAt = $this->getStartedAt();
-		$city = $this->getCity() ;
-		$priceModel = $city;
-		$rushHour = $city->isInRushHourAt($statedAt);
-		if($rushHour){
-		   $priceModel = $rushHour ; 
-		}
-		$operationFees = $priceModel->getOperatingFeesPrice();
-		
-		return ($this->calculateClientActualPriceWithoutDiscount()  - $operationFees)  - $this->calculateApplicationShare()  ;
+        /**
+         * @var City $city
+         */
 
-	}
-	public function getCity():?City 
-	{
-		return $this->city;
-	}
-	
-	/**
-	 * * في حاله لو الرحله اكتملت هنجيب السعر الاساسي .. اي بدون خصومات او رسوم تشغيل .. هنجيب من المدفوعه
-	 */
+        $statedAt = $this->getStartedAt();
+        $city = $this->getCity() ;
+        $priceModel = $city;
+        $carSizePrice = $this->driver->carSize->getPrice($city->getCountryId(), getApiLang()) ;
+        $rushHour = $city->isInRushHourAt($statedAt);
+        if ($rushHour) {
+            $priceModel = $rushHour ;
+        }
+        $kmPrice = $priceModel->getKmPrice();
+        $minutePrice = $priceModel->getMinutePrice();
+        $operationFees = $this->getOperationalFees();
+        $numberOfMinutes = $this->getNumberOfMinutes();
+        $numberOfKms = $this->getNumberOfKms();
+
+        return $carSizePrice + ($kmPrice * $numberOfKms) + ($minutePrice * $numberOfMinutes) + $operationFees ;
+    }
+
+    public function getOperationalFees()
+    {
+        $statedAt = $this->getStartedAt();
+        $city = $this->getCity() ;
+        $priceModel = $city;
+        $rushHour = $city->isInRushHourAt($statedAt);
+        if ($rushHour) {
+            $priceModel = $rushHour ;
+        }
+
+        return $priceModel->getOperatingFeesPrice();
+    }
+
+    /**
+     * * هو نفس الحسبة السابقة مضاف اليها الغرامات ومنقوص منها الخصم .. وهو اجمالي ما سوف يتم دفعه للعميل
+     */
+    public function calculateClientTotalActualPriceWithoutDiscount(float $couponAmount = null)
+    {
+        /**
+         * * لو ما مررنهاش هنحسبها
+         */
+        $couponAmount = is_null($couponAmount) ? $this->getCouponDiscountAmount() : $couponAmount ;
+
+        return $this->calculateClientActualPriceWithoutDiscount() + $couponAmount ;
+    }
+
+    /**
+     * * النسبة اللي الابلكيشن هياخدها
+     * * التطبيق هياخد
+     * * سعر الرحلة الرئيسي - رسوم التشغيل لان السائق ملهوش دعوه بيها لانها فلوس سيرفرات .. الكل مضروب في نسبة الاستطقاع
+     */
+    public function calculateApplicationShare()
+    {
+        $statedAt = $this->getStartedAt();
+        $city = $this->getCity() ;
+        $priceModel = $city;
+        $rushHour = $city->isInRushHourAt($statedAt);
+        if ($rushHour) {
+            $priceModel = $rushHour ;
+        }
+        $operationFees = $priceModel->getOperatingFeesPrice();
+
+        return ($this->calculateClientActualPriceWithoutDiscount() - $operationFees) * ($this->driver->getDeductionPercentage() / 100) ;
+    }
+
+    /**
+     * * النسبة اللي السائق هياخدها
+     * * السائق هياخد
+     * * سعر الرحلة الرئيسي - رسوم التشغيل - رسوم التطبيق
+     */
+    public function calculateDriverShare()
+    {
+        $statedAt = $this->getStartedAt();
+        $city = $this->getCity() ;
+        $priceModel = $city;
+        $rushHour = $city->isInRushHourAt($statedAt);
+        if ($rushHour) {
+            $priceModel = $rushHour ;
+        }
+        $operationFees = $priceModel->getOperatingFeesPrice();
+
+        return ($this->calculateClientActualPriceWithoutDiscount() - $operationFees) - $this->calculateApplicationShare()  ;
+    }
+
+    public function getCity(): ?City
+    {
+        return $this->city;
+    }
+
+    /**
+     * * في حاله لو الرحله اكتملت هنجيب السعر الاساسي .. اي بدون خصومات او رسوم تشغيل .. هنجيب من المدفوعه
+     */
     public function getPaymentPrice()
     {
         return $this->payment->getPrice() ?: 0 ;
     }
-	
-	public function getPaymentPriceFormatted()
+
+    public function getPaymentPriceFormatted()
     {
         $price = $this->getPaymentPrice();
         $currentName = $this->getCurrencyNameFormatted();
+
         return number_format($price) . ' ' . __($currentName);
     }
-	/**
-	 * * في حاله لو الرحله اكتملت هنجيب رسوم التشغيل .. هنجيب من المدفوعه
-	 */
+
+    /**
+     * * في حاله لو الرحله اكتملت هنجيب رسوم التشغيل .. هنجيب من المدفوعه
+     */
     public function getPaymentOperationalFees()
     {
         return $this->payment->getOperationalFees() ?: 0 ;
     }
-	public function getPaymentOperationalFeesFormatted()
+
+    public function getPaymentOperationalFeesFormatted()
     {
         $operationalFees = $this->getPaymentOperationalFees();
         $currentName = $this->getCurrencyNameFormatted();
+
         return number_format($operationalFees) . ' ' . __($currentName);
     }
-	
-	/**
-	 * * في حاله لو الرحله اكتملت هنجيب قيمة الكوبون .. هنجيب من المدفوعه
-	 */
+
+    /**
+     * * في حاله لو الرحله اكتملت هنجيب قيمة الكوبون .. هنجيب من المدفوعه
+     */
     public function getPaymentCouponDiscountAmount()
     {
         return $this->payment->getCouponDiscountAmount() ?: 0 ;
     }
-	public function getPaymentCouponDiscountAmountFormatted()
+
+    public function getPaymentCouponDiscountAmountFormatted()
     {
         $operationalFees = $this->getPaymentCouponDiscountAmount();
         $currentName = $this->getCurrencyNameFormatted();
+
         return number_format($operationalFees) . ' ' . __($currentName);
     }
-	
-	public function getPaymentTotalPriceWithoutOperationFees()
-	{
-		return $this->getPaymentPriceFormatted() + $this->getPaymentCouponDiscountAmount();
-		
-	}	
-	public function getPaymentTotalPriceWithoutOperationFeesFormatted()
-	{
-		$paymentTotalPriceWithoutOperationFees =  $this->getPaymentTotalPriceWithoutOperationFees() ;
-		$currentName = $this->getCurrencyNameFormatted();
+
+    public function getPaymentTotalPriceWithoutOperationFees()
+    {
+        return $this->getPaymentPriceFormatted() + $this->getPaymentCouponDiscountAmount();
+    }
+
+    public function getPaymentTotalPriceWithoutOperationFeesFormatted()
+    {
+        $paymentTotalPriceWithoutOperationFees = $this->getPaymentTotalPriceWithoutOperationFees() ;
+        $currentName = $this->getCurrencyNameFormatted();
+
         return number_format($paymentTotalPriceWithoutOperationFees) . ' ' . __($currentName);
-	}
-	public function getPaymentTotalPriceWithOperationFees()
-	{
-		return $this->getPaymentTotalPriceWithoutOperationFees() + $this->getPaymentOperationalFees();
-	}	
-	public function getPaymentTotalPriceWithOperationFeesFormatted()
-	{
-		$paymentTotalPriceWithoutOperation =  $this->getPaymentTotalPriceWithOperationFees() ;
-		$currentName = $this->getCurrencyNameFormatted();
+    }
+
+    public function getPaymentTotalPriceWithOperationFees()
+    {
+        return $this->getPaymentTotalPriceWithoutOperationFees() + $this->getPaymentOperationalFees();
+    }
+
+    public function getPaymentTotalPriceWithOperationFeesFormatted()
+    {
+        $paymentTotalPriceWithoutOperation = $this->getPaymentTotalPriceWithOperationFees() ;
+        $currentName = $this->getCurrencyNameFormatted();
+
         return number_format($paymentTotalPriceWithoutOperation) . ' ' . __($currentName);
-	}
-	
+    }
+
     public function getCurrencyName()
     {
-		$country = $this->getCountry() ;
+        $country = $this->getCountry() ;
+
         return $country ? $country->getCurrency() : '';
     }
 
     public function getCurrencyNameFormatted()
     {
-		$country = $this->getCountry() ;
-        return  $country ? __($country->getCurrency()) : '';
-    }
+        $country = $this->getCountry() ;
 
-    
+        return  $country ? __($country->getCurrency(),[],getApiLang()) : '';
+    }
 
     /**
      * * دي قيمة الكوبون الحاليه (اللي هنستخدمها عند تسجيل الرحله .. اما اللي تحتها هي القيمة القديمة اللي تم تسجيلها في الرحلة علشان لو
@@ -486,7 +541,7 @@ class Travel extends Model
     public function getClientActualTotalPriceFormatted()
     {
         $totalPrice = $this->getClientActualTotalPrice();
-		$country = $this->getCountry() ;
+        $country = $this->getCountry() ;
         $currency = $country ? $country->getCurrency() : '';
 
         return number_format($totalPrice) . ' ' . __($currency);
@@ -501,42 +556,149 @@ class Travel extends Model
     {
         return $this->payment->getTypeFormatted();
     }
-	public function getPaymentStatus()
+
+    public function getPaymentStatus()
     {
         return $this->payment->getStatus();
     }
-	public function getCountry():?Country 
+
+    public function getCountry(): ?Country
+    {
+        $city = $this->city ;
+        if ($city) {
+            return $city->getCountry() ;
+        }
+
+        return  $this->country ;
+    }
+
+    /**
+     * * عدد الكيلوا مترات المقطوعه خلال كامل الرحلة
+     */
+    public function getNumberOfKms()
+    {
+        return $this->no_km ;
+    }
+
+    /**
+     * * عدد الدقائق المقطوعة المقطوعه خلال كامل الرحلة
+     * * هو عباره عن الفرق بين الوقت اللي الرحلة انتهت عنده والوقت اللي الرحلة بدات عنده بالدقائق
+     */
+    public function getNumberOfMinutes()
+    {
+        $startedAt = $this->getStartedAt();
+        $endedAt = $this->getEndedAt();
+        if (!$startedAt) {
+            throw new TravelStartTimeNotFoundException(__('Travel Start Time Not Found', [], getApiLang()));
+        }
+        if (!$endedAt) {
+            throw new TravelEndTimeNotFoundException(__('Travel End Time Not Found', [], getApiLang()));
+        }
+
+        return Carbon::make($startedAt)->diffInMinutes($endedAt);
+    }
+	/**
+	 * * هنا بنحسب نسبة الغرامة اللي المفروض تتطبق علي السائق او الكابتن
+	 * * في حال بدأت الرحلة وقام العميل باللغاء الرحلة يتم احتساب مبلغ ثابت لكل دقيقه ويتم التحكم في المبلغ هذا من لوحة التحكم الادارية والتي يكون حقل به مبلغ اللغاء العميل
+	* * ويتم احتساب هذا المبلغ بناء على كل دقيقه تمت في هذة الرحلة
+	* * كمثال في حال العميل طلب رحله وبعد 15 دقيقه رغب ان يلغي الرحلة 
+	* *يتم احتساب المبلغ مقابل 15 دقيقه ويتم اخذ نسبة التطبيق من المبلغ والباقي يذهب في محفظة الكابتن 
+	 */
+	public function calculateCancellationFees(bool $isDriver)
 	{
-		$city = $this->city ;
-		if($city){
-			return $city->getCountry() ;
-		}
-		return  $this->country ;
+		$cancellationFeesAmount = $isDriver ? $this->getCountry()->getCancellationFeesForDriver() : $this->getCountry()->getCancellationFeesForClient();
+		return $isDriver  ?  $cancellationFeesAmount : $this->getNumberOfMinutes() *  $cancellationFeesAmount   ;
 	}
 	/**
-	 * * عدد الكيلوا مترات المقطوعه خلال كامل الرحلة
+	 * * تطبيق غرامة علي العميل في حالة الغاء الرحلة وتسديدها في حالة لو كان العميل لديه اموال في محفظته 
 	 */
-	public function getNumberOfKms()
+	public function applyCancellationFine(Request $request)
 	{
-		return $this->no_km ;
+		$user = $request->user() ;
+		$isDriver = $user instanceof Driver ;
+		
+		$currency = $this->getCurrencyNameFormatted();
+		$amount = $this->calculateCancellationFees($isDriver);
+		$hasBalanceInHisWallet =  $user->getTotalWalletBalance() >= $amount;
+		$this->fine()->create([
+			'travel_id'=>$this->id ,
+			'model_type'=>$isDriver ? 'Driver' : 'Client',
+			'model_id'=>$user->id ,
+			'amount'=> $amount ,
+			'is_paid'=>$hasBalanceInHisWallet ,
+			'note_en'=>$noteEn = __('You Have :amount :currency Fine In Your Wallet For Cancellation Travel #:travelId',['amount'=>$amount , 'currency'=>$currency , 'travelId'=>$this->id ],'en' ),
+			'note_ar'=>$noteAr = __('You Have :amount :currency Fine In Your Wallet For Cancellation Travel #:travelId',['amount'=>$amount , 'currency'=>$currency , 'travelId'=>$this->id ],'ar' )
+		]);
+		
+		$user->sendAppNotification(__('Fine',[],'en') , __('Fine',[],'ar') ,$noteEn , $noteAr , AppNotificationType::FINE);
+		/**
+		 * *  هنضيفلة قيمة بالسالب في محفظته
+		 */
+			Transaction::create(
+				[
+					'type' => TransactionType::FINE,
+					'type_id' => null ,
+					'model_id' => $user->id,
+					'amount' => $amount * -1,
+					'model_type' => HHelpers::getClassNameWithoutNameSpace($user),
+					'note_en' => __('Amount Has Been Been Added To Your Wallet :amount :currency', ['amount' => number_format($amount), 'currency' => $currency, 'paymentMethod' => 'Wallet'], 'en'),
+					'note_ar' => __('Amount Has Been Been Added To Your Wallet :amount :currency', ['amount' => number_format($amount), 'currency' => __($currency, [], 'ar'), 'paymentMethod' => __('Wallet', [], 'ar')], 'ar')
+				]
+			);
+		if($hasBalanceInHisWallet){
+			/**
+		 * *  هنسدد الغرامة
+		 */
+		Transaction::create(
+			[
+				'type' => TransactionType::FINE,
+				'type_id' => null ,
+				'model_id' => $user->id,
+				'amount' => $amount,
+				'model_type' => HHelpers::getClassNameWithoutNameSpace($user),
+				'note_en' => __('The Fine Amount :amount :currency Has Been Successfully Paid', ['amount' => number_format($amount), 'currency' => $currency], 'en'),
+				'note_ar' => __('The Fine Amount :amount :currency Has Been Successfully Paid', ['amount' => number_format($amount), 'currency' => __($currency, [], 'ar')], 'ar')
+			]
+		);
+		}
 	}
 	/**
-	 * * عدد الدقائق المقطوعة المقطوعه خلال كامل الرحلة
-	 * * هو عباره عن الفرق بين الوقت اللي الرحلة انتهت عنده والوقت اللي الرحلة بدات عنده بالدقائق
+	 * * تحديد ما اذا كانت الرحلة قد بدات بالفعل
 	 */
-	public function getNumberOfMinutes()
+	public function hasStarted():bool 
 	{
-		$startedAt = $this->getStartedAt();
-		$endedAt = $this->getEndedAt();
-		if(!$startedAt){
-			throw new TravelStartTimeNotFoundException(__('Travel Start Time Not Found',[],getApiLang()));
-		}
-		if(!$endedAt){
-			throw new TravelEndTimeNotFoundException(__('Travel End Time Not Found',[],getApiLang()));
-		}
-		return Carbon::make($startedAt)->diffInMinutes($endedAt);
+		return $this->started_at !== null  ; 
 	}
-	
-	
-	
+	public function markAsCancelled(Request $request)
+	{
+		$this->status = TravelStatus::CANCELLED;
+		$this->ended_at = now();
+		$this->cancelled_by  = HHelpers::getClassNameWithoutNameSpace($request->user()) ;
+		$this->save();
+		if($this->hasStarted()){
+			$this->applyCancellationFine($request);
+		}
+		return $this ; 
+	}
+	/**
+	 * * هي هنا 
+	 * * many to many
+	 * * لان ممكن نفترض ان الرحلة الواحدة هيتطبق عليها غرمتين واحدة علي السائق وواحدة علي العميل بس فعليا 
+	 * * ولحد الان هي بتطتبق علي العميل بس وبالتالي هيكون فيه ريليشن كمان تحتها بالاسم المفروض علشان تجيب اول واحدة
+	 */
+	public function fines()
+	{
+		return $this->hasMany(Fine::class,'travel_id','id');
+	}
+	public function fine()
+	{
+		return $this->hasOne(Fine::class,'travel_id','id');
+	}
+	/**
+	 * * في حاله الغاء الرحلة .. مين اللي لغاءها العميل ولا السائق
+	 */
+	public function getCancelledBy()
+	{
+		return $this->cancelled_by ;
+	}
 }

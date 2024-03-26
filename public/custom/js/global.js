@@ -166,7 +166,6 @@ $(document).on('click', '.js-save-by-ajax', function (e) {
 		, contentType: false
 		, processData: false
 		, success: function (res) {
-			console.log(res)
 			if (res.status) {
 				Swal.fire({
 					icon: 'success'

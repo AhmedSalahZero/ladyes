@@ -127,7 +127,8 @@ Route::group(['middleware' => 'auth:admin'], function () {
 	Route::resource('car-sizes', CarSizesController::class)->only(['index','edit','update']);
 	
     //###################### countries #########################
-    Route::resource('countries', CountriesController::class)->only(['index']);
+	// Route::patch('update-countries/{carSize}',[CarSizesController::class , 'updatePrices'])->name('car-sizes.update.prices');
+    Route::resource('countries', CountriesController::class)->only(['index','update']);
 	
 	  
 

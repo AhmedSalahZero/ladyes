@@ -8,8 +8,6 @@ use App\Traits\Models\HasTransNames;
 use App\Traits\Scope\HasDefaultOrderScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Country extends Model
     // implements HasMedia
@@ -22,6 +20,10 @@ class Country extends Model
     use HasFactory;
     use HasLatitudeAndLatitude ;
 
+	protected $fillable = [
+		'cancellation_fees_for_client',
+		'cancellation_fees_for_driver'
+	];
 	public function getName(string $lang = null)
 	{
 		$lang = $lang ?: app()->getLocale();
@@ -100,4 +102,26 @@ class Country extends Model
 	{
 		return $this->hasMany(Travel::class,'country_id','id');
 	}
+	/**
+	 * * الرسوم اللي هيتم تطبيقها علي العميل في حالة قام بالغاء الرحلة
+	 */
+	public function getCancellationFeesForClient()
+	{
+		return $this->cancellation_fees_for_client ;
+	}
+	/**
+	 * * الرسوم اللي هيتم تطبيقها علي السائق في حالة قام بالغاء الرحلة
+	 */
+	public function getCancellationFeesForDriver()
+	{
+		return $this->cancellation_fees_for_driver ;
+	}
+	/**
+	 * * الرسوم اللي هيتم تطبيقها علي السائق في حالة قام بالغاء الرحلة
+	 */
+	public function getBonusAfterFirstSuccessTravel()
+	{
+		return $this->first_travel_bonus ?: 0 ;
+	}
+	
 }

@@ -22,6 +22,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Coupon extends Model
 {
     use  IsBaseModel,HasDefaultOrderScope,HasFactory,HasTransNames,HasExpiredDate,HasStartAndEndDate,HasDiscountAmountWithDiscountType;
+	protected $fillable = [
+		'name_en',
+		'name_ar',
+		'code',
+		'number_of_uses',
+		'start_date',
+		'end_date'
+	];
 	/**
 	 * * عدد المرات اللي من الممكن استخدام هذا الكوبون فيها .. بمعنى هل هو صالح للاستخدام مرة ولا اتنين ولا ثلاثه
 	 */

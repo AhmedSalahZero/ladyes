@@ -443,5 +443,16 @@
 	"Car Sizes":"فئات السيارات",
 	"Car Size":"فئة السيارة",
 	"Edit Prices":"تعديل الاسعار",
-	"Edit Car Size Price :name":"تعديل اسعار فئة السيارة # :name"
+	"Edit Car Size Price :name":"تعديل اسعار فئة السيارة # :name",
+	"Travel Has Been Marked AS Completed":"تم تحديد الرحلة كمكتملة",
+	"Thanks For Your Travel":"شكرا لا تمام رحلتلك",
+	"Travel Has Been Marked AS Started":"الرحلة بدات بنجاح",
+	"Actions For :name":"تعديل :name",
+	"Cancellation Fees For Client":"رسوم الغاء الرحلة للعميل",
+	"Cancellation Fees For Driver":"رسوم الغاء الرحلة للسائق",
+	"Fees Amount":"مبلغ الغرامة",
+	"Country Information":"معلومات الدولة",
+	"Bonus After First Success Travel":"مكافاه انتهاء اول رحلة بنجاح",
+	"You Have :amount :currency Fine In Your Wallet For Cancellation Travel #:travelId":"لالغاء الرحلة رقم #:travelId :amount :currency لدية غرامة مسجلة بمقدار  ",
+	"The Fine Amount :amount :currency Has Been Successfully Paid":"تم تسديد مبلغ الغرامة :amount :currency بنجاح"
 }
