@@ -457,5 +457,6 @@
 	"The Fine Amount :amount :currency Has Been Successfully Paid":"تم تسديد مبلغ الغرامة :amount :currency بنجاح",
 	"Country ISO2":"رمز الدولة الثنائي",
 	"User Type":"نوع المستخدم",
-	"Invalid Verification Code":"رمز التفعيل غير صحيح"
+	"Invalid Verification Code":"رمز التفعيل غير صحيح",
+	"Success !":"تمت بنجاح !"
 }

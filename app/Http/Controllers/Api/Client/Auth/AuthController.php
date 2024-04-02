@@ -75,7 +75,7 @@ class AuthController
 		$client = Client::findByIdOrEmailOrPhone($phone);
 		return response()->json([
 			'status'=>$validVerificationCode ,
-			'message'=>$validVerificationCode ? null : __('Invalid Verification Code',[],getApiLang()) ,
+			'message'=>$validVerificationCode ? __('Success !') : __('Invalid Verification Code',[],getApiLang()) ,
 			'data'=>[
 				'user_found'=>$userFound = (bool)$client,
 				'user'=>$userFound ? new ClientResource($client) : null 
