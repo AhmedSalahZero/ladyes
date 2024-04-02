@@ -65,12 +65,12 @@ class UserVerificationService
 		The ' . getSetting('app_name_' . app()->getLocale()) . ' team';
     }
 
-    public function sendAsMessage(string $countryCode,string $phone, string $verificationCode, string $fullName = null, string $email = null, bool $viaSms = true, bool $viaWhatsapp = true, bool $viaEmail = true): array
+    public function sendAsMessage(string $countryIso2,string $phone, string $verificationCode, string $fullName = null, string $email = null, bool $viaSms = true, bool $viaWhatsapp = true, bool $viaEmail = true): array
     {
         $message = $this->generateCodeMessage($verificationCode, $fullName);
-        $phoneFormatted = App(PhoneNumberService::class)->formatNumber($phone, $countryCode);
+        $phoneFormatted = App(PhoneNumberService::class)->formatNumber($phone, $countryIso2);
         if ($viaSms) {
-            $responseArray = (new SmsService())->send($phone, $countryCode, $message);
+            $responseArray = (new SmsService())->send($phone, $countryIso2, $message);
             if ($responseArray['status'] && $responseArray['status']) {
                 return [
                     'status' => true,

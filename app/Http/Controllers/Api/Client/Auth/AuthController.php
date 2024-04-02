@@ -77,18 +77,18 @@ class AuthController
 			'status'=>$validVerificationCode ,
 			'message'=>$validVerificationCode ? null : __('Invalid Verification Code',[],getApiLang()) ,
 			'data'=>[
-				'user_found'=>(bool)$client,
-				'user'=>new ClientResource($client)
+				'user_found'=>$userFound = (bool)$client,
+				'user'=>$userFound ? new ClientResource($client) : null 
 			]
 		]);
 	}
 	
 	
-	public function login(LoginRequest $request)
-	{
-		$model = new (HHelpers::getModelFullNameFromTableName());
-		return $model->loginByPhone($request);
-	}
+	// public function login(LoginRequest $request)
+	// {
+	// 	$model = new (HHelpers::getModelFullNameFromTableName());
+	// 	return $model->loginByPhone($request);
+	// }
 	
 	public function logout(Request $request)
 	{
