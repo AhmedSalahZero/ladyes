@@ -458,5 +458,6 @@
 	"Country ISO2":"رمز الدولة الثنائي",
 	"User Type":"نوع المستخدم",
 	"Invalid Verification Code":"رمز التفعيل غير صحيح",
-	"Success !":"تمت بنجاح !"
+	"Success !":"تمت بنجاح !",
+	"You Account Has Been Registered":"تم تسجيل حسابك بنجاح"
 }

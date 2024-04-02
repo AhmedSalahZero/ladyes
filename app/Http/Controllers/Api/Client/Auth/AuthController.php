@@ -24,19 +24,23 @@ class AuthController
 	public function register(StoreClientRequest $request)
 	{
 		$model = new Client();
-		$confirmationCodeResponseArr = $model->syncFromRequest($request);
-		if(!$confirmationCodeResponseArr['status']){
-			$model->delete();
-			$errorMessage = $confirmationCodeResponseArr['message'] ;
-			Notification::storeNewAdminNotification(
-				__('Application Error !',[],'en'),
-				__('Application Error !',[],'ar'),
-				 $errorMessage,
-				 $errorMessage,
-			);
-			return $this->apiResponse($errorMessage , [],Response::HTTP_INTERNAL_SERVER_ERROR);
-		}
-		return $this->apiResponse($confirmationCodeResponseArr['message']);
+		 $model->syncFromRequest($request);
+		// if(!$confirmationCodeResponseArr['status']){
+		// 	$model->delete();
+		// 	$errorMessage = $confirmationCodeResponseArr['message'] ;
+		// 	Notification::storeNewAdminNotification(
+		// 		__('Application Error !',[],'en'),
+		// 		__('Application Error !',[],'ar'),
+		// 		 $errorMessage ,
+		// 		 $errorMessage,
+		// 	);
+		// 	return $this->apiResponse($errorMessage , [],Response::HTTP_INTERNAL_SERVER_ERROR);
+		// }
+		
+		return $this->apiResponse(__('You Account Has Been Registered',[],getApiLang()),[
+			'user'=>new ClientResource($model),
+			'access_token'=>$model->createToken('personal_access_token')->plainTextToken
+		],);
 	}
 	/**
 	 * * اول حاجه قبل ما نحدد ان كان المستخدم هيعمل لوجن ولا ريجيستر .. هناخد رقمة وكود الدولة ونتاكد
