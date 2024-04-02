@@ -7,6 +7,7 @@ use App\Http\Requests\Apis\ResendVerificationCodeBySmsRequest;
 use App\Http\Requests\Apis\SendSmsMessageRequest;
 use App\Models\Country;
 use App\Services\SMS\SmsService;
+use App\Services\UserVerificationService;
 use App\Traits\Api\HasApiResponse;
 use Illuminate\Http\Response;
 
@@ -24,10 +25,11 @@ class SendSmsMessageController extends Controller
 		}
 		return $this->apiResponse(__('Fail To Send Sms Message To Your Phone',[],getApiLang()),[],Response::HTTP_INTERNAL_SERVER_ERROR);
 	}
-	public function resendVerificationCode(ResendVerificationCodeBySmsRequest $request){
-		$modelType = $request->get('model_type');
-		$model = ('\App\Models\\'.$modelType)::find($request->get('model_id'));
-		$responseArr = $model->sendVerificationCodeMessage(true , false ,false) ;
+	public function resendVerificationCode(ResendVerificationCodeBySmsRequest $request,UserVerificationService $userVerificationService){
+		$countryIso2 = $request->get('country_iso2') ;
+		$phone = $request->get('phone');
+		$verificationCode = $userVerificationService->renewCode($countryIso2,$phone,$request->get('user_type')) ;
+		$responseArr = $userVerificationService->sendAsMessage($countryIso2,$phone,$verificationCode,null,null,true , false ,false);
 		$status = isset($responseArr['status']) && $responseArr['status'] ? 'success' : 'fail';
 		$statusCode = $status == 'success' ? 200 : 500; 
 		$message = isset($responseArr['message']) && $responseArr['message'] ? $responseArr['message'] : null;

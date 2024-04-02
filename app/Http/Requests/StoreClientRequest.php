@@ -24,7 +24,7 @@ class StoreClientRequest extends FormRequest
     {
 		$model = $this->route('client')?:Request()->user('client') ;
 		$HValidationRules = HValidation::rules('clients', $model , Request::isMethod('post') );
-		// dd($HValidationRules['phone']);
+	
         return 
 		[
 			'first_name'=>$HValidationRules['first_name'],

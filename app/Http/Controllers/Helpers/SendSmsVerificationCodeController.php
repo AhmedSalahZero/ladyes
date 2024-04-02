@@ -14,7 +14,7 @@ class SendSmsVerificationCodeController extends Controller
 		if(!$model){
 			return redirect()->back()->with('fail',__($modelType.' Not Found'));
 		}
-		$responseArr = $model->sendVerificationCodeMessage(true , false ,false) ;
+		$responseArr = $model->sendVerificationCodeMessage($model->getVerificationCode(),true , false ,false) ;
 		$status = isset($responseArr['status']) && $responseArr['status'] ? 'success' : 'fail';
 		$message = isset($responseArr['message']) && $responseArr['message'] ? $responseArr['message'] : null;
 		return redirect()->back()->with($status,$message);

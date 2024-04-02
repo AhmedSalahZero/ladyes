@@ -15,7 +15,7 @@ class PhoneNumberService
     {
         $this->phoneUtil =  PhoneNumberUtil::getInstance();
     }
-    public function formatNumber(string $phone , string $countryCode)
+    public function formatNumber(string $phone , string $countryIso2)
     {
 		// it takes 01025894984 and eg 
 		// returns +201025894984
@@ -24,16 +24,16 @@ class PhoneNumberService
         // format Number As E164 ;
         $swissNumberStr = $phone;
 
-            $swissNumberProto = $this->phoneUtil->parse($swissNumberStr, strtoupper($countryCode));
+            $swissNumberProto = $this->phoneUtil->parse($swissNumberStr, strtoupper($countryIso2));
 
          return $this->phoneUtil->format($swissNumberProto, PhoneNumberFormat::E164);
 
     }
 
-    public function isValidNumber(string $phoneNumber , $countryCode)
+    public function isValidNumber(string $phoneNumber , $countryIso2)
     {
         try{
-            $swissNumberProto = $this->phoneUtil->parse($phoneNumber, strtoupper($countryCode));
+            $swissNumberProto = $this->phoneUtil->parse($phoneNumber, strtoupper($countryIso2));
         }
         catch (\Exception $exception)
         {
@@ -43,12 +43,12 @@ class PhoneNumberService
         return $this->phoneUtil->isValidNumber($swissNumberProto);
     }
 
-//    public function checkIfPhoneHasWhatsapp(string $phone , string $countryCode)
+//    public function checkIfPhoneHasWhatsapp(string $phone , string $countryIso2)
 //    {
 //
-//        $formattedNumberInE161 = $this->formatNumber($phone,$countryCode);
+//        $formattedNumberInE161 = $this->formatNumber($phone,$countryIso2);
 //
-//        $isValid = $this->isValidNumber($phone , $countryCode);
+//        $isValid = $this->isValidNumber($phone , $countryIso2);
 //
 //        if($isValid) {
 //            $wassengerService = new WassengerService();

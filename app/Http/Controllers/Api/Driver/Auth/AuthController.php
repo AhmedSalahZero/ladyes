@@ -71,7 +71,7 @@ class AuthController
 		);
 		
 		$model->tokens()->delete();
-		$model->renewVerificationCode();	
+		//$model->renewVerificationCode();	
 		return $this->apiResponse(__('Success Logout Attempt'));
 	}
 	

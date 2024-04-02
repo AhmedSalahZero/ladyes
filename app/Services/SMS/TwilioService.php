@@ -17,7 +17,6 @@ class TwilioService implements ISmsService
         $this->account_sid = getenv('TWILIO_SID');
         $this->auth_token = getenv('TWILIO_AUTH_TOKEN');
         $this->twilio_number = getenv('TWILIO_NUMBER');
-
     }
 
     public function sendSmsMessage(string $phone, string $countryCode, string $message): array 

@@ -28,14 +28,14 @@ class LoginRequest extends FormRequest
     {
 		$tableName = HHelpers::getTableNameFromRequest();
 		$phone = Request('phone') ;
-		$countryCode = Request('country_code');
+		$countryIso2 = Request('country_iso2');
         return
         [
-            'country_code' => ['required', 'exists:countries,phonecode'],
-            'phone'=>['required',new PhoneExistRule($countryCode , $phone)],
-			'verification_code'=>['required_without:send_verification_code|digits:4',new VerificationCodeExistForPhoneRule($tableName,$phone)],
-			'resend_verification_code'=>'sometimes', // 1 or zero to resend verification code
-			'send_verification_code_by'=>'required_with:resend_verification_code|in:sms,whatsapp'
+            'country_code' => ['required', 'exists:countries,iso2'],
+            'phone'=>['required',new PhoneExistRule($countryIso2 , $phone)],
+			// 'verification_code'=>['required_without:send_verification_code|digits:4',new VerificationCodeExistForPhoneRule($tableName,$phone)],
+			// 'resend_verification_code'=>'sometimes', // 1 or zero to resend verification code
+			// 'send_verification_code_by'=>'required_with:resend_verification_code|in:sms,whatsapp'
         ];
     }
 

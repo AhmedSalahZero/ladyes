@@ -28,7 +28,7 @@ class CreateDriversTable extends Migration
             $table->boolean('is_verified')->default(0);
             $table->boolean('is_listing_to_orders_now')->comment('هو الان في حاله انتظار الطلبات')->default(0);
             $table->boolean('can_receive_orders')->comment('استقبال الطلبات')->default(1);
-            $table->string('verification_code')->nullable();
+            // $table->string('verification_code')->nullable();
             $table->string('birth_date')->nullable();
             $table->string('id_number')->comment('رقم الهوية / الاقامة')->nullable();
             $table->float('deduction_percentage')->nullable()->comment('نسبة الاستقطاع ضعها سالب واحد لاستخدام القيمه الافتراضيه في الاعدادت')->default(-1);

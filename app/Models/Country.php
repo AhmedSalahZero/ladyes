@@ -98,6 +98,10 @@ class Country extends Model
 	{
 		return self::where('phonecode',$code)->first();
 	}
+	public static function findByIso2(?string $iso2):?self
+	{
+		return self::where('iso2',$iso2)->first();
+	}
 	public function travels()
 	{
 		return $this->hasMany(Travel::class,'country_id','id');

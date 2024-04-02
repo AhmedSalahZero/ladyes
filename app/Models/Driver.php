@@ -198,10 +198,11 @@ class Driver extends Model implements HasMedia, BannableInterface, IHaveAppNotif
         $driver = $this->storeCurrentLocationIfExist($request);
         // 1- generate invitation_code
         $driver = $this->storeInventionCodeIfNotExist();
-        $driver = $this->storeVerificationCodeIfNotExist();
+        // $driver = $this->storeVerificationCodeIfNotExist();
 
         // 2- if not confirmed then send verification code
-        return $driver->sendVerificationCodeMessage();
+		// $driver->sendVerificationCodeMessage()
+        return $driver;
     }
 
     public function storeInventionCodeIfNotExist()
@@ -259,11 +260,6 @@ class Driver extends Model implements HasMedia, BannableInterface, IHaveAppNotif
     public function getInvitationCode()
     {
         return $this->invitation_code ;
-    }
-
-    public function getVerificationCode()
-    {
-        return $this->verification_code;
     }
 
     public function getIdNumber()

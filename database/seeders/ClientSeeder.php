@@ -19,7 +19,7 @@ class ClientSeeder extends Seeder
 			'phone'=>'01025894984',
 			'country_id'=>65,
 			'email'=>'asalahdev5@gmail.com',
-			'verification_code'=>1234
+			// 'verification_code'=>1234
 		]);
 		$address = Address::factory()->make([
 			'category'=>'المنزل',

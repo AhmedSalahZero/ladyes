@@ -100,10 +100,11 @@ class Client extends Model implements HasMedia, BannableInterface,IHaveAppNotifi
     {
         $client = $this->storeBasicForm($request);
         // 1- generate invitation_code
-        // $client = $this->storeInventionCodeIfNotExist();
-        $client = $this->storeVerificationCodeIfNotExist();
+        // // $client = $this->storeInventionCodeIfNotExist();
+        // $client = $this->storeVerificationCodeIfNotExist();
         // 2- if not confirmed then send verification code
-        return $client->sendVerificationCodeMessage();
+		// $client->sendVerificationCodeMessage()
+        return $client;
     }
 
     public function getImage()
@@ -131,10 +132,7 @@ class Client extends Model implements HasMedia, BannableInterface,IHaveAppNotifi
     // {
     // 	return $this->invitation_code ;
     // }
-    public function getVerificationCode()
-    {
-        return $this->verification_code;
-    }
+  
 
     public function banHistories(): MorphMany
     {

@@ -21,7 +21,7 @@ class DriverSeeder extends Seeder
 			'phone'=>'01025894984',
 			'country_id'=>65,
 			'city_id'=>2,
-			'verification_code'=>1234
+			// 'verification_code'=>1234
 		]);
 		
 		Driver::factory()->count(50)->create();

@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\CarSize;
 use App\Models\City;
+use App\Models\Client;
 use App\Models\Travel;
 use Illuminate\Console\Command;
 
@@ -40,6 +41,9 @@ class TestCommand extends Command
      */
     public function handle()
     {
+		$client = Client::first();
+		$verificationCode = $client->getVerificationCode();
+		dd($verificationCode);
 		$carSize = CarSize::first();
 		$travel = Travel::first();
 		/**

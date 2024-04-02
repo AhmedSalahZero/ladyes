@@ -24,7 +24,7 @@ class CreateClientsTable extends Migration
             $table->string('phone')->unique();
             $table->boolean('is_verified')->default(0);
             $table->boolean('can_pay_by_cash')->comment('يمكنة الدفع عن طريق الكاش')->default(1);
-            $table->string('verification_code')->nullable()->default(null);
+            // $table->string('verification_code')->nullable()->default(null);
             $table->string('birth_date')->nullable();
 			$table->point('location')->nullable();
 			$table->timestamp('banned_at')->nullable();

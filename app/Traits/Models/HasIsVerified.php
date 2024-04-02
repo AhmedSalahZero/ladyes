@@ -4,8 +4,10 @@ namespace App\Traits\Models;
 
 use App\Helpers\HHelpers;
 use App\Mail\SendMessageMail;
+use App\Models\VerificationCode;
 use App\Services\PhoneNumberService;
 use App\Services\SMS\SmsService;
+use App\Services\UserVerificationService;
 use App\Services\Whatsapp\WhatsappService;
 use Exception;
 use Illuminate\Support\Facades\Mail;
@@ -35,105 +37,42 @@ trait HasIsVerified
         $this->save();
     }
 
-    public function sendVerificationCodeViaEmail(): array
+    public function sendVerificationCodeViaEmail($email,$receiverName,$verificationCode): array
     {
-        $email = $this->getEmail();
-        $receiverName = $this->getFullName();
-        $subject = __('Verification Code');
-        $textMessage = $this->generateVerificationCodeMessage();
-
-        try {
-            Mail::to($email)->send(new SendMessageMail($email, $receiverName, $subject, $textMessage));
-        } catch(Exception $e) {
-            return [
-                'status' => false,
-                'message' => __('Failed To Send Email Message') . ' <br> ' . $e->getMessage()
-            ];
-        }
-
-        return [
-            'status' => true,
-            'message' => __('Verification Code Has Been Sent To Your Email')
-        ];
+        return (new UserVerificationService())->sendViaEmail($email,$receiverName,$verificationCode);
     }
 
-    public function sendVerificationCodeMessage(bool $viaSms = true, bool $viaWhatsapp = true, bool $viaEmail = true,bool $forceSend = false): array
+    public function sendVerificationCodeMessage($verificationCode,string $fullName = null , string $email = null ,bool $viaSms = true, bool $viaWhatsapp = true, bool $viaEmail = true,bool $forceSend = false): array
     {
+		$phone = $this->getPhone();
+        $countryCode = $this->getCountryIso2();
+		
         if ($this->getIsVerified() && !$forceSend) {
             return [];
         }
-        $phone = $this->getPhone();
-        $countryCode = $this->getCountryIso2();
-        $message = $this->generateVerificationCodeMessage();
-        $phoneFormatted = App(PhoneNumberService::class)->formatNumber($phone, $countryCode);
-        if ($viaSms) {
-            $responseArray = (new SmsService())->send($phone, $countryCode, $message);
-            if ($responseArray['status'] && $responseArray['status']) {
-                return [
-                    'status' => true,
-                    'message' => __('Verification Code Has Been Sent To Your Phone Number')
-                ];
-            }
-        }
-        if ($viaWhatsapp) {
-            $responseArray = App(WhatsappService::class)->sendMessage($message, $phoneFormatted);
-            if ($responseArray['status']) {
-                return [
-                    'status' => true,
-                    'message' => __('Verification Code Has Been Sent To Your Whatsapp')
-                ];
-            }
-        }
-
-        if ($viaEmail) {
-            $responseArray = $this->sendVerificationCodeViaEmail();
-            if ($responseArray['status']) {
-                return [
-                    'status' => true,
-                    'message' => __('Verification Code Has Been Sent To Your Email')
-                ];
-            }
-        }
-
-        return [
-            'status' => false,
-            'message' => isset($responseArray['message']) ? __('Fail To Send Verification Code') . ' ' . $responseArray['message'] : __('Fail To Send Verification Code')
-        ];
+        return (new UserVerificationService())->sendAsMessage($phone, $countryCode,$verificationCode, $fullName ,  $email  , $viaSms ,  $viaWhatsapp ,  $viaEmail , $forceSend);
     }
 
-    public function generateVerificationCodeMessage()
+    // public function storeVerificationCodeIfNotExist()
+    // {
+    //     if ($this->verification_code) {
+    //         return $this ;
+    //     }
+    //     $this->renewVerificationCode();
+    //     return $this ;
+    // }
+	public function renewVerificationCode():self
     {
-        if (app()->getLocale() == 'ar') {
-            return 'مرحبا ' . $this->getFullName() . ' رمز التفعيل الخاص بك هو ' . $this->getVerificationCode() . ' برجاء ادخال هذا الكود في التطبيق لتفعيل حسابك  . اذا كان لديك اي استفسار تواصل معنا عبر' . getSetting('email') . ' سعدنا جدا بانضمامك الينا ..  فريق   ' . getSetting('app_name_ar') ;
-        }
-
-        return 'Hi ' . $this->getFullName() . ' 
-		Your verification code is' . $this->getVerificationCode() . '
-		
-		Enter this code in our app to activate your account.
-		
-		If you have any questions, send us an email ' . getSetting('email') . '.
-		
-		We’re glad you’re here!
-		The ' . getSetting('app_name_' . app()->getLocale()) . ' team';
+	   (new UserVerificationService())->renewCode($this->getCountryIso2(),$this->getPhone(),HHelpers::getClassNameWithoutNameSpace($this));
+	   return $this;
+        
     }
-
-    public function storeVerificationCodeIfNotExist()
-    {
-        if ($this->verification_code) {
-            return $this ;
-        }
-        $this->renewVerificationCode();
-        return $this ;
-    }
-	public function renewVerificationCode()
-    {
-        $this->verification_code = $this->generateRandomVerificationCode();
-        $this->save();
-        return $this ;
-    }
-	public function generateRandomVerificationCode()
+	public function verificationCode()
 	{
-		return random_int(1000, 9999) ;
+		return $this->belongsTo(VerificationCode::class,'phone','phone')->where('country_iso2',$this->getCountryIso2());
+	}
+	public function getVerificationCode()
+	{
+		return $this->verificationCode ?$this->verificationCode->code : (new UserVerificationService())->renewCode($this->getCountryIso2(),$this->getPhone(),HHelpers::getClassNameWithoutNameSpace($this));
 	}
 }

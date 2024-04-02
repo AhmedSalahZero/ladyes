@@ -26,8 +26,8 @@ class SendSmsMessageRequest extends FormRequest
     {
         return
         [
-            'country_code' => ['required', 'exists:countries,phonecode'],
-            'phone'=>['required',new PhoneExistRule(Request('country_code') , Request('phone'))],
+            'country_iso2' => ['required', 'exists:countries,iso2'],
+            'phone'=>['required',new PhoneExistRule(Request('country_iso2') , Request('phone'))],
             'message'=>['required']
         ];
     }

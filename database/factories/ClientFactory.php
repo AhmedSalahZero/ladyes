@@ -27,7 +27,7 @@ class ClientFactory extends Factory
 				'is_verified'=>$this->faker->boolean(),
 				'can_pay_by_cash'=>1 ,
 				'location'=>new Point($location['latitude'],$location['longitude']),
-				'verification_code'=>random_int(1000, 9999)
+				// 'verification_code'=>random_int(1000, 9999)
         ];
     }
 }

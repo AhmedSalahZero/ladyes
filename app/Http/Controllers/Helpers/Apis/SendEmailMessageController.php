@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Apis\ResendVerificationCodeByEmailRequest;
 use App\Http\Requests\Apis\SendEmailMessageRequest;
 use App\Mail\SendMessageMail;
+use App\Models\Client;
+use App\Models\Driver;
 use App\Traits\Api\HasApiResponse;
 use Illuminate\Support\Facades\Mail;
 
@@ -26,9 +28,12 @@ class SendEmailMessageController extends Controller
 		return $this->apiResponse(__('Message Has Been Sent To Your Email Address Successfully',[],getApiLang()));
 	}
 	public function resendVerificationCode(ResendVerificationCodeByEmailRequest $request){
+		/**
+		 * @var Client $model
+		 */
 		$modelType = $request->get('model_type');
 		$model = ('\App\Models\\'.$modelType)::find($request->get('model_id'));
-		$responseArr = $model->sendVerificationCodeViaEmail() ;
+		$responseArr = $model->sendVerificationCodeViaEmail($model->getEmail(),) ;
 		$status = isset($responseArr['status']) && $responseArr['status'] ? 'success' : 'fail';
 		$statusCode = $status == 'success' ? 200 : 500; 
 		$message = isset($responseArr['message']) && $responseArr['message'] ? $responseArr['message'] : null;

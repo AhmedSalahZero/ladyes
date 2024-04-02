@@ -6,7 +6,7 @@ use App\Helpers\HHelpers;
 use App\Models\Country;
 use Illuminate\Contracts\Validation\Rule;
 
-class PhoneExistRule implements Rule
+class UserIsActiveAndIfExistRule implements Rule
 {
 	protected ?string $countryIso2 ;
 	protected ?string $phone ;
@@ -31,14 +31,18 @@ class PhoneExistRule implements Rule
      */
     public function passes($attribute, $value)
     {
-		$country = Country::findByIso2($this->countryIso2);
 		$tableName = HHelpers::getTableNameFromRequest();
 		$isDriver = $tableName == 'drivers'  ;
 		$modelName = $isDriver ? 'Driver' : 'Client';
+		$country = Country::findByIso2($this->countryIso2);
 		if(!$country){
 			return false ;
 		}
-		return ('\App\Models\\'.$modelName)::findByCountryIdAndPhone($country->id , $value);
+		$user = ('\App\Models\\'.$modelName)::findByCountryIdAndPhone($country->id , $value) ;
+		if($user){
+			return !$user->isBanned();
+		}
+		return true  ;
     }
 
     /**
@@ -48,6 +52,6 @@ class PhoneExistRule implements Rule
      */
     public function message()
     {
-        return __('This Phone Number Does Not Exist In Our Records');
+        return __('Your Account Has Been Disabled , If You Think Your Account Was Disabled By Mistake , Please Contact With Us',[],getApiLang());
     }
 }

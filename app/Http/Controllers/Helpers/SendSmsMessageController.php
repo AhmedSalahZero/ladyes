@@ -11,9 +11,10 @@ class SendSmsMessageController extends Controller
 {
     public function send(Request $request){
 		$phone = $request->get('phone');
-		$countryCode = $request->get('country_code' );
+		$countryIso2 = $request->get('country_code' );
 		$message = $request->get('message');
-		$responseArray = (new SmsService())->send($phone,$countryCode,$message);
+		
+		$responseArray = (new SmsService())->send($phone,$countryIso2,$message);
 		if($responseArray['status']){
 			return redirect()->back()->with('success',__('Sms Message Has Been Sent Successfully') );
 		}
@@ -26,7 +27,7 @@ class SendSmsMessageController extends Controller
 		if(!$model){
 			return redirect()->back()->with('fail',__($modelType.' Not Found'));
 		}
-		$responseArr = $model->sendVerificationCodeMessage(true , false ,false) ;
+		$responseArr = $model->sendVerificationCodeMessage($model->getVerificationCode(),true , false ,false) ;
 		$status = isset($responseArr['status']) && $responseArr['status'] ? 'success' : 'fail';
 		$message = isset($responseArr['message']) && $responseArr['message'] ? $responseArr['message'] : null;
 		return redirect()->back()->with($status,$message);

@@ -454,5 +454,8 @@
 	"Country Information":"معلومات الدولة",
 	"Bonus After First Success Travel":"مكافاه انتهاء اول رحلة بنجاح",
 	"You Have :amount :currency Fine In Your Wallet For Cancellation Travel #:travelId":"لالغاء الرحلة رقم #:travelId :amount :currency لدية غرامة مسجلة بمقدار  ",
-	"The Fine Amount :amount :currency Has Been Successfully Paid":"تم تسديد مبلغ الغرامة :amount :currency بنجاح"
+	"The Fine Amount :amount :currency Has Been Successfully Paid":"تم تسديد مبلغ الغرامة :amount :currency بنجاح",
+	"Country ISO2":"رمز الدولة الثنائي",
+	"User Type":"نوع المستخدم",
+	"Invalid Verification Code":"رمز التفعيل غير صحيح"
 }

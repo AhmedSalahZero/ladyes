@@ -86,6 +86,8 @@ Route::prefix('drivers')->group(function () {
  */
 Route::prefix('clients')->group(function () {
 	Route::prefix('auth')->group(function () {
+        Route::post('send-verification-code', [ClientAuthController::class, 'sendVerificationCode']);
+        Route::post('verify-verification-code', [ClientAuthController::class, 'verifyVerificationCode']);
 		Route::post('register', [ClientAuthController::class, 'register']);
         Route::post('login', [ClientAuthController::class, 'login']);
         Route::post('logout', [ClientAuthController::class, 'logout'])->middleware('auth:client');
