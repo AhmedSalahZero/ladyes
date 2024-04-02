@@ -31,7 +31,7 @@ class LoginRequest extends FormRequest
 		$countryIso2 = Request('country_iso2');
         return
         [
-            'country_code' => ['required', 'exists:countries,iso2'],
+            'country_iso2' => ['required', 'exists:countries,iso2'],
             'phone'=>['required',new PhoneExistRule($countryIso2 , $phone)],
 			// 'verification_code'=>['required_without:send_verification_code|digits:4',new VerificationCodeExistForPhoneRule($tableName,$phone)],
 			// 'resend_verification_code'=>'sometimes', // 1 or zero to resend verification code
