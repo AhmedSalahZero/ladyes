@@ -97,7 +97,7 @@ class HValidation
 			'size_id'=>[$isRequired , Rule::exists('car_sizes','id')],
 			'country_id'=>[$isRequired , Rule::exists('countries','id')],
 			'city_id'=>[$isRequired , Rule::exists('cities','id')],
-			'phone'=>[$isRequired,'unique:'.$tableName .',phone'.','.$currentItemId,new ValidPhoneNumberRule(Request()->get('country_id'))],
+			'phone'=>[$isRequired,'unique:'.$tableName .',phone'.','.$currentItemId,new ValidPhoneNumberRule(Request()->get('country_id',Request()->get('country_iso2')))],
 			'id_number'=>[$isRequired,'unique:'.$tableName .',id_number'.','.$currentItemId],
 			'manufacturing_year'=>[$isRequired ,'digits:4','integer','min:1900'],
 			'car_max_capacity'=>[$isRequired ,'gte:1'],

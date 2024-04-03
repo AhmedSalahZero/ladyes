@@ -99,6 +99,10 @@ class Client extends Model implements HasMedia, BannableInterface,IHaveAppNotifi
     public function syncFromRequest(Request $request)
     {
         $client = $this->storeBasicForm($request);
+		if($request->get('country_iso2')){
+			$client->country_id = Country::findByIso2($request->get('country_iso2'))->id;
+			$client->save();
+		}
         // 1- generate invitation_code
         // // $client = $this->storeInventionCodeIfNotExist();
         // $client = $this->storeVerificationCodeIfNotExist();

@@ -9,6 +9,15 @@ use Illuminate\Http\Request;
 trait HasLoginByPhone 
 {
 	use HasApiResponse;
+	public function getCurrentToken()
+	{
+		$token = $this->currentAccessToken();
+		if(!$token){
+			return $this->createToken('personal_access_token')->plainTextToken ;
+		}
+		return $token ;
+		
+	}
 	public function loginByPhone(Request $request )
 	{
 		$country = Country::findByCode($request->get('country_code'));

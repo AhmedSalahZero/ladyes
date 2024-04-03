@@ -25,6 +25,8 @@ class AuthController
 	{
 		$model = new Client();
 		 $model->syncFromRequest($request);
+		 $model->markAsVerified();
+		
 		// if(!$confirmationCodeResponseArr['status']){
 		// 	$model->delete();
 		// 	$errorMessage = $confirmationCodeResponseArr['message'] ;
@@ -39,7 +41,7 @@ class AuthController
 		
 		return $this->apiResponse(__('You Account Has Been Registered',[],getApiLang()),[
 			'user'=>new ClientResource($model),
-			'access_token'=>$model->createToken('personal_access_token')->plainTextToken
+			// 'access_token'=>$model->createToken('personal_access_token')->plainTextToken
 		],);
 	}
 	/**
@@ -77,12 +79,16 @@ class AuthController
 		$code = $request->get('verification_code');
 		$validVerificationCode =  $userVerificationService->verify($code,$countryIso2,'Client');
 		$client = Client::findByIdOrEmailOrPhone($phone);
+		$userFound = (bool)$client ; 
+		$userFound ? $client->tokens()->delete() : null;
+		$validVerificationCode && $userFound  ? $client->markAsVerified() : null ;
 		return response()->json([
 			'status'=>$validVerificationCode ,
 			'message'=>$validVerificationCode ? __('Success !') : __('Invalid Verification Code',[],getApiLang()) ,
 			'data'=>[
-				'user_found'=>$userFound = (bool)$client,
-				'user'=>$userFound ? new ClientResource($client) : null 
+				'user_found'=>$userFound ,
+				'user'=>$userFound ? new ClientResource($client) : null  ,
+				// 'access_token'=>$userFound ? $client->getCurrentToken() : null 
 			]
 		]);
 	}

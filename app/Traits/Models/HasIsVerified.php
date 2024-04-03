@@ -36,6 +36,12 @@ trait HasIsVerified
         $this->is_verified = !$this->is_verified ;
         $this->save();
     }
+	
+	public function markAsVerified()
+	{
+		$this->is_verified = true ;
+		$this->save();
+	}
 
     public function sendVerificationCodeViaEmail($email,$receiverName,$verificationCode): array
     {

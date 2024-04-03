@@ -27,6 +27,7 @@ class ClientResource extends JsonResource
 			'name'=>$this->getFullName(),
 			'email'=>$this->getEmail(),
 			'phone'=>$this->getPhone(),
+			'access_token'=>$this->getCurrentToken(),
 			'current_balance'=>$this->getTotalWalletBalance(),
 			'country'=>$country ? new CountryResource($country) : null,
 			'is_verified'=>$this->getIsVerified(),

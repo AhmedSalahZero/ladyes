@@ -23,13 +23,16 @@ class StoreClientRequest extends FormRequest
     public function rules()
     {
 		$model = $this->route('client')?:Request()->user('client') ;
+		$countryIso2 = Request()->get('country_iso2');
+		
 		$HValidationRules = HValidation::rules('clients', $model , Request::isMethod('post') );
 	
         return 
 		[
 			'first_name'=>$HValidationRules['first_name'],
 			'last_name'=>$HValidationRules['last_name'],
-			'country_id'=>$HValidationRules['country_id'],
+			'country_iso2'=>'required|exists:countries,iso2',
+			// 'country_id'=>$HValidationRules['country_id'],
 			// 'city_id'=>$HValidationRules['city_id'],
 			'email'=>$HValidationRules['email'],
 			'phone'=>$HValidationRules['phone'],
@@ -61,6 +64,11 @@ class StoreClientRequest extends FormRequest
 			'image.required'=>__('Please Enter :attribute' , ['attribute'=>__('Image')]),
 			'image.file'=>__('Please Enter Valid File For :attribute' , ['attribute'=>__('Image')]),
 			'image.mimes'=>__('Unsupported File Type :attribute' , ['attribute'=>__('Image')]),
+			
+			'country_iso2.required' => __('Please Enter :attribute', ['attribute' => __('Country ISO2',[],getApiLang())],getApiLang()),
+            'country_iso2.exists' => __(':attribute Not Exist', ['attribute' => __('Country ISO2',[],getApiLang())],getApiLang()),
+          
+			
 		];
 	}
 	

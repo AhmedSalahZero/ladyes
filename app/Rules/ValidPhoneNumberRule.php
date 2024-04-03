@@ -15,6 +15,9 @@ class ValidPhoneNumberRule implements Rule
     public function __construct( $countryId)
     {
 		$this->country = Country::find($countryId) ; 
+		if(!$this->country){
+			$this->country = Country::findByIso2($countryId);
+		}
 		$this->phoneNumberService = new PhoneNumberService();
     }
 
