@@ -44,7 +44,7 @@
                                                 </td>
                                                 <td class="text-center">{{$model->getPhone()}}</td>
                                                 <td class="text-center">{{$model->getEmail()}}</td>
-                                                <td class="text-center">{{$model->getAvgRate()}}</td>
+                                                <td class="text-center">{{$model->getAvgRateFormatted()}}</td>
                                                 <td class="text-center">
                                                     @if($user->can(getPermissionName('update')))
                                                     <div class="form-group pb-1">

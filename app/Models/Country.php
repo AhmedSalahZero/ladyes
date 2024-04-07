@@ -20,9 +20,8 @@ class Country extends Model
     use HasFactory;
     use HasLatitudeAndLatitude ;
 
-	protected $fillable = [
-		'cancellation_fees_for_client',
-		'cancellation_fees_for_driver'
+	protected $guarded = [
+		'id'
 	];
 	public function getName(string $lang = null)
 	{
@@ -64,9 +63,10 @@ class Country extends Model
         // for example [EGP]
         return $this->currency ;
     }
-	public function getCurrencyFormatted()
+	public function getCurrencyFormatted(string $lang = null)
 	{
-		return __($this->getCurrency(),[],getApiLang());
+		$lang = is_null($lang) ? getApiLang() : $lang ;
+		return __($this->getCurrency(),[],$lang);
 	}
 
     public function getCurrencyName()
@@ -111,14 +111,28 @@ class Country extends Model
 	 */
 	public function getCancellationFeesForClient()
 	{
-		return $this->cancellation_fees_for_client ;
+		return $this->cancellation_fees_for_client?:0 ;
 	}
 	/**
 	 * * الرسوم اللي هيتم تطبيقها علي السائق في حالة قام بالغاء الرحلة
 	 */
 	public function getCancellationFeesForDriver()
 	{
-		return $this->cancellation_fees_for_driver ;
+		return $this->cancellation_fees_for_driver?:0 ;
+	}
+	/**
+	 * * الرسوم اللي هيتم تطبيقها علي العميل في حالة قام بالغاء الرحلة
+	 */
+	public function getTaxesPercentage()
+	{
+		return $this->taxes_percentage ?: 0 ;
+	}
+		/**
+		** هي رسوم اضافية يدفع العميل لزوم الدفع بالكاش
+	 */
+	public function getCashFees()
+	{
+		return $this->cash_fees ?: 0 ;
 	}
 	/**
 	 * * الرسوم اللي هيتم تطبيقها علي السائق في حالة قام بالغاء الرحلة

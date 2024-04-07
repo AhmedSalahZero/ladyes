@@ -15,9 +15,9 @@ class PaymentType  implements IEnum
 	public static function all():array 
 	{
 		return [
-			self::CASH=>__('Cash'),
-			self::WALLET=>__('Wallet'),
-			self::MADA=>__('MADA'),
+			self::CASH=>__('Cash',[],getApiLang()),
+			self::WALLET=>__('Wallet',[],getApiLang()),
+			self::MADA=>__('MADA',[],getApiLang()),
 		];
 	}
 	public static function allFormattedForSelect2():array 

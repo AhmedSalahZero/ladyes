@@ -6,6 +6,7 @@ use App\Enum\PaymentType;
 use App\Helpers\HValidation;
 use App\Rules\UniqueToClientRule;
 use App\Rules\ValidCouponRule;
+use App\Rules\ValidPaymentMethodRule;
 use App\Traits\HasFailedValidation;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -37,13 +38,15 @@ class StoreTravelRequest extends FormRequest
 		[
 			'client_id' => ['required', 'exists:clients,id'],
 			'driver_id' => ['required', 'exists:drivers,id'],
-			'country_id'=>['required', 'exists:countries,id'],
+			// 'country_id'=>['required', 'exists:countries,id'],
+			'payment_method'=>['required',new ValidPaymentMethodRule()],
 			'city_id'=>['required', 'exists:cities,id'],
 			'from_latitude'=>[$requiredOrNot,'required'],
 			'to_latitude'=>[$requiredOrNot,'required'],
 			'from_longitude'=>[$requiredOrNot,'required'],
 			'to_longitude'=>[$requiredOrNot,'required'],
-			'address'=>[$requiredOrNot,'required','max:255'],
+			'from_address'=>[$requiredOrNot,'required','max:255'],
+			'to_address'=>[$requiredOrNot,'required','max:255'],
 			'coupon_code'=>['sometimes','required',new ValidCouponRule()],
 			'is_secure'=>['sometimes','required','in:1,0'],
 			// 'currency' => ['required', 'exists:countries,currency'],

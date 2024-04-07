@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Country;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -30,5 +31,12 @@ class DatabaseSeeder extends Seeder
 		$this->call(EmergencyContactsSeeder::class);
 		$this->call(CouponSeeder::class);
 		$this->call(TravelSeeder::class);
+		
+		Country::whereIn('id',[194,65])->update([
+			'cancellation_fees_for_client'=>10,
+			'cancellation_fees_for_driver'=>20,
+			'first_travel_bonus'=>5,
+		]);
+		
     }
 }

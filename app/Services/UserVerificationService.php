@@ -21,8 +21,7 @@ class UserVerificationService
     public function renewCode(string $countryIso2, string $phone,string $userType):string
     {
         $verificationCode = $this->generateRandomVerificationCode();
-        $oldOneExist = VerificationCode::where('country_iso2', $countryIso2)->where('phone', $phone)->exists();
-		
+        $oldOneExist = VerificationCode::where('country_iso2', $countryIso2)->where('user_type',$userType)->where('phone', $phone)->exists();
         if ($oldOneExist) {
             VerificationCode::where('country_iso2', $countryIso2)->where('user_type',$userType)->where('phone', $phone)->update([
                 'code' => $verificationCode,
@@ -80,6 +79,7 @@ class UserVerificationService
         }
         if ($viaWhatsapp) {
             $responseArray = App(WhatsappService::class)->sendMessage($message, $phoneFormatted);
+	
             if ($responseArray['status']) {
                 return [
                     'status' => true,

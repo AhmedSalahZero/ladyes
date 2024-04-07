@@ -2,10 +2,15 @@
 
 namespace App\Console\Commands;
 
+use App\Enum\TransactionType;
 use App\Models\CarSize;
 use App\Models\City;
 use App\Models\Client;
+use App\Models\Country;
+use App\Models\Transaction;
 use App\Models\Travel;
+use function PHPSTORM_META\map;
+
 use Illuminate\Console\Command;
 
 class TestCommand extends Command
@@ -41,6 +46,16 @@ class TestCommand extends Command
      */
     public function handle()
     {
+		Transaction::create([
+			'amount'=>500000,
+			'type'=>TransactionType::DEPOSIT,
+			'model_id'=>1 ,
+			'model_type'=>'Client',
+			'note_en'=>'en',
+			'note_ar'=>'ar',
+		]);
+	
+		dd('good');
 		$client = Client::first();
 		$verificationCode = $client->getVerificationCode();
 		dd($verificationCode);

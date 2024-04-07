@@ -19,6 +19,7 @@ class TravelsController extends Controller
 	public function markAsCancelled(Request $request,Travel $travel)
 	{
 		$travel->markAsCancelled($request);
+		return $this->apiResponse(__('Travel Has Been Marked AS Cancelled',[],getApiLang()));
 	}
 	public function markAsCompleted(Request $request,Travel $travel)
 	{

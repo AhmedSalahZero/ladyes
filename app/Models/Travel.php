@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enum\AppNotificationType;
 use App\Enum\PaymentStatus;
 use App\Enum\PaymentType;
 use App\Enum\TransactionType;
@@ -11,7 +10,7 @@ use App\Exceptions\TravelEndTimeNotFoundException;
 use App\Exceptions\TravelStartTimeNotFoundException;
 use App\Helpers\HHelpers;
 use App\Helpers\HStr;
-use App\Models\Driver;
+use App\Http\Resources\TravelResource;
 use App\Traits\Models\HasBasicStoreRequest;
 use App\Traits\Models\HasCity;
 use App\Traits\Models\HasCountry;
@@ -63,6 +62,12 @@ class Travel extends Model
         $driver = $this->driver ;
 
         return  $driver ? $driver->getName() : __('N/A');
+    } 
+	 public function getDriverId():?Int 
+    {
+        $driver = $this->driver ;
+
+        return  $driver ? $driver->id  : 0;
     }
 
     /**
@@ -204,59 +209,24 @@ class Travel extends Model
 
         return $this;
     }
+	public function getPaymentMethod():string 
+	{
+		return $this->payment_method ;
+	}
 
     public function storePayment(Request $request)
     {
         /**
          * @var City $city ;
          */
-        $country = $this->city->getCountry() ;
-        $currencyName = $country->getCurrency();
-        $client = $this->client;
-        $this->generateGiftCoupon();
-        $couponAmount = $this->getCouponDiscountAmount();
-        $paymentType = $request->get('payment_type');
+       
         /**
          * * store new payment
          * @var Payment $payment
          */
-
-        $payment = $this->payment()->create([
-            'status' => PaymentStatus::PENDING,
-            'currency_name' => $currencyName,
-            'type' => $paymentType,
-            'price' => $this->calculateClientActualPriceWithoutDiscount(),
-            'coupon_amount' => $couponAmount,
-            'total_price' => $totalPrice = $this->calculateClientTotalActualPriceWithoutDiscount($couponAmount),
-            'model_id' => $this->id,
-            'model_type' => HHelpers::getClassNameWithoutNameSpace($this)
-        ]);
-        /**
-         * * اولا هنضيف ايداع بسعر الرحلة لمحفظتة
-         */
-        $payment->transaction()->create([
-            'type' => TransactionType::DEPOSIT,
-            'type_id' => $payment->id,
-            'model_id' => $client->id,
-            'amount' => $totalPrice,
-            'model_type' => HHelpers::getClassNameWithoutNameSpace($client),
-            'note_en' => __('Amount Has Been Been Added To Your Wallet :amount :currency', ['amount' => number_format($totalPrice), 'currency' => $currencyName, 'paymentMethod' => $paymentType], 'en'),
-            'note_ar' => __('Amount Has Been Been Added To Your Wallet :amount :currency', ['amount' => number_format($totalPrice), 'currency' => __($currencyName, [], 'ar'), 'paymentMethod' => __($paymentType, [], 'ar')], 'ar')
-        ]);
-
-        /**
-         * *بعدين هنشيل المبلغ دا من محفظته كرسوم للرحلة
-         */
-        $payment->transaction()->create([
-            'type' => TransactionType::PAYMENT,
-            'type_id' => $payment->id,
-            'model_id' => $client->id,
-            'amount' => $totalPrice * -1,
-            'model_type' => HHelpers::getClassNameWithoutNameSpace($client),
-            'note_en' => __('Amount Has Been Been Subtracted From Your Wallet :amount :currency', ['amount' => number_format($totalPrice), 'currency' => $currencyName], 'en'),
-            'note_ar' => __('Amount Has Been Been Subtracted From Your Wallet :amount :currency For Travel # :travelId', ['amount' => number_format($totalPrice), 'currency' => __($currencyName, [], 'ar'), 'travelId' => $this->getId()], 'ar')
-        ]);
-
+		$payment = (new Payment)->storeForTravel($this);
+        
+		
         return $this;
     }
 
@@ -287,6 +257,51 @@ class Travel extends Model
     {
         return $this->getStatus() == TravelStatus::CANCELLED;
     }
+	
+    public function getOperationalFees()
+    {
+        $statedAt = $this->getStartedAt();
+        $city = $this->getCity() ;
+        $priceModel = $city;
+        $rushHour = $city->isInRushHourAt($statedAt);
+        if ($rushHour) {
+            $priceModel = $rushHour ;
+        }
+
+        return $priceModel->getOperatingFeesPrice();
+    }
+	/**
+	 * * هي رسوم بيدفعها العميل لو اختار طريق الدفع كاش
+	 */
+	public function calculateCashFees()
+	{
+		$country = $this->getCountry() ; 
+		$isCashPayment = $this->isCashPayment();
+		if(!$isCashPayment || !$country){
+			return 0 ;
+		}
+		return $country->getCashFees();
+	}
+	public function calculateTaxAmount(float $mainPriceWithoutDiscountAndTaxesAndCashFees = null)
+	{
+		$mainPriceWithoutDiscountAndTaxesAndCashFees = is_null($mainPriceWithoutDiscountAndTaxesAndCashFees) ? $this->calculateClientActualPriceWithoutDiscount() : $mainPriceWithoutDiscountAndTaxesAndCashFees;
+		$country = $this->getCountry() ; 
+		if( !$country){
+			return 0 ;
+		}
+		$taxPercentage = $country->getTaxesPercentage()  / 100 ;
+		return $taxPercentage * $mainPriceWithoutDiscountAndTaxesAndCashFees ;
+	}
+	public function calculateTaxesAmount()
+	{
+		$country = $this->getCountry() ; 
+		if(!$country){
+			return 0 ;
+		}
+		$taxesPercentage = $country->getTaxesPercentage()  / 100 ;
+		
+		
+	}
 
     /**
      * * تحتوي علي بيانات الدفع وليكن مثلا نوع عمليه الدفع كاش مثلا او من المحفظة والمقدار و والغرمات وقيمة الكوبون ان وجد الخ
@@ -328,32 +343,22 @@ class Travel extends Model
         return $carSizePrice + ($kmPrice * $numberOfKms) + ($minutePrice * $numberOfMinutes) + $operationFees ;
     }
 
-    public function getOperationalFees()
-    {
-        $statedAt = $this->getStartedAt();
-        $city = $this->getCity() ;
-        $priceModel = $city;
-        $rushHour = $city->isInRushHourAt($statedAt);
-        if ($rushHour) {
-            $priceModel = $rushHour ;
-        }
-
-        return $priceModel->getOperatingFeesPrice();
-    }
 
     /**
-     * * هو نفس الحسبة السابقة مضاف اليها الغرامات ومنقوص منها الخصم .. وهو اجمالي ما سوف يتم دفعه للعميل
+     * * هو نفس الحسبة السابقة مضاف اليها الغرامات ومنقوص منها الخصم مضاف اليها الضريبة .. وهو اجمالي ما سوف يتم دفعه للعميل
      */
-    public function calculateClientTotalActualPriceWithoutDiscount(float $couponAmount = null)
+    public function calculateClientTotalActualPrice(float $couponAmount = null, float $taxesAmount = null , float $cashFees = null)
     {
         /**
          * * لو ما مررنهاش هنحسبها
          */
         $couponAmount = is_null($couponAmount) ? $this->getCouponDiscountAmount() : $couponAmount ;
+        $taxesAmount = is_null($taxesAmount) ? $this->calculateTaxesAmount() : $taxesAmount ;
+        $cashFees = is_null($cashFees) ? $this->calculateCashFees() : $cashFees ;
 
-        return $this->calculateClientActualPriceWithoutDiscount() + $couponAmount ;
+        return $this->calculateClientActualPriceWithoutDiscount() + $couponAmount - $taxesAmount + $cashFees  ;
     }
-
+	
     /**
      * * النسبة اللي الابلكيشن هياخدها
      * * التطبيق هياخد
@@ -361,14 +366,7 @@ class Travel extends Model
      */
     public function calculateApplicationShare()
     {
-        $statedAt = $this->getStartedAt();
-        $city = $this->getCity() ;
-        $priceModel = $city;
-        $rushHour = $city->isInRushHourAt($statedAt);
-        if ($rushHour) {
-            $priceModel = $rushHour ;
-        }
-        $operationFees = $priceModel->getOperatingFeesPrice();
+		$operationFees = $this->getOperationalFees();
 
         return ($this->calculateClientActualPriceWithoutDiscount() - $operationFees) * ($this->driver->getDeductionPercentage() / 100) ;
     }
@@ -380,17 +378,21 @@ class Travel extends Model
      */
     public function calculateDriverShare()
     {
-        $statedAt = $this->getStartedAt();
+		$operationFees = $this->getOperationalFees();
+
+        return ($this->calculateClientActualPriceWithoutDiscount() - $operationFees) - $this->calculateApplicationShare()  ;
+    }
+	public function getOperationFeesPrice()
+	{
+		$statedAt = $this->getStartedAt();
         $city = $this->getCity() ;
         $priceModel = $city;
         $rushHour = $city->isInRushHourAt($statedAt);
         if ($rushHour) {
             $priceModel = $rushHour ;
         }
-        $operationFees = $priceModel->getOperatingFeesPrice();
-
-        return ($this->calculateClientActualPriceWithoutDiscount() - $operationFees) - $this->calculateApplicationShare()  ;
-    }
+        return  $priceModel->getOperatingFeesPrice();
+	}
 
     public function getCity(): ?City
     {
@@ -478,11 +480,12 @@ class Travel extends Model
         return $country ? $country->getCurrency() : '';
     }
 
-    public function getCurrencyNameFormatted()
+    public function getCurrencyNameFormatted($lang = null)
     {
+        $lang = $lang ? $lang : getApiLang();
         $country = $this->getCountry() ;
 
-        return  $country ? __($country->getCurrency(),[],getApiLang()) : '';
+        return  $country ? __($country->getCurrency(), [], $lang) : '';
     }
 
     /**
@@ -552,11 +555,15 @@ class Travel extends Model
     //     return $this->belongsTo(Country::class, 'country_id', 'id');
     // }
 
-    public function getPaymentMethod()
+    public function getPaymentMethodFormatted()
     {
         return $this->payment->getTypeFormatted();
     }
-
+	
+	public function isCashPayment()
+	{
+		return $this->getPaymentMethod() === PaymentType::CASH;
+	}
     public function getPaymentStatus()
     {
         return $this->payment->getStatus();
@@ -594,111 +601,175 @@ class Travel extends Model
         if (!$endedAt) {
             throw new TravelEndTimeNotFoundException(__('Travel End Time Not Found', [], getApiLang()));
         }
-
         return Carbon::make($startedAt)->diffInMinutes($endedAt);
     }
+
+    /**
+     * * هنا بنحسب نسبة الغرامة اللي المفروض تتطبق علي السائق او الكابتن
+     * * في حال بدأت الرحلة وقام العميل باللغاء الرحلة يتم احتساب مبلغ ثابت لكل دقيقه ويتم التحكم في المبلغ هذا من لوحة التحكم الادارية والتي يكون حقل به مبلغ اللغاء العميل
+     * * ويتم احتساب هذا المبلغ بناء على كل دقيقه تمت في هذة الرحلة
+     * * كمثال في حال العميل طلب رحله وبعد 15 دقيقه رغب ان يلغي الرحلة
+     * *يتم احتساب المبلغ مقابل 15 دقيقه ويتم اخذ نسبة التطبيق من المبلغ والباقي يذهب في محفظة الكابتن
+     */
+    public function calculateCancellationFees()
+    {
+        $cancellationFeesAmount = $this->getCountry()->getCancellationFeesForClient() ;
+        return $this->getNumberOfMinutes() * $cancellationFeesAmount   ;
+    }
+
+    /**
+     * * هل تم دفع تمن الرحلة ولا لسه
+     */
+    public function isPaid(): bool
+    {
+        $payment = $this->payment ;
+
+        return $payment && $payment->getStatus() === PaymentStatus::SUCCESS ;
+    }
+
+    public function getClientId()
+    {
+        return $this->client_id ;
+    }
+
+    /**
+     * * لو السائق هو من الغى فلا توجد غرامة
+     * * لو العميل الغي بعد بداية الرحلة بينزل عليه غرامة
+     */
+    public function applyCancellationFine(Request $request)
+    {
+        $user = $request->user() ;
+
+        $currencyNameEn = $this->getCurrencyNameFormatted('en');
+        $currencyNameAr = $this->getCurrencyNameFormatted('ar');
+        /**
+         * * هنحسب قيمة الغرامة
+         */
+        $fineFeesAmount = $this->calculateCancellationFees();
+
+        $hasBalanceInHisWallet = $user->getTotalWalletBalance() >= $fineFeesAmount;
+        /**
+         * @var Fine $fine
+         */
+        /**
+         * * هنسجل الغرامة علي العميل
+         */
+        $fine = (new Fine())->storeForTravel($this, $fineFeesAmount);
+
+        /**
+         * *   هنقوم بتسديد الغرامة واعطاء السائق نصيبة و التطبيق نصيبة ودا في حالة لو العميل كان
+         * * معاه مبلغ كافي في محفظتة
+         */
+        $fine->settlementTravelFee($fineFeesAmount);
+    }
+
+    /**
+     * * تحديد ما اذا كانت الرحلة قد بدات بالفعل
+     */
+    public function hasStarted(): bool
+    {
+        return $this->started_at !== null  ;
+    }
+	
 	/**
-	 * * هنا بنحسب نسبة الغرامة اللي المفروض تتطبق علي السائق او الكابتن
-	 * * في حال بدأت الرحلة وقام العميل باللغاء الرحلة يتم احتساب مبلغ ثابت لكل دقيقه ويتم التحكم في المبلغ هذا من لوحة التحكم الادارية والتي يكون حقل به مبلغ اللغاء العميل
-	* * ويتم احتساب هذا المبلغ بناء على كل دقيقه تمت في هذة الرحلة
-	* * كمثال في حال العميل طلب رحله وبعد 15 دقيقه رغب ان يلغي الرحلة 
-	* *يتم احتساب المبلغ مقابل 15 دقيقه ويتم اخذ نسبة التطبيق من المبلغ والباقي يذهب في محفظة الكابتن 
-	 */
-	public function calculateCancellationFees(bool $isDriver)
+     * * تحديد ما اذا كانت الرحلة قد بدات بالفعل
+     */
+    public function hasEnded(): bool
+    {
+        return $this->ended_at !== null  ;
+    }
+
+    /**
+     * * في حاله الغاء الرحلة .. مين اللي لغاءها العميل ولا السائق
+     */
+    public function getCancelledBy()
+    {
+        return $this->cancelled_by ;
+    }
+
+    public function isCancelledByClient()
+    {
+        return $this->getCancelledBy() === 'Client';
+    }
+
+    public function isCancelledByDriver()
+    {
+        return $this->getCancelledBy() === 'Driver';
+    }
+
+    public function markAsCancelled(Request $request)
+    {
+        $this->status = TravelStatus::CANCELLED;
+        $this->ended_at = now();
+        $this->cancelled_by = HHelpers::getClassNameWithoutNameSpace($request->user()) ;
+        $this->save();
+        if ($this->hasStarted() && $this->isCancelledByClient()) {
+            $this->applyCancellationFine($request);
+        }
+
+        return $this ;
+    }
+
+    /**
+     * * هي هنا
+     * * many to many
+     * * لان ممكن نفترض ان الرحلة الواحدة هيتطبق عليها غرمتين واحدة علي السائق وواحدة علي العميل بس فعليا
+     * * ولحد الان هي بتطتبق علي العميل بس وبالتالي هيكون فيه ريليشن كمان تحتها بالاسم المفروض علشان تجيب اول واحدة
+     */
+    public function fines()
+    {
+        return $this->hasMany(Fine::class, 'travel_id', 'id');
+    }
+
+    public function fine()
+    {
+        return $this->hasOne(Fine::class, 'travel_id', 'id');
+    }
+
+    /**
+     * * عميلة اعادة الاموال الخاصة بالرحلة دي ان وجدت
+     */
+    public function refund()
+    {
+        return $this->hasOne(Refund::class, 'travel_id', 'id');
+    }
+	public function getResource()
 	{
-		$cancellationFeesAmount = $isDriver ? $this->getCountry()->getCancellationFeesForDriver() : $this->getCountry()->getCancellationFeesForClient();
-		return $isDriver  ?  $cancellationFeesAmount : $this->getNumberOfMinutes() *  $cancellationFeesAmount   ;
+		return new TravelResource($this);
 	}
-	/**
-	 * * تطبيق غرامة علي العميل في حالة الغاء الرحلة وتسديدها في حالة لو كان العميل لديه اموال في محفظته 
-	 */
-	public function applyCancellationFine(Request $request)
+	public function getFromLongitude()
 	{
-		$user = $request->user() ;
-		$isDriver = $user instanceof Driver ;
-		
-		$currency = $this->getCurrencyNameFormatted();
-		$amount = $this->calculateCancellationFees($isDriver);
-		$hasBalanceInHisWallet =  $user->getTotalWalletBalance() >= $amount;
-		$this->fine()->create([
-			'travel_id'=>$this->id ,
-			'model_type'=>$isDriver ? 'Driver' : 'Client',
-			'model_id'=>$user->id ,
-			'amount'=> $amount ,
-			'is_paid'=>$hasBalanceInHisWallet ,
-			'note_en'=>$noteEn = __('You Have :amount :currency Fine In Your Wallet For Cancellation Travel #:travelId',['amount'=>$amount , 'currency'=>$currency , 'travelId'=>$this->id ],'en' ),
-			'note_ar'=>$noteAr = __('You Have :amount :currency Fine In Your Wallet For Cancellation Travel #:travelId',['amount'=>$amount , 'currency'=>$currency , 'travelId'=>$this->id ],'ar' )
-		]);
-		
-		$user->sendAppNotification(__('Fine',[],'en') , __('Fine',[],'ar') ,$noteEn , $noteAr , AppNotificationType::FINE);
-		/**
-		 * *  هنضيفلة قيمة بالسالب في محفظته
-		 */
-			Transaction::create(
-				[
-					'type' => TransactionType::FINE,
-					'type_id' => null ,
-					'model_id' => $user->id,
-					'amount' => $amount * -1,
-					'model_type' => HHelpers::getClassNameWithoutNameSpace($user),
-					'note_en' => __('Amount Has Been Been Added To Your Wallet :amount :currency', ['amount' => number_format($amount), 'currency' => $currency, 'paymentMethod' => 'Wallet'], 'en'),
-					'note_ar' => __('Amount Has Been Been Added To Your Wallet :amount :currency', ['amount' => number_format($amount), 'currency' => __($currency, [], 'ar'), 'paymentMethod' => __('Wallet', [], 'ar')], 'ar')
-				]
-			);
-		if($hasBalanceInHisWallet){
-			/**
-		 * *  هنسدد الغرامة
-		 */
-		Transaction::create(
-			[
-				'type' => TransactionType::FINE,
-				'type_id' => null ,
-				'model_id' => $user->id,
-				'amount' => $amount,
-				'model_type' => HHelpers::getClassNameWithoutNameSpace($user),
-				'note_en' => __('The Fine Amount :amount :currency Has Been Successfully Paid', ['amount' => number_format($amount), 'currency' => $currency], 'en'),
-				'note_ar' => __('The Fine Amount :amount :currency Has Been Successfully Paid', ['amount' => number_format($amount), 'currency' => __($currency, [], 'ar')], 'ar')
-			]
-		);
+		return $this->from_longitude;
+	}
+	public function getFromLatitude()
+	{
+		return $this->from_latitude;
+	}
+	public function getToLongitude()
+	{
+		return $this->to_longitude;
+	}
+	public function getToLatitude()
+	{
+		return $this->to_latitude;
+	}
+	public function getFromAddress()
+	{
+		return $this->from_address ;
+	}
+	public function getToAddress()
+	{
+		return $this->to_address ;
+	}
+	public function calculateFirstTravelBonus(bool $isFirstTravel = null):float 
+	{
+		$isFirstTravel = is_null($isFirstTravel) ? $this->client->isFirstTravel() : $isFirstTravel ;
+		$country  = $this->getCountry();
+		if(!$isFirstTravel || !$country){
+			return  0 ;
 		}
+		return $country->getBonusAfterFirstSuccessTravel();
 	}
-	/**
-	 * * تحديد ما اذا كانت الرحلة قد بدات بالفعل
-	 */
-	public function hasStarted():bool 
-	{
-		return $this->started_at !== null  ; 
-	}
-	public function markAsCancelled(Request $request)
-	{
-		$this->status = TravelStatus::CANCELLED;
-		$this->ended_at = now();
-		$this->cancelled_by  = HHelpers::getClassNameWithoutNameSpace($request->user()) ;
-		$this->save();
-		if($this->hasStarted()){
-			$this->applyCancellationFine($request);
-		}
-		return $this ; 
-	}
-	/**
-	 * * هي هنا 
-	 * * many to many
-	 * * لان ممكن نفترض ان الرحلة الواحدة هيتطبق عليها غرمتين واحدة علي السائق وواحدة علي العميل بس فعليا 
-	 * * ولحد الان هي بتطتبق علي العميل بس وبالتالي هيكون فيه ريليشن كمان تحتها بالاسم المفروض علشان تجيب اول واحدة
-	 */
-	public function fines()
-	{
-		return $this->hasMany(Fine::class,'travel_id','id');
-	}
-	public function fine()
-	{
-		return $this->hasOne(Fine::class,'travel_id','id');
-	}
-	/**
-	 * * في حاله الغاء الرحلة .. مين اللي لغاءها العميل ولا السائق
-	 */
-	public function getCancelledBy()
-	{
-		return $this->cancelled_by ;
-	}
+	
+
 }

@@ -17,6 +17,7 @@ class TravelFactory extends Factory
             'client_id'=>Client::inRandomOrder()->first()->id ,
 			'driver_id'=>Driver::inRandomOrder()->first()->id ,
 			'coupon_id'=>null ,
+			'payment_method'=>'cash',
 			'no_km'=>$this->faker->numberBetween(2,15) ,
 			'city_id'=>City::where('country_id',194)->first()->id, // saudi arabia
 			'status'=>TravelStatus::COMPLETED,
@@ -24,7 +25,8 @@ class TravelFactory extends Factory
 			'from_longitude'=>$this->faker->longitude(),
 			'to_latitude'=>$this->faker->latitude(),
 			'to_longitude'=>$this->faker->longitude(),
-			'address'=>$this->faker->address,
+			'from_address'=>$this->faker->address,
+			'to_address'=>$this->faker->address,
 			'started_at'=>now(),
 			'ended_at'=>now()->addHour(),
 			'is_secure'=>$isSecure = $this->faker->boolean ,

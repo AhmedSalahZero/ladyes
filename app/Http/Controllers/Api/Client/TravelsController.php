@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\Api\Client;
 
-use App\Enum\TransactionType;
+use App\Enum\AppNotificationType;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Apis\MarkTravelAsCompletedRequest;
 use App\Http\Requests\Apis\ShowAvailableCarSizesForTravelRequest;
 use App\Http\Requests\Apis\ShowAvailableDriversForTravelRequest;
 use App\Http\Requests\Apis\StoreTravelPaymentRequest;
@@ -16,7 +15,7 @@ use App\Models\Driver;
 use App\Models\Travel;
 use App\Services\DistanceMatrix\GoogleDistanceMatrixService;
 use App\Traits\Api\HasApiResponse;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 
 class TravelsController extends Controller
 {
@@ -25,13 +24,28 @@ class TravelsController extends Controller
 	{
 		$travel  = new Travel();
 		$travel = $travel->syncFromRequest($request);
+		$travel->client->sendAppNotification(__('Travel Confirmation', [], 'en'), __('Travel Confirmation', [], 'ar'), __('We Will Contract You',[],'en'), __('We Will Contract You'), AppNotificationType::INFO);
+		return $this->apiResponse(__('Travel Has Been Created Successfully',[],getApiLang()) , $travel->getResource()->toArray($request) );
+	}
+	public function markAsCancelled(Request $request,Travel $travel)
+	{
+		$travel->markAsCancelled($request);
+		return $this->apiResponse(__('Travel Has Been Marked AS Cancelled',[],getApiLang()));
 	}
 	public function storePayment(StoreTravelPaymentRequest $request,Travel $travel)
 	{
+		if(!$travel->hasEnded()){
+			return $this->apiResponse(__('Travel Has Not Ended Yet',[],getApiLang()),[],500);
+		}
 		$travel->storePayment($request);
 		return $this->apiResponse(__('Thanks For Your Travel',[],getApiLang()),[
 			'discount_coupon'=>$travel->getGiftCouponCode() 
 		]);
+	}
+	public function sendArrivalNotificationToClient(Travel $travel)
+	{
+		$travel->client->sendAppNotification(__('Driver Arrival', [], 'en'), __('Driver Arrival', [], 'ar'), __('Driver Has Arrived To The Location',[],'en'), __('Driver Has Arrived To The Location'), AppNotificationType::LOCATION);
+		return $this->apiResponse(__('Client Has Been Notified Of Your Arrival',[],getApiLang()));
 	}
 	/**
 	 * * هنجيب السواقين المتاحين 

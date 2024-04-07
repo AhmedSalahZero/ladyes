@@ -223,7 +223,7 @@ function formatForView(?string $date ,bool $onlyDate = false )
 function getApiLang($lang = null)
 {
 	if(Request()->is('api/*')){
-		return Request('lang','ar');
+		return Request()->getPreferredLanguage() ?: 'ar';
 	}
 	
 	return $lang ? $lang : app()->getLocale();

@@ -34,7 +34,7 @@ class StoreTravelPaymentRequest extends FormRequest
 			// 'duration_in_minutes'=>['required','gt:0'],
 			// 'distance_in_km'=>['required','gt:0'],
 			// 'currency' => ['required', 'exists:countries,currency'],
-			'payment_type'=>['required','in:'.implode(',',array_keys(PaymentType::all()))],
+			// 'payment_type'=>['required','in:'.implode(',',array_keys(PaymentType::all()))],
         ];
     }
 	public function messages()

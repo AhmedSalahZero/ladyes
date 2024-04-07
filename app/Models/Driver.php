@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Helpers\HDate;
 use App\Helpers\HHelpers;
+use App\Http\Resources\DriverResource;
 use App\Interfaces\IHaveAppNotification;
 use App\Notifications\Admins\DriverNotification;
 use App\Settings\SiteSetting;
@@ -16,6 +17,7 @@ use App\Traits\Models\HasCountry;
 use App\Traits\Models\HasCreatedAt;
 use App\Traits\Models\HasEmail;
 use App\Traits\Models\HasEmergencyContacts;
+use App\Traits\Models\HasFine;
 use App\Traits\Models\HasGeoLocation;
 use App\Traits\Models\HasInvitationCode;
 use App\Traits\Models\HasIsListingToOrdersNow;
@@ -49,6 +51,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class Driver extends Model implements HasMedia, BannableInterface, IHaveAppNotification, ReviewRateable
 {
     use HasMake;
+	use HasFine ;
     use ReviewRateableTrait;
     use HasWallet;
     use HasFactory;
@@ -74,8 +77,7 @@ class Driver extends Model implements HasMedia, BannableInterface, IHaveAppNotif
     use HasCreatedAt;
     use HasLoginByPhone;
     use HasGeoLocation;
-    use HasCarSize
-    ;
+    use HasCarSize;
 
     public function registerMediaCollections(): void
     {
@@ -348,4 +350,9 @@ class Driver extends Model implements HasMedia, BannableInterface, IHaveAppNotif
         ->orderByDistance()
         ->get();
     }
+	public function getResource()
+	{
+		return new DriverResource($this);
+	}	
+	
 }

@@ -5,6 +5,7 @@ use App\Models\Country;
 use App\Models\Notification;
 use App\Traits\Api\HasApiResponse;
 use Illuminate\Http\Request;
+use Laravel\Sanctum\PersonalAccessToken;
 
 trait HasLoginByPhone 
 {
@@ -15,7 +16,7 @@ trait HasLoginByPhone
 		if(!$token){
 			return $this->createToken('personal_access_token')->plainTextToken ;
 		}
-		return $token ;
+		return Request()->bearerToken() ;
 		
 	}
 	public function loginByPhone(Request $request )

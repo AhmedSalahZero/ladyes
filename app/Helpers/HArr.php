@@ -2,6 +2,20 @@
 namespace App\Helpers ;
 class HArr 
 {
+	public static function removeUnderscoreLangFromKeys(array $items):array 
+	{
+		$result = [];
+		foreach($items as $index => $array){
+			if(!is_numeric($index)){
+				throw new \Exception('Only Numeric Index Array Allowed ');
+			}
+			foreach($array as $key => $value){
+				$key = explode('_',$key)[0] ;
+				$result[$index][$key] = $value ;
+			}
+		}
+		return $result ;
+	}
 	public static function convertStringArrayToArr($arrayAsString):?array 
 	{
 		// dd(is_string($arrayAsString));

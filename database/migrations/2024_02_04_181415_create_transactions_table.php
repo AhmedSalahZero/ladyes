@@ -20,7 +20,7 @@ class CreateTransactionsTable extends Migration
             $table->enum('type', array_keys(TransactionType::all()))->default(TransactionType::PAYMENT);
             $table->unsignedBigInteger('type_id')->nullable()->comment('علي سبيل المثال ال payment_id');
             $table->unsignedBigInteger('model_id')->nullable()->comment('علي سبيل المثال ال client_id , or driver_id');
-            $table->string('model_type')->nullable()->comment('Client Or Driver Model Full Path');
+            $table->string('model_type')->nullable()->comment('Client Or Driver Model');
             $table->string('note_en')->comment('ملحوظة .. وليكن مثلا تم ايداع المبلغ الي محفظتك مثلا')->nullable();
             $table->string('note_ar')->comment('ملحوظة .. وليكن مثلا تم ايداع المبلغ الي محفظتك مثلا')->nullable();
             $table->timestamps();
@@ -31,7 +31,7 @@ class CreateTransactionsTable extends Migration
 			BEGIN
 				declare _total_balance decimal(14,0) default 0;
 				select sum(amount) into _total_balance from transactions where model_type = "Client" and model_id = 	id	;
-							update clients set current_wallet_balance = ifnull(_total_balance,0);
+							update clients set current_wallet_balance = ifnull(_total_balance,0) where id = id;
 			END; 
         ');
 

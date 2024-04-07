@@ -66,84 +66,108 @@
                                                                     </div>
                                                                     <div class="modal-body">
                                                                         <table class="table table-striped table-bordered">
-                                                                            {{-- <tr>
-                                                                                <th>
-                                                                                    {{ __('Cancellation Fees For Client') }}
-                                                                            </th>
-                                                                            <th>
-                                                                                {{ __('Price') }}
-                                                                            </th>
-                                            </tr> --}}
-                                            <tr>
 
-                                                <td>
-                                                    <input class="form-control" disabled value="{{ __('Cancellation Fees For Client') }}">
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex align-items-center" style="gap:0.4rem">
-                                                        <input required name="fees[cancellation_fees_for_client]" type="numeric" step="0" value="{{ $model->getCancellationFeesForClient() }}" class="form-control"> <span>
-                                                            {{ $model->getCurrencyFormatted() }}
-                                                        </span>
+                                                                            <tr>
+
+                                                                                <td>
+                                                                                    <input class="form-control" disabled value="{{ __('Cancellation Fees For Client') }}">
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div class="d-flex align-items-center" style="gap:0.4rem">
+                                                                                        <input required name="fees[cancellation_fees_for_client]" type="numeric" step="0" value="{{ $model->getCancellationFeesForClient() }}" class="form-control"> <span>
+                                                                                            {{ $model->getCurrencyFormatted() }}
+                                                                                        </span>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <input class="form-control" disabled value="{{ __('Cancellation Fees For Driver') }}">
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div class="d-flex align-items-center" style="gap:0.4rem">
+                                                                                        <input required name="fees[cancellation_fees_for_driver]" type="numeric" step="0" value="{{ $model->getCancellationFeesForDriver() }}" class="form-control"> <span>
+                                                                                            {{ $model->getCurrencyFormatted() }}
+                                                                                        </span>
+                                                                                    </div>
+                                                                                </td>
+
+
+                                                                            </tr>
+																			
+																			   <tr>
+                                                                                <td>
+                                                                                    <input class="form-control" disabled value="{{ __('Taxes Percentage') }}">
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div class="d-flex align-items-center" style="gap:0.4rem">
+                                                                                        <input required name="fees[taxes_percentage]" type="numeric" step="0" value="{{ $model->getTaxesPercentage() }}" class="form-control"> <span>
+                                                                                            %
+                                                                                        </span>
+                                                                                    </div>
+                                                                                </td>
+
+                                                                            </tr>
+																			
+																			
+																			   <tr>
+                                                                                <td>
+                                                                                    <input class="form-control" disabled value="{{ __('Cash Fees') }}">
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div class="d-flex align-items-center" style="gap:0.4rem">
+                                                                                        <input required name="fees[cash_fees]" type="numeric" step="0" value="{{ $model->getCashFees() }}" class="form-control"> <span>
+                                                                                            {{ $model->getCurrencyFormatted() }}
+                                                                                        </span>
+                                                                                    </div>
+                                                                                </td>
+
+                                                                            </tr>
+																			
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <input class="form-control" disabled value="{{ __('Bonus After First Success Travel') }}">
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div class="d-flex align-items-center" style="gap:0.4rem">
+                                                                                        <input required name="fees[first_travel_bonus]" type="numeric" step="0" value="{{ $model->getBonusAfterFirstSuccessTravel() }}" class="form-control"> <span>
+                                                                                            {{ $model->getCurrencyFormatted() }}
+                                                                                        </span>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+
+                                                                        </table>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close') }}</button>
+                                                                        <button type="submit" class="btn btn-primary js-save-by-ajax">{{ __('Save') }}</button>
+                                                                    </div>
+
+                                                                </form>
+                                                            </div>
+                                                        </div>
                                                     </div>
+                                                    {{-- <a href="{{route($editRouteName,$model->id)}}" class="block-page ml-2 btn btn-primary btn-sm"><i class="la la-pencil"></i></a> --}}
+                                                    @endif
                                                 </td>
+                                                @endif
                                             </tr>
+                                            @endforeach
 
-                                            <tr>
-                                                <td>
-                                                    <input class="form-control" disabled value="{{ __('Cancellation Fees For Driver') }}">
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex align-items-center" style="gap:0.4rem">
-                                                        <input required name="fees[cancellation_fees_for_driver]" type="numeric" step="0" value="{{ $model->getCancellationFeesForDriver() }}" class="form-control"> <span>
-                                                            {{ $model->getCurrencyFormatted() }}
-                                                        </span>
-                                                    </div>
-                                                </td>
-                                            </tr> 
-											
-											 <tr>
-                                                <td>
-                                                    <input class="form-control" disabled value="{{ __('Bonus After First Success Travel') }}">
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex align-items-center" style="gap:0.4rem">
-                                                        <input required name="fees[first_travel_bonus]" type="numeric" step="0" value="{{ $model->getBonusAfterFirstSuccessTravel() }}" class="form-control"> <span>
-                                                            {{ $model->getCurrencyFormatted() }}
-                                                        </span>
-                                                    </div>
-                                                </td>
-                                            </tr>
-
-                                            </table>
+                                        </x-slot>
+                                    </x-tables.basic-table>
+                                    @include('admin.helpers.pagination-links')
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close') }}</button>
-                                    <button type="submit" class="btn btn-primary js-save-by-ajax">{{ __('Save') }}</button>
-                                </div>
-
-                                </form>
                             </div>
+
                         </div>
                     </div>
-                    {{-- <a href="{{route($editRouteName,$model->id)}}" class="block-page ml-2 btn btn-primary btn-sm"><i class="la la-pencil"></i></a> --}}
-                    @endif
-                    </td>
-                    @endif
-                    </tr>
-                    @endforeach
-
-                    </x-slot>
-                    </x-tables.basic-table>
-                    @include('admin.helpers.pagination-links')
                 </div>
+            </section>
         </div>
-
     </div>
-</div>
-</div>
-</section>
-</div>
-</div>
 </div>
 <button type="button" class="d-none" id="type-success">Success</button>
 @endsection

@@ -8,10 +8,23 @@ trait HasRating
 	{
 		return "5.0" ;
 	}
-	public function getAvgRate()
+	/**
+	 * * دي لل 
+	 * * api 
+	 * * 
+	 */
+	public function getAvgRate():?string 
 	{
 		$avgRate = $this->averageRating(true) ;
-		return is_null($avgRate) ?__('N/A') : $avgRate ; 
+		return is_null($avgRate) ? null : $avgRate ; 
+	}
+	/**
+	 * * دي هتكون للداش بورد
+	 */
+	public function getAvgRateFormatted()
+	{
+		$avgRate = $this->averageRating(true) ;
+		return is_null($avgRate) ? __('N/A') : $avgRate ; 
 	}
 	/**
 	 * * كل التقيمات سواء كان هو اللي مقيم او متقيم

@@ -24,6 +24,7 @@ use App\Http\Controllers\Api\Driver\TravelsController as DriverTravelsController
 use App\Http\Controllers\Api\EmergencyContactsController;
 use App\Http\Controllers\Api\MyWalletController;
 use App\Http\Controllers\Api\NotificationsController;
+use App\Http\Controllers\Api\PaymentMethodsController;
 use App\Http\Controllers\Helpers\Apis\SendEmailMessageController;
 use App\Http\Controllers\Helpers\Apis\SendSmsMessageController;
 use App\Http\Controllers\Helpers\Apis\SendWhatsappMessageController;
@@ -54,6 +55,8 @@ Route::middleware('authClientOrDriver')->group(function(){
 
 Route::prefix('drivers')->group(function () {
     Route::prefix('auth')->group(function () {
+		Route::post('send-verification-code', [DriverAuthController::class, 'sendVerificationCode']);
+        Route::post('verify-verification-code', [DriverAuthController::class, 'verifyVerificationCode']);
         Route::post('register', [DriverAuthController::class, 'register']);
         Route::post('login', [DriverAuthController::class, 'login']);
         Route::post('logout', [DriverAuthController::class, 'logout'])->middleware('auth:driver');
@@ -89,7 +92,6 @@ Route::prefix('clients')->group(function () {
         Route::post('send-verification-code', [ClientAuthController::class, 'sendVerificationCode']);
         Route::post('verify-verification-code', [ClientAuthController::class, 'verifyVerificationCode']);
 		Route::post('register', [ClientAuthController::class, 'register']);
-        // Route::post('login', [ClientAuthController::class, 'login']);
         Route::post('logout', [ClientAuthController::class, 'logout'])->middleware('auth:client');
     });
     Route::middleware('auth:client')->group(function () {
@@ -106,8 +108,9 @@ Route::prefix('clients')->group(function () {
 		Route::get('travels/get-distance-and-duration-between-client-and-driver',[TravelsController::class,'getDistanceAndDurationBetweenClientAndDriver']);
 		Route::get('travels/show-available-car-sizes',[TravelsController::class,'getAvailableCarSizes']);
 		Route::apiResource('travels', TravelsController::class);
+		Route::patch('travels/{travel}/mark-as-cancelled',[TravelsController::class,'markAsCancelled']);
 		Route::post('travels/{travel}/store-payment',[TravelsController::class,'storePayment']);
-		
+		Route::post('travels/{travel}/send-arrival-notification-to-client',[TravelsController::class,'sendArrivalNotificationToClient']);
     });
 });
 
@@ -117,9 +120,8 @@ Route::prefix('clients')->group(function () {
  */
 Route::apiResource('countries',CountriesController::class);
 Route::apiResource('cities',CitiesController::class);
+Route::apiResource('payment-methods',PaymentMethodsController::class);
 Route::get('guidelines', [GuidelinesController::class, 'view']);
-
-
 });
 Route::post('store-payment',function(Request $request){
 	$myfatoorah = new MyFatoorahService;

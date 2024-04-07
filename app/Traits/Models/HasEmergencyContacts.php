@@ -12,8 +12,7 @@ trait HasEmergencyContacts
 		return $this->belongsToMany(EmergencyContact::class,'model_emergency_contact','model_id','emergency_contact_id')
 		->where('model_type',HStr::getClassNameWithoutNameSpace($this))
 		->withPivot(['model_type','can_receive_travel_info'])
-		->withTimestamps()
-		;
+		->withTimestamps();
 	}		
 	
 }

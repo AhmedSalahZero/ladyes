@@ -64,6 +64,7 @@ class Handler extends ExceptionHandler
     }
 	protected function unauthenticated($request, AuthenticationException $exception)
 {
+
     if ($request->expectsJson()) {
         return $this->apiResponse(__('Unauthenticated',[],getApiLang()));
     }

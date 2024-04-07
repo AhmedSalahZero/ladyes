@@ -15,9 +15,13 @@ class InformationController extends Controller
 	
 	public function viewAfterSignupMessage()
 	{
+		
 		$lang  = getApiLang();
-		$section = Request()->user() instanceof Driver  ? InformationSection::AFTER_DRIVER_SIGNUP : InformationSection::CLIENT_PROFILE;  
-		$data['header'] = getSetting('after_signup_message_'.$lang) ;
+		$isDriver = Request()->user() instanceof Driver ;
+		$section = $isDriver  ? InformationSection::AFTER_DRIVER_SIGNUP : InformationSection::CLIENT_PROFILE;  
+		if($isDriver){
+			$data['header'] = getSetting('after_signup_message_'.$lang) ;
+		}
 		$data['body'] = Information::getForSection($section,$lang);
 		return $this->apiResponse(__('Data Received Successfully'),$data);
 	}

@@ -26,7 +26,6 @@ class StoreClientRequest extends FormRequest
 		$countryIso2 = Request()->get('country_iso2');
 		
 		$HValidationRules = HValidation::rules('clients', $model , Request::isMethod('post') );
-	
         return 
 		[
 			'first_name'=>$HValidationRules['first_name'],

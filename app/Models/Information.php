@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\HArr;
 use App\Traits\Accessors\IsBaseModel;
 use App\Traits\Models\HasIsActive;
 use App\Traits\Models\HasModelType;
@@ -43,12 +44,17 @@ class Information extends Model
             $this->section_name = $request->section_name;
         }
 		$this->is_active = $request->boolean('is_active');
-		// if ($request->has('is_active')) {
-        // }
         $this->save();
     }
 	public static function getForSection(string $sectionName , string $lang):array 
 	{
-		return self::where('section_name',$sectionName)->get(['name_'.$lang,'description_'.$lang])->toArray();
+		$values = self::where('section_name',$sectionName)->get(['name_'.$lang,'description_'.$lang])->toArray() ;
+		/**
+		 * * هنحول ال
+		 * * name_en to name 
+		 * * دا طلب ال 
+		 * * api 
+		 */
+		return HArr::removeUnderscoreLangFromKeys($values);
 	}
 }

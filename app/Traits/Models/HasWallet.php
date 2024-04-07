@@ -6,7 +6,7 @@ trait HasWallet
 	/**
 	 * *  الرصيد المتاح في المحفظة حاليا 
 	 */
-	public function getTotalWalletBalance()
+	public function getTotalWalletBalance():string
 	{
 		return $this->current_wallet_balance ?: 0  ;
 	}

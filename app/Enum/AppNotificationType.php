@@ -10,7 +10,9 @@ use App\Interfaces\IEnum;
 class AppNotificationType  implements IEnum
 {
 	public const DEFAULT = 'default'; 
-	public const FINE = 'find'; // غرامة  مثلا
+	public const FINE = 'fine'; // غرامة  مثلا
+	public const PAYMENT  = 'payment';
+	public const BONUS  = 'bonus';
 	public const DEPOSIT  = 'deposit';
 	public const WITHDRAWAL  = 'withdrawal';
 	public const INFO  = 'info';
@@ -29,6 +31,7 @@ class AppNotificationType  implements IEnum
 			self::ALERT=>__('Alert'),
 			self::WARNING=>__('Warning'),
 			self::LOCATION=>__('Location'),
+			self::BONUS=>__('Bonus'),
 		];
 	}
 	public static function allFormattedForSelect2():array 

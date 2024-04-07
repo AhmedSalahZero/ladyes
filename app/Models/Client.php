@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Helpers\HDate;
 use App\Helpers\HHelpers;
+use App\Http\Resources\ClientResource;
 use App\Interfaces\IHaveAppNotification;
 use App\Notifications\Admins\ClientNotification;
 use App\Traits\Accessors\IsBaseModel;
@@ -13,6 +14,7 @@ use App\Traits\Models\HasCountry;
 use App\Traits\Models\HasCreatedAt;
 use App\Traits\Models\HasEmail;
 use App\Traits\Models\HasEmergencyContacts;
+use App\Traits\Models\HasFine;
 use App\Traits\Models\HasGeoLocation;
 use App\Traits\Models\HasIsVerified;
 use App\Traits\Models\HasLoginByPhone;
@@ -64,6 +66,7 @@ class Client extends Model implements HasMedia, BannableInterface,IHaveAppNotifi
     use HasEmail;
     use HasRating;
     use HasEmergencyContacts;
+	use HasFine ; 
     use HasCreatedAt;
 
     public function registerMediaCollections(): void
@@ -209,6 +212,22 @@ class Client extends Model implements HasMedia, BannableInterface,IHaveAppNotifi
 	public function transactions()
 	{
 		return $this->hasMany(Transaction::class , 'model_id','id')->where('model_type',HHelpers::getClassNameWithoutNameSpace($this));
+	}
+	public function refunds()
+	{
+		return $this->hasMany(Refund::class,'client_id','id');
+	}
+	public function getRefundForTravel(int $travelId):?Refund
+	{
+		return $this->refunds->where('travel_id',$travelId)->first();
+	}
+	public function getResource()
+	{
+		return new ClientResource($this);
+	}	
+	public function isFirstTravel()
+	{
+		return $this->travels->count() ==  1 ;
 	}
 	
 }

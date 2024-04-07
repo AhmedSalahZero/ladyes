@@ -5,7 +5,7 @@ use App\Helpers\HHelpers;
 use App\Interfaces\IEnum;
 /**
  * * انواع طرق المعاملات المالية وليكن مثلا 
- * * payment , refund , deposit,withdrawal ,Fine, etc 
+ * * payment , refund , deposit,withdrawal ,Fine , bonus , etc 
  */
 class TransactionType  implements IEnum
 {
@@ -14,6 +14,7 @@ class TransactionType  implements IEnum
 	public const DEPOSIT = 'deposit'; 
 	public const WITHDRAWAL = 'withdrawal'; 
 	public const FINE = 'fine'; 
+	public const BONUS = 'bonus'; 
 	
 	public static function all():array 
 	{
@@ -23,6 +24,7 @@ class TransactionType  implements IEnum
 			self::DEPOSIT=>__('Deposit'),
 			self::WITHDRAWAL=>__('Withdrawal'),
 			self::FINE=>__('Fine'),
+			self::BONUS=>__('Bonus'),
 		];
 	}
 	public static function allFormattedForSelect2():array 

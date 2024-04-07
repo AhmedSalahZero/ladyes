@@ -14,35 +14,27 @@ use App\Models\Driver;
 use App\Models\Notification;
 use App\Services\UserVerificationService;
 use App\Traits\Api\HasApiResponse;
+use App\Traits\Api\IsAuthController;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class AuthController 
 {
-	use HasApiResponse ;
+	use HasApiResponse , IsAuthController;
 
 	public function register(StoreClientRequest $request)
 	{
 		$model = new Client();
 		 $model->syncFromRequest($request);
 		 $model->markAsVerified();
-		
-		// if(!$confirmationCodeResponseArr['status']){
-		// 	$model->delete();
-		// 	$errorMessage = $confirmationCodeResponseArr['message'] ;
-		// 	Notification::storeNewAdminNotification(
-		// 		__('Application Error !',[],'en'),
-		// 		__('Application Error !',[],'ar'),
-		// 		 $errorMessage ,
-		// 		 $errorMessage,
-		// 	);
-		// 	return $this->apiResponse($errorMessage , [],Response::HTTP_INTERNAL_SERVER_ERROR);
-		// }
-		
+		 Notification::storeNewAdminNotification(
+			__('New Creation', [], 'en'),
+			__('New Creation', [], 'ar'),
+			__('New :modelName Has Been Registered',['modelName'=>$model->getName('en')],'en'),
+			__('New :modelName Has Been Registered',['modelName'=>$model->getName('ar')],'ar')
+		);
 		return $this->apiResponse(__('You Account Has Been Registered',[],getApiLang()),[
-			'user'=>new ClientResource($model),
-			// 'access_token'=>$model->createToken('personal_access_token')->plainTextToken
-		],);
+			'user'=>$model->getResource(),
+		]);
 	}
 	/**
 	 * * اول حاجه قبل ما نحدد ان كان المستخدم هيعمل لوجن ولا ريجيستر .. هناخد رقمة وكود الدولة ونتاكد
@@ -50,71 +42,23 @@ class AuthController
 	 * * وبنبعتله كود تفعيل 
 	 * 
 	 */
-	public function sendVerificationCode(SendVerificationCodeRequest $request , UserVerificationService $userVerificationService)
+	public function sendVerificationCode(SendVerificationCodeRequest $request )
 	{
-		/**
-		 * @var Client|Driver $model ;
-		 */
-		$countryIso2 = $request->get('country_iso2');
-		$phone = $request->get('phone');
-		$verificationCode =  $userVerificationService->renewCode($countryIso2,$phone,'Client');
-		$responseArr = $userVerificationService->sendAsMessage($countryIso2,$phone,$verificationCode,null,null,true,true,false);
-		return response()->json([
-			'status'=>true ,
-			'message'=>isset($responseArr['message']) ? $responseArr['message'] : null ,
-			'data'=>[]
-		]);
+		return $this->handleSendingVerificationCode($request,'Client');
 	}
 	
 	/**
 	 * * هنتاكد من ان الكود صح .. ولو الكود صح واليوزر دا موجود قبل كدا هنبعت الاوبجيكت بتاعه
 	 */
-	public function verifyVerificationCode(VerifyVerificationCodeRequest $request , UserVerificationService $userVerificationService)
+	public function verifyVerificationCode(VerifyVerificationCodeRequest $request )
 	{
-		/**
-		 * @var Client|Driver $model ;
-		 */
-		$countryIso2 = $request->get('country_iso2');
-		$phone = $request->get('phone');
-		$code = $request->get('verification_code');
-		$validVerificationCode =  $userVerificationService->verify($code,$countryIso2,'Client');
-		$client = Client::findByIdOrEmailOrPhone($phone);
-		$userFound = (bool)$client ; 
-		$userFound ? $client->tokens()->delete() : null;
-		$validVerificationCode && $userFound  ? $client->markAsVerified() : null ;
-		return response()->json([
-			'status'=>$validVerificationCode ,
-			'message'=>$validVerificationCode ? __('Success !') : __('Invalid Verification Code',[],getApiLang()) ,
-			'data'=>[
-				'user_found'=>$userFound ,
-				'user'=>$userFound ? new ClientResource($client) : null  ,
-				// 'access_token'=>$userFound ? $client->getCurrentToken() : null 
-			]
-		]);
+		return $this->handleVerificationCode($request,'Client');
 	}
-	
-	
-	// public function login(LoginRequest $request)
-	// {
-	// 	$model = new (HHelpers::getModelFullNameFromTableName());
-	// 	return $model->loginByPhone($request);
-	// }
 	
 	public function logout(Request $request)
 	{
-		/**
-		 * @var Client $model 
-		 */
 		$model = $request->user('client');
-
-		// Notification::storeNewAdminNotification(
-		// 	__('New Logout', [], 'en'),
-		// 	__('New Logout', [], 'ar'),
-		// 	__('Client :modelName Has Logged Out',['modelName'=>$model->getName('en')],'en'),
-		// 	__('Client :modelName Has Logged Out',['modelName'=>$model->getName('ar')],'ar')
-		// );
 		$model->tokens()->delete();
-		// $model->renewVerificationCode();	
 		return $this->apiResponse(__('Success Logout Attempt'));
 	}
 	
