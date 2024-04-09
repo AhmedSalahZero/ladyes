@@ -91,7 +91,7 @@ class StoreDriverRequest extends FormRequest
 			'invitation_code.max'=> __(':attribute Exceed The Max Letter Length :max Letter',['attribute'=>__('Invitation Code'),'max'=>255	]),
 			
 			'deduction_percentage.number'=>__('Please Enter Valid :attribute' , ['attribute'=>__('Deduction Percentage')]),
-			'deduction_percentage.gte'=>__('Only Greater Than Or Equal Zero Allowed For :attribute' , ['attribute'=>__('Deduction Percentage')]),
+			'deduction_percentage.gte'=>__('Only Greater Than Minus One Allowed For :attribute' , ['attribute'=>__('Deduction Percentage')]),
 			
 			'country_id.required'=>__('Please Enter :attribute' , ['attribute'=>__('Country Name')]),
 			'city_id.required'=>__('Please Enter :attribute' , ['attribute'=>__('City Name')]),

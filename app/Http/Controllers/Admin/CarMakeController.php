@@ -72,8 +72,8 @@ class CarMakeController extends Controller
         Notification::storeNewAdminNotification(
             __('New Creation', [], 'en'),
             __('New Creation', [], 'ar'),
-            $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'en') . __('Car Make', [], 'en') . ' [ ' . $model->getName('en') . ' ]',
-            $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'ar') . __('Car Make', [], 'ar') . ' [ ' . $model->getName('ar') . ' ]',
+            $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'en'). ' ' . __('Car Make', [], 'en') . ' [ ' . $model->getName('en') . ' ]',
+            $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'ar'). ' ' . __('Car Make', [], 'ar') . ' [ ' . $model->getName('ar') . ' ]',
         );
 
         return $this->getWebRedirectRoute($request, route('car-makes.index'), route('car-makes.create'));
@@ -107,8 +107,8 @@ class CarMakeController extends Controller
         Notification::storeNewAdminNotification(
             __('New Deletion', [], 'en'),
             __('New Deletion', [], 'ar'),
-            $request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'en') . __('Car Make', [], 'en') . ' [ ' . $car_make->getName('en') . ' ]',
-            $request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'ar') . __('Car Make', [], 'ar') . ' [ ' . $car_make->getName('ar') . ' ]',
+            $request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'en'). ' ' . __('Car Make', [], 'en') . ' [ ' . $car_make->getName('en') . ' ]',
+            $request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'ar'). ' ' . __('Car Make', [], 'ar') . ' [ ' . $car_make->getName('ar') . ' ]',
         );
 		return $this->getWebDeleteRedirectRoute();
     }

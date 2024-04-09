@@ -74,8 +74,8 @@ class PromotionsController extends Controller
 		Notification::storeNewAdminNotification(
 			__('New Creation',[],'en'),
 			__('New Creation',[],'ar'),
-			$request->user('admin')->getName() .' '.__('Has Created New',[],'en') . __('Promotion',[],'en') .' [ ' . $model->getName() . ' ]' ,
-			$request->user('admin')->getName() .' '.__('Has Created New',[],'ar') . __('Promotion',[],'ar') .' [ ' . $model->getName() . ' ]' ,
+			$request->user('admin')->getName() .' '.__('Has Created New',[],'en'). ' ' . __('Promotion',[],'en') .' [ ' . $model->getName() . ' ]' ,
+			$request->user('admin')->getName() .' '.__('Has Created New',[],'ar'). ' ' . __('Promotion',[],'ar') .' [ ' . $model->getName() . ' ]' ,
 		);
         return $this->getWebRedirectRoute($request,route('promotions.index'),route('promotions.create'));
     }
@@ -93,8 +93,8 @@ class PromotionsController extends Controller
 			Notification::storeNewAdminNotification(
 				__('New Update',[],'en'),
 				__('New Update',[],'ar'),
-				$request->user('admin')->getName() .' '.__('Has Updated',[],'en') . __('Promotion',[],'en') .' [ ' . $promotion->getName() . ' ]' ,
-				$request->user('admin')->getName() .' '.__('Has Updated',[],'ar') . __('Promotion',[],'ar') .' [ ' . $promotion->getName() . ' ]' ,
+				$request->user('admin')->getName() .' '.__('Has Updated',[],'en') . ' ' . __('Promotion',[],'en') .' [ ' . $promotion->getName() . ' ]' ,
+				$request->user('admin')->getName() .' '.__('Has Updated',[],'ar') . ' ' . __('Promotion',[],'ar') .' [ ' . $promotion->getName() . ' ]' ,
 			);
 			
 			return $this->getWebRedirectRoute($request,route('promotions.index'),route('promotions.edit',['promotion'=>$promotion->id]));
@@ -107,8 +107,8 @@ class PromotionsController extends Controller
 		Notification::storeNewAdminNotification(
 			__('New Deletion',[],'en'),
 			__('New Deletion',[],'ar'),
-			$request->user('admin')->getName() .' '.__('Has Deleted',[],'en') . __('Promotion',[],'en') .' [ ' . $promotion->getName('en') . ' ]' ,
-			$request->user('admin')->getName() .' '.__('Has Deleted',[],'ar') . __('Promotion',[],'ar') .' [ ' . $promotion->getName('ar') . ' ]' ,
+			$request->user('admin')->getName() .' '.__('Has Deleted',[],'en'). ' ' . __('Promotion',[],'en') .' [ ' . $promotion->getName('en') . ' ]' ,
+			$request->user('admin')->getName() .' '.__('Has Deleted',[],'ar'). ' ' . __('Promotion',[],'ar') .' [ ' . $promotion->getName('ar') . ' ]' ,
 		);
 		
 		return $this->getWebDeleteRedirectRoute();

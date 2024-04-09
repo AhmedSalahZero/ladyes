@@ -72,8 +72,8 @@ class CitiesController extends Controller
 		Notification::storeNewAdminNotification(
             __('New Creation', [], 'en'),
             __('New Creation', [], 'ar'),
-            $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'en') . __('City', [], 'en') . ' [ ' . $model->getName('en') . ' ]',
-            $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'ar') . __('City', [], 'ar') . ' [ ' . $model->getName('ar') . ' ]',
+            $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'en'). ' ' . __('City', [], 'en') . ' [ ' . $model->getName('en') . ' ]',
+            $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'ar'). ' ' . __('City', [], 'ar') . ' [ ' . $model->getName('ar') . ' ]',
         );
         return $this->getWebRedirectRoute($request,route('cities.index'),route('cities.create'));
     }
@@ -104,8 +104,8 @@ class CitiesController extends Controller
 		Notification::storeNewAdminNotification(
 			__('New Deletion', [], 'en'),
 			__('New Deletion', [], 'ar'),
-			$request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'en') . __('City', [], 'en') . ' [ ' . $city->getName('en') . ' ]',
-			$request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'ar') . __('City', [], 'ar') . ' [ ' . $city->getName('ar') . ' ]',
+			$request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'en'). ' ' . __('City', [], 'en') . ' [ ' . $city->getName('en') . ' ]',
+			$request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'ar'). ' ' . __('City', [], 'ar') . ' [ ' . $city->getName('ar') . ' ]',
 		);
 		
 		return $this->getWebDeleteRedirectRoute();

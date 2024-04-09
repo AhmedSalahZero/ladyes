@@ -2,6 +2,7 @@
 
 use App\Helpers\HAuth;
 use App\Helpers\HDate;
+use App\Helpers\HHelpers;
 use App\Helpers\HStr;
 use App\Settings\SiteSetting;
 
@@ -17,7 +18,7 @@ function getPermissions():array
 	$permissions[] = ['name'=>'view app-notifications','title'=>__('View :page',['page'=>__('App Notifications')])];
 	$permissions[] = ['name'=>'create app-notifications','title'=>__('Create :page',['page'=>__('App Notifications')])];
 	$normalPermissions = ['admins','roles-and-permissions','car-makes','car-models','drivers','clients','cities'
-	,'travel-conditions','cancellation-reasons','emergency-contacts','promotions','helps','information','coupons'
+	,'travel-conditions','cancellation-reasons','emergency-contacts','promotions','helps','information','coupons','fines','bonuses','deposits','withdrawals','payments'
 
 ];
 	foreach($normalPermissions as $permissionName){
@@ -41,7 +42,6 @@ function getPermissions():array
 
 function getSidebars($user):array
 {
-	// dd($user->can('view home'));
 	return [
 		$pageName = 'home'=>createSidebarItem($pageName, __('Home') ,  '#' ,$user->can('view home'),'la la-home' ),
 		$pageName = 'admins'=> createSidebarItem( $pageName , __('Admins') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-user-secret',
@@ -131,6 +131,11 @@ function getSidebars($user):array
 			$pageName = 'transactions'=> createSidebarItem( $pageName, __('Transactions') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-money',
 			[
 				createSidebarItem($pageName, __('View :page' , ['page' => __('Transactions')]) , route('transactions.index') , $user->can('view ' .$pageName)  ),
+				createSidebarItem($pageName, __('View :page' , ['page' => __('Fines')]) , route('fines.index') , $user->can('view fines')  ),
+				createSidebarItem($pageName, __('View :page' , ['page' => __('Bonuses')]) , route('bonuses.index') , $user->can('view bonuses')  ),
+				createSidebarItem($pageName, __('View :page' , ['page' => __('Deposits')]) , route('deposits.index') , $user->can('view deposits')  ),
+				createSidebarItem($pageName, __('View :page' , ['page' => __('Withdrawals')]) , route('withdrawals.index') , $user->can('view withdrawals')  ),
+				createSidebarItem($pageName, __('View :page' , ['page' => __('Payments')]) , route('payments.index') , $user->can('view payments')  ),
 				// createSidebarItem($pageName, __('Create :page' , ['page'=>__('Transactions')]) , route('transactions.create') , $user->can('create ' .$pageName)  ),
 			]),$pageName = 'travels'=> createSidebarItem( $pageName, __('Travels') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-car',
 			[
@@ -231,4 +236,7 @@ function getApiLang($lang = null)
 function getModelByNamespaceAndId(string $fullClass , int $id){
 	$model  =($fullClass)::find($id) ;
 	return $model ? $model->getName() : __('N/A');
+}
+function getTypeWithoutNamespace($obj):string{
+	return HHelpers::getClassNameWithoutNameSpace($obj);
 }

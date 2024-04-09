@@ -29,25 +29,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // $driver = Driver::find(1);
-        // $driver->location = new Point(31.128770312685667,30.9209548721609);
-        // $driver->save();
-        // dd('good');
-
-        // ->orderBy('distance','desc')->
-
-        // $latitude =  30.033333 ;
-        // $longitude =  31.233334 ;
-        // $rangeDistanceInKm  = 700 ;
-        // $drivers  = ;
-        // $geoService = new GeoService();
-        // $lat1 = 31.111560297574997 ;
-        // $long1 = 30.935951102171803 ;
-        // $lat2 = 31.129353547472142   ;
-        // $long2 = 31.19991344726501;
-
-        // $distance = $geoService->getDistanceBetweenInKm($lat1,$long1 , $lat2,$long2);
-        // dd(round($distance,2));
+    
         Paginator::useBootstrap();
         if (true) {
             app()->make(PermissionRegistrar::class)->forgetCachedPermissions();

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enum\PaymentType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDriverRequest;
 use App\Models\CarMake;
@@ -39,7 +40,8 @@ class DriversController extends Controller
 			'toggleIsVerifiedRoute'=>route('driver.toggle.is.verified'),
 			'countriesFormattedForSelect'=>Country::get()->formattedForSelect(true,'getId','getName'),
 			'emergencyContactsFormatted'=>EmergencyContact::get()->formattedForSelect(true,'getId','getName'),
-			'toggleCanReceiveTravelInfos' => route('emergency-contacts.toggle.can.receive.travel.infos')
+			'toggleCanReceiveTravelInfos' => route('emergency-contacts.toggle.can.receive.travel.infos'),
+			'paymentMethodsFormattedForSelect'=>PaymentType::allFormattedForSelect2(),
 		]);
     }
 
@@ -77,7 +79,8 @@ class DriversController extends Controller
 			'carMakesFormattedForSelect'=>CarMake::get()->formattedForSelect(true,'getId','getName'),
 			'carModelsFormattedForSelect'=>CarModel::where('make_id',$selectedMakeId)->get()->formattedForSelect(true,'getId','getName'),
 			'carSizesFormattedForSelect'=>CarSize::get()->formattedForSelect(true,'getId','getName'),
-			'drivingRangeFormatted'=>Driver::getDefaultDrivingRangeFormatted()
+			'drivingRangeFormatted'=>Driver::getDefaultDrivingRangeFormatted(),
+	
 		];
 	}
 
@@ -88,8 +91,8 @@ class DriversController extends Controller
 		Notification::storeNewAdminNotification(
             __('New Creation', [], 'en'),
             __('New Creation', [], 'ar'),
-            $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'en') . __('Driver', [], 'en') . ' [ ' . $model->getName('en') . ' ]',
-            $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'ar') . __('Driver', [], 'ar') . ' [ ' . $model->getName('ar') . ' ]',
+            $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'en') .  ' ' . __('Driver', [], 'en') . ' [ ' . $model->getName('en') . ' ]',
+            $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'ar') .  ' ' . __('Driver', [], 'ar') . ' [ ' . $model->getName('ar') . ' ]',
         );
         return $this->getWebRedirectRoute($request,route('drivers.index'),route('drivers.create'));
     }
@@ -120,8 +123,8 @@ class DriversController extends Controller
 		Notification::storeNewAdminNotification(
 			__('New Deletion', [], 'en'),
 			__('New Deletion', [], 'ar'),
-			$request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'en') . __('Driver', [], 'en') . ' [ ' . $driver->getName('en') . ' ]',
-			$request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'ar') . __('Driver', [], 'ar') . ' [ ' . $driver->getName('ar') . ' ]',
+			$request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'en'). ' ' . __('Driver', [], 'en') . ' [ ' . $driver->getName('en') . ' ]',
+			$request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'ar'). ' ' . __('Driver', [], 'ar') . ' [ ' . $driver->getName('ar') . ' ]',
 		);
 		return $this->getWebDeleteRedirectRoute();
     }

@@ -18,7 +18,6 @@ class HArr
 	}
 	public static function convertStringArrayToArr($arrayAsString):?array 
 	{
-		// dd(is_string($arrayAsString));
 		if(is_string($arrayAsString)){
 			return (array)(json_decode($arrayAsString)) ;
 		}

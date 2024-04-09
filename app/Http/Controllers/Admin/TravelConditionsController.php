@@ -86,8 +86,8 @@ class TravelConditionsController extends Controller
 		Notification::storeNewAdminNotification(
 			__('New Creation',[],'en'),
 			__('New Creation',[],'ar'),
-			$request->user('admin')->getName() .' '.__('Has Created New',[],'en') . __('Travel Condition',[],'en') .' [ ' . $model->getName() . ' ]' ,
-			$request->user('admin')->getName() .' '.__('Has Created New',[],'ar') . __('Travel Condition',[],'ar') .' [ ' . $model->getName() . ' ]' ,
+			$request->user('admin')->getName() .' '.__('Has Created New',[],'en'). ' ' . __('Travel Condition',[],'en') .' [ ' . $model->getName() . ' ]' ,
+			$request->user('admin')->getName() .' '.__('Has Created New',[],'ar'). ' ' . __('Travel Condition',[],'ar') .' [ ' . $model->getName() . ' ]' ,
 		);
         return $this->getWebRedirectRoute($request,route('travel-conditions.index'),route('travel-conditions.create'));
     }
@@ -105,8 +105,8 @@ class TravelConditionsController extends Controller
 			Notification::storeNewAdminNotification(
 				__('New Update',[],'en'),
 				__('New Update',[],'ar'),
-				$request->user('admin')->getName() .' '.__('Has Updated',[],'en') . __('Travel Condition',[],'en') .' [ ' . $travel_condition->getName() . ' ]' ,
-				$request->user('admin')->getName() .' '.__('Has Updated',[],'ar') . __('Travel Condition',[],'ar') .' [ ' . $travel_condition->getName() . ' ]' ,
+				$request->user('admin')->getName() .' '.__('Has Updated',[],'en') . ' '. __('Travel Condition',[],'en') .' [ ' . $travel_condition->getName() . ' ]' ,
+				$request->user('admin')->getName() .' '.__('Has Updated',[],'ar') . ' '. __('Travel Condition',[],'ar') .' [ ' . $travel_condition->getName() . ' ]' ,
 			);
 			
 			return $this->getWebRedirectRoute($request,route('travel-conditions.index'),route('travel-conditions.edit',['travel_condition'=>$travel_condition->id]));
@@ -119,8 +119,8 @@ class TravelConditionsController extends Controller
 		Notification::storeNewAdminNotification(
 			__('New Deletion',[],'en'),
 			__('New Deletion',[],'ar'),
-			$request->user('admin')->getName() .' '.__('Has Deleted',[],'en') . __('Travel Condition',[],'en') .' [ ' . $travel_condition->getName('en') . ' ]' ,
-			$request->user('admin')->getName() .' '.__('Has Deleted',[],'ar') . __('Travel Condition',[],'ar') .' [ ' . $travel_condition->getName('ar') . ' ]' ,
+			$request->user('admin')->getName() .' '.__('Has Deleted',[],'en') . ' ' . __('Travel Condition',[],'en') .' [ ' . $travel_condition->getName('en') . ' ]' ,
+			$request->user('admin')->getName() .' '.__('Has Deleted',[],'ar') . ' ' . __('Travel Condition',[],'ar') .' [ ' . $travel_condition->getName('ar') . ' ]' ,
 		);
 		
 		return $this->getWebDeleteRedirectRoute();

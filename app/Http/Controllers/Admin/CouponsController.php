@@ -74,8 +74,8 @@ class CouponsController extends Controller
 		Notification::storeNewAdminNotification(
 			__('New Creation',[],'en'),
 			__('New Creation',[],'ar'),
-			$request->user('admin')->getName() .' '.__('Has Created New',[],'en') . __('Coupon',[],'en') .' [ ' . $model->getName() . ' ]' ,
-			$request->user('admin')->getName() .' '.__('Has Created New',[],'ar') . __('Coupon',[],'ar') .' [ ' . $model->getName() . ' ]' ,
+			$request->user('admin')->getName() .' '.__('Has Created New',[],'en'). ' ' . __('Coupon',[],'en') .' [ ' . $model->getName() . ' ]' ,
+			$request->user('admin')->getName() .' '.__('Has Created New',[],'ar'). ' ' . __('Coupon',[],'ar') .' [ ' . $model->getName() . ' ]' ,
 		);
         return $this->getWebRedirectRoute($request,route('coupons.index'),route('coupons.create'));
     }
@@ -93,8 +93,8 @@ class CouponsController extends Controller
 			Notification::storeNewAdminNotification(
 				__('New Update',[],'en'),
 				__('New Update',[],'ar'),
-				$request->user('admin')->getName() .' '.__('Has Updated',[],'en') . __('Coupon',[],'en') .' [ ' . $coupon->getName() . ' ]' ,
-				$request->user('admin')->getName() .' '.__('Has Updated',[],'ar') . __('Coupon',[],'ar') .' [ ' . $coupon->getName() . ' ]' ,
+				$request->user('admin')->getName() .' '.__('Has Updated',[],'en') . ' ' . __('Coupon',[],'en') .' [ ' . $coupon->getName() . ' ]' ,
+				$request->user('admin')->getName() .' '.__('Has Updated',[],'ar') . ' ' . __('Coupon',[],'ar') .' [ ' . $coupon->getName() . ' ]' ,
 			);
 			
 			return $this->getWebRedirectRoute($request,route('coupons.index'),route('coupons.edit',['coupon'=>$coupon->id]));
@@ -107,8 +107,8 @@ class CouponsController extends Controller
 		Notification::storeNewAdminNotification(
 			__('New Deletion',[],'en'),
 			__('New Deletion',[],'ar'),
-			$request->user('admin')->getName() .' '.__('Has Deleted',[],'en') . __('Coupon',[],'en') .' [ ' . $coupon->getName('en') . ' ]' ,
-			$request->user('admin')->getName() .' '.__('Has Deleted',[],'ar') . __('Coupon',[],'ar') .' [ ' . $coupon->getName('ar') . ' ]' ,
+			$request->user('admin')->getName() .' '.__('Has Deleted',[],'en'). ' ' . __('Coupon',[],'en') .' [ ' . $coupon->getName('en') . ' ]' ,
+			$request->user('admin')->getName() .' '.__('Has Deleted',[],'ar'). ' ' . __('Coupon',[],'ar') .' [ ' . $coupon->getName('ar') . ' ]' ,
 		);
 		
 		return $this->getWebDeleteRedirectRoute();

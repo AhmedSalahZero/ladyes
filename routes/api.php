@@ -111,6 +111,8 @@ Route::prefix('clients')->group(function () {
 		Route::patch('travels/{travel}/mark-as-cancelled',[TravelsController::class,'markAsCancelled']);
 		Route::post('travels/{travel}/store-payment',[TravelsController::class,'storePayment']);
 		Route::post('travels/{travel}/send-arrival-notification-to-client',[TravelsController::class,'sendArrivalNotificationToClient']);
+		Route::get('travels/{travel}/price-details' , [TravelsController::class,'getPriceDetails']);
+		
     });
 });
 

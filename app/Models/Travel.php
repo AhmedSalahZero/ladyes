@@ -213,6 +213,11 @@ class Travel extends Model
 	{
 		return $this->payment_method ;
 	}
+	public function updatePaymentMethod(string $paymentMethod){
+		$this->payment_method = $paymentMethod;
+		$this->save();
+		return $this ;
+	}
 
     public function storePayment(Request $request)
     {
@@ -224,7 +229,8 @@ class Travel extends Model
          * * store new payment
          * @var Payment $payment
          */
-		$payment = (new Payment)->storeForTravel($this);
+		
+		(new Payment)->storeForTravel($this);
         
 		
         return $this;
@@ -298,7 +304,7 @@ class Travel extends Model
 		if(!$country){
 			return 0 ;
 		}
-		$taxesPercentage = $country->getTaxesPercentage()  / 100 ;
+		return $country->getTaxesPercentage()  / 100 ;
 		
 		
 	}
@@ -356,7 +362,7 @@ class Travel extends Model
         $taxesAmount = is_null($taxesAmount) ? $this->calculateTaxesAmount() : $taxesAmount ;
         $cashFees = is_null($cashFees) ? $this->calculateCashFees() : $cashFees ;
 
-        return $this->calculateClientActualPriceWithoutDiscount() + $couponAmount - $taxesAmount + $cashFees  ;
+        return $this->calculateClientActualPriceWithoutDiscount() - $couponAmount + $taxesAmount + $cashFees  ;
     }
 	
     /**

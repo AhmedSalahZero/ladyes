@@ -101,8 +101,8 @@ class AdminController extends Controller
         Notification::storeNewAdminNotification(
             __('New Creation', [], 'en'),
             __('New Creation', [], 'ar'),
-            $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'en') . __('Admin', [], 'en') . ' [ ' . $admin->getName() . ' ]',
-            $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'ar') . __('Admin', [], 'ar') . ' [ ' . $admin->getName() . ' ]',
+            $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'en'). ' ' . __('Admin', [], 'en') . ' [ ' . $admin->getName() . ' ]',
+            $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'ar'). ' ' . __('Admin', [], 'ar') . ' [ ' . $admin->getName() . ' ]',
         );
         foreach (getPermissions() as $permission) {
             $permission = Permission::findByName($permission['name'], 'admin');
@@ -141,8 +141,8 @@ class AdminController extends Controller
         Notification::storeNewAdminNotification(
             __('New Deletion', [], 'en'),
             __('New Deletion', [], 'ar'),
-            $request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'en') . __('Admin', [], 'en') . ' [ ' . $admin->getName() . ' ]',
-            $request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'ar') . __('Admin', [], 'ar') . ' [ ' . $admin->getName() . ' ]',
+            $request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'en'). ' ' . __('Admin', [], 'en') . ' [ ' . $admin->getName() . ' ]',
+            $request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'ar'). ' ' . __('Admin', [], 'ar') . ' [ ' . $admin->getName() . ' ]',
         );
 		return $this->getWebDeleteRedirectRoute();
     }

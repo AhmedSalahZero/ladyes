@@ -57,10 +57,11 @@ class City extends Model
 		$country = $this->country ; 
 		return $country ? $country->getCurrency() : null ;
 	}
-	public function getCurrencyFormatted($lang)
+	public function getCurrencyFormatted(string $lang = null)
 	{
+		$lang = is_null($lang) ? getApiLang() : $lang ; 
 		$country = $this->country ; 
-		return $country ? __($country->getCurrency(),[],getApiLang()) : null ;
+		return $country ? __($country->getCurrency(),[],$lang) : null ;
 	}
 	/**
 	 * * بنشوف هل المدينة دي في الوقت دا هل هي في وقت ذروة ولا لا 

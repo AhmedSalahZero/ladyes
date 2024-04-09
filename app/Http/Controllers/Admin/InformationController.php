@@ -73,8 +73,8 @@ class InformationController extends Controller
 		Notification::storeNewAdminNotification(
 			__('New Creation',[],'en'),
 			__('New Creation',[],'ar'),
-			$request->user('admin')->getName() .' '.__('Has Created New',[],'en') . __('Information',[],'en') .' [ ' . $model->getName() . ' ]' ,
-			$request->user('admin')->getName() .' '.__('Has Created New',[],'ar') . __('Information',[],'ar') .' [ ' . $model->getName() . ' ]' ,
+			$request->user('admin')->getName() .' '.__('Has Created New',[],'en'). ' ' . __('Information',[],'en') .' [ ' . $model->getName() . ' ]' ,
+			$request->user('admin')->getName() .' '.__('Has Created New',[],'ar'). ' ' . __('Information',[],'ar') .' [ ' . $model->getName() . ' ]' ,
 		);
         return $this->getWebRedirectRoute($request,route('information.index'),route('information.create'));
     }
@@ -92,8 +92,8 @@ class InformationController extends Controller
 			Notification::storeNewAdminNotification(
 				__('New Update',[],'en'),
 				__('New Update',[],'ar'),
-				$request->user('admin')->getName() .' '.__('Has Updated',[],'en') . __('Information',[],'en') .' [ ' . $information->getName() . ' ]' ,
-				$request->user('admin')->getName() .' '.__('Has Updated',[],'ar') . __('Information',[],'ar') .' [ ' . $information->getName() . ' ]' ,
+				$request->user('admin')->getName() .' '.__('Has Updated',[],'en'). ' ' . __('Information',[],'en') .' [ ' . $information->getName() . ' ]' ,
+				$request->user('admin')->getName() .' '.__('Has Updated',[],'ar'). ' ' . __('Information',[],'ar') .' [ ' . $information->getName() . ' ]' ,
 			);
 			
 			return $this->getWebRedirectRoute($request,route('information.index'),route('information.edit',['information'=>$information->id]));
@@ -106,8 +106,8 @@ class InformationController extends Controller
 		Notification::storeNewAdminNotification(
 			__('New Deletion',[],'en'),
 			__('New Deletion',[],'ar'),
-			$request->user('admin')->getName() .' '.__('Has Deleted',[],'en') . __('Information',[],'en') .' [ ' . $information->getName('en') . ' ]' ,
-			$request->user('admin')->getName() .' '.__('Has Deleted',[],'ar') . __('Information',[],'ar') .' [ ' . $information->getName('ar') . ' ]' ,
+			$request->user('admin')->getName() .' '.__('Has Deleted',[],'en'). ' ' . __('Information',[],'en') .' [ ' . $information->getName('en') . ' ]' ,
+			$request->user('admin')->getName() .' '.__('Has Deleted',[],'ar'). ' ' . __('Information',[],'ar') .' [ ' . $information->getName('ar') . ' ]' ,
 		);
 		
 		return $this->getWebDeleteRedirectRoute();

@@ -75,8 +75,8 @@ class CarModelController extends Controller
         Notification::storeNewAdminNotification(
             __('New Creation', [], 'en'),
             __('New Creation', [], 'ar'),
-            $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'en') . __('Car Make', [], 'en') . ' [ ' . $model->getName('en') . ' ]',
-            $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'ar') . __('Car Make', [], 'ar') . ' [ ' . $model->getName('ar') . ' ]',
+            $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'en'). ' ' . __('Car Make', [], 'en') . ' [ ' . $model->getName('en') . ' ]',
+            $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'ar'). ' ' . __('Car Make', [], 'ar') . ' [ ' . $model->getName('ar') . ' ]',
         );
 
         return $this->getWebRedirectRoute($request, route('car-models.index'), route('car-models.create'));
@@ -111,8 +111,8 @@ class CarModelController extends Controller
         Notification::storeNewAdminNotification(
             __('New Deletion', [], 'en'),
             __('New Deletion', [], 'ar'),
-            $request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'en') . __('Car Model', [], 'en') . ' [ ' . $car_model->getName('en') . ' ]',
-            $request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'ar') . __('Car Model', [], 'ar') . ' [ ' . $car_model->getName('ar') . ' ]',
+            $request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'en'). ' ' . __('Car Model', [], 'en') . ' [ ' . $car_model->getName('en') . ' ]',
+            $request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'ar'). ' ' . __('Car Model', [], 'ar') . ' [ ' . $car_model->getName('ar') . ' ]',
         );
 		return $this->getWebDeleteRedirectRoute();
     }

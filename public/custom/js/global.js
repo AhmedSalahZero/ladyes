@@ -99,7 +99,26 @@ $(document).on('change', 'select.country-updates-cities-js', function () {
 	}
 })
 
-
+$(document).on('change', 'select.model-updates-users-js', function () {
+	const token = $('body').attr('data-token')
+	const modelType = $(this).val() // Client or Driver
+	if (modelType) {
+		$.ajax({
+			url: route('update.users.based.on.model.type', { model_type: modelType }),
+			data: {
+				"_token": token,
+			},
+			success: function (res) {
+				let options = ''
+				let users = res.data
+				for (var index in users) {
+					options += '<option value="' + users[index].id + '">' + users[index].first_name + ' ' + users[index].last_name + '</option>'
+				}
+				$('select#model_id').empty().append(options).selectpicker('refresh').trigger('change')
+			}
+		})
+	}
+})
 
 // $(document).on('change','select.city-updates-areas-js',function(){
 // 	const token =$('body').attr('data-token');

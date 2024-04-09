@@ -24,8 +24,8 @@ class StoreCouponRequest extends FormRequest
     public function rules()
     {
 	
-		$model = $this->route('promotion') ;
-		$HValidationRules = HValidation::rules('promotions', $model , Request::isMethod('post'));
+		$model = $this->route('coupon') ;
+		$HValidationRules = HValidation::rules('coupons', $model , Request::isMethod('post'));
         return 
 		[
 			'name_en'=>$HValidationRules['name_en'],

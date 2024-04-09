@@ -28,6 +28,18 @@ class TravelResource extends JsonResource
 			'from_address'=>$this->getFromAddress(),
 			'to_address'=>$this->getToAddress(),
 			'is_secure_code'=>$isSecure=$this->getIsSecure(),
+			'price_details'=>$this->when($this->isCompleted() , [
+				'price' => $mainPriceWithoutDiscountAndTaxesAndCashFees =  $this->calculateClientActualPriceWithoutDiscount(),
+				'total_fines'=>$fines = $this->client->getTotalAmountOfUnpaid(),
+				'coupon_amount' => $couponAmount = $this->getCouponDiscountAmount(),
+				'tax_amount'=>$taxAmount = $this->calculateTaxAmount($mainPriceWithoutDiscountAndTaxesAndCashFees),
+				'cash_fees'=>$cashFees = $this->calculateCashFees(),
+				/**
+				 * * لاحظ احنا هنا ضفنا الغرمات علشان دا اللي هيظهر لليوزر .. اما اثناء الدفع بنقسم علي مرحلتين ..يعني كل وحده هيكون ليها الدفع بتاعها
+				 */
+				'total_price' => $fines +  $this->calculateClientTotalActualPrice($couponAmount,$taxAmount,$cashFees)  ,
+			   
+			] ),
 			'secure_code'=>$this->when($isSecure,$this->getSecureCode()),
 			'expected_arrival_time'=>isset($result['duration_in_seconds']) ? __('Estimated Arrival Time :time',['time'=>now()->addSeconds($result['duration_in_seconds'])->format('g:i A')]) : '-' ,
 			'expected_arrival_distance'=>isset($result['distance_in_meter']) ? __(':distance Km Away',['distance'=>round($result['distance_in_meter'] / 1000,1) ]) : '-' ,

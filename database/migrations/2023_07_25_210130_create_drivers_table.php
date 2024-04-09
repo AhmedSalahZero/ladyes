@@ -47,6 +47,7 @@ class CreateDriversTable extends Migration
 			$table->string('car_id_number')->comment('الرقم التسلسلي للمركبة')->nullable();
 			$table->boolean('has_traffic_tickets')->comment('هل لديك مخالفات مروريه')->nullable()->default(0);
             $table->string('invitation_code')->comment('رمز الدعوة الخاص بالسائق اللي يمكن ارسالة الي سائقين اخرين')->unique()->nullable();
+			$table->string('device_id')->comment('علشان الاشعارات من الفرونت')->nullable();
 			/**
 			 * * هو عباره عن اخر لوكيشن للسائق واللوكيشن دا بيتحدث كل مره السائق بيحدد نفسه انه متصل علشان يستقبل طلابات
 			 */

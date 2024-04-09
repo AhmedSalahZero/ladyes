@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="{{ asset('custom/css/model-details.css') }}">
 
 @endpush
-@section('title','Admins')
+@section('title',__('Clients'))
 
 @section('content')
 
@@ -29,6 +29,7 @@
                                             <th class="th-global-class  text-center">{{__('Phone')}}</th>
                                             <th class="th-global-class  text-center">{{__('Email')}}</th>
                                             <th class="th-global-class  text-center">{{__('Avg Rate')}}</th>
+                                            <th class="th-global-class  text-center">{{__('Total Balance')}}</th>
                                             <th class="th-global-class  text-center">{{__('Is Verified')}}</th>
                                             @if($user->can(getPermissionName('update')) || $user->can(getPermissionName('delete')) )
                                             <th class="th-global-class  text-center">{{__('Actions')}}</th>
@@ -45,6 +46,7 @@
                                                 <td class="text-center">{{$model->getPhone()}}</td>
                                                 <td class="text-center">{{$model->getEmail()}}</td>
                                                 <td class="text-center">{{$model->getAvgRateFormatted()}}</td>
+                                                <td class="text-center">{{ number_format($model->getTotalWalletBalance()) }} {{ $model->getCountry()->getCurrencyFormatted($lang) }}</td>
                                                 <td class="text-center">
                                                     @if($user->can(getPermissionName('update')))
                                                     <div class="form-group pb-1">
@@ -466,7 +468,8 @@
 
                                                         </div>
 
-
+ 												@include('components.common.user-transactions')
+										
                                                         <div class="dropdown ml-2 inventation-codes">
 
                                                             <button type="button" class="dropdown-toggle btn btn-outline-primary bg-primary " data-toggle="dropdown"> {{ __('Ban') }} </button>

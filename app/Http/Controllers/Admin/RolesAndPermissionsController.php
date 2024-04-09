@@ -71,8 +71,8 @@ class RolesAndPermissionsController extends Controller
 		Notification::storeNewAdminNotification(
 			__('New Creation',[],'en'),
 			__('New Creation',[],'ar'),
-			$request->user('admin')->getName() .' '.__('Has Created New',[],'en') . __('Role & Permission',[],'ar') .' [ ' . $request->get('name') . ' ]' ,
-			$request->user('admin')->getName() .' '.__('Has Created New',[],'ar') . __('Role & Permission',[],'ar') .' [ ' . $request->get('name') . ' ]' ,
+			$request->user('admin')->getName() .' '.__('Has Created New',[],'en'). ' ' . __('Role & Permission',[],'ar') .' [ ' . $request->get('name') . ' ]' ,
+			$request->user('admin')->getName() .' '.__('Has Created New',[],'ar'). ' ' . __('Role & Permission',[],'ar') .' [ ' . $request->get('name') . ' ]' ,
 		);
 		
 		return $this->getWebRedirectRoute($request,route('roles.permissions.index'),route('roles.permissions.create'));
@@ -91,8 +91,8 @@ class RolesAndPermissionsController extends Controller
 		Notification::storeNewAdminNotification(
 			__('New Update',[],'en'),
 			__('New Update',[],'ar'),
-			$request->user('admin')->getName() .' '.__('Has Updated',[],'en') . __('Role & Permission',[],'en') .' [ ' . $request->get('name') . ' ]' ,
-			$request->user('admin')->getName() .' '.__('Has Updated',[],'ar') . __('Role & Permission',[],'ar') .' [ ' . $request->get('name') . ' ]' ,
+			$request->user('admin')->getName() .' '.__('Has Updated',[],'en'). ' ' . __('Role & Permission',[],'en') .' [ ' . $request->get('name') . ' ]' ,
+			$request->user('admin')->getName() .' '.__('Has Updated',[],'ar'). ' ' . __('Role & Permission',[],'ar') .' [ ' . $request->get('name') . ' ]' ,
 		);
 		
 		return $this->getWebRedirectRoute($request,route('roles.permissions.index'),route('roles.permissions.edit',['role'=>$role->id]));
@@ -112,8 +112,8 @@ class RolesAndPermissionsController extends Controller
 		Notification::storeNewAdminNotification(
 			__('New Deletion',[],'en'),
 			__('New Deletion',[],'ar'),
-			$request->user('admin')->getName() .' '.__('Has Deleted',[],'en') . __('Role & Permission',[],'en') .' [ ' . $role->name . ' ]' ,
-			$request->user('admin')->getName() .' '.__('Has Deleted',[],'ar') . __('Role & Permission',[],'ar') .' [ ' . $role->name . ' ]' ,
+			$request->user('admin')->getName() .' '.__('Has Deleted',[],'en'). ' ' . __('Role & Permission',[],'en') .' [ ' . $role->name . ' ]' ,
+			$request->user('admin')->getName() .' '.__('Has Deleted',[],'ar'). ' ' . __('Role & Permission',[],'ar') .' [ ' . $role->name . ' ]' ,
 		);
 		
 		return $this->getWebDeleteRedirectRoute();

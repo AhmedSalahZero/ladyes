@@ -71,6 +71,7 @@ class HValidation
 			
 
 			'amount_or_percentage'=> ['required','gt:0',new AmountOrPercentageRule],
+			'amount'=>['required','gt:0'],
 			
 			// 'image'=>'sometimes',
 			

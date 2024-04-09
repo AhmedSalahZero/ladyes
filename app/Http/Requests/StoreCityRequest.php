@@ -56,21 +56,21 @@ class StoreCityRequest extends FormRequest
 			'country_id.required'=>__('Please Enter :attribute' , ['attribute'=>__('Country Name')]),
 			'price.required'=>__('Please Enter :attribute' , ['attribute'=>__('Price')]),
 			'price.numeric'=>__('Invalid :attribute' , ['attribute'=>__('Price')]),
-			'price.gte'=>__('Only Greater Zero Allowed For :attribute' , ['attribute'=>__('Price')]),
+			'price.gte'=>__('Only Greater Than Or Equal Zero Allowed For :attribute' , ['attribute'=>__('Price')]),
 			
 			'km_price.required'=>__('Please Enter :attribute' , ['attribute'=>__('Km Price')]),
 			'km_price.numeric'=>__('Invalid :attribute' , ['attribute'=>__('Km Price')]),
-			'km_price.gte'=>__('Only Greater Zero Allowed For :attribute' , ['attribute'=>__('Km Price')]),
+			'km_price.gte'=>__('Only Greater Than Or Equal Zero Allowed For :attribute' , ['attribute'=>__('Km Price')]),
 			
 			
 			'minute_price.required'=>__('Please Enter :attribute' , ['attribute'=>__('Minute Price')]),
 			'minute_price.numeric'=>__('Invalid :attribute' , ['attribute'=>__('Minute Price')]),
-			'minute_price.gte'=>__('Only Greater Zero Allowed For :attribute' , ['attribute'=>__('Minute Price')]),
+			'minute_price.gte'=>__('Only Greater Than Or Equal Zero Allowed For :attribute' , ['attribute'=>__('Minute Price')]),
 			
 			
 			'operating_fees.required'=>__('Please Enter :attribute' , ['attribute'=>__('Operating Fees')]),
 			'operating_fees.numeric'=>__('Invalid :attribute' , ['attribute'=>__('Operating Fees')]),
-			'operating_fees.gte'=>__('Only Greater Zero Allowed For :attribute' , ['attribute'=>__('Operating Fees')]),
+			'operating_fees.gte'=>__('Only Greater Than Or Equal Zero Allowed For :attribute' , ['attribute'=>__('Operating Fees')]),
 			
 			'rush_hours.*.start_time'=>__('Please Enter :attribute' , ['attribute'=>__('Rush Hour Start Time')]),
 			'rush_hours.*.end_time'=>__('Please Enter :attribute' , ['attribute'=>__('Rush Hour End Time')]),
@@ -78,22 +78,22 @@ class StoreCityRequest extends FormRequest
 			
 			'rush_hours.*.price.required'=>__('Please Enter :attribute' , ['attribute'=>__('Rush Hour Price')]),
 			'rush_hours.*.price.numeric'=>__('Invalid :attribute' , ['attribute'=>__('Rush Hour Price')]),
-			'rush_hours.*.price.gte'=>__('Only Greater Zero Allowed For :attribute' , ['attribute'=>__('Rush Hour Price')]),
+			'rush_hours.*.price.gte'=>__('Only Greater Than Or Equal Zero Allowed For :attribute' , ['attribute'=>__('Rush Hour Price')]),
 			
 			
 			'rush_hours.*.km_price.required'=>__('Please Enter :attribute' , ['attribute'=>__('Rush Hour Km Price')]),
 			'rush_hours.*.km_price.numeric'=>__('Invalid :attribute' , ['attribute'=>__('Rush Hour Km Price')]),
-			'rush_hours.*.km_price.gte'=>__('Only Greater Zero Allowed For :attribute' , ['attribute'=>__('Rush Hour Km Price')]),
+			'rush_hours.*.km_price.gte'=>__('Only Greater Than Or Equal Zero Allowed For :attribute' , ['attribute'=>__('Rush Hour Km Price')]),
 			
 			
 			'rush_hours.*.minute_price.required'=>__('Please Enter :attribute' , ['attribute'=>__('Rush Hour Minute Price')]),
 			'rush_hours.*.minute_price.numeric'=>__('Invalid :attribute' , ['attribute'=>__('Rush Hour Minute Price')]),
-			'rush_hours.*.minute_price.gte'=>__('Only Greater Zero Allowed For :attribute' , ['attribute'=>__('Rush Hour Minute Price')]),
+			'rush_hours.*.minute_price.gte'=>__('Only Greater Than Or Equal Zero Allowed For :attribute' , ['attribute'=>__('Rush Hour Minute Price')]),
 			
 			
 			'rush_hours.*.operating_fees.required'=>__('Please Enter :attribute' , ['attribute'=>__('Rush Hour Operating Fees')]),
 			'rush_hours.*.operating_fees.numeric'=>__('Invalid :attribute' , ['attribute'=>__('Rush Hour Operating Fees')]),
-			'rush_hours.*.operating_fees.gte'=>__('Only Greater Zero Allowed For :attribute' , ['attribute'=>__('Rush Hour Operating Fees')]),
+			'rush_hours.*.operating_fees.gte'=>__('Only Greater Than Or Equal Zero Allowed For :attribute' , ['attribute'=>__('Rush Hour Operating Fees')]),
 			
 			'rush_hours.*.percentage.required'=>__('Please Enter :attribute' , ['attribute'=>__('Rush Hour Operating Fees')]),
 		];

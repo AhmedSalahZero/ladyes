@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\BonusesController;
 use App\Http\Controllers\Admin\CancellationReasonsController;
 use App\Http\Controllers\Admin\CarMakeController;
 use App\Http\Controllers\Admin\CarModelController;
@@ -9,17 +10,21 @@ use App\Http\Controllers\Admin\CitiesController;
 use App\Http\Controllers\Admin\ClientsController;
 use App\Http\Controllers\Admin\CountriesController;
 use App\Http\Controllers\Admin\CouponsController;
+use App\Http\Controllers\Admin\DepositsController;
 use App\Http\Controllers\Admin\DriversController;
 use App\Http\Controllers\Admin\EmergencyContactsController;
+use App\Http\Controllers\Admin\FinesController;
 use App\Http\Controllers\Admin\HelpsController;
 use App\Http\Controllers\Admin\InformationController;
 use App\Http\Controllers\Admin\NotificationsController;
+use App\Http\Controllers\Admin\PaymentsController;
 use App\Http\Controllers\Admin\PromotionsController;
 use App\Http\Controllers\Admin\RolesAndPermissionsController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\TransactionsController;
 use App\Http\Controllers\Admin\TravelConditionsController;
 use App\Http\Controllers\Admin\TravelsController;
+use App\Http\Controllers\Admin\WithdrawalsController;
 use App\Http\Controllers\Helpers\AddInvitationCodeToController;
 use App\Http\Controllers\Helpers\SendEmailMessageController;
 use App\Http\Controllers\Helpers\SendSmsMessageController;
@@ -29,6 +34,7 @@ use App\Http\Controllers\Helpers\SendWhatsappMessageController;
 use App\Http\Controllers\Helpers\SendWhatsappVerificationCodeController;
 use App\Http\Controllers\Helpers\UpdateCitiesBasedOnCountry;
 use App\Http\Controllers\Helpers\UpdateModelsBasedOnMake;
+use App\Http\Controllers\Helpers\UpdateUsersBasedOnType;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -82,6 +88,25 @@ Route::group(['middleware' => 'auth:admin'], function () {
 	
     //###################### coupons #########################
 	Route::resource('coupons',CouponsController::class);
+	
+	//###################### fines #########################
+	Route::resource('fines',FinesController::class);
+	Route::post('store-fine', [FinesController::class, 'storeFor'])->name('store.fine.for');
+	
+	//###################### bonuses #########################
+	Route::resource('bonuses',BonusesController::class);
+	Route::post('store-bonus', [BonusesController::class, 'storeFor'])->name('store.bonus.for');
+	
+		//###################### deposits #########################
+		Route::resource('deposits',DepositsController::class);
+		Route::post('store-deposit', [DepositsController::class, 'storeFor'])->name('store.deposit.for');
+			//###################### withdrawals #########################
+			Route::resource('withdrawals',WithdrawalsController::class);
+			Route::post('store-withdrawal', [WithdrawalsController::class, 'storeFor'])->name('store.withdrawal.for');
+			
+	//###################### withdrawals #########################
+	Route::resource('payments',PaymentsController::class);
+	// Route::post('store-payment', [WithdrawalsController::class, 'storeFor'])->name('store.withdrawal.for');
 	
     //###################### helps #########################
     Route::resource('helps', HelpsController::class);
@@ -166,6 +191,7 @@ Route::group(['middleware' => 'auth:admin'], function () {
 });
 Route::prefix('helpers')->group(function () {
     Route::get('update-cities-based-on-country', [UpdateCitiesBasedOnCountry::class, '_invoke'])->name('update.cities.based.on.country');
+    Route::get('update-users-based-on-model-type', [UpdateUsersBasedOnType::class, '_invoke'])->name('update.users.based.on.model.type');
     // Route::get('update-areas-based-on-city', [UpdateAreasBasedOnCity::class, '_invoke'])->name('update.areas.based.on.city');
     Route::get('update-models-based-on-make', [UpdateModelsBasedOnMake::class, '_invoke'])->name('update.models.based.on.make');
     Route::put('mark-notifications-as-read/{admin}', [NotificationsController::class, 'markAsRead'])->name('mark.notifications.as.read');

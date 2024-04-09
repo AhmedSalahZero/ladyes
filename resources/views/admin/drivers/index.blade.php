@@ -81,11 +81,7 @@
                                                                                     <a target="_blank" href="{{ isset($model) && $model->getFirstMedia('image') ? $model->getFirstMedia('image')->getFullUrl() : getDefaultImage() }}">
                                                                                         <img class="max-w-full profile-max-height" src="{{ isset($model) && $model->getFirstMedia('image') ? $model->getFirstMedia('image')->getFullUrl() : getDefaultImage() }}" alt="{{ $model->getFullName() }}" title="{{ $model->getFullName() }}" />
                                                                                     </a>
-                                                                                    {{-- <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS52y5aInsxSm31CvHOFHWujqUx_wWTS9iM6s7BAm21oEN_RiGoog" alt="" /> --}}
-                                                                                    {{-- <div class="file btn btn-lg btn-primary">
-                                                                                                        Change Photo
-                                                                                                        <input type="file" name="file" />
-                                                                                                    </div> --}}
+
                                                                                 </div>
                                                                             </div>
                                                                             <div class="col-md-6">
@@ -101,6 +97,7 @@
                                                                                     </h4>
 
                                                                                     <h4 class="proile-rating font-weight-bold">{{ __('Rating') }} : <span class="font-weight-bold">{{ $model->getAvgRateFormatted(true) }}/{{ $model->getMaxRatingPoint() }}</span></h4>
+                                                                                    <h4 class="proile-rating font-weight-bold">{{ __('Total Balance') }} : <span class="font-weight-bold">{{ number_format($model->getTotalWalletBalance()) }} {{ $model->getCountry()->getCurrencyFormatted($lang) }} </span></h4>
                                                                                     <ul class="nav nav-tabs mb-2" id="myTab" role="tablist">
                                                                                         <li class="nav-item">
                                                                                             <a class="nav-link active" id="details-tab" data-toggle="tab" href="#details{{ $model->id }}" role="tab" aria-controls="home" aria-selected="true">{{ __('Driver Details') }}</a>
@@ -813,7 +810,7 @@
 
 
 
-
+                                                        @include('components.common.user-transactions')
 
 
 
@@ -987,6 +984,9 @@
                                                                 </form>
                                                             </div>
                                                         </div>
+
+
+
                                                     </div>
 
                                 </div>

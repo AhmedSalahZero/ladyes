@@ -17,7 +17,8 @@ class CreateDepositsTable extends Migration
             $table->id();
 			$table->string('model_type')->comment('الشخص اللي الفلوس دي موجهه لية في الايداع سواء كان سائق او عميل');
 			$table->unsignedBigInteger('model_id');
-			$table->decimal('amount',14,2)->comment('مقدار ما تم ايداعة المطبقة');
+			$table->string('payment_method')->comment('الطريقه التي تمت بها عمليه الايداع وليكن مثلا كاش')->nullable();
+			$table->decimal('amount',14,2)->comment('مقدار ما تم ايداعة');
 			$table->string('note_en')->comment('وليكن مثلا سبب الايداع');
 			$table->string('note_ar')->comment('وليكن مثلا سبب سبب الايداع');
             $table->timestamps();

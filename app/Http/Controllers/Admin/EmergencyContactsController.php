@@ -76,8 +76,8 @@ class EmergencyContactsController extends Controller
         Notification::storeNewAdminNotification(
             __('New Creation', [], 'en'),
             __('New Creation', [], 'ar'),
-            $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'en') . __('Emergency Contact', [], 'en') . ' [ ' . $model->getName() . ' ]',
-            $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'ar') . __('Emergency Contact', [], 'ar') . ' [ ' . $model->getName() . ' ]',
+            $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'en'). ' ' . __('Emergency Contact', [], 'en') . ' [ ' . $model->getName() . ' ]',
+            $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'ar'). ' ' . __('Emergency Contact', [], 'ar') . ' [ ' . $model->getName() . ' ]',
         );
 
         return $this->getWebRedirectRoute($request, route('emergency-contacts.index'), route('emergency-contacts.create'));
@@ -112,8 +112,8 @@ class EmergencyContactsController extends Controller
         Notification::storeNewAdminNotification(
             __('New Deletion', [], 'en'),
             __('New Deletion', [], 'ar'),
-            $request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'en') . __('Emergency Contact', [], 'en') . ' [ ' . $emergency_contact->getName('en') . ' ]',
-            $request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'ar') . __('Emergency Contact', [], 'ar') . ' [ ' . $emergency_contact->getName('ar') . ' ]',
+            $request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'en'). ' ' . __('Emergency Contact', [], 'en') . ' [ ' . $emergency_contact->getName('en') . ' ]',
+            $request->user('admin')->getName() . ' ' . __('Has Deleted', [], 'ar'). ' ' . __('Emergency Contact', [], 'ar') . ' [ ' . $emergency_contact->getName('ar') . ' ]',
         );
 
         return $this->getWebDeleteRedirectRoute();
@@ -157,8 +157,8 @@ class EmergencyContactsController extends Controller
         Notification::storeNewAdminNotification(
             __('New Creation', [], 'en'),
             __('New Creation', [], 'ar'),
-            $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'en') . __('Emergency Contact', [], 'en') . ' [ ' . $emergencyContact->getName('en') . ' ] ' . __('To') . ' ' . $driverOrClient->getFullName(),
-            $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'ar') . __('Emergency Contact', [], 'ar') . ' [ ' . $emergencyContact->getName('ar') . ' ] ' . __('To') . ' ' . $driverOrClient->getFullName(),
+            $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'en'). ' ' . __('Emergency Contact', [], 'en') . ' [ ' . $emergencyContact->getName('en') . ' ] ' . __('To') . ' ' . $driverOrClient->getFullName(),
+            $request->user('admin')->getName() . ' ' . __('Has Created New', [], 'ar'). ' ' . __('Emergency Contact', [], 'ar') . ' [ ' . $emergencyContact->getName('ar') . ' ] ' . __('To') . ' ' . $driverOrClient->getFullName(),
         );
 
         return response()->json([

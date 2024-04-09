@@ -6,12 +6,18 @@ use App\Helpers\HDate;
 use App\Helpers\HHelpers;
 use App\Http\Resources\ClientResource;
 use App\Interfaces\IHaveAppNotification;
+use App\Interfaces\IHaveBonus;
+use App\Interfaces\IHaveDeposit;
+use App\Interfaces\IHaveFine;
+use App\Interfaces\IHaveWithdrawal;
 use App\Notifications\Admins\ClientNotification;
 use App\Traits\Accessors\IsBaseModel;
 use App\Traits\Models\HasBasicStoreRequest;
+use App\Traits\Models\HasBonus;
 use App\Traits\Models\HasCanPayByCash;
 use App\Traits\Models\HasCountry;
 use App\Traits\Models\HasCreatedAt;
+use App\Traits\Models\HasDeposit;
 use App\Traits\Models\HasEmail;
 use App\Traits\Models\HasEmergencyContacts;
 use App\Traits\Models\HasFine;
@@ -23,6 +29,7 @@ use App\Traits\Models\HasModel;
 use App\Traits\Models\HasPhone;
 use App\Traits\Models\HasRating;
 use App\Traits\Models\HasWallet;
+use App\Traits\Models\HasWithdrawal;
 use App\Traits\Scope\HasDefaultOrderScope;
 use Codebyray\ReviewRateable\Contracts\ReviewRateable;
 use Codebyray\ReviewRateable\Traits\ReviewRateable as ReviewRateableTrait;
@@ -42,7 +49,7 @@ use Laravolt\Avatar\Avatar;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Client extends Model implements HasMedia, BannableInterface,IHaveAppNotification,ReviewRateable 
+class Client extends Model implements HasMedia, BannableInterface,IHaveAppNotification,ReviewRateable , IHaveFine,IHaveBonus,IHaveDeposit , IHaveWithdrawal
 {
 	use HasWallet ;
     use ReviewRateableTrait;
@@ -67,6 +74,9 @@ class Client extends Model implements HasMedia, BannableInterface,IHaveAppNotifi
     use HasRating;
     use HasEmergencyContacts;
 	use HasFine ; 
+	use HasBonus ; 
+	use HasDeposit ; 
+	use HasWithdrawal ; 
     use HasCreatedAt;
 
     public function registerMediaCollections(): void
@@ -201,11 +211,11 @@ class Client extends Model implements HasMedia, BannableInterface,IHaveAppNotifi
 	/**
 	 * * هي الاشعارات اللي بتتبعت للعميل في الموبايل ابلكيشن
 	 */
-	public function sendAppNotification(string $titleEn,string $titleAr,string $messageEn,string $messageAr,string $type)
+	public function sendAppNotification(string $titleEn,string $titleAr,string $messageEn,string $messageAr,string $type,int $modelId = null)
 	{
-		$this->notify(new ClientNotification($titleEn,$titleAr,$messageEn,$messageAr,formatForView(now()),$type));
+		$this->notify(new ClientNotification($titleEn,$titleAr,$messageEn,$messageAr,formatForView(now()),$type,$modelId));
 	}
-	public function payments():?HasOneThrough
+	public function payments():?HasMany
 	{
 		return $this->hasMany(Payment::class,'model_id','id')->where('model_type',HHelpers::getClassNameWithoutNameSpace($this));
 	}
@@ -228,6 +238,10 @@ class Client extends Model implements HasMedia, BannableInterface,IHaveAppNotifi
 	public function isFirstTravel()
 	{
 		return $this->travels->count() ==  1 ;
+	}
+	public function isClient()
+	{
+		return true ;
 	}
 	
 }

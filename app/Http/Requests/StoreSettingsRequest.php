@@ -26,7 +26,6 @@ class StoreSettingsRequest extends FormRequest
         $model = $this->route('setting') ;
         $HValidationRules = HValidation::rules('settings', $model, Request::isMethod('post'));
 
-        // dd($HValidationRules['phone']);
         return
         [
             'app_name_en' => $HValidationRules['app_name_en'],
@@ -78,7 +77,7 @@ class StoreSettingsRequest extends FormRequest
             'youtube_url.url' => __(':attribute Invalid URL', ['attribute' => __('Youtube URL')]),
 
             'deduction_percentage.number' => __('Please Enter Valid :attribute', ['attribute' => __('Deduction Percentage')]),
-            'deduction_percentage.gte' => __('Only Greater Than Or Equal Zero Allowed For :attribute', ['attribute' => __('Deduction Percentage')]),
+            'deduction_percentage.gte' => __('Only Greater Than Minus One Allowed For :attribute', ['attribute' => __('Deduction Percentage')]),
 
             'coupon_discount_percentage.number' => __('Please Enter Valid :attribute', ['attribute' => __('Coupon Discount Percentage')]),
             'coupon_discount_percentage.gte' => __('Only Greater Than Or Equal Zero Allowed For :attribute', ['attribute' => __('Coupon Discount Percentage')]),

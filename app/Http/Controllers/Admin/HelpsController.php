@@ -84,8 +84,8 @@ class HelpsController extends Controller
 		Notification::storeNewAdminNotification(
 			__('New Creation',[],'en'),
 			__('New Creation',[],'ar'),
-			$request->user('admin')->getName() .' '.__('Has Created New',[],'en') . __('Help',[],'en') .' [ ' . $model->getName() . ' ]' ,
-			$request->user('admin')->getName() .' '.__('Has Created New',[],'ar') . __('Help',[],'ar') .' [ ' . $model->getName() . ' ]' ,
+			$request->user('admin')->getName() .' '.__('Has Created New',[],'en'). ' ' . __('Help',[],'en') .' [ ' . $model->getName() . ' ]' ,
+			$request->user('admin')->getName() .' '.__('Has Created New',[],'ar'). ' ' . __('Help',[],'ar') .' [ ' . $model->getName() . ' ]' ,
 		);
         return $this->getWebRedirectRoute($request,route('helps.index'),route('helps.create'));
     }
@@ -103,8 +103,8 @@ class HelpsController extends Controller
 			Notification::storeNewAdminNotification(
 				__('New Update',[],'en'),
 				__('New Update',[],'ar'),
-				$request->user('admin')->getName() .' '.__('Has Updated',[],'en') . __('Help',[],'en') .' [ ' . $help->getName() . ' ]' ,
-				$request->user('admin')->getName() .' '.__('Has Updated',[],'ar') . __('Help',[],'ar') .' [ ' . $help->getName() . ' ]' ,
+				$request->user('admin')->getName() .' '.__('Has Updated',[],'en') . ' ' . __('Help',[],'en') .' [ ' . $help->getName() . ' ]' ,
+				$request->user('admin')->getName() .' '.__('Has Updated',[],'ar') . ' ' . __('Help',[],'ar') .' [ ' . $help->getName() . ' ]' ,
 			);
 			
 			return $this->getWebRedirectRoute($request,route('helps.index'),route('helps.edit',['help'=>$help->id]));
@@ -117,8 +117,8 @@ class HelpsController extends Controller
 		Notification::storeNewAdminNotification(
 			__('New Deletion',[],'en'),
 			__('New Deletion',[],'ar'),
-			$request->user('admin')->getName() .' '.__('Has Deleted',[],'en') . __('Help',[],'en') .' [ ' . $help->getName('en') . ' ]' ,
-			$request->user('admin')->getName() .' '.__('Has Deleted',[],'ar') . __('Help',[],'ar') .' [ ' . $help->getName('ar') . ' ]' ,
+			$request->user('admin')->getName() .' '.__('Has Deleted',[],'en'). ' ' . __('Help',[],'en') .' [ ' . $help->getName('en') . ' ]' ,
+			$request->user('admin')->getName() .' '.__('Has Deleted',[],'ar'). ' ' . __('Help',[],'ar') .' [ ' . $help->getName('ar') . ' ]' ,
 		);
 		
 		return $this->getWebDeleteRedirectRoute();
@@ -133,8 +133,8 @@ class HelpsController extends Controller
 			Notification::storeNewAdminNotification(
 				__('New Update',[],'en'),
 				__('New Update',[],'ar'),
-				$request->user('admin')->getName() .' '.__('Has Updated',[],'en') . __('Help',[],'en') .' [ ' . $model->getName('en') . ' ]' ,
-				$request->user('admin')->getName() .' '.__('Has Updated',[],'ar') . __('Help',[],'ar') .' [ ' . $model->getName('ar') . ' ]' ,
+				$request->user('admin')->getName() .' '.__('Has Updated',[],'en') . ' ' . __('Help',[],'en') .' [ ' . $model->getName('en') . ' ]' ,
+				$request->user('admin')->getName() .' '.__('Has Updated',[],'ar') . ' ' . __('Help',[],'ar') .' [ ' . $model->getName('ar') . ' ]' ,
 			);
 			
 		}

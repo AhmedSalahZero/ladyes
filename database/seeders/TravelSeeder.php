@@ -31,7 +31,7 @@ class TravelSeeder extends Seeder
 				'model_type'=>HHelpers::getClassNameWithoutNameSpace($travel->client)
 			]);
 			Transaction::factory()->create([
-				'amount'=>$amount = $payment->getPrice(),
+				'amount'=>$amount = $payment->getPrice() * -1 ,
 				'type'=>TransactionType::PAYMENT,
 				'type_id'=>$payment->id ,
 				'model_id'=>$travel->client->id ,

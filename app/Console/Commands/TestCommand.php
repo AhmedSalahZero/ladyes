@@ -4,13 +4,11 @@ namespace App\Console\Commands;
 
 use App\Enum\TransactionType;
 use App\Models\CarSize;
-use App\Models\City;
 use App\Models\Client;
-use App\Models\Country;
+use App\Models\Notification;
 use App\Models\Transaction;
-use App\Models\Travel;
-use function PHPSTORM_META\map;
 
+use App\Models\Travel;
 use Illuminate\Console\Command;
 
 class TestCommand extends Command
@@ -46,6 +44,11 @@ class TestCommand extends Command
      */
     public function handle()
     {
+		$first = Notification::where('data->title_en','Deposit')->first();
+		$first = Notification::where('data->title_en','Deposit')->where('data->model_id',1)->first();
+		dd($first);
+		
+		dd('good');
 		Transaction::create([
 			'amount'=>500000,
 			'type'=>TransactionType::DEPOSIT,

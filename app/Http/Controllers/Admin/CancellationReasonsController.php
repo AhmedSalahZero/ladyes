@@ -86,8 +86,8 @@ class CancellationReasonsController extends Controller
 		Notification::storeNewAdminNotification(
 			__('New Creation',[],'en'),
 			__('New Creation',[],'ar'),
-			$request->user('admin')->getName() .' '.__('Has Created New',[],'en') . __('Cancellation Reason',[],'en') .' [ ' . $model->getName() . ' ]' ,
-			$request->user('admin')->getName() .' '.__('Has Created New',[],'ar') . __('Cancellation Reason',[],'ar') .' [ ' . $model->getName() . ' ]' ,
+			$request->user('admin')->getName() .' '.__('Has Created New',[],'en'). ' ' . __('Cancellation Reason',[],'en') .' [ ' . $model->getName() . ' ]' ,
+			$request->user('admin')->getName() .' '.__('Has Created New',[],'ar'). ' ' . __('Cancellation Reason',[],'ar') .' [ ' . $model->getName() . ' ]' ,
 		);
         return $this->getWebRedirectRoute($request,route('cancellation-reasons.index'),route('cancellation-reasons.create'));
     }
@@ -105,8 +105,8 @@ class CancellationReasonsController extends Controller
 			Notification::storeNewAdminNotification(
 				__('New Update',[],'en'),
 				__('New Update',[],'ar'),
-				$request->user('admin')->getName() .' '.__('Has Updated',[],'en') . __('Cancellation Reason',[],'en') .' [ ' . $cancellation_reason->getName() . ' ]' ,
-				$request->user('admin')->getName() .' '.__('Has Updated',[],'ar') . __('Cancellation Reason',[],'ar') .' [ ' . $cancellation_reason->getName() . ' ]' ,
+				$request->user('admin')->getName() .' '.__('Has Updated',[],'en') . ' ' . __('Cancellation Reason',[],'en') .' [ ' . $cancellation_reason->getName() . ' ]' ,
+				$request->user('admin')->getName() .' '.__('Has Updated',[],'ar') . ' ' . __('Cancellation Reason',[],'ar') .' [ ' . $cancellation_reason->getName() . ' ]' ,
 			);
 			
 			return $this->getWebRedirectRoute($request,route('cancellation-reasons.index'),route('cancellation-reasons.edit',['cancellation_reason'=>$cancellation_reason->id]));
@@ -119,8 +119,8 @@ class CancellationReasonsController extends Controller
 		Notification::storeNewAdminNotification(
 			__('New Deletion',[],'en'),
 			__('New Deletion',[],'ar'),
-			$request->user('admin')->getName() .' '.__('Has Deleted',[],'en') . __('Cancellation Reason',[],'en') .' [ ' . $cancellation_reason->getName('en') . ' ]' ,
-			$request->user('admin')->getName() .' '.__('Has Deleted',[],'ar') . __('Cancellation Reason',[],'ar') .' [ ' . $cancellation_reason->getName('ar') . ' ]' ,
+			$request->user('admin')->getName() .' '.__('Has Deleted',[],'en'). ' ' . __('Cancellation Reason',[],'en') .' [ ' . $cancellation_reason->getName('en') . ' ]' ,
+			$request->user('admin')->getName() .' '.__('Has Deleted',[],'ar'). ' ' . __('Cancellation Reason',[],'ar') .' [ ' . $cancellation_reason->getName('ar') . ' ]' ,
 		);
 		
 		return $this->getWebDeleteRedirectRoute();

@@ -10,6 +10,7 @@ use App\Http\Requests\Apis\StoreTravelPaymentRequest;
 use App\Http\Requests\Apis\StoreTravelRequest;
 use App\Http\Resources\CarSizeDriverResource;
 use App\Http\Resources\DriverResource;
+use App\Http\Resources\TravelResource;
 use App\Models\CarSize;
 use App\Models\Driver;
 use App\Models\Travel;
@@ -36,6 +37,10 @@ class TravelsController extends Controller
 	{
 		if(!$travel->hasEnded()){
 			return $this->apiResponse(__('Travel Has Not Ended Yet',[],getApiLang()),[],500);
+		}
+		
+		if($request->has('payment_method')){
+			$travel->updatePaymentMethod($request->get('payment_method'));
 		}
 		$travel->storePayment($request);
 		return $this->apiResponse(__('Thanks For Your Travel',[],getApiLang()),[
@@ -83,6 +88,9 @@ class TravelsController extends Controller
 			$carSize->setRelation('drivers',Driver::getAvailableForSpecificLocationsAndCarSize($toLatitude,$toLongitude,$carSize->getId()));
 		});
 		return  $this->apiResponse(__('Data Received Successfully',[],getApiLang()), CarSizeDriverResource::collection($carSizes)->toArray($request));
+	}
+	public function getPriceDetails(Request $request , Travel $travel){
+		return $this->apiResponse(null , (new TravelResource($travel))->toArray($request),200);
 	}
 	
 }

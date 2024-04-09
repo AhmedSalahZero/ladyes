@@ -10,11 +10,11 @@ use App\Interfaces\IEnum;
 class TransactionType  implements IEnum
 {
 	public const PAYMENT = 'payment'; 
-	public const REFUND = 'refund'; 
 	public const DEPOSIT = 'deposit'; 
-	public const WITHDRAWAL = 'withdrawal'; 
 	public const FINE = 'fine'; 
 	public const BONUS = 'bonus'; 
+	public const REFUND = 'refund'; 
+	public const WITHDRAWAL = 'withdrawal'; 
 	
 	public static function all():array 
 	{

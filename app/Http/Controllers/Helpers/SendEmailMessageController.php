@@ -22,7 +22,7 @@ class SendEmailMessageController extends Controller
 		catch(\Exception $e){
 			return redirect()->back()->with('fail',__('Failed To Send Email Message') . ' <br> ' . $e->getMessage() );
 		}
-		return redirect()->back()->with('success',__('Verification Code Has Been Sent Successfully') );
+		return redirect()->back()->with('success',__('Email Message Has Been Sent Successfully') );
 		
 	}
 }

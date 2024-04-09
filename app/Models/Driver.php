@@ -6,15 +6,21 @@ use App\Helpers\HDate;
 use App\Helpers\HHelpers;
 use App\Http\Resources\DriverResource;
 use App\Interfaces\IHaveAppNotification;
+use App\Interfaces\IHaveBonus;
+use App\Interfaces\IHaveDeposit;
+use App\Interfaces\IHaveFine;
+use App\Interfaces\IHaveWithdrawal;
 use App\Notifications\Admins\DriverNotification;
 use App\Settings\SiteSetting;
 use App\Traits\Accessors\IsBaseModel;
 use App\Traits\Models\HasBasicStoreRequest;
+use App\Traits\Models\HasBonus;
 use App\Traits\Models\HasCanReceiveOrders;
 use App\Traits\Models\HasCarSize;
 use App\Traits\Models\HasCity;
 use App\Traits\Models\HasCountry;
 use App\Traits\Models\HasCreatedAt;
+use App\Traits\Models\HasDeposit;
 use App\Traits\Models\HasEmail;
 use App\Traits\Models\HasEmergencyContacts;
 use App\Traits\Models\HasFine;
@@ -29,6 +35,7 @@ use App\Traits\Models\HasPhone;
 use App\Traits\Models\HasRating;
 use App\Traits\Models\HasTrafficTickets;
 use App\Traits\Models\HasWallet;
+use App\Traits\Models\HasWithdrawal;
 use App\Traits\Scope\HasDefaultOrderScope;
 use Codebyray\ReviewRateable\Contracts\ReviewRateable;
 use Codebyray\ReviewRateable\Traits\ReviewRateable as ReviewRateableTrait;
@@ -48,10 +55,12 @@ use Laravolt\Avatar\Avatar;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Driver extends Model implements HasMedia, BannableInterface, IHaveAppNotification, ReviewRateable
+class Driver extends Model implements HasMedia, BannableInterface, IHaveAppNotification, ReviewRateable,IHaveFine,IHaveBonus,IHaveDeposit,IHaveWithdrawal
 {
     use HasMake;
 	use HasFine ;
+	use HasBonus ;
+	use HasDeposit ;
     use ReviewRateableTrait;
     use HasWallet;
     use HasFactory;
@@ -65,6 +74,7 @@ class Driver extends Model implements HasMedia, BannableInterface, IHaveAppNotif
     use HasModel;
     use HasTrafficTickets;
     use Bannable;
+	use HasWithdrawal;
     use HasCanReceiveOrders;
     use Notifiable;
     use HasInvitationCode;
@@ -322,9 +332,9 @@ class Driver extends Model implements HasMedia, BannableInterface, IHaveAppNotif
     /**
      * * هي الاشعارات اللي بتتبعت للعميل في الموبايل ابلكيشن
      */
-    public function sendAppNotification(string $titleEn, string $titleAr, string $messageEn, string $messageAr, string $type)
+    public function sendAppNotification(string $titleEn, string $titleAr, string $messageEn, string $messageAr, string $type,int $modelId = null)
     {
-        $this->notify(new DriverNotification($titleEn, $titleAr, $messageEn, $messageAr, formatForView(now()), $type));
+        $this->notify(new DriverNotification($titleEn, $titleAr, $messageEn, $messageAr, formatForView(now()), $type,$modelId));
     }
 
     /**
@@ -354,5 +364,12 @@ class Driver extends Model implements HasMedia, BannableInterface, IHaveAppNotif
 	{
 		return new DriverResource($this);
 	}	
-	
+	public function transactions()
+	{
+		return $this->hasMany(Transaction::class , 'model_id','id')->where('model_type',HHelpers::getClassNameWithoutNameSpace($this));
+	}
+	public function isClient()
+	{
+		return false ;
+	}
 }
