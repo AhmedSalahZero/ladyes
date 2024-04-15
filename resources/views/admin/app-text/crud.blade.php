@@ -27,6 +27,16 @@
                                                     <x-form.textarea :rows="3" :id="'after_signup_message_ar'" :label="__('Arabic Message After Signup')" :type="'text'" :name="'after_signup_message_ar'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Arabic Message After Signup')])"></x-form.textarea>
                                                 </div>
 
+
+
+                 <div class="col-md-6">
+                                                    <x-form.textarea :rows="3" :id="'travel_end_message_en'" :label="__('English Travel End Message En')" :type="'text'" :name="'travel_end_message_en'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('English Travel End Message En')])"></x-form.textarea>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <x-form.textarea :rows="3" :id="'travel_end_message_ar'" :label="__('Arabic Travel End Message En')" :type="'text'" :name="'travel_end_message_ar'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Arabic Travel End Message En')])"></x-form.textarea>
+                                                </div>
+												
                                             </div>
 
 

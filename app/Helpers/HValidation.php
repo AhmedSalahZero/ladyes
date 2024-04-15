@@ -28,6 +28,7 @@ class HValidation
 			'app_logo'=>'sometimes|file|mimes:'.self::getAllowedUploadImageAsString(),
 			'fav_icon'=>'sometimes|file|mimes:'.self::getAllowedUploadImageAsString(),
 			'facebook_url'=>['sometimes','url','max:255'] ,
+			'app_link_on_google_play'=>['sometimes','url','max:255'] ,
 			'instagram_url'=>['sometimes','url','max:255'] ,
 			'twitter_url'=>['sometimes','url','max:255'] ,
 			'youtube_url'=>['sometimes','url','max:255'] ,

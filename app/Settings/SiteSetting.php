@@ -9,11 +9,13 @@ class SiteSetting extends Settings
 	
 	public $app_name_en;
 	public $app_name_ar;
+
 	public $logo;
 	public $fav_icon;
 	public $phone;
 	public $email;
 	public $whatsapp;
+	public $app_link_on_google_play;
 	public $facebook_url;
 	public $youtube_url;
 	public $instagram_url;
@@ -41,6 +43,9 @@ class SiteSetting extends Settings
 	public $app_guideline_outro_en ;
 	public $app_guideline_outro_ar ;
 
+	
+	public $travel_end_message_en ;
+	public $travel_end_message_ar ;
 	
 	
 	public function getLogo()

@@ -18,6 +18,7 @@ use App\Traits\Models\HasCanPayByCash;
 use App\Traits\Models\HasCountry;
 use App\Traits\Models\HasCreatedAt;
 use App\Traits\Models\HasDeposit;
+use App\Traits\Models\HasDevice;
 use App\Traits\Models\HasEmail;
 use App\Traits\Models\HasEmergencyContacts;
 use App\Traits\Models\HasFine;
@@ -54,6 +55,7 @@ class Client extends Model implements HasMedia, BannableInterface,IHaveAppNotifi
 	use HasWallet ;
     use ReviewRateableTrait;
     use HasMake;
+	use HasDevice;
     use HasGeoLocation;
     use Notifiable;
     use HasRating;

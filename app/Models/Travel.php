@@ -4,13 +4,16 @@ namespace App\Models;
 
 use App\Enum\PaymentStatus;
 use App\Enum\PaymentType;
-use App\Enum\TransactionType;
 use App\Enum\TravelStatus;
 use App\Exceptions\TravelEndTimeNotFoundException;
 use App\Exceptions\TravelStartTimeNotFoundException;
 use App\Helpers\HHelpers;
 use App\Helpers\HStr;
 use App\Http\Resources\TravelResource;
+use App\Jobs\SendCurrentStatusMessageToEmergencyContractsJob;
+use App\Services\DistanceMatrix\GoogleDistanceMatrixService;
+use App\Services\PhoneNumberService;
+use App\Services\Whatsapp\WhatsappService;
 use App\Traits\Models\HasBasicStoreRequest;
 use App\Traits\Models\HasCity;
 use App\Traits\Models\HasCountry;
@@ -34,12 +37,21 @@ class Travel extends Model
     use HasCountry;
 
     protected $table = 'travels';
-
+	protected $dates = [
+		'expected_arrival_date',
+	];
+	/**
+	 * * عدد الدقايق اللي لو الرحلة اتاخرت عنها هنبعت رسالة لجه اتصال الطوارئ
+	 */
+	const TRAVEL_ARRIVAL_LATE_MINUTE = 10 ;
     public function getId()
     {
         return $this->id ;
     }
-
+	public static function getFromTravelId(int $travelId):?self
+	{
+		return self::where('id',$travelId)->first();
+	}
     public function client(): ?BelongsTo
     {
         return $this->belongsTo(Client::class, 'client_id', 'id');
@@ -62,12 +74,13 @@ class Travel extends Model
         $driver = $this->driver ;
 
         return  $driver ? $driver->getName() : __('N/A');
-    } 
-	 public function getDriverId():?Int 
+    }
+
+    public function getDriverId(): ?Int
     {
         $driver = $this->driver ;
 
-        return  $driver ? $driver->id  : 0;
+        return  $driver ? $driver->id : 0;
     }
 
     /**
@@ -81,16 +94,18 @@ class Travel extends Model
 
     public function getGiftCouponCode()
     {
-        return $this->giftCoupon->code ;
+		if($this->giftCoupon){
+			return $this->giftCoupon->code ;
+		}
+		return $this->generateGiftCoupon()->getCode() ;
     }
 
-    public function generateGiftCoupon(): self
+    public function generateGiftCoupon(): Coupon
     {
         $giftCoupon = Coupon::generateGiftCouponForTravel($this->id, $this->calculateGiftCouponDiscountAmount());
         $this->gift_coupon_id = $giftCoupon->id ;
         $this->save();
-
-        return $this ;
+		return $giftCoupon ;
     }
 
     /**
@@ -99,7 +114,6 @@ class Travel extends Model
     public function calculateGiftCouponDiscountAmount(): ?float
     {
         $percentage = getSetting('coupon_discount_percentage') / 100;
-
         return $percentage * $this->calculateClientActualPriceWithoutDiscount();
     }
 
@@ -194,10 +208,32 @@ class Travel extends Model
         $this->status = TravelStatus::COMPLETED;
         $this->ended_at = now();
         $this->save();
-
+		dispatch(new SendCurrentStatusMessageToEmergencyContractsJob($this));
+	
         return $this;
     }
-
+	/**
+	 * * هنا الرسالة اللي هنبعتها للعميل بعدن نهاية الرحلة بحيث يقيم الرحلة ونبعتله كود خصم يشاركة مع زملائه
+	 */
+	public function getRatingAndLinksForClientMessage():string 
+	{
+		$basicMessage = getSetting('travel_end_message_'.getApiLang()) ;
+		$googleLink = getSetting('app_link_on_google_play');
+		$couponCode = $this->getGiftCouponCode();
+		$message =$basicMessage . '  ' . __('Coupon Code') . ':' . $couponCode . '  '  . __('App Link') . ':' . $googleLink  ;
+		return  $message;
+	}
+	public function sendTravelCompletedMessageForClient():void
+	{
+		if(!$this->client){
+			return ;
+		}
+		$phone = $this->client->getPhone();
+		$countryIso2 = $this->client->getCountyIso2();
+		$phoneFormatted = App(PhoneNumberService::class)->formatNumber($phone, $countryIso2);
+		$message = $this->getRatingAndLinksForClientMessage();
+		App(WhatsappService::class)->sendMessage($message, $phoneFormatted);
+	}
     /**
      * * هنا هنحدد ان الرحلة بدات
      */
@@ -205,34 +241,81 @@ class Travel extends Model
     {
         $this->status = TravelStatus::ON_THE_WAY;
         $this->started_at = now();
+		dispatch(new SendCurrentStatusMessageToEmergencyContractsJob($this));
+		$fromLatitude = $this->getFromLongitude();
+		$fromLongitude = $this->getFromLatitude();
+		$toLatitude = $this->getToLatitude();
+		$toLongitude = $this->getToLongitude();
+		$googleDistanceMatrixService = new GoogleDistanceMatrixService();
+		$result = $googleDistanceMatrixService->getExpectedArrivalTimeBetweenTwoPoints($fromLatitude,$fromLongitude,$toLatitude,$toLongitude);   
+		if(isset($result['duration_in_seconds']) && $result['duration_in_seconds'] > 0){
+			$minutes = $result['duration_in_seconds'] / 60 ;
+			$this->expected_arrival_date = now()->addMinutes($minutes);
+		}else{
+			$minutes = 100 / 60 ;
+			$this->expected_arrival_date = now()->addMinutes($minutes);
+		}
         $this->save();
 
         return $this;
     }
-	public function getPaymentMethod():string 
-	{
-		return $this->payment_method ;
-	}
-	public function updatePaymentMethod(string $paymentMethod){
-		$this->payment_method = $paymentMethod;
-		$this->save();
-		return $this ;
-	}
+
+    /**
+     * * هنا هنبعت رسالة لجهات اتصال الطوارئ الرحلة بدات ولا انتهت ولا اتكنسلت
+     */
+    public function sendCurrentStatusMessageToEmergencyContracts(): self
+    {
+        $client = $this->client ;
+        $driver = $this->driver ;
+	
+        if ($client) {
+	
+            $client->emergencyContacts()->each(function (EmergencyContact $emergencyContact) use ($client) {
+                $canReceiveTravelInfo = $emergencyContact->canReceiveTravelInfo();
+                if ($canReceiveTravelInfo) {
+                    $emergencyContact->sendNewStatusMessage($this->getId(),$this->getExpectedArrivalDate(), $this->getStatus(), $this->getCountryIso2(), $client->getPhone(), $emergencyContact->getName());
+                }
+            });
+        }
+
+        if ($driver) {
+            $driver->emergencyContacts()->each(function (EmergencyContact $emergencyContact) use ($driver) {
+                $canReceiveTravelInfo = $emergencyContact->canReceiveTravelInfo();
+                if ($canReceiveTravelInfo) {
+                    $emergencyContact->sendNewStatusMessage($this->getId(),$this->getExpectedArrivalDate(), $this->getStatus(), $this->getCountryIso2(), $driver->getPhone(), $emergencyContact->getName());
+                }
+            });
+        }
+
+        return $this ;
+    }
+
+    public function getPaymentMethod(): string
+    {
+        return $this->payment_method ;
+    }
+
+    public function updatePaymentMethod(string $paymentMethod)
+    {
+        $this->payment_method = $paymentMethod;
+        $this->save();
+
+        return $this ;
+    }
 
     public function storePayment(Request $request)
     {
         /**
          * @var City $city ;
          */
-       
+
         /**
          * * store new payment
          * @var Payment $payment
          */
-		
-		(new Payment)->storeForTravel($this);
-        
-		
+
+        (new Payment())->storeForTravel($this);
+
         return $this;
     }
 
@@ -244,7 +327,7 @@ class Travel extends Model
         /**
          * * visit TravelStatus::class for all possible values
          */
-        return $this->status ;
+        return $this->status ?:TravelStatus::NOT_STARTED_YET;
     }
 
     public function getStatusFormatted()
@@ -263,7 +346,7 @@ class Travel extends Model
     {
         return $this->getStatus() == TravelStatus::CANCELLED;
     }
-	
+
     public function getOperationalFees()
     {
         $statedAt = $this->getStartedAt();
@@ -276,38 +359,42 @@ class Travel extends Model
 
         return $priceModel->getOperatingFeesPrice();
     }
-	/**
-	 * * هي رسوم بيدفعها العميل لو اختار طريق الدفع كاش
-	 */
-	public function calculateCashFees()
-	{
-		$country = $this->getCountry() ; 
-		$isCashPayment = $this->isCashPayment();
-		if(!$isCashPayment || !$country){
-			return 0 ;
-		}
-		return $country->getCashFees();
-	}
-	public function calculateTaxAmount(float $mainPriceWithoutDiscountAndTaxesAndCashFees = null)
-	{
-		$mainPriceWithoutDiscountAndTaxesAndCashFees = is_null($mainPriceWithoutDiscountAndTaxesAndCashFees) ? $this->calculateClientActualPriceWithoutDiscount() : $mainPriceWithoutDiscountAndTaxesAndCashFees;
-		$country = $this->getCountry() ; 
-		if( !$country){
-			return 0 ;
-		}
-		$taxPercentage = $country->getTaxesPercentage()  / 100 ;
-		return $taxPercentage * $mainPriceWithoutDiscountAndTaxesAndCashFees ;
-	}
-	public function calculateTaxesAmount()
-	{
-		$country = $this->getCountry() ; 
-		if(!$country){
-			return 0 ;
-		}
-		return $country->getTaxesPercentage()  / 100 ;
-		
-		
-	}
+
+    /**
+     * * هي رسوم بيدفعها العميل لو اختار طريق الدفع كاش
+     */
+    public function calculateCashFees()
+    {
+        $country = $this->getCountry() ;
+        $isCashPayment = $this->isCashPayment();
+        if (!$isCashPayment || !$country) {
+            return 0 ;
+        }
+
+        return $country->getCashFees();
+    }
+
+    public function calculateTaxAmount(float $mainPriceWithoutDiscountAndTaxesAndCashFees = null)
+    {
+        $mainPriceWithoutDiscountAndTaxesAndCashFees = is_null($mainPriceWithoutDiscountAndTaxesAndCashFees) ? $this->calculateClientActualPriceWithoutDiscount() : $mainPriceWithoutDiscountAndTaxesAndCashFees;
+        $country = $this->getCountry() ;
+        if (!$country) {
+            return 0 ;
+        }
+        $taxPercentage = $country->getTaxesPercentage() / 100 ;
+
+        return $taxPercentage * $mainPriceWithoutDiscountAndTaxesAndCashFees ;
+    }
+
+    public function calculateTaxesAmount()
+    {
+        $country = $this->getCountry() ;
+        if (!$country) {
+            return 0 ;
+        }
+
+        return $country->getTaxesPercentage() / 100 ;
+    }
 
     /**
      * * تحتوي علي بيانات الدفع وليكن مثلا نوع عمليه الدفع كاش مثلا او من المحفظة والمقدار و والغرمات وقيمة الكوبون ان وجد الخ
@@ -349,11 +436,10 @@ class Travel extends Model
         return $carSizePrice + ($kmPrice * $numberOfKms) + ($minutePrice * $numberOfMinutes) + $operationFees ;
     }
 
-
     /**
      * * هو نفس الحسبة السابقة مضاف اليها الغرامات ومنقوص منها الخصم مضاف اليها الضريبة .. وهو اجمالي ما سوف يتم دفعه للعميل
      */
-    public function calculateClientTotalActualPrice(float $couponAmount = null, float $taxesAmount = null , float $cashFees = null)
+    public function calculateClientTotalActualPrice(float $couponAmount = null, float $taxesAmount = null, float $cashFees = null)
     {
         /**
          * * لو ما مررنهاش هنحسبها
@@ -364,7 +450,7 @@ class Travel extends Model
 
         return $this->calculateClientActualPriceWithoutDiscount() - $couponAmount + $taxesAmount + $cashFees  ;
     }
-	
+
     /**
      * * النسبة اللي الابلكيشن هياخدها
      * * التطبيق هياخد
@@ -372,7 +458,7 @@ class Travel extends Model
      */
     public function calculateApplicationShare()
     {
-		$operationFees = $this->getOperationalFees();
+        $operationFees = $this->getOperationalFees();
 
         return ($this->calculateClientActualPriceWithoutDiscount() - $operationFees) * ($this->driver->getDeductionPercentage() / 100) ;
     }
@@ -384,21 +470,23 @@ class Travel extends Model
      */
     public function calculateDriverShare()
     {
-		$operationFees = $this->getOperationalFees();
+        $operationFees = $this->getOperationalFees();
 
         return ($this->calculateClientActualPriceWithoutDiscount() - $operationFees) - $this->calculateApplicationShare()  ;
     }
-	public function getOperationFeesPrice()
-	{
-		$statedAt = $this->getStartedAt();
+
+    public function getOperationFeesPrice()
+    {
+        $statedAt = $this->getStartedAt();
         $city = $this->getCity() ;
         $priceModel = $city;
         $rushHour = $city->isInRushHourAt($statedAt);
         if ($rushHour) {
             $priceModel = $rushHour ;
         }
+
         return  $priceModel->getOperatingFeesPrice();
-	}
+    }
 
     public function getCity(): ?City
     {
@@ -565,11 +653,12 @@ class Travel extends Model
     {
         return $this->payment->getTypeFormatted();
     }
-	
-	public function isCashPayment()
-	{
-		return $this->getPaymentMethod() === PaymentType::CASH;
-	}
+
+    public function isCashPayment()
+    {
+        return $this->getPaymentMethod() === PaymentType::CASH;
+    }
+
     public function getPaymentStatus()
     {
         return $this->payment->getStatus();
@@ -585,12 +674,34 @@ class Travel extends Model
         return  $this->country ;
     }
 
+    public function getCountryIso2(): ?string
+    {
+        /**
+         * @var Country $country ;
+         */
+        $iso2 = null ;
+        $country = $this->getCountry();
+
+        if ($country) {
+            $iso2 = $country->getIso2();
+        }
+
+        return $iso2 ;
+    }
+
     /**
      * * عدد الكيلوا مترات المقطوعه خلال كامل الرحلة
      */
     public function getNumberOfKms()
     {
         return $this->no_km ;
+    } 
+	/**
+	 * * التاريخ المتوقع لوصول الرحلة
+	 */
+	public function getExpectedArrivalDate()
+    {
+        return $this->expected_arrival_date ;
     }
 
     /**
@@ -607,6 +718,7 @@ class Travel extends Model
         if (!$endedAt) {
             throw new TravelEndTimeNotFoundException(__('Travel End Time Not Found', [], getApiLang()));
         }
+
         return Carbon::make($startedAt)->diffInMinutes($endedAt);
     }
 
@@ -620,6 +732,7 @@ class Travel extends Model
     public function calculateCancellationFees()
     {
         $cancellationFeesAmount = $this->getCountry()->getCancellationFeesForClient() ;
+
         return $this->getNumberOfMinutes() * $cancellationFeesAmount   ;
     }
 
@@ -676,8 +789,8 @@ class Travel extends Model
     {
         return $this->started_at !== null  ;
     }
-	
-	/**
+
+    /**
      * * تحديد ما اذا كانت الرحلة قد بدات بالفعل
      */
     public function hasEnded(): bool
@@ -708,11 +821,14 @@ class Travel extends Model
         $this->status = TravelStatus::CANCELLED;
         $this->ended_at = now();
         $this->cancelled_by = HHelpers::getClassNameWithoutNameSpace($request->user()) ;
+		if($request->has('cancellation_reason_id')){
+			$this->cancellation_reason_id = $request->get('cancellation_reason_id');
+		}
         $this->save();
         if ($this->hasStarted() && $this->isCancelledByClient()) {
             $this->applyCancellationFine($request);
         }
-
+		dispatch(new SendCurrentStatusMessageToEmergencyContractsJob($this));
         return $this ;
     }
 
@@ -739,43 +855,50 @@ class Travel extends Model
     {
         return $this->hasOne(Refund::class, 'travel_id', 'id');
     }
-	public function getResource()
-	{
-		return new TravelResource($this);
-	}
-	public function getFromLongitude()
-	{
-		return $this->from_longitude;
-	}
-	public function getFromLatitude()
-	{
-		return $this->from_latitude;
-	}
-	public function getToLongitude()
-	{
-		return $this->to_longitude;
-	}
-	public function getToLatitude()
-	{
-		return $this->to_latitude;
-	}
-	public function getFromAddress()
-	{
-		return $this->from_address ;
-	}
-	public function getToAddress()
-	{
-		return $this->to_address ;
-	}
-	public function calculateFirstTravelBonus(bool $isFirstTravel = null):float 
-	{
-		$isFirstTravel = is_null($isFirstTravel) ? $this->client->isFirstTravel() : $isFirstTravel ;
-		$country  = $this->getCountry();
-		if(!$isFirstTravel || !$country){
-			return  0 ;
-		}
-		return $country->getBonusAfterFirstSuccessTravel();
-	}
-	
 
+    public function getResource()
+    {
+        return new TravelResource($this);
+    }
+
+    public function getFromLongitude()
+    {
+        return $this->from_longitude;
+    }
+
+    public function getFromLatitude()
+    {
+        return $this->from_latitude;
+    }
+
+    public function getToLongitude()
+    {
+        return $this->to_longitude;
+    }
+
+    public function getToLatitude()
+    {
+        return $this->to_latitude;
+    }
+
+    public function getFromAddress()
+    {
+        return $this->from_address ;
+    }
+
+    public function getToAddress()
+    {
+        return $this->to_address ;
+    }
+
+    public function calculateFirstTravelBonus(bool $isFirstTravel = null): float
+    {
+        $isFirstTravel = is_null($isFirstTravel) ? $this->client->isFirstTravel() : $isFirstTravel ;
+        $country = $this->getCountry();
+        if (!$isFirstTravel || !$country) {
+            return  0 ;
+        }
+
+        return $country->getBonusAfterFirstSuccessTravel();
+    }
 }

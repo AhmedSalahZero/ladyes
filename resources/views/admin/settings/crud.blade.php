@@ -42,7 +42,10 @@
                                                 <div class="col-md-6">
                                                     <x-form.input :id="'email'" :label="__('Email')" :type="'email'" :name="'email'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Email')])"></x-form.input>
                                                 </div>
-
+                                                <div class="col-md-6">
+                                                    <x-form.input :id="'app_link_on_google_play'" :label="__('Google Play App Link URL')" :type="'text'" :name="'app_link_on_google_play'" :is-required="false" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Google Play App Link URL')])"></x-form.input>
+                                                </div>
+												
                                                 <div class="col-md-6">
                                                     <x-form.input :id="'facebook_url'" :label="__('Facebook URL')" :type="'text'" :name="'facebook_url'" :is-required="false" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Facbook URL')])"></x-form.input>
                                                 </div>
@@ -70,12 +73,12 @@
                                                 <div class="col-md-6">
                                                     <x-form.select :is-required="true" :is-select2="true" :options="$drivingRangeFormatted" :add-new="false" :label="__('Driving Range')" :all="false" name="driving_range" id="driving_range" :selected-value="getSetting('driving_range')"></x-form.select>
                                                 </div>
-												
-												
-												  <div class="col-md-6">
+
+
+                                                <div class="col-md-6">
                                                     <x-form.input :id="'coupon_discount_percentage'" :label="__('Coupon Discount Percentage'). ' %'" :type="'text'" :name="'coupon_discount_percentage'" :is-required="false" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Coupon Discount Percentage')])"></x-form.input>
                                                 </div>
-												
+
 
 
 
@@ -84,7 +87,7 @@
                                                     <hr>
                                                 </div>
 
-                                                
+
 
                                                 <div class="col-md-12">
                                                     <hr>

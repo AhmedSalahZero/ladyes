@@ -159,7 +159,7 @@ class Payment extends Model
 		 */
 
 		(new Bonus())->storeForFirstTravel($travel);
-		
+		$travel->sendTravelCompletedMessageForClient();
 		return $payment ;
 	}
 	public function getPrice():float 

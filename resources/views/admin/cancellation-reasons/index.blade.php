@@ -17,6 +17,7 @@
                                             <th class="th-global-class  text-center">#</th>
                                             <th class="th-global-class  text-center">{{__('Name')}}</th>
                                             <th class="th-global-class  text-center">{{__('Related To')}}</th>
+                                            <th class="th-global-class  text-center">{{__('Phase')}}</th>
                                             <th class="th-global-class  text-center">{{__('Is Active')}}</th>
                                             @if($user->can(getPermissionName('update')) || $user->can(getPermissionName('delete')) )
                                             <th class="th-global-class  text-center">{{__('Actions')}}</th>
@@ -28,6 +29,7 @@
                                                 <td class="text-center">{{$loop->iteration}}</td>
                                                 <td class="text-center">{{$model->getName($lang)}}</td>
                                                 <td class="text-center">{{$model->getModelTypeFormatted()}}</td>
+                                                <td class="text-center">{{$model->getPhaseFormatted()}}</td>
                                                 <td class="text-center">
                                                     @if($user->can(getPermissionName('update')))
                                                     <div class="form-group pb-1">

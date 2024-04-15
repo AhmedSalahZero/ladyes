@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enum\CancellationReasonPhases;
 use App\Traits\Accessors\IsBaseModel;
 use App\Traits\Models\HasIsActive;
 use App\Traits\Models\HasModelType;
@@ -17,10 +18,17 @@ class CancellationReason extends Model
 {
     use  IsBaseModel,HasDefaultOrderScope,HasFactory,HasTransNames,HasIsActive,HasModelType;
 
-	
-	
+	public function getPhase()
+	{
+		return $this->phase ;
+	}
+	public function getPhaseFormatted()
+	{
+		return $this->phase ? CancellationReasonPhases::all()[$this->phase] : __('-') ;
+	}
     public function syncFromRequest($request)
     {
+		$this->phase = null ;
         if ($request->has('name_en')) {
             $this->name_en = $request->name_en;
         }
@@ -30,9 +38,11 @@ class CancellationReason extends Model
 		if ($request->has('model_type')) {
             $this->model_type = $request->model_type;
         }
+		if ($request->has('phase') && $request->model_type == 'Client') {
+            $this->phase = $request->phase;
+        }
 		$this->is_active = $request->boolean('is_active');
-		// if ($request->has('is_active')) {
-        // }
+		
         $this->save();
     }
 }

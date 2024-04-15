@@ -2,15 +2,20 @@
 
 namespace App\Models;
 
+use App\Enum\TravelStatus;
 use App\Helpers\HHelpers;
 use App\Http\Requests\StoreEmergencyContactRequest;
 use App\Models\Client;
+use App\Services\PhoneNumberService;
+use App\Services\SMS\SmsService;
+use App\Services\Whatsapp\WhatsappService;
 use App\Traits\Accessors\IsBaseModel;
 use App\Traits\Models\HasCountry;
 use App\Traits\Models\HasEmail;
 use App\Traits\Models\HasPhone;
 use App\Traits\Models\HasSingleName;
 use App\Traits\Scope\HasDefaultOrderScope;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -108,5 +113,68 @@ class EmergencyContact extends Model
 		
 		return $emergencyContact ;
 	}
+	public function canReceiveTravelInfo():bool 
+	{
+		return is_null($this->pivot) ? throw new \Exception('Custom Exception .. Pivot Not Loaded') : $this->pivot->can_receive_travel_info;
+	}
+	/**
+	 * * هنا هننشئ رسالة جهه اتصال الطوارئ بناء علي حاله الرحلة الحاليه هل هي طلعت ولا انتهت ولا اتكنسلت
+	 */
+	public function generateMessage(int $travelId , ?Carbon $expectedArrivalDate , string $travelStatus, string $fullName):?string 
+	{
+		$message = null;
+		if($travelStatus === TravelStatus::ON_THE_WAY && $expectedArrivalDate && $expectedArrivalDate->lessThan(now()->addMinutes(Travel::TRAVEL_ARRIVAL_LATE_MINUTE)) ){
+			/**
+			 * * هنا المفروض نبعت لينك للماب مباشر بحيث جهه الاتصال تعرف مكان الرحلة فين حاليا علي الخريطة
+			 */
+			$travel = Travel::getFromTravelId($travelId);
+			return __('Hi :name , Travel Number #:travelId Still In The Road || From :fromAddress To :toAddress' ,['name'=>$fullName ,'travelId'=>$travelId,'fromAddress'=> $travel->getFromAddress() , 'toAddress'=>$travel->getToAddress() ]);
+		}
+		elseif($travelStatus === TravelStatus::ON_THE_WAY){
+			return __('Hi :name , Travel Number #:travelId Started Now' ,['name'=>$fullName ,'travelId'=>$travelId]);
+		}
+		elseif($travelStatus === TravelStatus::CANCELLED){
+			return __('Hi :name , Travel Number #:travelId Has Been Cancelled' ,['name'=>$fullName ,'travelId'=>$travelId]);
+		}
+		elseif($travelStatus === TravelStatus::COMPLETED){
+			return __('Hi :name , Travel Number #:travelId Completed' ,['name'=>$fullName ,'travelId'=>$travelId]);
+		}
+		return $message ; 
+	}
+	/**
+	 * * هنا هنبعت رسالة ان الرحلة مثلا طلعت او اتكنسلت او او انتهت .. الخ
+	 */
+	public function sendNewStatusMessage(int $travelId , ?Carbon $expectedArrivalDate ,string $travelStatus,string $countryIso2,string $phone, string $fullName = null, bool $viaSms = true, bool $viaWhatsapp = true): array
+    {
+		
+        $message = $this->generateMessage($travelId,$expectedArrivalDate,$travelStatus, $fullName);
+		if(!$message){
+			return [];
+		}
+
+        $phoneFormatted = App(PhoneNumberService::class)->formatNumber($phone, $countryIso2);
+        if ($viaSms) {
+            $responseArray = (new SmsService())->send($phone, $countryIso2, $message);
+            if ($responseArray['status'] && $responseArray['status']) {
+                return [
+                    'status' => true,
+                    'message' => __('Verification Code Has Been Sent To Your Phone Number',[],getApiLang())
+                ];
+            }
+        }
+        if ($viaWhatsapp) {
+            $responseArray = App(WhatsappService::class)->sendMessage($message, $phoneFormatted);
+            if ($responseArray['status']) {
+                return [
+                    'status' => true,
+                    'message' => __('Verification Code Has Been Sent To Your Whatsapp',[],getApiLang())
+                ];
+            }
+        }
+        return [
+            'status' => false,
+            'message' => isset($responseArray['message']) ? __('Fail To Send Verification Code',[],getApiLang()) . ' ' . $responseArray['message'] : __('Fail To Send Verification Code',[],getApiLang())
+        ];
+    }
 	
 }

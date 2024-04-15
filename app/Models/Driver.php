@@ -21,6 +21,7 @@ use App\Traits\Models\HasCity;
 use App\Traits\Models\HasCountry;
 use App\Traits\Models\HasCreatedAt;
 use App\Traits\Models\HasDeposit;
+use App\Traits\Models\HasDevice;
 use App\Traits\Models\HasEmail;
 use App\Traits\Models\HasEmergencyContacts;
 use App\Traits\Models\HasFine;
@@ -63,6 +64,7 @@ class Driver extends Model implements HasMedia, BannableInterface, IHaveAppNotif
 	use HasDeposit ;
     use ReviewRateableTrait;
     use HasWallet;
+    use HasDevice;
     use HasFactory;
     use IsBaseModel;
     use HasDefaultOrderScope;

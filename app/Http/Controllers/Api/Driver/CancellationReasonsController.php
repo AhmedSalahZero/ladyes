@@ -4,10 +4,9 @@ namespace App\Http\Controllers\Api\Driver;
 
 use App\Helpers\HHelpers;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Apis\ShowCancellationReasonsRequest;
 use App\Http\Resources\CancellationReasonResource;
-use App\Http\Resources\TravelConditionResource;
 use App\Models\CancellationReason;
-use App\Models\TravelCondition;
 use App\Traits\Api\HasApiResponse;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -15,10 +14,13 @@ use Spatie\QueryBuilder\QueryBuilder;
 class CancellationReasonsController extends Controller
 {
 	use HasApiResponse;
-    public function index(Request $request)
+    public function index(ShowCancellationReasonsRequest $request)
 	{
 		$cancellationReasons = QueryBuilder::for(CancellationReason::class)
 		->where('model_type',HHelpers::getClassNameWithoutNameSpace($request->user()))
+		->when($request->has('phase'),function($builder) use ($request) {
+			$builder->where('phase',$request->get('phase'));
+		})
 		->onlyIsActive()
 		->allowedSorts('id')
 		->get() ;

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 use App\Helpers\HValidation;
+use App\Rules\CancellationReasonPhaseRule;
 use App\Traits\HasFailedValidation;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
@@ -30,6 +31,7 @@ class StoreCancellationReasonRequest extends FormRequest
 			'name_en'=>$HValidationRules['name_en'],
 			'name_ar'=>$HValidationRules['name_ar'],
 			'model_type'=>'required',
+			'phase'=>[new CancellationReasonPhaseRule()],
 			'is_active'=>$HValidationRules['is_active'],
         ];
     }

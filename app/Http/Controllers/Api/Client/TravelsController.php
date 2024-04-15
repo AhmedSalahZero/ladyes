@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Client;
 
 use App\Enum\AppNotificationType;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Apis\MarkTravelAsCancelledRequest;
 use App\Http\Requests\Apis\ShowAvailableCarSizesForTravelRequest;
 use App\Http\Requests\Apis\ShowAvailableDriversForTravelRequest;
 use App\Http\Requests\Apis\StoreTravelPaymentRequest;
@@ -28,7 +29,7 @@ class TravelsController extends Controller
 		$travel->client->sendAppNotification(__('Travel Confirmation', [], 'en'), __('Travel Confirmation', [], 'ar'), __('We Will Contract You',[],'en'), __('We Will Contract You'), AppNotificationType::INFO);
 		return $this->apiResponse(__('Travel Has Been Created Successfully',[],getApiLang()) , $travel->getResource()->toArray($request) );
 	}
-	public function markAsCancelled(Request $request,Travel $travel)
+	public function markAsCancelled(MarkTravelAsCancelledRequest $request,Travel $travel)
 	{
 		$travel->markAsCancelled($request);
 		return $this->apiResponse(__('Travel Has Been Marked AS Cancelled',[],getApiLang()));

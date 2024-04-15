@@ -23,7 +23,7 @@ class CreateCouponsTable extends Migration
 			$table->date('start_date')->nullable()->comment('تاريخ بداية العرض');
 			$table->date('end_date')->nullable()->comment('تاريخ نهاية العرض');
 			$table->string('discount_type')->default(DiscountType::FIXED)->comment('في حالة الكوبونات فهي دايما ثابتة');
-			$table->string('discount_amount')->comment('في حالة الكوبونات فهي دايما قيمة ثابتة');
+			$table->decimal('discount_amount',14,2)->comment('في حالة الكوبونات فهي دايما قيمة ثابتة');
             $table->timestamps();
         });
     }

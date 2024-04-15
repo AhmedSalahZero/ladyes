@@ -19,6 +19,7 @@ return new class extends SettingsMigration
 		$this->migrator->add('site.email','email@email.com');
 		$this->migrator->add('site.whatsapp','email@email.com');
 		
+		$this->migrator->add('site.app_link_on_google_play','https://google.com.eg');
 		$this->migrator->add('site.facebook_url','https://facebook.com');
 		$this->migrator->add('site.twitter_url','https://twitter.com');
 		$this->migrator->add('site.instagram_url','https://instagram.com');
@@ -53,6 +54,7 @@ return new class extends SettingsMigration
 		$this->migrator->add('site.app_guideline_items_en', []);
 		$this->migrator->add('site.app_guideline_items_ar', ['عاملي الجميع بالطلف واحترام']);
 		
+		
 		$this->migrator->add('site.app_guideline_outro_en', 'English Guideline');
 		$this->migrator->add('site.app_guideline_outro_ar', 'يجب علي الجميع الالتزام بهذه التعليمات');
 		
@@ -60,6 +62,9 @@ return new class extends SettingsMigration
 		
 		$this->migrator->add('site.after_signup_message_en', 'English Message');
 		$this->migrator->add('site.after_signup_message_ar', 'نحن نقوم الان بعملية التحقق من المعلومات في حال توافق المعلومات واعتمادها يمكنك البدء في استخدام تطبيق الشريك في ليدز');
+		
+		$this->migrator->add('site.travel_end_message_en', 'Thanks For Travel');
+		$this->migrator->add('site.travel_end_message_ar', 'الحمد لله علي سلامتك .. شاركي الكود مع احبائك');
 		
 		
     }

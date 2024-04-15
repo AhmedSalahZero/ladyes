@@ -33,6 +33,12 @@
                                                         <x-form.select :please-select="false" :is-required="true" :is-select2="true" :options="$cancellationReasonModelTypesFormatted" :add-new="false" :label="__('Related To')" :all="false" name="model_type" id="model_type" :selected-value="isset($model) ? $model->model_type: old('model_type') "></x-form.select>
                                                 </div>
 												
+												
+												<div class="col-md-6">
+                                                        <x-form.select :please-select="false" :is-required="true" :is-select2="true" :options="$cancellationReasonModelPhasesFormatted" :add-new="false" :label="__('Phase (For Client Only)')" :all="false" name="phase" id="phase" :selected-value="isset($model) ? $model->phase: old('phase') "></x-form.select>
+                                                </div>
+												
+												
                                                 <div class="col-md-6">
                                                     <x-form.checkbox :id="'is-active'" :label="__('Active')" :is-required="!isset($model)" :name="'is_active'" :is-checked="isset($model) ? $model->getIsActive() : true "> </x-form.checkbox>
                                                 </div>

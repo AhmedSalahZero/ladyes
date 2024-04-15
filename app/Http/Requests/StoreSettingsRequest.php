@@ -33,6 +33,7 @@ class StoreSettingsRequest extends FormRequest
             'app_logo' => $HValidationRules['app_logo'],
             'fav_icon' => $HValidationRules['fav_icon'],
             'facebook_url' => $HValidationRules['facebook_url'],
+            'app_link_on_google_play' => $HValidationRules['app_link_on_google_play'],
             'instagram_url' => $HValidationRules['instagram_url'],
             'twitter_url' => $HValidationRules['twitter_url'],
             'youtube_url' => $HValidationRules['youtube_url'],
@@ -69,6 +70,8 @@ class StoreSettingsRequest extends FormRequest
 
             'facebook_url.max' => __(':attribute Exceed The Max Letter Length :max Letter', ['attribute' => __('Facebook URL'), 'max' => 255]),
             'facebook_url.url' => __(':attribute Invalid URL', ['attribute' => __('Facebook URL')]),
+            'app_link_on_google_play.max' => __(':attribute Exceed The Max Letter Length :max Letter', ['attribute' => __('Google Play App Link URL'), 'max' => 255]),
+            'app_link_on_google_play.url' => __(':attribute Invalid URL', ['attribute' => __('Google Play App Link URL')]),
             'instagram_url.max' => __(':attribute Exceed The Max Letter Length :max Letter', ['attribute' => __('Instagram URL'), 'max' => 255]),
             'instagram_url.url' => __(':attribute Invalid URL', ['attribute' => __('Instagram URL')]),
             'twitter_url.max' => __(':attribute Exceed The Max Letter Length :max Letter', ['attribute' => __('Twitter URL'), 'max' => 255]),

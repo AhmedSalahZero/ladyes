@@ -2,24 +2,20 @@
 
 namespace App\Console\Commands;
 
-use App\Enum\TransactionType;
+use App\Enum\TravelStatus;
 use App\Jobs\SendCurrentStatusMessageToEmergencyContractsJob;
-use App\Models\CarSize;
-use App\Models\Client;
-use App\Models\Notification;
-
-use App\Models\Transaction;
 use App\Models\Travel;
+use App\Services\DistanceMatrix\GoogleDistanceMatrixService;
 use Illuminate\Console\Command;
 
-class TestCommand extends Command
+class SendTravelStatusUpdateToEmergencyContracts extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'run:test';
+    protected $signature = 'send:late';
 
     /**
      * The console command description.
@@ -45,7 +41,10 @@ class TestCommand extends Command
      */
     public function handle()
     {
-		
+       Travel::where('status',TravelStatus::ON_THE_WAY)->where('expected_arrival_date','<',now()->addMinutes(5))->get()->each(function(Travel $travel){
+			dispatch(new SendCurrentStatusMessageToEmergencyContractsJob($travel));
+	   });
+
     }
-   
+	
 }

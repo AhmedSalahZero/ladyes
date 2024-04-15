@@ -1,7 +1,6 @@
 <?php
 
 use App\Enum\TravelStatus;
-use Illuminate\Console\Command;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -42,8 +41,11 @@ class CreateTravelsTable extends Migration
 			$table->string('secure_code')->nullable()->default(null)->comment('is_secure رمز الرحلة الامنة ويتم انشائه تلقائي في حالة لو تم تفعيل خيار الرحلة الامنه');
 			$table->dateTime('started_at')->nullable()->comment('الوقت اللي الرحلة بدات فيه .. يعني اول ما العميل ركب السيارة');
 			$table->dateTime('ended_at')->nullable()->comment('الوقت اللي الرحلة انتهت فيه ..  يعني اول ما العميل نزل  من السيارة');
+			$table->dateTime('expected_arrival_date')->nullable()->comment('هو عدد الدقائق المتوقع فيها وصول الرحلة');
 			$table->decimal('no_km',14,2)->comment('عدد الكيلوا مترات المقطوعه خلال كامل الرحلة')->nullable();
 			$table->enum('cancelled_by',['Driver','Client'])->nullable()->comment('في حاله الغاء الرحلة .. مين اللي لغاءها العميل ولا السائق');
+			$table->unsignedBigInteger('cancellation_reason_id')->nullable()->comment('سبب الغاء الرحلة ان وجد');
+			$table->foreign('cancellation_reason_id')->references('id')->on('cancellation_reasons')->nullOnDelete();
             $table->timestamps();
         });
     }

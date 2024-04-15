@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enum\CancellationReasonPhases;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCancellationReasonRequest;
 use App\Models\CancellationReason;
@@ -66,6 +67,7 @@ class CancellationReasonsController extends Controller
 			'route'=>$model ? route('cancellation-reasons.update',['cancellation_reason'=>$model->id]) : route('cancellation-reasons.store') ,
 			'model'=>$model ,
 			'indexRoute'=>route('cancellation-reasons.index'),
+			'cancellationReasonModelPhasesFormatted'=>CancellationReasonPhases::allFormattedForSelect2(),
 			'cancellationReasonModelTypesFormatted'=>[
 				[
 					'title'=>__('Driver'),

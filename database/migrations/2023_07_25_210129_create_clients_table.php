@@ -28,6 +28,7 @@ class CreateClientsTable extends Migration
             $table->string('birth_date')->nullable();
 			$table->point('location')->nullable();
 			$table->string('device_id')->comment('علشان الاشعارات من الفرونت')->nullable();
+			$table->string('device_type')->comment('نوع الجهاز وليكن مثلا اندرويد')->nullable();
 			$table->timestamp('banned_at')->nullable();
             $table->timestamps();
         });

@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Travel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -9,7 +10,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class TestEventJob implements ShouldQueue
+class SendCurrentStatusMessageToEmergencyContractsJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -18,9 +19,10 @@ class TestEventJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct()
+	protected Travel $travel ;
+    public function __construct(Travel $travel)
     {
-        //
+        $this->travel =$travel ;
     }
 
     /**
@@ -30,6 +32,6 @@ class TestEventJob implements ShouldQueue
      */
     public function handle()
     {
-        //
+        $this->travel->sendCurrentStatusMessageToEmergencyContracts();
     }
 }
