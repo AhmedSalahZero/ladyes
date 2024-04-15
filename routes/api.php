@@ -129,5 +129,4 @@ Route::post('store-payment',function(Request $request){
 	$myfatoorah = new MyFatoorahService;
 	return 
 	$myfatoorah->storeNewOrder(100,1,'product name here',2,'ahmed salah','1025894984','asalahdev5@gmail.com');
-	
 });

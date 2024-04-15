@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\HArr;
 use App\Traits\Accessors\IsBaseModel;
 use App\Traits\Models\HasIsActive;
 use App\Traits\Models\HasModelType;
@@ -51,7 +52,8 @@ class Help extends Model
     }
 	public static function getForModelTypeFormatted(string $modelType,string $lang):array 
 	{
-		return self::where('model_type',$modelType)->get(['name_'.$lang,'description_'.$lang])->toArray();
+		$values = self::where('model_type',$modelType)->get(['name_'.$lang,'description_'.$lang])->toArray();
+		return HArr::removeUnderscoreLangFromKeys($values) ;
 	}
 	function getTableNameFromRequest()
 	{
