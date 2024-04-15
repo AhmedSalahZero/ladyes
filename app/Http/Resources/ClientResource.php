@@ -27,7 +27,7 @@ class ClientResource extends JsonResource
 			'name'=>$this->getFullName(),
 			'email'=>$this->getEmail(),
 			'phone'=>$this->getPhone(),
-			'image'=>$this->getFirstMedia('image') ,
+			'image'=>$this->getFirstMedia('image') ? $this->getFirstMedia('image')->getFullUrl() : getDefaultImage() ,
 			'access_token'=>$this->getCurrentToken(),
 			'current_balance'=>$this->getTotalWalletBalance(),
 			'country'=>$country ? new CountryResource($country) : null,
