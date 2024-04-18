@@ -7,6 +7,7 @@ use App\Enum\PaymentType;
 use App\Enum\TravelStatus;
 use App\Exceptions\TravelEndTimeNotFoundException;
 use App\Exceptions\TravelStartTimeNotFoundException;
+use App\Helpers\HDate;
 use App\Helpers\HHelpers;
 use App\Helpers\HStr;
 use App\Http\Resources\TravelResource;
@@ -20,6 +21,7 @@ use App\Traits\Models\HasCountry;
 use App\Traits\Models\HasCreatedAt;
 use App\Traits\Models\HasStartedAtAndEndedAt;
 use App\Traits\Scope\HasDefaultOrderScope;
+use App\Traits\Scope\TravelScope;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -31,6 +33,7 @@ class Travel extends Model
     use HasFactory;
     use HasBasicStoreRequest;
     use HasDefaultOrderScope;
+	use TravelScope ;
     use HasCreatedAt;
     use HasStartedAtAndEndedAt;
     use HasCity;
@@ -51,6 +54,16 @@ class Travel extends Model
 	public static function getFromTravelId(int $travelId):?self
 	{
 		return self::where('id',$travelId)->first();
+	}
+	public function getDriverPhoneNumber():string 
+	{
+		$driver  = $this->driver ;
+		return  $driver ? $driver->getPhone() : __('N/A',[],getApiLang());
+	}
+	public function getDriverCarIdNumber():string 
+	{
+		$driver  = $this->driver ;
+		return  $driver ? $driver->getCarIdNumber() : __('N/A',[],getApiLang());
 	}
     public function client(): ?BelongsTo
     {
@@ -209,7 +222,12 @@ class Travel extends Model
         $this->ended_at = now();
         $this->save();
 		dispatch(new SendCurrentStatusMessageToEmergencyContractsJob($this));
-	
+		Notification::storeNewAdminNotification(
+			__('Ride Completed',[],'en'),
+			__('Ride Completed',[],'ar'),
+			__('Ride Number :travelId Has Been Completed At :dateTimeFormatted' , ['travelId'=>$this->getId(),'dateTimeFormatted'=>HDate::formatForView(now()->format('Y-m-d'))] , 'en'),
+			__('Ride Number :travelId Has Been Completed At :dateTimeFormatted' , ['travelId'=>$this->getId(),'dateTimeFormatted'=>HDate::formatForView(now()->format('Y-m-d'))] , 'ar'),
+		);
         return $this;
     }
 	/**
@@ -246,6 +264,7 @@ class Travel extends Model
 		$fromLongitude = $this->getFromLatitude();
 		$toLatitude = $this->getToLatitude();
 		$toLongitude = $this->getToLongitude();
+
 		$googleDistanceMatrixService = new GoogleDistanceMatrixService();
 		$result = $googleDistanceMatrixService->getExpectedArrivalTimeBetweenTwoPoints($fromLatitude,$fromLongitude,$toLatitude,$toLongitude);   
 		if(isset($result['duration_in_seconds']) && $result['duration_in_seconds'] > 0){
@@ -255,6 +274,14 @@ class Travel extends Model
 			$minutes = 100 / 60 ;
 			$this->expected_arrival_date = now()->addMinutes($minutes);
 		}
+		
+		Notification::storeNewAdminNotification(
+			__('Ride Started',[],'en'),
+			__('Ride Started',[],'ar'),
+			__('Ride Number :travelId Has Been Started At :dateTimeFormatted' , ['travelId'=>$this->getId(),'dateTimeFormatted'=>HDate::formatForView(now()->format('Y-m-d'))] , 'en'),
+			__('Ride Number :travelId Has Been Started At :dateTimeFormatted' , ['travelId'=>$this->getId(),'dateTimeFormatted'=>HDate::formatForView(now()->format('Y-m-d'))] , 'ar'),
+		);
+		
         $this->save();
 
         return $this;
@@ -643,12 +670,6 @@ class Travel extends Model
 
         return number_format($totalPrice) . ' ' . __($currency);
     }
-
-    // public function country()
-    // {
-    //     return $this->belongsTo(Country::class, 'country_id', 'id');
-    // }
-
     public function getPaymentMethodFormatted()
     {
         return $this->payment->getTypeFormatted();
@@ -825,10 +846,18 @@ class Travel extends Model
 			$this->cancellation_reason_id = $request->get('cancellation_reason_id');
 		}
         $this->save();
+		
         if ($this->hasStarted() && $this->isCancelledByClient()) {
             $this->applyCancellationFine($request);
         }
 		dispatch(new SendCurrentStatusMessageToEmergencyContractsJob($this));
+		Notification::storeNewAdminNotification(
+			__('Ride Cancelled',[],'en'),
+			__('Ride Cancelled',[],'ar'),
+			__('Ride Number :travelId Has Been Cancelled At :dateTimeFormatted' , ['travelId'=>$this->getId(),'dateTimeFormatted'=>HDate::formatForView(now()->format('Y-m-d'))] , 'en'),
+			__('Ride Number :travelId Has Been Cancelled At :dateTimeFormatted' , ['travelId'=>$this->getId(),'dateTimeFormatted'=>HDate::formatForView(now()->format('Y-m-d'))] , 'ar'),
+		);
+		
         return $this ;
     }
 

@@ -374,4 +374,38 @@ class Driver extends Model implements HasMedia, BannableInterface, IHaveAppNotif
 	{
 		return false ;
 	}
+	public function travels()
+    {
+        return $this->hasMany(Travel::class, 'driver_id', 'id');
+    }
+	/**
+	 * * نسبة الرحلات المكتملة لهذا السائق من اجمالي رحلاته
+	 */
+	public function getCompletedTravelsPercentage():float 
+	{
+		$totalTravels = $this->travels()->count();
+		$completedTravels = $this->travels()->onlyCompleted()->count();
+		return $totalTravels ? $completedTravels /  $totalTravels * 100 : 0 ;
+	}
+	
+	public function getCompletedTravelsPercentageFormatted():string 
+	{
+		return number_format($this->getCompletedTravelsPercentage(),2) . ' %';
+	}
+	
+	/**
+	 * * نسبة الرحلات التي تم الغائها لهذا السائق من اجمالي رحلاته
+	 */
+	public function getCancelledTravelsPercentage():float 
+	{
+		$totalTravels = $this->travels()->count();
+		$cancelledTravels = $this->travels()->onlyCancelled()->count();
+		return $totalTravels ? $cancelledTravels /  $totalTravels * 100 : 0 ;
+	}
+	
+	public function getCancelledTravelsPercentageFormatted():string 
+	{
+		return number_format($this->getCancelledTravelsPercentage(),2) . ' %';
+	}
+	
 }

@@ -123,15 +123,19 @@ class EmergencyContact extends Model
 	public function generateMessage(int $travelId , ?Carbon $expectedArrivalDate , string $travelStatus, string $fullName):?string 
 	{
 		$message = null;
+		$travel = Travel::getFromTravelId($travelId);
+		$driverPhone = $travel ? $travel->getDriverPhoneNumber() : __('N/A',[],getApiLang()) ;
+		$driverCarIdNumber = $travel ? $travel->getDriverCarIdNumber() : __('N/A',[],getApiLang()) ;
+		
 		if($travelStatus === TravelStatus::ON_THE_WAY && $expectedArrivalDate && $expectedArrivalDate->lessThan(now()->addMinutes(Travel::TRAVEL_ARRIVAL_LATE_MINUTE)) ){
 			/**
 			 * * هنا المفروض نبعت لينك للماب مباشر بحيث جهه الاتصال تعرف مكان الرحلة فين حاليا علي الخريطة
 			 */
-			$travel = Travel::getFromTravelId($travelId);
+		
 			return __('Hi :name , Travel Number #:travelId Still In The Road || From :fromAddress To :toAddress' ,['name'=>$fullName ,'travelId'=>$travelId,'fromAddress'=> $travel->getFromAddress() , 'toAddress'=>$travel->getToAddress() ]);
 		}
 		elseif($travelStatus === TravelStatus::ON_THE_WAY){
-			return __('Hi :name , Travel Number #:travelId Started Now' ,['name'=>$fullName ,'travelId'=>$travelId]);
+			return __('Hi :name , Travel Number #:travelId Started Now | Driver Phone :driverPhone | Car Number :carNumber' ,['name'=>$fullName ,'travelId'=>$travelId , 'driverPhone'=> $driverPhone , 'carNumber'=>$driverCarIdNumber]);
 		}
 		elseif($travelStatus === TravelStatus::CANCELLED){
 			return __('Hi :name , Travel Number #:travelId Has Been Cancelled' ,['name'=>$fullName ,'travelId'=>$travelId]);

@@ -22,7 +22,7 @@ class SendTravelStatusUpdateToEmergencyContracts extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Send Late Travel Infos For Emergency Contact';
 
     /**
      * Create a new command instance.

@@ -1,6 +1,8 @@
 <?php 
 namespace App\Traits\Models;
 
+use App\Helpers\HDate;
+
 
 trait HasRating
 {
@@ -35,7 +37,7 @@ trait HasRating
 	}
 	
 		/**
-	 * * التقيمات اللي هو تلقائها
+	 * * التقيمات اللي هو تلقاها من الاخرين
 	 */
 	public function getReceivedRatings()
 	{
@@ -49,7 +51,22 @@ trait HasRating
 	{
 		return $this->getAllRatings($this->id,'desc')->where('author_type',get_class($this));
 	}
-	
+	public function getRatesForApi():array 
+	{
+		return  $this->getReceivedRatings()->map(function($rate){
+			/**
+			 * * اسم الشخص اللي عمله التقيم دا 
+			 */
+			$user  = getModelByNamespaceAndId($rate->author_type,$rate->author_id) ;
+			return [
+				'name'=>$user ?  $user->getFullName() : __('N/A' , [] , getApiLang()) ,
+				'image'=>$user && $user->getFirstMedia('image') ? $user->getFirstMedia('image')->getFullUrl() : getDefaultImage(),
+				'stars'=>$rate->rating ,
+				'comment'=>$rate->body ,
+				'date'=>HDate::formatForView($rate->created_at,true) 
+			];
+		})->toArray();
+	}
 	
 	
 }

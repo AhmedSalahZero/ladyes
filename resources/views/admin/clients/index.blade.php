@@ -293,7 +293,7 @@
                                                                                     @foreach($model->getReceivedRatings() as $index=>$rate)
                                                                                     <tr>
                                                                                         <td>{{ $index+1 }}</td>
-                                                                                        <td>{{ getModelByNamespaceAndId($rate->author_type,$rate->author_id) }}</td>
+                                                                                        <td>{{ getModelNameByNamespaceAndId($rate->author_type,$rate->author_id) }}</td>
                                                                                         <td>{{ $rate->rating }}</td>
                                                                                         <td>{{ formatForView($rate->created_at) }}</td>
                                                                                     </tr>
@@ -336,7 +336,7 @@
                                                                                     @foreach($model->getSentRatings() as $index=>$rate)
                                                                                     <tr>
                                                                                         <td>{{ $index+1 }}</td>
-                                                                                        <td>{{ getModelByNamespaceAndId($rate->reviewrateable_type,$rate->reviewrateable_id) }}</td>
+                                                                                        <td>{{ getModelNameByNamespaceAndId($rate->reviewrateable_type,$rate->reviewrateable_id) }}</td>
                                                                                         <td>{{ $rate->rating }}</td>
                                                                                         <td>{{ formatForView($rate->created_at) }}</td>
                                                                                     </tr>

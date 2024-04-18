@@ -542,7 +542,7 @@
 	"Total Fine":"اجمالي الغرامة المدفوعه",
 	"Details":"التفاصيل"	,
 	"Hi :name , Travel Number #:travelId Still In The Road || From :fromAddress To :toAddress":"مرحبا :name , نود اعلامكم بان الرحلة رقم #:travelId لا تزال في الطريق || الوجهه :fromAddress :مكان الالتقاء :toAddress",
-	"Hi :name , Travel Number #:travelId Started Now":"مرحبا :name , نود اعلامكم بان الرحلة رقم #:travelId قد بدات للتو",
+	"Hi :name , Travel Number #:travelId Started Now | Driver Phone :driverPhone | Car Number :carNumber":"مرحبا :name , نود اعلامكم بان الرحلة رقم #:travelId قد بدات للتو | رقم هاتف السائق :driverPhone | رقم السيارة :carNumber",
 	"Hi :name , Travel Number #:travelId Has Been Cancelled":"مرحبا :name , نود اعلامكم بان الرحلة رقم #:travelId قد تم الغائها",
 	"Hi :name , Travel Number #:travelId Completed":"مرحبا :name , نود اعلامكم بان الرحلة رقم #:travelId قد انتهت بنجاح",
 	"English Travel End Message En":"رسالة للعميل بعد انتهاء الرحلة باللغة الانجليزية",
@@ -551,5 +551,12 @@
 	"Phase":"المرحلة",
 	"Phase (For Client Only)":"المرحلة (في حالة السائق فقط)",
 	"Before Driver Arrive":"قبل وصول السائق",
-	"After Driver Arrive":"بعد وصول السائق"
+	"After Driver Arrive":"بعد وصول السائق",
+	"Comment":"تعليق",
+	"Ride Started":"رحلة جديدة بدات",
+	"Ride Cancelled":"رحلة الغيت",
+	"Ride Completed":"رحلة اكتملت",
+	"Ride Number :travelId Has Been Started At :dateTimeFormatted":"الرحلة رقم :travelId بدات عند :dateTimeFormatted",
+	"Ride Number :travelId Has Been Cancelled At :dateTimeFormatted":"الرحلة رقم :travelId الغيت عند :dateTimeFormatted",
+	"Ride Number :travelId Has Been Completed At :dateTimeFormatted":"الرحلة رقم :travelId اكتملت عند :dateTimeFormatted"
 }

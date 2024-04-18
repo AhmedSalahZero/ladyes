@@ -25,7 +25,7 @@ class DriversController extends Controller
 			$request->user('driver')->getFullName('ar') . ' ' . __('Has Updated His Profile Info', [], 'ar') ,
 		);
 		
-		return $this->apiResponse(__('Your Profile Has Been Updated Successfully',[],getApiLang()));
+		return $this->apiResponse(__('Your Profile Has Been Updated Successfully',[],getApiLang()),(new DriverResource($request->user()))->toArray($request));
 	}
 	
 }

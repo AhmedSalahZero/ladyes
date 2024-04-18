@@ -24,11 +24,12 @@ class ClientResource extends JsonResource
 		
         return [
 			'id'=>$this->id ,
+			'access_token'=>$this->getCurrentToken(),
 			'name'=>$this->getFullName(),
 			'email'=>$this->getEmail(),
 			'phone'=>$this->getPhone(),
 			'image'=>$this->getFirstMedia('image') ? $this->getFirstMedia('image')->getFullUrl() : getDefaultImage() ,
-			'access_token'=>$this->getCurrentToken(),
+			'rates'=>$this->getRatesForApi(),
 			'current_balance'=>$this->getTotalWalletBalance(),
 			'country'=>$country ? new CountryResource($country) : null,
 			'is_verified'=>$this->getIsVerified(),

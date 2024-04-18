@@ -26,7 +26,8 @@ class StoreDriverRatingRequest extends FormRequest
         return
         [
             'driver_id' => ['required', 'exists:drivers,id'],
-			'rate'=>['required','gte:0','lt:6']
+			'rate'=>['required','gte:0','lt:6'],
+			'comment'=>'sometimes|required|max:255'
         ];
     }
 
@@ -38,6 +39,9 @@ class StoreDriverRatingRequest extends FormRequest
             'rate.required' => __('Please Enter :attribute', ['attribute' => __('Rating No',[],getApiLang())],getApiLang()),
 			'rate.gte'=>__('Rating Stars Must Be At Least Zero',[],getApiLang()),
 			'rate.lt'=>__('Rating Stars Can Not Be Greater Than Five',[],getApiLang()),
+			
+			'comment.required'=>__('Please Enter :attribute' , ['attribute'=>__('Comment',[],getApiLang())]),
+			'comment.max'=> __(':attribute Exceed The Max Letter Length :max Letter',['attribute'=>__('Comment'),'max'=>255	]),
 			
         ];
     }

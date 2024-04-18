@@ -235,6 +235,10 @@ function getApiLang($lang = null)
 }
 function getModelByNamespaceAndId(string $fullClass , int $id){
 	$model  =($fullClass)::find($id) ;
+	return $model;
+}
+function getModelNameByNamespaceAndId(string $fullClass , int $id){
+	$model  =($fullClass)::find($id) ;
 	return $model ? $model->getName() : __('N/A');
 }
 function getTypeWithoutNamespace($obj):string{

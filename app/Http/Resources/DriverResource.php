@@ -21,13 +21,13 @@ class DriverResource extends JsonResource
 		$country = $this->getCountry() ;
         return [
 			'id'=>$this->id ,
-			'distance_in_km'=>$this->when(!is_null($this->distance_in_km) , $this->getDistanceInKm()),
+			'access_token'=>$this->getCurrentToken(),
 			'name'=>$this->getFullName(),
 			'email'=>$this->getEmail(),
 			'phone'=>$this->getPhone(),
 			'image'=>$this->getFirstMedia('image') ? $this->getFirstMedia('image')->getFullUrl() : getDefaultImage() ,
-			'access_token'=>$this->getCurrentToken(),
 			'current_balance'=>$this->getTotalWalletBalance(),
+			'rates'=>$this->getRatesForApi(),
 			'country'=>$country ? new CountryResource($country) : null,
 			'city'=> $this->city ? new CityResource($this->city) : null,
 			'is_verified'=>$this->getIsVerified(),
@@ -42,6 +42,9 @@ class DriverResource extends JsonResource
 			'avg_rate'=>$this->getAvgRate(),
 			'location'=>$this->getLocation(),
 			'is_banned'=>$this->isBanned(),
+			'distance_in_km'=>$this->when(!is_null($this->distance_in_km) , $this->getDistanceInKm()),
+			'completed_travels_percentage'=>$this->getCompletedTravelsPercentageFormatted(),
+			'cancelled_travels_percentage'=>$this->getCancelledTravelsPercentageFormatted(),
 			'created_at'=>$this->getCreatedAtFormatted(),
 			'car'=>[
 				'manufacturing_year'=>$this->getManufacturingYear(),
