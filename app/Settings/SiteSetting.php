@@ -47,6 +47,17 @@ class SiteSetting extends Settings
 	public $travel_end_message_en ;
 	public $travel_end_message_ar ;
 	
+	public $take_safety_en ;
+	public $take_safety_ar ;
+	
+	public $select_your_route_en ;
+	public $select_your_route_ar ;	
+	
+	public $choose_the_appropriate_offer_en ;
+	public $choose_the_appropriate_offer_ar ;	
+	
+	public $follow_capitan_path_en ;
+	public $follow_capitan_path_ar ;
 	
 	public function getLogo()
 	{

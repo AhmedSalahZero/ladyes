@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\CitiesController;
 use App\Http\Controllers\Api\Client\Auth\AuthController as ClientAuthController;
 use App\Http\Controllers\Api\Client\ClientsController;
 use App\Http\Controllers\Api\Client\CouponsController;
+use App\Http\Controllers\Api\Client\HomeTextController;
 use App\Http\Controllers\Api\Client\RatingController;
 use App\Http\Controllers\Api\Client\TravelsController;
 use App\Http\Controllers\Api\CountriesController;
@@ -88,11 +89,13 @@ Route::prefix('drivers')->group(function () {
  * * خاصة بالعميل فقط
  */
 Route::prefix('clients')->group(function () {
+	Route::get('home-text', [HomeTextController::class, 'view']);
 	Route::prefix('auth')->group(function () {
         Route::post('send-verification-code', [ClientAuthController::class, 'sendVerificationCode']);
         Route::post('verify-verification-code', [ClientAuthController::class, 'verifyVerificationCode']);
 		Route::post('register', [ClientAuthController::class, 'register']);
         Route::post('logout', [ClientAuthController::class, 'logout'])->middleware('auth:client');
+	
     });
     Route::middleware('auth:client')->group(function () {
 		Route::get('show', [ClientsController::class, 'show']);
@@ -124,6 +127,7 @@ Route::apiResource('countries',CountriesController::class);
 Route::apiResource('cities',CitiesController::class);
 Route::apiResource('payment-methods',PaymentMethodsController::class);
 Route::get('guidelines', [GuidelinesController::class, 'view']);
+
 });
 Route::post('store-payment',function(Request $request){
 	$myfatoorah = new MyFatoorahService;

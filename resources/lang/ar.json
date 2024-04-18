@@ -545,8 +545,8 @@
 	"Hi :name , Travel Number #:travelId Started Now | Driver Phone :driverPhone | Car Number :carNumber":"مرحبا :name , نود اعلامكم بان الرحلة رقم #:travelId قد بدات للتو | رقم هاتف السائق :driverPhone | رقم السيارة :carNumber",
 	"Hi :name , Travel Number #:travelId Has Been Cancelled":"مرحبا :name , نود اعلامكم بان الرحلة رقم #:travelId قد تم الغائها",
 	"Hi :name , Travel Number #:travelId Completed":"مرحبا :name , نود اعلامكم بان الرحلة رقم #:travelId قد انتهت بنجاح",
-	"English Travel End Message En":"رسالة للعميل بعد انتهاء الرحلة باللغة الانجليزية",
-	"Arabic Travel End Message En":"رسالة للعميل بعد انتهاء الرحلة باللغة العربية",
+	"English Travel End Message":"رسالة للعميل بعد انتهاء الرحلة باللغة الانجليزية",
+	"Arabic Travel End Message":"رسالة للعميل بعد انتهاء الرحلة باللغة العربية",
 	"While Searching":"اثناء البحث عن سائق",
 	"Phase":"المرحلة",
 	"Phase (For Client Only)":"المرحلة (في حالة السائق فقط)",
@@ -558,5 +558,13 @@
 	"Ride Completed":"رحلة اكتملت",
 	"Ride Number :travelId Has Been Started At :dateTimeFormatted":"الرحلة رقم :travelId بدات عند :dateTimeFormatted",
 	"Ride Number :travelId Has Been Cancelled At :dateTimeFormatted":"الرحلة رقم :travelId الغيت عند :dateTimeFormatted",
-	"Ride Number :travelId Has Been Completed At :dateTimeFormatted":"الرحلة رقم :travelId اكتملت عند :dateTimeFormatted"
+	"Ride Number :travelId Has Been Completed At :dateTimeFormatted":"الرحلة رقم :travelId اكتملت عند :dateTimeFormatted",
+	"English Take Safety Description":"وصف نص الزم سلامتك بالانجليزية",
+	"Arabic Take Safety Description":"وصف نص الزم سلامتك بالعربية",
+	"English Select Your Route":"وصف نص حدد مسار طريقك بالانجليزية",
+	"Arabic Select Your Route":"وصف نص حدد مسار طريقك بالعربية",
+	"English Choose The Appropriate Offer":"وصف نص اختار العرض المناسب لك بالانجليزية",
+	"Arabic Choose The Appropriate Offer":"وصف نص اختار العرض المناسب لك بالعربية",
+	"English Follow Capitan Path":"وصف نص تتبع مسار الكابتن بالانجليزية",
+	"Arabic Follow Capitan Path":"وصف نص تتبع مسار الكابتن بالعربية"
 }

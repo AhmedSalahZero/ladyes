@@ -29,14 +29,54 @@
 
 
 
-                 <div class="col-md-6">
-                                                    <x-form.textarea :rows="3" :id="'travel_end_message_en'" :label="__('English Travel End Message En')" :type="'text'" :name="'travel_end_message_en'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('English Travel End Message En')])"></x-form.textarea>
+                                                <div class="col-md-6">
+                                                    <x-form.textarea :rows="3" :id="'travel_end_message_en'" :label="__('English Travel End Message')" :type="'text'" :name="'travel_end_message_en'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('English Travel End Message')])"></x-form.textarea>
                                                 </div>
 
                                                 <div class="col-md-6">
-                                                    <x-form.textarea :rows="3" :id="'travel_end_message_ar'" :label="__('Arabic Travel End Message En')" :type="'text'" :name="'travel_end_message_ar'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Arabic Travel End Message En')])"></x-form.textarea>
+                                                    <x-form.textarea :rows="3" :id="'travel_end_message_ar'" :label="__('Arabic Travel End Message')" :type="'text'" :name="'travel_end_message_ar'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Arabic Travel End Message')])"></x-form.textarea>
+                                                </div>
+
+
+                                                <div class="col-md-6">
+                                                    <x-form.textarea :rows="3" :id="'take_safety_en'" :label="__('English Take Safety Description')" :type="'text'" :name="'take_safety_en'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('English Take Safety Description')])"></x-form.textarea>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <x-form.textarea :rows="3" :id="'take_safety_ar'" :label="__('Arabic Take Safety Description')" :type="'text'" :name="'take_safety_ar'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Arabic Take Safety Description')])"></x-form.textarea>
+                                                </div>
+
+
+                                                <div class="col-md-6">
+                                                    <x-form.textarea :rows="3" :id="'select_your_route_en'" :label="__('English Select Your Route')" :type="'text'" :name="'select_your_route_en'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('English Select Your Route')])"></x-form.textarea>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <x-form.textarea :rows="3" :id="'select_your_route_ar'" :label="__('Arabic Select Your Route')" :type="'text'" :name="'select_your_route_ar'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Arabic Select Your Route')])"></x-form.textarea>
+                                                </div>
+
+
+
+                                                <div class="col-md-6">
+                                                    <x-form.textarea :rows="3" :id="'choose_the_appropriate_offer_en'" :label="__('English Choose The Appropriate Offer')" :type="'text'" :name="'choose_the_appropriate_offer_en'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('English Choose The Appropriate Offer')])"></x-form.textarea>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <x-form.textarea :rows="3" :id="'choose_the_appropriate_offer_ar'" :label="__('Arabic Choose The Appropriate Offer')" :type="'text'" :name="'choose_the_appropriate_offer_ar'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Arabic Choose The Appropriate Offer')])"></x-form.textarea>
                                                 </div>
 												
+												
+												
+												
+                                                <div class="col-md-6">
+                                                    <x-form.textarea :rows="3" :id="'follow_capitan_path_en'" :label="__('English Follow Capitan Path')" :type="'text'" :name="'follow_capitan_path_en'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('English Follow Capitan Path')])"></x-form.textarea>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <x-form.textarea :rows="3" :id="'follow_capitan_path_ar'" :label="__('Arabic Follow Capitan Path')" :type="'text'" :name="'follow_capitan_path_ar'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Arabic Follow Capitan Path')])"></x-form.textarea>
+                                                </div>
+												
+
                                             </div>
 
 

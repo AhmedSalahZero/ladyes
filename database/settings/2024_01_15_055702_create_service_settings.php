@@ -66,6 +66,18 @@ return new class extends SettingsMigration
 		$this->migrator->add('site.travel_end_message_en', 'Thanks For Travel');
 		$this->migrator->add('site.travel_end_message_ar', 'الحمد لله علي سلامتك .. شاركي الكود مع احبائك');
 		
+		$this->migrator->add('site.take_safety_en', 'Thanks For Travel');
+		$this->migrator->add('site.take_safety_ar', 'هذا النص هو مثال لنص يمكن ان يستبدل في نفس المساحة');
+		
+		$this->migrator->add('site.select_your_route_en', 'Replaceable Text');
+		$this->migrator->add('site.select_your_route_ar', 'هذا النص هو مثال لنص يمكن ان يستبدل في نفس المساحة');
+		
+		$this->migrator->add('site.choose_the_appropriate_offer_en', 'Replaceable Text');
+		$this->migrator->add('site.choose_the_appropriate_offer_ar', 'هذا النص هو مثال لنص يمكن ان يستبدل في نفس المساحة');
+		
+		$this->migrator->add('site.follow_capitan_path_en', 'Replaceable Text');
+		$this->migrator->add('site.follow_capitan_path_ar', 'هذا النص هو مثال لنص يمكن ان يستبدل في نفس المساحة');
+		
 		
     }
 };

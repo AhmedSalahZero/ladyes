@@ -27,12 +27,15 @@ class EmergencyContactsController extends Controller
 		->jsonPaginate() ;
 		return  $this->apiResponse(__('Data Received Successfully',[],getApiLang()), EmergencyContactsResource::collection($emergencyContacts)->toArray($request));
 	}
+	/**
+	 * * هنستخدم دي في الانشاء و التحديث بدلا من الانشاء فقط
+	 * * بناء علي طلب مطور الموبايل
+	 */
 	public function store(StoreEmergencyContactRequest $request)
     {
 		$clientOrDriver = $request->user('client')?:$request->user('driver');
         $model = $clientOrDriver->emergencyContacts->first() ?:  new EmergencyContact();
         $model->syncFromRequest($request);
-	
 		EmergencyContact::sync($clientOrDriver , $model->id , $request->boolean('can_receive_travel_info'), true );
 		return  $this->apiResponse(__(':modelName Has Been Created Successfully',['modelName'=>__('Emergency Contact',[],getApiLang())],getApiLang()) , (new EmergencyContactsResource($model))->toArray($request));
     }
