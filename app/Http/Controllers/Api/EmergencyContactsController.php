@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreEmergencyContactRequest;
+use App\Http\Requests\Apis\StoreEmergencyContactRequest;
 use App\Http\Resources\EmergencyContactsResource;
 use App\Models\EmergencyContact;
 use App\Traits\Api\HasApiResponse;
@@ -29,19 +29,20 @@ class EmergencyContactsController extends Controller
 	}
 	public function store(StoreEmergencyContactRequest $request)
     {
-        $model = new EmergencyContact();
+		$clientOrDriver = $request->user('client')?:$request->user('driver');
+        $model = $clientOrDriver->emergencyContacts->first() ?:  new EmergencyContact();
         $model->syncFromRequest($request);
-		$clientOrDriver = $request->user('client')?:$request->user('driver');
+	
 		EmergencyContact::sync($clientOrDriver , $model->id , $request->boolean('can_receive_travel_info'), true );
-		return  $this->apiResponse(__(':modelName Has Been Created Successfully',['modelName'=>__('Emergency Contact',[],getApiLang())],getApiLang()));
+		return  $this->apiResponse(__(':modelName Has Been Created Successfully',['modelName'=>__('Emergency Contact',[],getApiLang())],getApiLang()) , (new EmergencyContactsResource($model))->toArray($request));
     }
-	public function update(StoreEmergencyContactRequest $request,EmergencyContact $emergencyContact)
-    {
-		$clientOrDriver = $request->user('client')?:$request->user('driver');
-		$emergencyContact->syncFromRequest($request);
-		EmergencyContact::sync($clientOrDriver , $emergencyContact->id , $request->boolean('can_receive_travel_info'), true );
-		return  $this->apiResponse(__(':modelName Has Been Updated Successfully',['modelName'=>__('Emergency Contact',[],getApiLang())],getApiLang()));
-    }
+	// public function update(StoreEmergencyContactRequest $request,EmergencyContact $emergencyContact)
+    // {
+	// 	$clientOrDriver = $request->user('client')?:$request->user('driver');
+	// 	$emergencyContact->syncFromRequest($request);
+	// 	EmergencyContact::sync($clientOrDriver , $emergencyContact->id , $request->boolean('can_receive_travel_info'), true );
+	// 	return  $this->apiResponse(__(':modelName Has Been Updated Successfully',['modelName'=>__('Emergency Contact',[],getApiLang())],getApiLang()));
+    // }
 	public function destroy(EmergencyContact $emergencyContact){
 		$emergencyContact->delete();
 		return  $this->apiResponse(__(':modelName Has Been Deleted Successfully',['modelName'=>__('Emergency Contact',[],getApiLang())],getApiLang()));
