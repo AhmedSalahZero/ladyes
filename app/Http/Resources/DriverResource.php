@@ -34,7 +34,7 @@ class DriverResource extends JsonResource
 			'is_listing_to_orders_now'=>$this->getIsListingToOrders(),
 			'can_receive_orders'=>$this->getCanReceiveOrders(),
 			'verification_code'=>$this->getVerificationCode(),
-			'birth_date'=>$this->getBirthDateFormatted(),
+			'birth_date'=>$this->getBirthDate(),
 			'id_number'=>$this->getIdNumber(),
 			'deduction_percentage'=>$this->getDeductionPercentage(),
 			'driving_range'=>$this->getDrivingRange(),

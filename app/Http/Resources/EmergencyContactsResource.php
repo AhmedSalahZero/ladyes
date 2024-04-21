@@ -26,7 +26,7 @@ class EmergencyContactsResource extends JsonResource
 			'email'=>$this->getEmail(),
 			'phone'=>$this->getPhone(),
 			'can_receive_travel_info'=>$this->canReceiveTravelInfo(),
-			'country'=>new CountryResource($this->country)
+			'country'=>$this->country ? new CountryResource($this->country) : null
 		];
     }
 }

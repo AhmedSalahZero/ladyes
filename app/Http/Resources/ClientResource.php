@@ -35,7 +35,7 @@ class ClientResource extends JsonResource
 			'is_verified'=>$this->getIsVerified(),
 			'can_pay_by_cash'=>$this->getCanPayByCash(),
 			'verification_code'=>$this->getVerificationCode(),
-			'birth_date'=>$this->getBirthDateFormatted(),
+			'birth_date'=>$this->getBirthDate(),
 			'avg_rate'=>$this->getAvgRate(),
 			'location'=>$this->getLocation(),
 			'is_banned'=>$this->isBanned(),
