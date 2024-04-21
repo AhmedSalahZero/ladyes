@@ -47,7 +47,11 @@ class TestCommand extends Command
      */
     public function handle()
     {
-	
+		$client = Client::first();
+		
+		$d = $client->satisfyConditions([]);
+		dd($d);
+		
     }
    
 }

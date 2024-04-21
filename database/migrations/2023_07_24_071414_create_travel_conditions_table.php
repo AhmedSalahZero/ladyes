@@ -17,7 +17,7 @@ class CreateTravelConditionsTable extends Migration
             $table->id();
 			$table->string('name_en')->nullable();
 			$table->string('name_ar')->nullable();
-			$table->string('model_type')->comment('Driver Or Client For Example')->nullable();
+			// $table->string('model_type')->comment('Driver Or Client For Example')->nullable();
             $table->string('is_active')->default(0)->boolean();
             $table->timestamps();
         });

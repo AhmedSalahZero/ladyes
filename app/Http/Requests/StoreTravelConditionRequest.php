@@ -29,7 +29,7 @@ class StoreTravelConditionRequest extends FormRequest
 		[
 			'name_en'=>$HValidationRules['name_en'],
 			'name_ar'=>$HValidationRules['name_ar'],
-			'model_type'=>'required',
+			// 'model_type'=>'required',
 			'is_active'=>$HValidationRules['is_active'],
         ];
     }

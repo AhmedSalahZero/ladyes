@@ -322,6 +322,7 @@
 	"Driver :modelName Has Logged Out":"السائق :modelName قام بتسجيل خروجة",
 	"Success Login Attempt":"تم تسجيل الدخول بنجاح",
 	"Success Logout Attempt":"تم تسجيل الخروج بنجاح",
+	"Travel Condition Ids":"الرقم التعريف للشرط (الاي دي)",
 	"Travel Id":"رقم تعريف الرحلة (الاي دي)",
 	"Driver Id":"رقم تعريف السائق (الاي دي)",
 	"Client Id":"رقم تعريف العميل ( الاي دي)",
@@ -566,5 +567,6 @@
 	"English Choose The Appropriate Offer":"وصف نص اختار العرض المناسب لك بالانجليزية",
 	"Arabic Choose The Appropriate Offer":"وصف نص اختار العرض المناسب لك بالعربية",
 	"English Follow Capitan Path":"وصف نص تتبع مسار الكابتن بالانجليزية",
-	"Arabic Follow Capitan Path":"وصف نص تتبع مسار الكابتن بالعربية"
+	"Arabic Follow Capitan Path":"وصف نص تتبع مسار الكابتن بالعربية",
+	"Travel Condition Ids Must Be An Array":"رقم الشرط لابد ان يكون array"
 }

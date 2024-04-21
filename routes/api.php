@@ -26,6 +26,7 @@ use App\Http\Controllers\Api\EmergencyContactsController;
 use App\Http\Controllers\Api\MyWalletController;
 use App\Http\Controllers\Api\NotificationsController;
 use App\Http\Controllers\Api\PaymentMethodsController;
+use App\Http\Controllers\Api\TravelConditionsController;
 use App\Http\Controllers\Helpers\Apis\SendEmailMessageController;
 use App\Http\Controllers\Helpers\Apis\SendSmsMessageController;
 use App\Http\Controllers\Helpers\Apis\SendWhatsappMessageController;
@@ -49,6 +50,7 @@ Route::prefix('utilities')->group(function () {
  */
 Route::middleware('authClientOrDriver')->group(function(){
 	Route::apiResource('emergency-contacts', EmergencyContactsController::class);
+	Route::apiResource('user-travel-conditions', TravelConditionsController::class);
 	Route::get('my-transactions',[MyWalletController::class,'index']);
 	Route::get('my-notifications',[NotificationsController::class,'index']);
 	Route::delete('delete-my-notifications',[NotificationsController::class,'delete']);
@@ -67,7 +69,7 @@ Route::prefix('drivers')->group(function () {
         Route::put('update', [DriversController::class, 'update']);
         Route::get('information', [InformationController::class, 'viewAfterSignupMessage']);
         Route::get('help', [HelpController::class, 'viewForDriver']);
-		Route::apiResource('travel-conditions',TravelConditionController::class);
+		
 		Route::apiResource('cancellation-reasons',CancellationReasonsController::class);
 		Route::apiResource('car-sizes',CarSizesController::class);
 		Route::apiResource('car-makes',CarMakeController::class);
@@ -102,7 +104,6 @@ Route::prefix('clients')->group(function () {
         Route::put('update', [ClientsController::class, 'update']);
         Route::get('information', [InformationController::class, 'viewAfterSignupMessage']);
         Route::get('help', [HelpController::class, 'viewForDriver']);
-		Route::apiResource('travel-conditions',TravelConditionController::class);
 		Route::apiResource('cancellation-reasons',CancellationReasonsController::class);
 		Route::apiResource('coupons',CouponsController::class);
 		Route::post('rating',[RatingController::class,'rateWith']);
@@ -127,6 +128,8 @@ Route::apiResource('countries',CountriesController::class);
 Route::apiResource('cities',CitiesController::class);
 Route::apiResource('payment-methods',PaymentMethodsController::class);
 Route::get('guidelines', [GuidelinesController::class, 'view']);
+Route::apiResource('travel-conditions',TravelConditionController::class);
+
 
 });
 Route::post('store-payment',function(Request $request){

@@ -49,19 +49,18 @@ class StoreEmergencyContactRequest extends FormRequest
 	public function messages()
 	{
 		return [
-			'name.required'=>__('Please Enter :attribute' , ['attribute'=>__('Name')]),
+			'name.required'=>__('Please Enter :attribute' , ['attribute'=>__('Name',[],getApiLang())],getApiLang()),
 			// 'name.string'=> __(':attribute Must Be String',['attribute'=>__('Name')]),
-			'name.max'=> __(':attribute Exceed The Max Letter Length :max Letter',['attribute'=>__('Name'),'max'=>255	]),
-			'name.unique'=> __(':attribute Already Exist',['attribute'=>__('Name')]),
-			'country_id.required'=>__('Please Enter :attribute' , ['attribute'=>__('Country Name')]),
+			'name.max'=> __(':attribute Exceed The Max Letter Length :max Letter',['attribute'=>__('Name',[],getApiLang()),'max'=>255	],getApiLang()),
+			'name.unique'=> __(':attribute Already Exist',['attribute'=>__('Name',[],getApiLang())],getApiLang()),
+			'country_id.required'=>__('Please Enter :attribute' , ['attribute'=>__('Country Name',[],getApiLang())],getApiLang()),
 			
-			'phone.required'=>__('Please Enter :attribute' , ['attribute'=>__('Phone')]),
-			'phone.unique'=> __(':attribute Already Exist',['attribute'=>__('Phone')]),
+			'phone.required'=>__('Please Enter :attribute' , ['attribute'=>__('Phone',[],getApiLang())],getApiLang()),
+			'phone.unique'=> __(':attribute Already Exist',['attribute'=>__('Phone',[],getApiLang())],getApiLang()),
 			
-			'email.required'=>__('Please Enter :attribute' , ['attribute'=>__('Email')]),
-			'email.max'=> __(':attribute Exceed The Max Letter Length :max Letter',['attribute'=>__('Email'),'max'=>255	]),
-			'email.unique'=> __(':attribute Already Exist',['attribute'=>__('Email')]),
-			
+			'email.required'=>__('Please Enter :attribute' , ['attribute'=>__('Email',[],getApiLang())],getApiLang()),
+			'email.max'=> __(':attribute Exceed The Max Letter Length :max Letter',['attribute'=>__('Email',[],getApiLang()),'max'=>255	],getApiLang()),
+			'email.unique'=> __(':attribute Already Exist',['attribute'=>__('Email',[],getApiLang())])	
 		];
 	}
 	

@@ -16,7 +16,7 @@ class TravelConditionController extends Controller
     public function index(Request $request)
 	{
 		$travelConditions = QueryBuilder::for(TravelCondition::class)
-		->where('model_type',HHelpers::getClassNameWithoutNameSpace($request->user()))
+		// ->where('model_type',HHelpers::getClassNameWithoutNameSpace($request->user()))
 		->onlyIsActive()
 		->allowedSorts('id')
 		->get() ;

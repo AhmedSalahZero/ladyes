@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use App\Models\EmergencyContact;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class EmergencyContactsResource extends JsonResource
+class TravelConditionsResource extends JsonResource
 {
 
     /**
@@ -19,14 +19,9 @@ class EmergencyContactsResource extends JsonResource
 		/**
 		 * @var EmergencyContact $this
 		 */
-
         return [
 			'id'=>$this->id ,
 			'name'=>$this->getName() ,
-			'email'=>$this->getEmail(),
-			'phone'=>$this->getPhone(),
-			'can_receive_travel_info'=>$this->canReceiveTravelInfo(),
-			'country'=>new CountryResource($this->country)
 		];
     }
 }

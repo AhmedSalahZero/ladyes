@@ -17,20 +17,20 @@ class TravelConditionSeeder extends Seeder
 		TravelCondition::factory()->create([
 			'name_en'=>'Child Seats',
 			'name_ar'=>'مقعد للاطفال',
-			'model_type'=>'Driver'
+			// 'model_type'=>'Driver'
 		]);
 		
 		TravelCondition::factory()->create([
 			'name_en'=>'Allowing Smoking',
 			'name_ar'=>'السماح بالتدخين',
-			'model_type'=>'Driver'
+			// 'model_type'=>'Driver'
 		]);
 		
-		TravelCondition::factory()->create([
-			'name_en'=>'Allowing Smoking',
-			'name_ar'=>'السماح بالتدخين',
-			'model_type'=>'Client'
-		]);
+		// TravelCondition::factory()->create([
+		// 	'name_en'=>'Allowing Smoking',
+		// 	'name_ar'=>'السماح بالتدخين',
+		// 	'model_type'=>'Client'
+		// ]);
 		
     }
 }

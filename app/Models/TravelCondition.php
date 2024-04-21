@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use App\Helpers\HHelpers;
 use App\Traits\Accessors\IsBaseModel;
 use App\Traits\Models\HasIsActive;
-use App\Traits\Models\HasModelType;
 use App\Traits\Models\HasTransNames;
 use App\Traits\Scope\HasDefaultOrderScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,8 +20,28 @@ use Illuminate\Database\Eloquent\Model;
  */
 class TravelCondition extends Model
 {
-    use  IsBaseModel,HasDefaultOrderScope,HasFactory,HasTransNames,HasIsActive,HasModelType;
+    use  IsBaseModel,HasDefaultOrderScope,HasFactory,HasTransNames,HasIsActive;
 
+	/**
+	 * * to get drivers 
+	 */
+	public function drivers()
+	{
+		return $this->belongsToMany(Driver::class , 'user_travel_conditions','travel_condition_id','model_id')
+		->where('model_type','Driver')
+		->withTimestamps();
+	}
+	/**
+	 * * to get clients 
+	 */
+	public function clients()
+	{
+		return $this->belongsToMany(Client::class , 'user_travel_conditions','travel_condition_id','model_id')
+		->where('model_type','Client')
+		->withTimestamps()
+		;
+	}
+	
     public function syncFromRequest($request)
     {
         if ($request->has('name_en')) {
@@ -30,11 +50,22 @@ class TravelCondition extends Model
         if ($request->has('name_ar')) {
             $this->name_ar = $request->name_ar;
         }
-		if ($request->has('model_type')) {
-            $this->model_type = $request->model_type;
-        }
+		// if ($request->has('model_type')) {
+        //     $this->model_type = $request->model_type;
+        // }
 		$this->is_active = $request->boolean('is_active');
 		
         $this->save();
     }
+	
+	public static function sync( $driverOrClient,array $travelConditionIds):void
+	{
+		$pivotArr = [];
+		foreach($travelConditionIds as $travelConditionId){
+			$pivotArr[$travelConditionId] = ['model_type' => HHelpers::getClassNameWithoutNameSpace($driverOrClient) ];
+		}
+            $driverOrClient->travelConditions()->sync($pivotArr);
+		
+	}
+	
 }

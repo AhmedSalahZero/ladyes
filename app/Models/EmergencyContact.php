@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enum\TravelStatus;
+use App\Helpers\HAuth;
 use App\Helpers\HHelpers;
 use App\Http\Requests\StoreEmergencyContactRequest;
 use App\Models\Client;
@@ -71,6 +72,22 @@ class EmergencyContact extends Model
 		->withTimestamps()
 		;
 	}
+	/**
+	 * * هنا هنجيبها لليوزر الحالي اللي مسجل دخوله لو مكناش عاملين لود لل
+	 * * pivot
+	 */
+	public function canReceiveTravelInfoForPivotNotLoaded()
+	{
+		$currentAuthGuard = HAuth::getActiveGuard();
+		if(!$currentAuthGuard){ // no auth user
+			return null ;
+		}
+		$user = Auth()->guard($currentAuthGuard)->user();
+			$emergencyContact = $user->emergencyContacts->where('id',$this->id)->first() ;
+			return $emergencyContact ? $emergencyContact->canReceiveTravelInfo() : null ;
+		
+		
+	}
 	
 	public function country():BelongsTo
 	{
@@ -115,7 +132,7 @@ class EmergencyContact extends Model
 	}
 	public function canReceiveTravelInfo():bool 
 	{
-		return is_null($this->pivot) ? throw new \Exception('Custom Exception .. Pivot Not Loaded') : $this->pivot->can_receive_travel_info;
+		return is_null($this->pivot) ? $this->canReceiveTravelInfoForPivotNotLoaded() : $this->pivot->can_receive_travel_info;
 	}
 	/**
 	 * * هنا هننشئ رسالة جهه اتصال الطوارئ بناء علي حاله الرحلة الحاليه هل هي طلعت ولا انتهت ولا اتكنسلت

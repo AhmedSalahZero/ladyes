@@ -35,6 +35,7 @@ use App\Traits\Models\HasModel;
 use App\Traits\Models\HasPhone;
 use App\Traits\Models\HasRating;
 use App\Traits\Models\HasTrafficTickets;
+use App\Traits\Models\HasTravelCondition;
 use App\Traits\Models\HasWallet;
 use App\Traits\Models\HasWithdrawal;
 use App\Traits\Scope\HasDefaultOrderScope;
@@ -62,6 +63,7 @@ class Driver extends Model implements HasMedia, BannableInterface, IHaveAppNotif
 	use HasFine ;
 	use HasBonus ;
 	use HasDeposit ;
+	use HasTravelCondition;
     use ReviewRateableTrait;
     use HasWallet;
     use HasDevice;

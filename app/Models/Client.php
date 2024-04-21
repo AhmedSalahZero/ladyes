@@ -29,6 +29,7 @@ use App\Traits\Models\HasMake;
 use App\Traits\Models\HasModel;
 use App\Traits\Models\HasPhone;
 use App\Traits\Models\HasRating;
+use App\Traits\Models\HasTravelCondition;
 use App\Traits\Models\HasWallet;
 use App\Traits\Models\HasWithdrawal;
 use App\Traits\Scope\HasDefaultOrderScope;
@@ -54,6 +55,7 @@ class Client extends Model implements HasMedia, BannableInterface,IHaveAppNotifi
 	use HasWallet ;
     use ReviewRateableTrait;
     use HasMake;
+	use HasTravelCondition;
 	use HasDevice;
     use HasGeoLocation;
     use Notifiable;

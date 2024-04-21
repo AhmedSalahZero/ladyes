@@ -20,6 +20,7 @@ class TravelConditionResource extends JsonResource
 		 * @var TravelCondition $this
 		 */
         return [
+			'id'=>$this->id,
 			'name'=>$this->getName(getApiLang()),
 		];
     }
