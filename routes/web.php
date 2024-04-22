@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\PaymentsController;
 use App\Http\Controllers\Admin\PromotionsController;
 use App\Http\Controllers\Admin\RolesAndPermissionsController;
 use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\SupportTicketsController;
 use App\Http\Controllers\Admin\TransactionsController;
 use App\Http\Controllers\Admin\TravelConditionsController;
 use App\Http\Controllers\Admin\TravelsController;
@@ -150,6 +151,7 @@ Route::group(['middleware' => 'auth:admin'], function () {
 	//###################### car sizes #########################
 	Route::patch('update-car-sizes-prices/{carSize}',[CarSizesController::class , 'updatePrices'])->name('car-sizes.update.prices');
 	Route::resource('car-sizes', CarSizesController::class)->only(['index','edit','update']);
+	Route::resource('support-tickets', SupportTicketsController::class)->only(['index']);
 	
     //###################### countries #########################
 	// Route::patch('update-countries/{carSize}',[CarSizesController::class , 'updatePrices'])->name('car-sizes.update.prices');

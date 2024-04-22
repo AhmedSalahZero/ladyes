@@ -568,5 +568,8 @@
 	"Arabic Choose The Appropriate Offer":"وصف نص اختار العرض المناسب لك بالعربية",
 	"English Follow Capitan Path":"وصف نص تتبع مسار الكابتن بالانجليزية",
 	"Arabic Follow Capitan Path":"وصف نص تتبع مسار الكابتن بالعربية",
-	"Travel Condition Ids Must Be An Array":"رقم الشرط لابد ان يكون array"
+	"Travel Condition Ids Must Be An Array":"رقم الشرط لابد ان يكون array",
+	"Support Tickets":"تذاكر الدعم",
+	"Support Ticket":"تذكرة دعم",
+	"Subject":"عنوان الرسالة"
 }

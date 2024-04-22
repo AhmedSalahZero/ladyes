@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Apis\StoreEmergencyContactRequest;
 use App\Http\Requests\Apis\StoreTravelConditionRequest;
 use App\Http\Resources\TravelConditionResource;
 use App\Http\Resources\TravelConditionsResource;
-use App\Models\EmergencyContact;
 use App\Models\TravelCondition;
 use App\Traits\Api\HasApiResponse;
 use Illuminate\Database\Eloquent\Builder;

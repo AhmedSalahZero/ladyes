@@ -32,6 +32,7 @@ function getPermissions():array
 	$permissions[] = ['name'=>'view' .' ' . 'travels' , 'title'=>__('View' .' :page' , ['page'=>__('Travels')]) ] ;
 	$permissions[] = ['name'=>'view' .' ' . 'countries' , 'title'=>__('View' .' :page' , ['page'=>__('Countries')]) ] ;
 	$permissions[] = ['name'=>'update' .' ' . 'countries' , 'title'=>__('View' .' :page' , ['page'=>__('Countries')]) ] ;
+	$permissions[] = ['name'=>'view' .' ' . 'support-tickets' , 'title'=>__('View' .' :page' , ['page'=>__('Support Tickets')]) ] ;
 	$permissions[] = ['name'=>'view' .' ' . 'car-sizes' , 'title'=>__('View' .' :page' , ['page'=>__('Car Sizes')]) ] ;
 	$permissions[] = ['name'=>'update' .' ' . 'car-sizes' , 'title'=>__('Update' .' :page' , ['page'=>__('Car Sizes')]) ] ;
 	$permissions[] = ['name'=>'create' .' ' . 'settings' , 'title'=>__('View' .' :page' , ['page'=>__('Settings')]) ] ;
@@ -95,6 +96,10 @@ function getSidebars($user):array
 			$pageName = 'car-sizes'=> createSidebarItem( $pageName, __('Car Sizes') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-flag',
 			[
 				createSidebarItem($pageName, __('View :page' , ['page' => __('Car Sizes')]) , route('car-sizes.index') , $user->can('view ' .$pageName)  ),
+			]),
+			$pageName = 'support-tickets'=> createSidebarItem( $pageName, __('Support Tickets') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-ticket',
+			[
+				createSidebarItem($pageName, __('View :page' , ['page' => __('Support Tickets')]) , route('support-tickets.index') , $user->can('view ' .$pageName)  ),
 			]),
 			$pageName = 'countries'=> createSidebarItem( $pageName, __('Countries') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-flag',
 			[

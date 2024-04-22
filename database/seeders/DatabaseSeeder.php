@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
 		$this->call(EmergencyContactsSeeder::class);
 		$this->call(CouponSeeder::class);
 		$this->call(TravelSeeder::class);
+		$this->call(SupportTicketSeeder::class);
 		
 		Country::whereIn('id',[194,65])->update([
 			'cancellation_fees_for_client'=>10,

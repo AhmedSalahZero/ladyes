@@ -38,9 +38,9 @@ class StoreCancellationReasonRequest extends FormRequest
 	public function messages()
 	{
 		return [
-			'name_en.required'=>__('Please Enter :attribute' , ['attribute'=>__('English Name')]),
-			'model_type.required'=>__('Please Enter :attribute' , ['attribute'=>__('Related To')]),
+			'name_en.required'=>__('Please Enter :attribute' , ['attribute'=>__('English Name',[],getApiLang())]),
 			'name_en.max'=> __(':attribute Exceed The Max Letter Length :max Letter',['attribute'=>__('English Name'),'max'=>255	]),
+			'model_type.required'=>__('Please Enter :attribute' , ['attribute'=>__('Related To')]),
 			'name_en.unique'=> __(':attribute Already Exist',['attribute'=>__('English Name')]),
 			'name_ar.required'=>__('Please Enter :attribute' , ['attribute'=>__('Arabic Name')]),
 			'name_ar.max'=> __(':attribute Exceed The Max Letter Length :max Letter',['attribute'=>__('Arabic Name'),'max'=>255	]),

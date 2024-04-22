@@ -204,7 +204,7 @@ class Payment extends Model
 	}
 	public function getTotalPrice():float 
 	{
-		return $this->total_price ?: 0 ;
+		return (float)$this->total_price ?: 0 ;
 	}
 	public function getTotalPriceFormatted():string
 	{

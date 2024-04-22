@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Enum\PaymentType;
 use App\Enum\TransactionType;
 use App\Helpers\HHelpers;
-use App\Helpers\HStr;
 use App\Models\Payment;
 use App\Models\Transaction;
 use App\Models\Travel;
@@ -25,6 +24,7 @@ class TravelSeeder extends Seeder
 			 * @var Payment $payment 
 			 */
 			$payment = Payment::factory()->create([
+			
 				'type'=> PaymentType::CASH,
 				'travel_id'=>$travel->id ,
 				'model_id'=>$travel->client->id ,

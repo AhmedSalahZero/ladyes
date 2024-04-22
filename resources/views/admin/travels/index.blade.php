@@ -233,8 +233,8 @@
                                                                                         __('Operational Fees') => $model->getPaymentOperationalFeesFormatted() ,
                                                                                         __('Total Price (Without Operation Fees)') => $model->getPaymentTotalPriceWithoutOperationFeesFormatted(),
                                                                                         __('Total Price (With Operation Fees)') => $model->getPaymentTotalPriceWithOperationFeesFormatted(),
-                                                                                        __('Payment Method') => $model->getPaymentMethod(),
-                                                                                        __('Payment Status') => $model->getPaymentStatus(),
+                                                                                        __('Payment Method') => $model->getPaymentMethodFormatted(),
+                                                                                        __('Payment Status') => $model->getPaymentStatusFormatted(),
                                                                                         ] as $title => $value )
                                                                                         <div class="row">
                                                                                             <div class="col-md-6">

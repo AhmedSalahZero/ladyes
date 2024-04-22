@@ -26,6 +26,7 @@ use App\Http\Controllers\Api\EmergencyContactsController;
 use App\Http\Controllers\Api\MyWalletController;
 use App\Http\Controllers\Api\NotificationsController;
 use App\Http\Controllers\Api\PaymentMethodsController;
+use App\Http\Controllers\Api\SupportTicketsController;
 use App\Http\Controllers\Api\TravelConditionsController;
 use App\Http\Controllers\Helpers\Apis\SendEmailMessageController;
 use App\Http\Controllers\Helpers\Apis\SendSmsMessageController;
@@ -51,6 +52,7 @@ Route::prefix('utilities')->group(function () {
 Route::middleware('authClientOrDriver')->group(function(){
 	Route::apiResource('emergency-contacts', EmergencyContactsController::class);
 	Route::apiResource('user-travel-conditions', TravelConditionsController::class);
+	Route::apiResource('support-tickets', SupportTicketsController::class);
 	Route::get('my-transactions',[MyWalletController::class,'index']);
 	Route::get('my-notifications',[NotificationsController::class,'index']);
 	Route::delete('delete-my-notifications',[NotificationsController::class,'delete']);

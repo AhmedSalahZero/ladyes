@@ -570,7 +570,7 @@ class Travel extends Model
 
     public function getPaymentTotalPriceWithoutOperationFees()
     {
-        return $this->getPaymentPriceFormatted() + $this->getPaymentCouponDiscountAmount();
+        return $this->getClientActualTotalPrice() + $this->getPaymentCouponDiscountAmount();
     }
 
     public function getPaymentTotalPriceWithoutOperationFeesFormatted()
@@ -655,7 +655,7 @@ class Travel extends Model
 
     public function getClientActualTotalPrice()
     {
-        $mainPrice = $this->getMain();
+        $mainPrice = $this->payment->getTotalPrice();
         $couponDiscount = $this->getCouponDiscountAmount() ;
         $fine = $this->getFineAmount();
 
@@ -684,7 +684,10 @@ class Travel extends Model
     {
         return $this->payment->getStatus();
     }
-
+	public function getPaymentStatusFormatted()
+    {
+        return PaymentStatus::all()[$this->getPaymentStatus()];
+    }
     public function getCountry(): ?Country
     {
         $city = $this->city ;
