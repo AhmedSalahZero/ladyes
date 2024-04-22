@@ -26,6 +26,7 @@ use App\Http\Controllers\Api\EmergencyContactsController;
 use App\Http\Controllers\Api\MyWalletController;
 use App\Http\Controllers\Api\NotificationsController;
 use App\Http\Controllers\Api\PaymentMethodsController;
+use App\Http\Controllers\Api\ShowSocialMediaController;
 use App\Http\Controllers\Api\SupportTicketsController;
 use App\Http\Controllers\Api\TravelConditionsController;
 use App\Http\Controllers\Helpers\Apis\SendEmailMessageController;
@@ -39,6 +40,7 @@ Route::name('api.')->group(function(){
 	
 	
 Route::prefix('utilities')->group(function () {
+    Route::get('social-media', [ShowSocialMediaController::class, 'index']);
     Route::post('send-whatsapp-message', [SendWhatsappMessageController::class, 'send']);
     Route::post('send-sms-message', [SendSmsMessageController::class, 'send']);
     Route::post('send-email-message', [SendEmailMessageController::class, 'send']);
