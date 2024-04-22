@@ -61,10 +61,11 @@ class TravelCondition extends Model
 	public static function sync( $driverOrClient,array $travelConditionIds):void
 	{
 		$pivotArr = [];
+		$modelType  = HHelpers::getClassNameWithoutNameSpace($driverOrClient) ;
 		foreach($travelConditionIds as $travelConditionId){
-			$pivotArr[$travelConditionId] = ['model_type' => HHelpers::getClassNameWithoutNameSpace($driverOrClient) ];
+			$pivotArr[$travelConditionId] = ['model_type' => $modelType ];
 		}
-            $driverOrClient->travelConditions()->sync($pivotArr);
+            $driverOrClient->travelConditions()->wherePivot('model_type',$modelType)->sync($pivotArr);
 		
 	}
 	

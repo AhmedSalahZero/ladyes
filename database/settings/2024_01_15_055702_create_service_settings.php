@@ -18,7 +18,6 @@ return new class extends SettingsMigration
 		$this->migrator->add('site.phone','123456');
 		$this->migrator->add('site.email','email@email.com');
 		$this->migrator->add('site.whatsapp','010000000');
-		// email , twitter , whatsapp
 		$this->migrator->add('site.app_link_on_google_play','https://google.com.eg');
 		$this->migrator->add('site.facebook_url','https://facebook.com');
 		$this->migrator->add('site.twitter_url','https://twitter.com');

@@ -24,16 +24,24 @@ trait HasTravelCondition
 	 */
 	public function satisfyConditions(array $travelConditionIds):bool 
 	{
+	
 		if(!count($travelConditionIds)){ // no travel conditions required
 			return true ;
 		}
-		$travelConditions = $this->travelConditions->pluck('id')->toArray() ;
+		$travelConditions = $this->getTravelConditionIds() ;
+		if(!$travelConditions){
+			return false ;
+		}
 		foreach($travelConditionIds as $travelConditionId){
 			if(!in_array($travelConditionId,$travelConditions)){
 				return false ;
 			}
 		}
 		return true ;
+	}
+	public function getTravelConditionIds():array 
+	{
+		return $this->travelConditions->pluck('id')->toArray();
 	}
 	
 }
