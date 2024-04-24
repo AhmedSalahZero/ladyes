@@ -1,6 +1,5 @@
 <style>
-    table {
-    }
+
 
 </style>
 <div class="dropdown ml-2 transactions">

@@ -28,7 +28,7 @@
                                             <th class="th-global-class  text-center">{{__('Image')}}</th>
                                             <th class="th-global-class  text-center">{{__('Phone')}}</th>
                                             <th class="th-global-class  text-center">{{__('Email')}}</th>
-                                            <th class="th-global-class  text-center">{{__('Is Verified')}}</th>
+                                            {{-- <th class="th-global-class  text-center">{{__('Is Verified')}}</th> --}}
                                             @if($user->can(getPermissionName('update')) || $user->can(getPermissionName('delete')) )
                                             <th class="th-global-class  text-center">{{__('Actions')}}</th>
                                             @endif
@@ -43,7 +43,7 @@
                                                 </td>
                                                 <td class="text-center">{{$model->getPhone()}}</td>
                                                 <td class="text-center">{{$model->getEmail()}}</td>
-                                                <td class="text-center">
+                                                {{-- <td class="text-center">
                                                     @if($user->can(getPermissionName('update')))
                                                     <div class="form-group pb-1">
                                                         <x-form.checkbox-element data-toggle-route="{{ $toggleIsVerifiedRoute }}" data-id="{{ $model->id }}" class="switch-trigger-js" :is-required="false" :name="'is_verified'" :is-checked="$model->getIsVerified()"> </x-form.checkbox-element>
@@ -51,7 +51,7 @@
                                                     @else
                                                     {{$model->isBanned() ? __('Banned') : __('Not Banned')}}
                                                     @endif
-                                                </td>
+                                                </td> --}}
                                                 @if($user->can(getPermissionName('update')) || $user->can(getPermissionName('delete')) )
                                                 <td class="">
                                                     @if($user->can(getPermissionName('delete')))
@@ -811,6 +811,7 @@
 
 
                                                         @include('components.common.user-transactions')
+                                                        @include('components.common.travels')
 
 
 

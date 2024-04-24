@@ -829,6 +829,12 @@ class Travel extends Model
     {
         return $this->cancelled_by ;
     }
+	
+	public function getCancelledByFormatted():string 
+	{
+		$cancelledBy = $this->getCancelledBy() ;
+		return $cancelledBy ? __($cancelledBy) : __('N/A');
+	}
 
     public function isCancelledByClient()
     {
@@ -839,7 +845,14 @@ class Travel extends Model
     {
         return $this->getCancelledBy() === 'Driver';
     }
-
+	public function cancellationReason()
+	{
+		return $this->belongsTo(CancellationReason::class,'cancellation_reason_id','id');
+	}
+	public function getCancellationReasonFormatted()
+	{
+		return $this->cancellationReason ? $this->cancellationReason->getName() : __('N/A'); 
+	}
     public function markAsCancelled(Request $request)
     {
         $this->status = TravelStatus::CANCELLED;

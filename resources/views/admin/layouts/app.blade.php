@@ -16,7 +16,10 @@
     <!-- BEGIN VENDOR CSS-->
     <link href="{{ asset('assets/css/plugins/select2/select2.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('custom/scss/toastr.css') }}" rel="stylesheet" type="text/css" />
-
+<style>
+div table.dataTable{
+}
+</style>
     @if(\Illuminate\Support\Facades\App::getLocale() == 'ar')
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css-rtl/vendors.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css-rtl/app.css')}}">
@@ -146,7 +149,11 @@
     </script>
     @endif
 
-
+<script>
+$("button[data-dismiss=modal2]").click(function(){
+	$(this).closest('.inner-modal').modal('hide');
+});
+</script>
 
 </body>
 </html>

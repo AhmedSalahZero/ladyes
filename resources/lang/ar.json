@@ -571,5 +571,19 @@
 	"Travel Condition Ids Must Be An Array":"رقم الشرط لابد ان يكون array",
 	"Support Tickets":"تذاكر الدعم",
 	"Support Ticket":"تذكرة دعم",
-	"Subject":"عنوان الرسالة"
+	"Subject":"عنوان الرسالة",
+	"Cancelled Travels":"الرحلات الملغية",
+	"Cancelled By":"الغُيت بواسطة",
+	"From Address":"من",
+	"To Address":"الي",
+	"On The Way Travels":"الرحلات الحالية",
+	"View Travels":"عرض الرحلات",
+	"View Travels For :name":"عرض رحلات :name",
+	"View Cancelled Travels For :name":"عرض الرحلات الملغية لـ :name",
+	"View On The Way Travels For :name":"عرض الرحلات الحالية لـ :name",
+	"View Completed Travels For :name":"عرض الرحلات المكتملة لـ :name",
+	"View Cancelled Travels":"عرض الرحلات الملغية",
+	"View On The Way Travels":"عرض الرحلات الحالية",
+	"View Completed Travels":"عرض الرحلات المكتملة",
+	"Completed Travels":"الرحلات المكتملة"
 }

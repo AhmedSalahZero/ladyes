@@ -145,6 +145,9 @@ function getSidebars($user):array
 			]),$pageName = 'travels'=> createSidebarItem( $pageName, __('Travels') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-car',
 			[
 				createSidebarItem($pageName, __('View :page' , ['page' => __('Travels')]) , route('travels.index') , $user->can('view ' .$pageName)  ),
+				createSidebarItem($pageName, __('View :page' , ['page' => __('Completed Travels')]) , route('completed.travels.index') , $user->can('view ' .$pageName)  ),
+				createSidebarItem($pageName, __('View :page' , ['page' => __('On The Way Travels')]) , route('on.the.way.travels.index') , $user->can('view ' .$pageName)  ),
+				createSidebarItem($pageName, __('View :page' , ['page' => __('Cancelled Travels')]) , route('cancelled.travels.index') , $user->can('view ' .$pageName)  ),
 				// createSidebarItem($pageName, __('Create :page' , ['page'=>__('Transactions')]) , route('transactions.create') , $user->can('create ' .$pageName)  ),
 			])
 			,$pageName = 'settings'=> createSidebarItem( $pageName, __('Settings') ,  '#' ,$user->can('create '.$pageName) || $user->can('create '.$pageName) ,'la la-cogs',
@@ -248,4 +251,9 @@ function getModelNameByNamespaceAndId(string $fullClass , int $id){
 }
 function getTypeWithoutNamespace($obj):string{
 	return HHelpers::getClassNameWithoutNameSpace($obj);
+}
+function getLastSegment():string 
+{
+	$segments = Request()->segments();
+	return $segments[count($segments) - 1 ];
 }

@@ -146,6 +146,9 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::resource('transactions', TransactionsController::class)->only(['index']);	
     //###################### travel #########################
     Route::resource('travels', TravelsController::class)->only(['index']);
+	Route::get('travels/cancelled',[TravelsController::class,'showCancelled'])->name('cancelled.travels.index');
+	Route::get('travels/on-the-way',[TravelsController::class,'showOnTheWay'])->name('on.the.way.travels.index');
+	Route::get('travels/completed',[TravelsController::class,'showCompleted'])->name('completed.travels.index');
 	
 	
 	//###################### car sizes #########################

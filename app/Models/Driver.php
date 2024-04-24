@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enum\TravelStatus;
 use App\Helpers\HDate;
 use App\Helpers\HHelpers;
 use App\Http\Resources\DriverResource;
@@ -50,6 +51,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
@@ -373,7 +375,7 @@ class Driver extends Model implements HasMedia, BannableInterface, IHaveAppNotif
 		$drivers = $drivers->filter(function(Driver $driver){
 			return $driver->satisfyConditions(Request()->user()->getTravelConditionIds());
 		});
-		dd($drivers);
+	
         return ;
     }
 	public function getResource()
@@ -391,6 +393,18 @@ class Driver extends Model implements HasMedia, BannableInterface, IHaveAppNotif
 	public function travels()
     {
         return $this->hasMany(Travel::class, 'driver_id', 'id');
+    }
+	public function cancelledTravels():HasMany
+    {
+        return $this->hasMany(Travel::class, 'driver_id', 'id')->where('status',TravelStatus::CANCELLED);
+    }
+	public function onTheWayTravels():HasMany
+    {
+        return $this->hasMany(Travel::class, 'driver_id', 'id')->where('status',TravelStatus::ON_THE_WAY);
+    }
+	public function completedTravels():HasMany
+    {
+        return $this->hasMany(Travel::class, 'driver_id', 'id')->where('status',TravelStatus::COMPLETED);
     }
 	/**
 	 * * نسبة الرحلات المكتملة لهذا السائق من اجمالي رحلاته

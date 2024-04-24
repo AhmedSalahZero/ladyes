@@ -12,7 +12,7 @@ class TravelsController extends Controller
 
     public function __construct()
     {
-        $this->middleware('permission:' . getPermissionName('view'), ['only' => ['index']]) ;
+        $this->middleware('permission:' . getPermissionName('view'), ['only' => ['index','showCancelled']]) ;
         // $this->middleware('permission:'.getPermissionName('update') , ['only'=>['edit','update']]) ;
         // $this->middleware('permission:'.getPermissionName('delete') , ['only'=>['destroy']]) ;
     }
@@ -26,7 +26,37 @@ class TravelsController extends Controller
             'pageTitle' => __('Travels')
         ]);
     }
+	public function showCancelled()
+    {
+        $models = Travel::defaultOrdered()
+		->onlyCancelled()
+		->paginate(static::DEFAULT_PAGINATION_LENGTH_FOR_ADMIN);
 
+        return view('admin.travels.cancelled', [
+            'models' => $models,
+            'pageTitle' => __('Cancelled Travels')
+        ]);
+    }
+	public function showOnTheWay()
+    {
+        $models = Travel::defaultOrdered()
+		->onlyOnTheWay()
+		->paginate(static::DEFAULT_PAGINATION_LENGTH_FOR_ADMIN);
+        return view('admin.travels.on-the-way', [
+            'models' => $models,
+            'pageTitle' => __('On The Way Travels')
+        ]);
+    }
+	public function showCompleted()
+    {
+        $models = Travel::defaultOrdered()
+		->onlyCompleted()
+		->paginate(static::DEFAULT_PAGINATION_LENGTH_FOR_ADMIN);
+        return view('admin.travels.completed', [
+            'models' => $models,
+            'pageTitle' => __('Completed Travels')
+        ]);
+    }
     public function getViewUrl($model = null): array
     {
         $breadCrumbs = [

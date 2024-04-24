@@ -14,5 +14,10 @@ trait TravelScope
 	{
 		return $builder->where('status',TravelStatus::CANCELLED);
 	}
+	public function scopeOnlyOnTheWay(Builder $builder)
+	{
+		return $builder->where('status',TravelStatus::ON_THE_WAY);
+	}
+	
 	
 }

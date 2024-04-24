@@ -45,4 +45,8 @@ class CancellationReason extends Model
 		
         $this->save();
     }
+	public function travels()
+	{
+		return $this->hasMany(Travel::class,'cancellation_reason_id','id');
+	}
 }

@@ -1,8 +1,6 @@
 @extends('admin.layouts.app')
 @section('title',$pageTitle)
 @section('content')
-
-{{-- {{ dd($pageTitle) }} --}}
 <div class="app-content content">
     <div class="content-wrapper">
         <div class="content-body">
@@ -17,12 +15,11 @@
                                 <div class="card-body card-dashboard">
                                     <x-tables.basic-table>
                                         <x-slot name="header">
-                                            @include('components.common.all-travels-th')
+                                            @include('components.common.completed-travels-th')
                                         </x-slot>
                                         <x-slot name="body">
-										
                                             @foreach($models as $model)
-											@include('components.common.all-travels-tr',['travelType'=>'all'])
+                                            @include('components.common.completed-travels-tr')
                                             @endforeach
 
                                         </x-slot>

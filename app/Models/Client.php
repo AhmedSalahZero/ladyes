@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enum\TravelStatus;
 use App\Helpers\HDate;
 use App\Helpers\HHelpers;
 use App\Http\Resources\ClientResource;
@@ -159,9 +160,21 @@ class Client extends Model implements HasMedia, BannableInterface,IHaveAppNotifi
         return $this->morphMany(app(BanContract::class), 'bannable')->withoutGlobalScopes();
     }
 
-    public function travels()
+    public function travels():HasMany
     {
         return $this->hasMany(Travel::class, 'client_id', 'id');
+    }
+	public function cancelledTravels():HasMany
+    {
+        return $this->hasMany(Travel::class, 'client_id', 'id')->where('status',TravelStatus::CANCELLED);
+    }
+	public function onTheWayTravels():HasMany
+    {
+        return $this->hasMany(Travel::class, 'client_id', 'id')->where('status',TravelStatus::ON_THE_WAY);
+    }
+	public function completedTravels():HasMany
+    {
+        return $this->hasMany(Travel::class, 'client_id', 'id')->where('status',TravelStatus::COMPLETED);
     }
 
     /**

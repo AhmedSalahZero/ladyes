@@ -4,7 +4,9 @@ namespace Database\Seeders;
 
 use App\Enum\PaymentType;
 use App\Enum\TransactionType;
+use App\Enum\TravelStatus;
 use App\Helpers\HHelpers;
+use App\Models\CancellationReason;
 use App\Models\Payment;
 use App\Models\Transaction;
 use App\Models\Travel;
@@ -19,6 +21,18 @@ class TravelSeeder extends Seeder
      */
     public function run()
     {
+		$travel = Travel::factory()->create([
+			'status'=>TravelStatus::CANCELLED,
+			'cancelled_by'=>'Client',
+			'cancellation_reason_id'=>CancellationReason::where('model_type','Client')->inRandomOrder()->first()->id	
+		]);
+		
+		
+		
+		Travel::factory()->create([
+			'status'=>TravelStatus::ON_THE_WAY
+		]);
+		
         Travel::factory()->create()->each(function(Travel $travel){
 			/**
 			 * @var Payment $payment 

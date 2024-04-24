@@ -9,7 +9,7 @@ trait HasCreatedAt
 	{
 		return $this->created_at ;
 	}
-	public function getCreatedAtFormatted($onlyDate = true)
+	public function getCreatedAtFormatted($onlyDate = false)
 	{
 		return HDate::formatForView($this->getCreatedAt(),$onlyDate);
 	}

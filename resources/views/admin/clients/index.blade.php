@@ -30,7 +30,7 @@
                                             <th class="th-global-class  text-center">{{__('Email')}}</th>
                                             <th class="th-global-class  text-center">{{__('Avg Rate')}}</th>
                                             <th class="th-global-class  text-center">{{__('Total Balance')}}</th>
-                                            <th class="th-global-class  text-center">{{__('Is Verified')}}</th>
+                                            {{-- <th class="th-global-class  text-center">{{__('Is Verified')}}</th> --}}
                                             @if($user->can(getPermissionName('update')) || $user->can(getPermissionName('delete')) )
                                             <th class="th-global-class  text-center">{{__('Actions')}}</th>
                                             @endif
@@ -47,15 +47,15 @@
                                                 <td class="text-center">{{$model->getEmail()}}</td>
                                                 <td class="text-center">{{$model->getAvgRateFormatted()}}</td>
                                                 <td class="text-center">{{ number_format($model->getTotalWalletBalance()) }} {{ $model->getCountry()->getCurrencyFormatted($lang) }}</td>
-                                                <td class="text-center">
-                                                    @if($user->can(getPermissionName('update')))
-                                                    <div class="form-group pb-1">
-                                                        <x-form.checkbox-element data-toggle-route="{{ $toggleIsVerifiedRoute }}" data-id="{{ $model->id }}" class="switch-trigger-js" :is-required="false" :name="'is_verified'" :is-checked="$model->getIsVerified()"> </x-form.checkbox-element>
-                                                    </div>
-                                                    @else
-                                                    {{$model->isBanned() ? __('Banned') : __('Not Banned')}}
-                                                    @endif
-                                                </td>
+													{{-- <td class="text-center">
+														@if($user->can(getPermissionName('update')))
+														<div class="form-group pb-1">
+															<x-form.checkbox-element data-toggle-route="{{ $toggleIsVerifiedRoute }}" data-id="{{ $model->id }}" class="switch-trigger-js" :is-required="false" :name="'is_verified'" :is-checked="$model->getIsVerified()"> </x-form.checkbox-element>
+														</div>
+														@else
+														{{$model->isBanned() ? __('Banned') : __('Not Banned')}}
+														@endif
+													</td> --}}
                                                 @if($user->can(getPermissionName('update')) || $user->can(getPermissionName('delete')) )
                                                 <td class="">
                                                     @if($user->can(getPermissionName('delete')))
@@ -308,10 +308,10 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-															
-															
-															
-															   <div class="modal fade" id="view-sent-rating-popup{{ $model->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+
+
+                                                            <div class="modal fade" id="view-sent-rating-popup{{ $model->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                                 <div class="modal-dialog modal-xl modal-dialog modal-lg-centered" role="document">
                                                                     <div class="modal-content">
                                                                         @csrf
@@ -468,8 +468,9 @@
 
                                                         </div>
 
- 												@include('components.common.user-transactions')
-										
+                                                        @include('components.common.user-transactions')
+                                                        @include('components.common.travels')
+
                                                         <div class="dropdown ml-2 inventation-codes">
 
                                                             <button type="button" class="dropdown-toggle btn btn-outline-primary bg-primary " data-toggle="dropdown"> {{ __('Ban') }} </button>
@@ -639,27 +640,8 @@
                                                     </div>
 
 
-                                </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            </div>
+                          						      </div>
+                 							           </div>
 
 
 
