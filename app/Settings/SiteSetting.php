@@ -25,6 +25,7 @@ class SiteSetting extends Settings
 	public $deduction_percentage ;
 	public $coupon_discount_percentage ;
 	public $driving_range ;
+	public $google_api_key ;
 	public $MAIL_HOST ;
 	public $MAIL_PORT ;
 	public $MAIL_USERNAME ;

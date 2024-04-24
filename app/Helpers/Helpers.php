@@ -17,7 +17,7 @@ function getPermissions():array
 	$permissions[] = ['name'=>'view admin-notifications','title'=>__('View :page',['page'=>__('Admin Notifications')])];
 	$permissions[] = ['name'=>'view app-notifications','title'=>__('View :page',['page'=>__('App Notifications')])];
 	$permissions[] = ['name'=>'create app-notifications','title'=>__('Create :page',['page'=>__('App Notifications')])];
-	$normalPermissions = ['admins','roles-and-permissions','car-makes','car-models','drivers','clients','cities'
+	$normalPermissions = ['admins','roles-and-permissions','sliders','car-makes','car-models','drivers','clients','cities'
 	,'travel-conditions','cancellation-reasons','emergency-contacts','promotions','helps','information','coupons','fines','bonuses','deposits','withdrawals','payments'
 
 ];
@@ -81,7 +81,11 @@ function getSidebars($user):array
 				createSidebarItem( $pageName , __('Create :page' , ['page'=>__('Cancellation Reason')]) , route('cancellation-reasons.create') , $user->can('create ' .$pageName)  ),
 			]
 			),
-
+			$pageName = 'sliders'=> createSidebarItem( $pageName, __('Sliders') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-bus',
+			[
+				createSidebarItem($pageName, __('View :page' , ['page' => __('Sliders')]) , route('sliders.index') , $user->can('view ' .$pageName)  ),
+				createSidebarItem($pageName, __('Create :page' , ['page'=>__('Slider')]) , route('sliders.create') , $user->can('create ' .$pageName)  ),
+			]),
 			$pageName = 'car-makes'=> createSidebarItem( $pageName, __('Car Makes') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-bus',
 			[
 				createSidebarItem($pageName, __('View :page' , ['page' => __('Car Makes')]) , route('car-makes.index') , $user->can('view ' .$pageName)  ),

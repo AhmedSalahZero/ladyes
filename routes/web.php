@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\PaymentsController;
 use App\Http\Controllers\Admin\PromotionsController;
 use App\Http\Controllers\Admin\RolesAndPermissionsController;
 use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\SupportTicketsController;
 use App\Http\Controllers\Admin\TransactionsController;
 use App\Http\Controllers\Admin\TravelConditionsController;
@@ -128,7 +129,8 @@ Route::group(['middleware' => 'auth:admin'], function () {
 
     //###################### promotions #########################
     Route::resource('promotions', PromotionsController::class);
-
+    //###################### sliders #########################
+    Route::resource('sliders', SliderController::class);
     //###################### car makes #########################
     Route::resource('car-makes', CarMakeController::class);
     //###################### car makes #########################

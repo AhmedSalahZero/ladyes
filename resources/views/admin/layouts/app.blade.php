@@ -153,6 +153,9 @@ div table.dataTable{
 $("button[data-dismiss=modal2]").click(function(){
 	$(this).closest('.inner-modal').modal('hide');
 });
+$("button[data-dismiss-modal=inner-modal]").click(function(){
+	$(this).closest('.inner-modal').modal('hide');
+});
 </script>
 
 </body>

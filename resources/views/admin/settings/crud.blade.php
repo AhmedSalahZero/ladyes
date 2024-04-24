@@ -45,7 +45,7 @@
                                                 <div class="col-md-6">
                                                     <x-form.input :id="'app_link_on_google_play'" :label="__('Google Play App Link URL')" :type="'text'" :name="'app_link_on_google_play'" :is-required="false" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Google Play App Link URL')])"></x-form.input>
                                                 </div>
-												
+
                                                 <div class="col-md-6">
                                                     <x-form.input :id="'facebook_url'" :label="__('Facebook URL')" :type="'text'" :name="'facebook_url'" :is-required="false" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Facbook URL')])"></x-form.input>
                                                 </div>
@@ -91,25 +91,25 @@
 
                                                 <div class="col-md-12">
                                                     <hr>
+
+
+
+
+                                                    <div class="col-md-6">
+                                                        <x-form.input :id="'WHATSAPP_APP_KEY'" :label="__('Whatsapp App Key')" :type="'text'" :name="'WHATSAPP_APP_KEY'" :is-required="false" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Whatsapp App Key')])"></x-form.input>
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <x-form.input :id="'WHATSAPP_AUTH_KEY'" :label="__('Whatsapp Auth Key')" :type="'text'" :name="'WHATSAPP_AUTH_KEY'" :is-required="false" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Whatsapp Auth Key')])"></x-form.input>
+                                                    </div>
+
                                                 </div>
+                                           
 
 
+                             
 
-
-                                                <div class="col-md-6">
-                                                    <x-form.input :id="'WHATSAPP_APP_KEY'" :label="__('Whatsapp App Key')" :type="'text'" :name="'WHATSAPP_APP_KEY'" :is-required="false" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Whatsapp App Key')])"></x-form.input>
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <x-form.input :id="'WHATSAPP_AUTH_KEY'" :label="__('Whatsapp Auth Key')" :type="'text'" :name="'WHATSAPP_AUTH_KEY'" :is-required="false" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Whatsapp Auth Key')])"></x-form.input>
-                                                </div>
-
-
-
-
-
-
-
+                                             
                                             </div>
 
 
@@ -118,9 +118,7 @@
                                     </form>
                                 </div>
                             </div>
-                            {{-- @else
-                            @include('admin.layouts.alerts.error_perm')
-                            @endif --}}
+                           
                         </div>
                     </div>
                 </div>
@@ -128,4 +126,40 @@
         </div>
     </div>
 </div>
+
+@push('js')
+<script>
+    $(document).ready(function() {
+
+        $('.repeater').repeater({
+            initEmpty: false
+            , defaultValues: {
+                'text-input': 'foo'
+            }
+            , show: function() {
+                $(this).slideDown();
+				var id = "id" + Math.random().toString(16).slice(2) ;
+				$(this).find('[data-id]').attr('data-id',id)
+				$(this).find('input[data-id]').attr('id',id+'-upload-id')
+				$(this).find('div[id]').attr('id',id)
+				$(this).find('label[for]').attr('for',id+'-upload-id')
+				
+            }
+            , hide: function(deleteElement) {
+                if (confirm("{{ __('Are you sure you want to delete this element?') }}")) {
+                    $(this).slideUp(deleteElement);
+                }
+            }
+            , ready: function(setIndexes) {
+
+            },
+            // (Optional)
+            // Removes the delete button from the first list item,
+            // defaults to false.
+            isFirstItemUndeletable: true
+        })
+    });
+
+</script>
+@endpush
 @endsection

@@ -27,6 +27,7 @@ use App\Http\Controllers\Api\MyWalletController;
 use App\Http\Controllers\Api\NotificationsController;
 use App\Http\Controllers\Api\PaymentMethodsController;
 use App\Http\Controllers\Api\ShowSocialMediaController;
+use App\Http\Controllers\Api\SlidersController;
 use App\Http\Controllers\Api\SupportTicketsController;
 use App\Http\Controllers\Api\TravelConditionsController;
 use App\Http\Controllers\Helpers\Apis\SendEmailMessageController;
@@ -132,6 +133,7 @@ Route::apiResource('countries',CountriesController::class);
 Route::apiResource('cities',CitiesController::class);
 Route::apiResource('payment-methods',PaymentMethodsController::class);
 Route::get('guidelines', [GuidelinesController::class, 'view']);
+Route::get('sliders', [SlidersController::class, 'view']);
 Route::apiResource('travel-conditions',TravelConditionController::class);
 
 

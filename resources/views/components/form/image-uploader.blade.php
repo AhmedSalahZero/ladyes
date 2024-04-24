@@ -109,7 +109,7 @@
         <div class="avatar-upload">
 				@if($editable)
             <div class="avatar-edit">
-                <input data-id="{{ $id }}" name="{{ $name }}" type='file' id="{{ $id .'-upload-id' }}" />
+                <input data-id="{{ $id }}" class="uploader-preview" name="{{ $name }}" type='file' id="{{ $id .'-upload-id' }}" />
                 <label for="{{ $id .'-upload-id' }}" class="label-control">
                     <i class="la la-pencil edit-icon-color "></i>
                 </label>
@@ -145,10 +145,15 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
-    $("#{{ $id .'-upload-id' }}").change(function() {
-        const id = $(this).attr('data-id');
-        readURL(this, id);
-    });
+	var id = "#{{ $id .'-upload-id' }}" ;
+    // $(document).on('change',id,function() {
+    //     const id = $(this).attr('data-id');
+    //     readURL(this, id);
+    // });
+	$(document).on('change','.uploader-preview',function(){
+		const id = $(this).attr('data-id');
+		readURL(this, id);
+	})
 
 </script>
 @endpush
