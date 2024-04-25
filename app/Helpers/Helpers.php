@@ -81,7 +81,7 @@ function getSidebars($user):array
 				createSidebarItem( $pageName , __('Create :page' , ['page'=>__('Cancellation Reason')]) , route('cancellation-reasons.create') , $user->can('create ' .$pageName)  ),
 			]
 			),
-			$pageName = 'sliders'=> createSidebarItem( $pageName, __('Sliders') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-bus',
+			$pageName = 'sliders'=> createSidebarItem( $pageName, __('Sliders') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-windows',
 			[
 				createSidebarItem($pageName, __('View :page' , ['page' => __('Sliders')]) , route('sliders.index') , $user->can('view ' .$pageName)  ),
 				createSidebarItem($pageName, __('Create :page' , ['page'=>__('Slider')]) , route('sliders.create') , $user->can('create ' .$pageName)  ),
@@ -166,7 +166,7 @@ function getSidebars($user):array
 			,
 			
 			
-			$pageName = 'app-guidelines'=> createSidebarItem( $pageName, __('App Guidelines') ,  '#' ,$user->can('create '.$pageName) || $user->can('create '.$pageName) ,'la la-cogs',
+			$pageName = 'app-guidelines'=> createSidebarItem( $pageName, __('App Guidelines') ,  '#' ,$user->can('create '.$pageName) || $user->can('create '.$pageName) ,'la la-envelope',
 			[
 				createSidebarItem($pageName, __('View :page' , ['page' => __('App Guidelines')]) , route('app-guidelines.create') , $user->can('create ' .$pageName)  ),
 			])
