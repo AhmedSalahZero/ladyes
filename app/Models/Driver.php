@@ -371,12 +371,10 @@ class Driver extends Model implements HasMedia, BannableInterface, IHaveAppNotif
         ->orderByDistance()
         ->get() ;
 		$drivers = Driver::all();
-
-		$drivers = $drivers->filter(function(Driver $driver){
+		
+		return $drivers->filter(function(Driver $driver){
 			return $driver->satisfyConditions(Request()->user()->getTravelConditionIds());
 		});
-	
-        return ;
     }
 	public function getResource()
 	{

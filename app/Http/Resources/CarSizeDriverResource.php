@@ -30,6 +30,7 @@ class CarSizeDriverResource extends JsonResource
         return [
 			'car_size_id'=>$this->id ,
 			'car_size_name'=>$this->getName(getApiLang()),
+			'image'=>$this->getImage(),
 			'expected_arrival_time'=>isset($result['duration_in_seconds']) ? __('Estimated Arrival Time :time',['time'=>now()->addSeconds($result['duration_in_seconds'])->format('g:i A')]) : '-' ,
 			'expected_arrival_distance'=>isset($result['distance_in_meter']) ? __(':distance Km Away',['distance'=>round($result['distance_in_meter'] / 1000,1) ]) : '-' ,
 			'drivers_count'=>$this->drivers->count(),
