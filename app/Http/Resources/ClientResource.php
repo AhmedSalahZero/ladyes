@@ -29,7 +29,6 @@ class ClientResource extends JsonResource
 			'email'=>$this->getEmail(),
 			'phone'=>$this->getPhone(),
 			'image'=>$this->getFirstMedia('image') ? $this->getFirstMedia('image')->getFullUrl() : getDefaultImage() ,
-			'can_receive_notifications'=>$this->getCanReceiveNotification(),
 			'has_secure_travel'=>$this->getHasSecureTravel(),
 			'rates'=>$this->getRatesForApi(),
 			'current_balance'=>$this->getTotalWalletBalance(),

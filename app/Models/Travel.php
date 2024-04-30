@@ -43,6 +43,15 @@ class Travel extends Model
 	protected $dates = [
 		'expected_arrival_date',
 	];
+	
+	protected static function boot()
+    {
+        parent::boot();
+        static::saving(function(Travel $travel) {
+            $travel->is_secure = $travel->client->getHasSecureTravel();
+        }); 
+    }
+	
 	/**
 	 * * عدد الدقايق اللي لو الرحلة اتاخرت عنها هنبعت رسالة لجه اتصال الطوارئ
 	 */
@@ -155,6 +164,7 @@ class Travel extends Model
      * *  لو امنة بننشئ كود بحيث السواق يقوله للعميل علشان يتاكد من هويته
      * * قصدي هوية السائق
      */
+
     public function getIsSecure()
     {
         return (bool) $this->is_secure ;

@@ -13,7 +13,6 @@ use App\Interfaces\IHaveFine;
 use App\Interfaces\IHaveWithdrawal;
 use App\Notifications\Admins\ClientNotification;
 use App\Traits\Accessors\IsBaseModel;
-use App\Traits\Models\CanReceiveNotification;
 use App\Traits\Models\HasBasicStoreRequest;
 use App\Traits\Models\HasBonus;
 use App\Traits\Models\HasCanPayByCash;
@@ -79,7 +78,6 @@ class Client extends Model implements HasMedia, BannableInterface,IHaveAppNotifi
     use HasPhone;
     use HasEmail;
     use HasRating;
-	use CanReceiveNotification;
     use HasEmergencyContacts;
 	use HasFine ; 
 	use HasBonus ; 

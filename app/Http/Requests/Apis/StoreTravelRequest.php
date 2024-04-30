@@ -48,7 +48,7 @@ class StoreTravelRequest extends FormRequest
 			'from_address'=>[$requiredOrNot,'required','max:255'],
 			'to_address'=>[$requiredOrNot,'required','max:255'],
 			'coupon_code'=>['sometimes','required',new ValidCouponRule()],
-			'is_secure'=>['sometimes','required','in:1,0'],
+			// 'is_secure'=>['sometimes','required','in:1,0'],
 			// 'currency' => ['required', 'exists:countries,currency'],
 			// 'payment_type'=>['required','in:'.implode(',',array_keys(PaymentType::all()))],
         ];
