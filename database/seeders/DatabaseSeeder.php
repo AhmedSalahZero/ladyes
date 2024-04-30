@@ -14,7 +14,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-		ini_set('max_execution_time', 900000);
 
 		$this->call(CountrySeeder::class);
 		$this->call(CarSizeSeeder::class);
