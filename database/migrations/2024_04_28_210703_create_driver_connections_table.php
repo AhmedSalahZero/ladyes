@@ -19,14 +19,14 @@ class CreateDriverConnectionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('driver_connections', function (Blueprint $table) {
-            $table->id();
-			$table->dateTime('started_at')->nullable();
-			$table->dateTime('ended_at')->nullable();
-			$table->unsignedBigInteger('driver_id');
-			$table->foreign('driver_id')->references('id')->on('drivers')->cascadeOnDelete();
-            $table->timestamps();
-        });
+        // Schema::create('driver_connections', function (Blueprint $table) {
+        //     $table->id();
+		// 	$table->dateTime('started_at')->nullable();
+		// 	$table->dateTime('ended_at')->nullable();
+		// 	$table->unsignedBigInteger('driver_id');
+		// 	$table->foreign('driver_id')->references('id')->on('drivers')->cascadeOnDelete();
+        //     $table->timestamps();
+        // });
     }
 
     /**
