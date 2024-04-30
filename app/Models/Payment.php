@@ -78,7 +78,7 @@ class Payment extends Model
 	}
 	public function storeForTravel(Travel $travel):self
 	{
-		if($travel->isPaid()){
+		if($travel->isPaid() && ! env('APP_ENV') == 'local'){
 			return $this ;
 		}
 		$country = $travel->city->getCountry() ;
@@ -159,6 +159,12 @@ class Payment extends Model
 		 */
 
 		(new Bonus())->storeForFirstTravel($travel);
+		
+		/**
+		 * * هنا سوف نعطي السائق حصتة  
+		 */
+		$deposit = (new Deposit())->storeNewForDriverAsTravelCompleted($travel);
+		
 		$travel->sendTravelCompletedMessageForClient();
 		return $payment ;
 	}

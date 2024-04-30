@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Enum\TransactionType;
 use App\Helpers\HDate;
+use App\Http\Resources\TravelResource;
 use App\Jobs\SendCurrentStatusMessageToEmergencyContractsJob;
 use App\Models\CarSize;
 use App\Models\Client;
@@ -47,11 +48,7 @@ class TestCommand extends Command
      */
     public function handle()
     {
-		$client = Client::first();
-		
-		$d = $client->satisfyConditions([]);
-		dd($d);
-		
+	
     }
    
 }

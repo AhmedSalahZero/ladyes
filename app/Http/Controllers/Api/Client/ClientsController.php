@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Resources\ClientResource;
 use App\Models\Client;
-use App\Models\Notification;
 use App\Traits\Api\HasApiResponse;
 use Illuminate\Http\Request;
 

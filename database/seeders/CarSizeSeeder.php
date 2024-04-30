@@ -14,6 +14,7 @@ class CarSizeSeeder extends Seeder
      */
     public function run()
     {
+		
 		$carSize = CarSize::factory()->create([
 			'name_en'=>'Eco',
 			'name_ar'=>'Eco',
@@ -22,11 +23,12 @@ class CarSizeSeeder extends Seeder
 		
 		$carSize->countryPrices()->attach([
 			
-			'country_id'=>194
+			'country_id'=>65
 		],[
 			'price'=>40,
 			'model_type'=>'CarSize'
 		]);
+		
 		
 		
         $carSize = CarSize::factory()->create([
@@ -41,6 +43,15 @@ class CarSizeSeeder extends Seeder
 			'price'=>90,
 			'model_type'=>'CarSize'
 		]);
+		
+		$carSize->countryPrices()->attach([
+			
+			'country_id'=>65
+		],[
+			'price'=>90,
+			'model_type'=>'CarSize'
+		]);
+		
 		$carSize = CarSize::factory()->create([
 			'name_en'=>'family',
 			'name_ar'=>'عائلي',
@@ -53,6 +64,15 @@ class CarSizeSeeder extends Seeder
 	['price'=>90,
 	'model_type'=>'CarSize']
 	);
+	
+	$carSize->countryPrices()->attach([
+			
+		'country_id'=>65
+	],
+['price'=>90,
+'model_type'=>'CarSize']
+);
+
 		$carSize = CarSize::factory()->create([
 			'name_en'=>'private',
 			'name_ar'=>'خاص',
@@ -65,6 +85,12 @@ class CarSizeSeeder extends Seeder
 			'price'=>20,
 			'model_type'=>'CarSize'
 		]);
+		$carSize->countryPrices()->attach([
 		
+			'country_id'=>65
+		],[
+			'price'=>20,
+			'model_type'=>'CarSize'
+		]);
     }
 }

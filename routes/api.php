@@ -20,6 +20,7 @@ use App\Http\Controllers\Api\Driver\HelpController;
 use App\Http\Controllers\Api\Driver\InformationController;
 use App\Http\Controllers\Api\Driver\PromotionsController;
 use App\Http\Controllers\Api\Driver\RatingController as DriverRatingController;
+use App\Http\Controllers\Api\Driver\ReportsController;
 use App\Http\Controllers\Api\Driver\TravelConditionController;
 use App\Http\Controllers\Api\Driver\TravelsController as DriverTravelsController;
 use App\Http\Controllers\Api\EmergencyContactsController;
@@ -74,7 +75,6 @@ Route::prefix('drivers')->group(function () {
         Route::put('update', [DriversController::class, 'update']);
         Route::get('information', [InformationController::class, 'viewAfterSignupMessage']);
         Route::get('help', [HelpController::class, 'viewForDriver']);
-		
 		Route::apiResource('cancellation-reasons',CancellationReasonsController::class);
 		Route::apiResource('car-sizes',CarSizesController::class);
 		Route::apiResource('car-makes',CarMakeController::class);
@@ -84,6 +84,12 @@ Route::prefix('drivers')->group(function () {
 		Route::patch('travels/{travel}/mark-as-started',[DriverTravelsController::class,'markAsStarted']);
 		Route::patch('travels/{travel}/mark-as-cancelled',[DriverTravelsController::class,'markAsCancelled']);
 		Route::patch('travels/{travel}/mark-as-completed',[DriverTravelsController::class,'markAsCompleted']);
+		
+		Route::prefix('reports')->group(function(){
+			Route::get('profit',[ReportsController::class,'getProfitReport']);
+			Route::get('travels-per-hour',[ReportsController::class,'getTravelPerHours']);
+		});
+		
 		
     });
 });
@@ -121,6 +127,7 @@ Route::prefix('clients')->group(function () {
 		Route::post('travels/{travel}/store-payment',[TravelsController::class,'storePayment']);
 		Route::post('travels/{travel}/send-arrival-notification-to-client',[TravelsController::class,'sendArrivalNotificationToClient']);
 		Route::get('travels/{travel}/price-details' , [TravelsController::class,'getPriceDetails']);
+		
 		
     });
 });

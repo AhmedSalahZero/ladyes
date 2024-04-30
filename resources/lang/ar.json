@@ -588,5 +588,10 @@
 	"Completed Travels":"الرحلات المكتملة",
 	"Add Slider":"اضافة سلايدر",
 	"Slider":"سلايدر",
-	"Sliders":"سلايدرز"
+	"Sliders":"سلايدرز",
+	"Report Type":"نوع التقرير",
+	"Only Allowed Values (daily , weekly , monthly)":"القيم المسموح بيها هي (daily , weekly , monthly )",
+	"Daily":"يومي",
+	"Weekly":"اسبوعي",
+	"Monthly":"شهري"
 }

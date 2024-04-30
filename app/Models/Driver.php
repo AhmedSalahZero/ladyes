@@ -325,7 +325,7 @@ class Driver extends Model implements HasMedia, BannableInterface, IHaveAppNotif
     {
         return self::where('invitation_code', $invitationCode)->first();
     }
-
+	
     public function getCountry(): ?Country
     {
         return $this->city ? $this->city->country : null ;
@@ -435,5 +435,37 @@ class Driver extends Model implements HasMedia, BannableInterface, IHaveAppNotif
 	{
 		return number_format($this->getCancelledTravelsPercentage(),2) . ' %';
 	}
+	/**
+	 * * عباره عن سجل الاتصال و الانقطاع لهذا السائق 
+	 * * بمعني لما السائق بيعمل اتصال علشان يبدا يستقبل طلبات هنسجلها
+	 * * ولما يعمل لوج اوت او ينهي الاتصال هنقفلها
+	 */
+	public function connections():HasMany
+	{
+		return $this->hasMany(DriverConnection::class,'driver_id','id');
+	}
+	public function handleConnectionLogs()
+	{
+	
+		if($last = $this->connections->last()){
+			if($last->ended_at){
+				$this->connections()->create([
+					'started_at'=>now()
+				]);	
+			}else{
+				$last->update([
+					'ended_at'=>now()
+				]);
+			}
+		}else{
+	
+			if($this->getIsListingToOrders()){
+				$this->connections()->create([
+					'started_at'=>now()
+				]);	
+			}
+			
+		}
+	}	
 	
 }

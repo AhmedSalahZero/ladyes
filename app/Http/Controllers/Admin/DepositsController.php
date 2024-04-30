@@ -94,7 +94,7 @@ class DepositsController extends Controller
     }
 	
 	/**
-	 * * هنضيف من هنا الغرامة من البوب اب في الداش بورد في صفحه العميل او السائق
+	 * * هنضيف من هنا الايداع من البوب اب في الداش بورد في صفحه العميل او السائق
 	 */
 	public function storeFor(ValidAmountRequest $request){
 		/**

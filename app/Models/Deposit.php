@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enum\AppNotificationType;
-use App\Enum\PaymentType;
 use App\Enum\TransactionType;
 use App\Helpers\HHelpers;
 use App\Interfaces\IHaveDeposit;
@@ -42,10 +41,49 @@ class Deposit extends Model implements ITransactionType
 	 {
 		return __('Amount Has Been Added To Your Wallet :amount :currency', ['amount' => number_format($amount), 'currency' => $currencyNameFormatted],$lang);
 	 }
+	 
+	  /**
+	  * * هنا بنبعت ايداع للسائق بنصيبة من الغاء العميل لرحلة معينة
+	   * * حساب النسبة اللي السائق بياخدها من الغرامة والباقي بيروح للتطبيق
+	   * 
+	   */
+	 
+	   public function storeNewForDriverAsTravelCompleted(Travel $travel):Deposit
+	   {
+			$totalAmount = $travel->calculateDriverShare();
+		  $currencyNameEn = $travel->getCurrencyNameFormatted('en');
+		  $currencyNameAr = $travel->getCurrencyNameFormatted('ar');
+		  $travelId = $travel->id ;
+		  if(!$travel->driver){
+			  return $this ; 
+		  }
+		  $driver = $travel->driver ;
+		  $driverId = $driver->id;
+		
+		  $deposit = Deposit::create([
+			  'model_type'=>'Driver',
+			  'payment_method'=>$travel->getPaymentMethod(),
+			  'model_id'=>$driverId ,
+			  'is_profit'=>true ,
+			  'amount'=>$totalAmount,
+			  'note_en' => $depositMessageEn = __('Amount Has Been Added To Your Wallet :amount :currency For Travel Number :travelId', ['amount' => number_format($totalAmount), 'currency' => $currencyNameEn,'travelId'=>$travelId], 'en'),
+			  'note_ar' => $depositMessageAr =__('Amount Has Been Added To Your Wallet :amount :currency For Travel Number :travelId', ['amount' => number_format($totalAmount), 'currency' => $currencyNameAr,'travelId'=>$travelId], 'ar'),
+		  ]);
+		  $deposit->transactions()->create([
+			  'type'=>TransactionType::DEPOSIT,
+			  'is_profit'=>true ,
+			  'amount'=>$totalAmount ,
+			  'model_id'=>$driverId ,
+			  'model_type'=>'Driver',
+			  'note_en'=>$depositMessageEn ,
+			  'note_ar'=>$depositMessageAr
+		  ]);
+		  $driver->sendAppNotification(__('Deposit', [], 'en'), __('Deposit', [], 'ar'), $depositMessageEn, $depositMessageAr, AppNotificationType::DEPOSIT,$deposit->id);
+		  return $deposit ; 
+	   }
+	   
 	 /**
 	  * * هنا بنبعت ايداع للسائق بنصيبة من الغاء العميل لرحلة معينة
-	  */
-	  /**
 	   * * حساب النسبة اللي السائق بياخدها من الغرامة والباقي بيروح للتطبيق
 	   * 
 	   */
@@ -77,6 +115,7 @@ class Deposit extends Model implements ITransactionType
 		]);
 		$deposit->transactions()->create([
 			'type'=>TransactionType::DEPOSIT,
+			'is_profit'=>true ,
 			'amount'=>$driverDepositAmount ,
 			'model_id'=>$driverId ,
 			'model_type'=>'Driver',

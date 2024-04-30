@@ -15,9 +15,7 @@ use App\Http\Controllers\Admin\UsersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::post('test', function (Request $request) {
-    dd($request->all());
-});
+
 
 Route::group(['namespace' => 'Admin', 'middleware' => 'auth:admin'], function () {
     Route::get('/dashboard', [DashboardController::class, 'getDashboard'])->name('dashboard.index');

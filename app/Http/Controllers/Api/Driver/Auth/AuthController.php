@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Api\Driver\Auth;
 
-use App\Helpers\HHelpers;
-use App\Http\Requests\Apis\LoginRequest;
-use App\Http\Requests\Apis\LogoutDriverRequest;
+
 use App\Http\Requests\Apis\SendVerificationCodeRequest;
 use App\Http\Requests\Apis\VerifyVerificationCodeRequest;
 use App\Http\Requests\StoreDriverRequest;
@@ -13,7 +11,6 @@ use App\Models\Notification;
 use App\Traits\Api\HasApiResponse;
 use App\Traits\Api\IsAuthController;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class AuthController 
 {
@@ -38,17 +35,7 @@ class AuthController
 		return $this->apiResponse(__('You Account Has Been Registered',[],getApiLang()),[
 			'user'=>$model->getResource(),
 		]);
-		// if(!$confirmationCodeResponseArr['status']){
-		// 	$model->delete();
-		// 	$errorMessage = $confirmationCodeResponseArr['message'] ;
-		// 	Notification::storeNewAdminNotification(
-		// 		__('Application Error !',[],'en'),
-		// 		__('Application Error !',[],'ar'),
-		// 		 $errorMessage,
-		// 		 $errorMessage,
-		// 	);
-		// 	return $this->apiResponse($errorMessage , [],Response::HTTP_INTERNAL_SERVER_ERROR);
-		// }
+
 		
 		
 
@@ -79,6 +66,8 @@ class AuthController
 		 * @var Driver $model 
 		 */
 		$model = $request->user('driver');
+		$model->is_listing_to_orders_now = false ;
+		$model->save();
 		Notification::storeNewAdminNotification(
 			__('New Logout', [], 'en'),
 			__('New Logout', [], 'ar'),

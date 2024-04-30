@@ -16,6 +16,7 @@ class CreateTransactionsTable extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
+			$table->boolean('is_profit')->default(false)->comment('علشان نعرف نحسب هل الفلوس دي دخلت للسواق من رحلة كربح ولا لا .. علشان واحنا بنجيب التقرير');
             $table->decimal('amount', 14, 2)->default(0);
             $table->enum('type', array_keys(TransactionType::all()))->default(TransactionType::PAYMENT);
             $table->unsignedBigInteger('type_id')->nullable()->comment('علي سبيل المثال ال payment_id');

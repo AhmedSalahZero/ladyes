@@ -270,6 +270,7 @@ class Travel extends Model
 		if(isset($result['duration_in_seconds']) && $result['duration_in_seconds'] > 0){
 			$minutes = $result['duration_in_seconds'] / 60 ;
 			$this->expected_arrival_date = now()->addMinutes($minutes);
+			$this->no_km = $result['distance_in_meter'] / 1000 ;
 		}else{
 			$minutes = 100 / 60 ;
 			$this->expected_arrival_date = now()->addMinutes($minutes);
@@ -459,7 +460,6 @@ class Travel extends Model
         $operationFees = $this->getOperationalFees();
         $numberOfMinutes = $this->getNumberOfMinutes();
         $numberOfKms = $this->getNumberOfKms();
-
         return $carSizePrice + ($kmPrice * $numberOfKms) + ($minutePrice * $numberOfMinutes) + $operationFees ;
     }
 
@@ -474,7 +474,6 @@ class Travel extends Model
         $couponAmount = is_null($couponAmount) ? $this->getCouponDiscountAmount() : $couponAmount ;
         $taxesAmount = is_null($taxesAmount) ? $this->calculateTaxesAmount() : $taxesAmount ;
         $cashFees = is_null($cashFees) ? $this->calculateCashFees() : $cashFees ;
-
         return $this->calculateClientActualPriceWithoutDiscount() - $couponAmount + $taxesAmount + $cashFees  ;
     }
 

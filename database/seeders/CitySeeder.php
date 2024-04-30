@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\City;
-use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
 class CitySeeder extends Seeder
@@ -27,8 +26,8 @@ class CitySeeder extends Seeder
 		'start_time'=>now()->toTimeString(),
 		'end_time'=>now()->addHour()->toTimeString(),
 		'percentage'=>'1/5',
-		'km_price'=>$city->km_price + 10 ,
-		'minute_price'=>$city->minute_price + 10 ,
+		'km_price'=>$city->km_price + 2 ,
+		'minute_price'=>$city->minute_price + 1 ,
 		'operating_fees'=>$city->operating_fees + 1 ,
 	   ]);
 	   

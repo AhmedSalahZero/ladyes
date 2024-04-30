@@ -22,6 +22,9 @@ class MacrosServiceProvider extends ServiceProvider
     public function boot()
     {
 		// collection macros
+		
+
+
         Collection::macro('formattedForSelect',function(bool $isFunction , string $idAttrOrFunction ,string $titleAttrOrFunction ){
 			/**
 			 * @var Collection $this

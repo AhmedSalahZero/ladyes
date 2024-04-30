@@ -1,5 +1,6 @@
 <?php
 
+use App\Providers\CarbonServiceProvider;
 use App\Providers\MacrosServiceProvider;
 use App\Providers\ObserverServiceProvider;
 use App\Providers\SchemaServiceProvider;
@@ -182,7 +183,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         MacrosServiceProvider::class,
+        CarbonServiceProvider::class,
         SharableServiceProvider::class,
+        ObserverServiceProvider::class,
         SchemaServiceProvider::class,
 		IdeHelperServiceProvider::class
     ],

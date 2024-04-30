@@ -57,7 +57,6 @@ class CarSize extends Model
 	public function getPrice(int $countryId){
 	
 		$countryPrice = $this->countryPrices->where('id',$countryId)->first() ;
-
 		return $countryPrice ? $countryPrice->pivot->price : 0 ;
 	}
 	public function getPriceFormatted(int $countryId , string $lang)

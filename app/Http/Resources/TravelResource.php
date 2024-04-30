@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Travel;
 use App\Services\DistanceMatrix\GoogleDistanceMatrixService;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -18,13 +19,13 @@ class TravelResource extends JsonResource
 		$googleDistanceMatrixService = new GoogleDistanceMatrixService();
 		$driver = $this->driver;
 		$client = $this->client ;
-		$result = $driver && $driver->getLongitude() ? $googleDistanceMatrixService->getExpectedArrivalTimeBetweenTwoPoints($driver->getLatitude(),$driver->getLongitude(),$this->getFromLatitude(),$this->getFromLongitude()) : [];
 		
+		$result = $driver && $driver->getLongitude() ? $googleDistanceMatrixService->getExpectedArrivalTimeBetweenTwoPoints($driver->getLatitude(),$driver->getLongitude(),$this->getFromLatitude(),$this->getFromLongitude()) : [];
 		/**
 		 * @var Travel $this 
 		 */
 		$priceDetails = $this->isCompleted() ? [
-			'price' => $mainPriceWithoutDiscountAndTaxesAndCashFees = $this->started_at ?  $this->calculateClientActualPriceWithoutDiscount() : 0,
+			'price' => $mainPriceWithoutDiscountAndTaxesAndCashFees = $this->hasStarted() ?  $this->calculateClientActualPriceWithoutDiscount() : 0,
 			'total_fines'=>$fines = $this->client->getTotalAmountOfUnpaid(),
 			'coupon_amount' => $couponAmount = $this->getCouponDiscountAmount(),
 			'tax_amount'=>$taxAmount = $this->calculateTaxAmount($mainPriceWithoutDiscountAndTaxesAndCashFees),
@@ -40,8 +41,8 @@ class TravelResource extends JsonResource
 			'from_address'=>$this->getFromAddress(),
 			'to_address'=>$this->getToAddress(),
 			'is_secure_code'=>$isSecure=$this->getIsSecure(),
-			'price_details'=>$this->when($this->isCompleted() , $priceDetails ),
 			'secure_code'=>$this->when($isSecure,$this->getSecureCode()),
+			'price_details'=>$this->when($this->isCompleted() , $priceDetails ),
 			'expected_arrival_time'=>isset($result['duration_in_seconds']) ? __('Estimated Arrival Time :time',['time'=>now()->addSeconds($result['duration_in_seconds'])->format('g:i A')]) : '-' ,
 			'expected_arrival_distance'=>isset($result['distance_in_meter']) ? __(':distance Km Away',['distance'=>round($result['distance_in_meter'] / 1000,1) ]) : '-' ,
 			'client' => $client->getResource(),

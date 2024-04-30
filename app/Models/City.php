@@ -66,7 +66,10 @@ class City extends Model
 	/**
 	 * * بنشوف هل المدينة دي في الوقت دا هل هي في وقت ذروة ولا لا 
 	 */
-	public function isInRushHourAt(string $dateTime){
+	public function isInRushHourAt(?string $dateTime){
+		if(is_null($dateTime)){
+			return false ;
+		}
 		$time = Carbon::make($dateTime)->format('H:i:');
 		$isInRushHour = false ;
 		foreach($this->rushHours as $rushHour){

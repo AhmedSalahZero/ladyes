@@ -13,6 +13,7 @@ use App\Interfaces\IHaveFine;
 use App\Interfaces\IHaveWithdrawal;
 use App\Notifications\Admins\ClientNotification;
 use App\Traits\Accessors\IsBaseModel;
+use App\Traits\Models\CanReceiveNotification;
 use App\Traits\Models\HasBasicStoreRequest;
 use App\Traits\Models\HasBonus;
 use App\Traits\Models\HasCanPayByCash;
@@ -30,6 +31,7 @@ use App\Traits\Models\HasMake;
 use App\Traits\Models\HasModel;
 use App\Traits\Models\HasPhone;
 use App\Traits\Models\HasRating;
+use App\Traits\Models\HasSecureTravel;
 use App\Traits\Models\HasTravelCondition;
 use App\Traits\Models\HasWallet;
 use App\Traits\Models\HasWithdrawal;
@@ -65,6 +67,7 @@ class Client extends Model implements HasMedia, BannableInterface,IHaveAppNotifi
     use IsBaseModel;
     use HasDefaultOrderScope;
     use HasCountry;
+	use HasSecureTravel;
     use HasIsVerified;
     use InteractsWithMedia;
     use HasBasicStoreRequest;
@@ -76,6 +79,7 @@ class Client extends Model implements HasMedia, BannableInterface,IHaveAppNotifi
     use HasPhone;
     use HasEmail;
     use HasRating;
+	use CanReceiveNotification;
     use HasEmergencyContacts;
 	use HasFine ; 
 	use HasBonus ; 
@@ -120,11 +124,6 @@ class Client extends Model implements HasMedia, BannableInterface,IHaveAppNotifi
 			$client->country_id = Country::findByIso2($request->get('country_iso2'))->id;
 			$client->save();
 		}
-        // 1- generate invitation_code
-        // // $client = $this->storeInventionCodeIfNotExist();
-        // $client = $this->storeVerificationCodeIfNotExist();
-        // 2- if not confirmed then send verification code
-		// $client->sendVerificationCodeMessage()
         return $client;
     }
 
