@@ -29,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+		set_time_limit(0);
     
         Paginator::useBootstrap();
         if (true) {
