@@ -25,10 +25,12 @@ class CreateTravelsTable extends Migration
 			$table->unsignedBigInteger('city_id')->nullable();
 			$table->foreign('city_id')->references('id')->on('cities')->nullOnDelete();
 			$table->string('payment_method');
+			$table->unsignedBigInteger('promotion_id')->comment('دا العرض الترويجي اللي تم تطبيقه علي الرحلة الحالية')->nullable();
 			$table->unsignedBigInteger('coupon_id')->comment('دا الكوبون اللي تم تطبيقه علي الرحلة الحالية')->nullable();
 			$table->unsignedBigInteger('gift_coupon_id')->comment('دا الكوبون اللي بيتم انشائة تلقائي بحيث لما الرحلة تنتهي بيظهر للعميل كهديه بحيث يستخدمة في الرحلات القادمة')->nullable();
 			$table->enum('status',array_keys(TravelStatus::all()))->default(TravelStatus::NOT_STARTED_YET)->comment('حالة الرحلة هل لم تبدا بعد اما في الطريق ام انتهت ام تم الغائها الخ');
 			$table->foreign('coupon_id')->references('id')->on('coupons')->nullOnDelete();
+			$table->foreign('promotion_id')->references('id')->on('promotions')->nullOnDelete();
 			$table->foreign('gift_coupon_id')->references('id')->on('coupons')->nullOnDelete();
 			// $table->decimal('coupon_amount',14,2)->default(0)->comment('هنضيف الكوبون هنا لان ممكن السعر يتغير وبالتالي مقدرش اجيبه عن طريق الريليشن');
 			$table->string('from_longitude');

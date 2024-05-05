@@ -102,8 +102,8 @@ class Deposit extends Model implements ITransactionType
 		 * * حساب نصيب السائق
 		 */
 		$operationFees = $travel->getOperationalFees();
-		$deductionPercentage = $driver->getDeductionPercentage();
-		$driverDepositAmount = $deductionPercentage / 100 * $totalFeesAmount + $operationFees ; 
+		$feesAfterDeductionAmount = $driver->getFeesAmountAfterDeduction($totalFeesAmount);
+		$driverDepositAmount = $feesAfterDeductionAmount + $operationFees ; 
 		
 		$deposit = Deposit::create([
 			'model_type'=>'Driver',

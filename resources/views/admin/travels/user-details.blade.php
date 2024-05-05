@@ -159,6 +159,7 @@
                                     @foreach ( [
                                     __('Travel Main Price')=> $model->getPaymentPriceFormatted($lang) ,
                                     __('Coupon Discount') => $model->getPaymentCouponDiscountAmountFormatted() ,
+									__('Promotion Percentage') => $model->getPaymentPromotionDiscountPercentageFormatted(),
                                     __('Operational Fees') => $model->getPaymentOperationalFeesFormatted() ,
                                     __('Total Price (Without Operation Fees)') => $model->getPaymentTotalPriceWithoutOperationFeesFormatted(),
                                     __('Total Price (With Operation Fees)') => $model->getPaymentTotalPriceWithOperationFeesFormatted(),

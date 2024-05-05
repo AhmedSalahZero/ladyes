@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 use App\Helpers\HValidation;
+use App\Rules\AmountOrPercentageRule;
+use App\Rules\DeductionAmountOrPercentageRule;
 use App\Traits\HasFailedValidation;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
@@ -34,7 +36,10 @@ class StoreDriverRequest extends FormRequest
 			'email'=>$HValidationRules['email'],
 			'phone'=>$HValidationRules['phone'],
 			'id_number'=>$HValidationRules['id_number'],
-			'deduction_percentage'=>$HValidationRules['deduction_percentage'],
+		
+			'deduction_type'=>'sometimes|required|in:fixed,percentage',
+			'deduction_amount'=>['required','gte:0',new DeductionAmountOrPercentageRule],
+			
 			'driving_range'=>$HValidationRules['driving_range'],
 			'make_id'=>$HValidationRules['make_id'],
 			'model_id'=>$HValidationRules['model_id'],
@@ -89,9 +94,6 @@ class StoreDriverRequest extends FormRequest
 			'received_invitation_code.exists'=>__('Invitation Code Not Found' ,[]),
 			'invitation_code.unique'=> __(':attribute Already Exist',['attribute'=>__('Invitation Code')]),
 			'invitation_code.max'=> __(':attribute Exceed The Max Letter Length :max Letter',['attribute'=>__('Invitation Code'),'max'=>255	]),
-			
-			'deduction_percentage.number'=>__('Please Enter Valid :attribute' , ['attribute'=>__('Deduction Percentage')]),
-			'deduction_percentage.gte'=>__('Only Greater Than Minus One Allowed For :attribute' , ['attribute'=>__('Deduction Percentage')]),
 			
 			'country_id.required'=>__('Please Enter :attribute' , ['attribute'=>__('Country Name')]),
 			'city_id.required'=>__('Please Enter :attribute' , ['attribute'=>__('City Name')]),
@@ -148,6 +150,14 @@ class StoreDriverRequest extends FormRequest
 			'current_latitude.regex'=>__('Invalid :attribute' , ['attribute'=>__('Latitude')]),
 			'current_longitude.required' => __('Please Enter :attribute', ['attribute' => __('Longitude',[],getApiLang())],getApiLang()),
 			'current_longitude.regex'=>__('Invalid :attribute' , ['attribute'=>__('Longitude')]),
+			
+			'deduction_type.required' => __('Please Enter :attribute', ['attribute' => __('Deduction Type',[],getApiLang())],getApiLang()),
+			'deduction_type.in'=>__('Invalid :attribute',['attribute'=>__('Deduction Type',[],getApiLang())],getApiLang()),
+            'deduction_amount.required' => __('Please Enter :attribute', ['attribute' => __('Deduction Amount',[],getApiLang())],getApiLang()),
+            'deduction_amount.gte' => __('Only Greater Than Or Equal Zero Allowed For :attribute',['attribute'=>__('Deduction Amount',[],getApiLang())],getApiLang()) ,
+			
+		
+			
 			
 		];
 	}

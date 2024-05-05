@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Helpers\HValidation;
+use App\Rules\DeductionAmountOrPercentageRule;
 use App\Traits\HasFailedValidation;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
@@ -37,10 +38,10 @@ class StoreSettingsRequest extends FormRequest
             'instagram_url' => $HValidationRules['instagram_url'],
             'twitter_url' => $HValidationRules['twitter_url'],
             'youtube_url' => $HValidationRules['youtube_url'],
-            'deduction_percentage' => $HValidationRules['deduction_percentage'],
             'coupon_discount_percentage' => $HValidationRules['coupon_discount_percentage'],
             'driving_range' => $HValidationRules['driving_range'],
-
+			'deduction_type'=>'sometimes|required|in:fixed,percentage',
+			'deduction_amount'=>['required','gte:0',new DeductionAmountOrPercentageRule],
             'phone' => $HValidationRules['app_phone'],
             'email' => $HValidationRules['app_email'],
 
@@ -50,6 +51,12 @@ class StoreSettingsRequest extends FormRequest
     public function messages()
     {
         return [
+			
+            'deduction_type.required' => __('Please Enter :attribute', ['attribute' => __('Deduction Type',[],getApiLang())],getApiLang()),
+			'deduction_type.in'=>__('Invalid :attribute',['attribute'=>__('Deduction Type',[],getApiLang())],getApiLang()),
+            'deduction_amount.required' => __('Please Enter :attribute', ['attribute' => __('Deduction Amount',[],getApiLang())],getApiLang()),
+            'deduction_amount.gte' => __('Only Greater Than Or Equal Zero Allowed For :attribute',['attribute'=>__('Deduction Amount',[],getApiLang())],getApiLang()) ,
+			
             'app_name_en.required' => __('Please Enter :attribute', ['attribute' => __('English App Name')]),
             'app_name_en.max' => __(':attribute Exceed The Max Letter Length :max Letter', ['attribute' => __('English App Name'), 'max' => 255]),
 
@@ -79,8 +86,6 @@ class StoreSettingsRequest extends FormRequest
             'youtube_url.max' => __(':attribute Exceed The Max Letter Length :max Letter', ['attribute' => __('Youtube URL'), 'max' => 255]),
             'youtube_url.url' => __(':attribute Invalid URL', ['attribute' => __('Youtube URL')]),
 
-            'deduction_percentage.number' => __('Please Enter Valid :attribute', ['attribute' => __('Deduction Percentage')]),
-            'deduction_percentage.gte' => __('Only Greater Than Minus One Allowed For :attribute', ['attribute' => __('Deduction Percentage')]),
 
             'coupon_discount_percentage.number' => __('Please Enter Valid :attribute', ['attribute' => __('Coupon Discount Percentage')]),
             'coupon_discount_percentage.gte' => __('Only Greater Than Or Equal Zero Allowed For :attribute', ['attribute' => __('Coupon Discount Percentage')]),

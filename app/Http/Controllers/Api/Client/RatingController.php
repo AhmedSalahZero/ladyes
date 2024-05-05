@@ -19,12 +19,16 @@ class RatingController extends Controller
 		$rate = $request->get('rate',0);
 		$comment = $request->get('comment','');
 		$driverId = $request->get('driver_id');
+		/**
+		 * @var Driver $driver  
+		 */
 		$driver = Driver::find($driverId);
 		$driver->rating([
 			'rating' => $rate,
 			'body'=>$comment , 
 			'approved' => true, // This is optional and defaults to false
 		], $request->user('client'));
+		$driver->handleExcellentMedal();
 		return  $this->apiResponse(__('Success Rating',[],getApiLang()),[]);
 	}
 }

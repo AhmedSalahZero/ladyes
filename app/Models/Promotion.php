@@ -43,4 +43,13 @@ class Promotion extends Model
 		
         $this->save();
     }
+	public function travels()
+	{
+		return $this->hasMany(Travel::class,'promotion_id','id');
+	}
+	public function getPromotionPercentage()
+	{
+		return $this->getDiscountAmount();
+	}
+	
 }

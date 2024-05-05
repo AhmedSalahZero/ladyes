@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enum\DeductionType;
 use App\Enum\PaymentType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDriverRequest;
@@ -42,6 +43,8 @@ class DriversController extends Controller
 			'emergencyContactsFormatted'=>EmergencyContact::get()->formattedForSelect(true,'getId','getName'),
 			'toggleCanReceiveTravelInfos' => route('emergency-contacts.toggle.can.receive.travel.infos'),
 			'paymentMethodsFormattedForSelect'=>PaymentType::allFormattedForSelect2(),
+		
+			
 		]);
     }
 
@@ -80,7 +83,7 @@ class DriversController extends Controller
 			'carModelsFormattedForSelect'=>CarModel::where('make_id',$selectedMakeId)->get()->formattedForSelect(true,'getId','getName'),
 			'carSizesFormattedForSelect'=>CarSize::get()->formattedForSelect(true,'getId','getName'),
 			'drivingRangeFormatted'=>Driver::getDefaultDrivingRangeFormatted(),
-	
+			'deductionTypesFormatted'=>DeductionType::allFormattedForSelect2(),
 		];
 	}
 

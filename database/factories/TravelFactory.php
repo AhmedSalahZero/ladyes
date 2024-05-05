@@ -5,7 +5,9 @@ namespace Database\Factories;
 use App\Enum\TravelStatus;
 use App\Models\City;
 use App\Models\Client;
+use App\Models\Coupon;
 use App\Models\Driver;
+use App\Models\Promotion;
 use App\Models\Travel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -16,7 +18,8 @@ class TravelFactory extends Factory
         return [
             'client_id'=>Client::inRandomOrder()->first()->id ,
 			'driver_id'=>Driver::inRandomOrder()->first()->id ,
-			'coupon_id'=>null ,
+			'coupon_id'=>Coupon::inRandomOrder()->first()->id ,
+			'promotion_id'=>Promotion::inRandomOrder()->first()->id,
 			'payment_method'=>'cash',
 			'no_km'=>$this->faker->numberBetween(2,15) ,
 			'city_id'=>City::where('country_id',194)->first()->id, // saudi arabia

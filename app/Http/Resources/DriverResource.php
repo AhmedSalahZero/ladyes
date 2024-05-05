@@ -36,7 +36,8 @@ class DriverResource extends JsonResource
 			'verification_code'=>$this->getVerificationCode(),
 			'birth_date'=>$this->getBirthDate(),
 			'id_number'=>$this->getIdNumber(),
-			'deduction_percentage'=>$this->getDeductionPercentage(),
+			'deduction_type'=>$this->getDeductionType(),
+			'deduction_amount'=>$this->getDeductionAmount(),
 			'driving_range'=>$this->getDrivingRange(),
 			'invitation_code'=>$this->getInvitationCode(),
 			'avg_rate'=>$this->getAvgRate(),
@@ -45,6 +46,11 @@ class DriverResource extends JsonResource
 			'distance_in_km'=>$this->when(!is_null($this->distance_in_km) , $this->getDistanceInKm()),
 			'completed_travels_percentage'=>$this->getCompletedTravelsPercentageFormatted(),
 			'cancelled_travels_percentage'=>$this->getCancelledTravelsPercentageFormatted(),
+			'has_excellent_medal'=>$this->HasExcellentMedal(),
+			'has_one_year_usage_medal'=>$this->HasOneYearUsageMedal(),
+			'has_rush_hour_medal'=>$this->HasRushHourMedal(),
+			'has_completed_50_travel_medal'=>$this->HasCompleted50TravelsMedal(),
+			
 			'created_at'=>$this->getCreatedAtFormatted(),
 			'car'=>[
 				'manufacturing_year'=>$this->getManufacturingYear(),

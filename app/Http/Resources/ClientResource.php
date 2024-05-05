@@ -19,8 +19,8 @@ class ClientResource extends JsonResource
 		/**
 		 * @var Client $this 
 		 */
-		$country = $this->getCountry() ; 
-		// $location = $this->getLocation();
+		$country = $this->getCountry();
+		 
 		
         return [
 			'id'=>$this->id ,

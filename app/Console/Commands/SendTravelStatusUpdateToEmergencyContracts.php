@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use App\Enum\TravelStatus;
 use App\Jobs\SendCurrentStatusMessageToEmergencyContractsJob;
 use App\Models\Travel;
-use App\Services\DistanceMatrix\GoogleDistanceMatrixService;
 use Illuminate\Console\Command;
 
 class SendTravelStatusUpdateToEmergencyContracts extends Command

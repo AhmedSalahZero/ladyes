@@ -32,7 +32,7 @@ class StorePromotionRequest extends FormRequest
 			'name_ar'=>$HValidationRules['name_ar'],
 			'start_date'=>$HValidationRules['start_date'],
 			'end_date'=>$HValidationRules['end_date'],
-			'discount_type'=>$HValidationRules['discount_type'],
+			// 'discount_type'=>$HValidationRules['discount_type'],
 			'discount_amount'=>$HValidationRules['amount_or_percentage'],
 			// 'is_active'=>$HValidationRules['is_active'],
         ];

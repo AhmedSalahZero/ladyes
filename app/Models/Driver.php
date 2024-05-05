@@ -21,6 +21,7 @@ use App\Traits\Models\HasCarSize;
 use App\Traits\Models\HasCity;
 use App\Traits\Models\HasCountry;
 use App\Traits\Models\HasCreatedAt;
+use App\Traits\Models\HasDeduction;
 use App\Traits\Models\HasDeposit;
 use App\Traits\Models\HasDevice;
 use App\Traits\Models\HasEmail;
@@ -32,6 +33,7 @@ use App\Traits\Models\HasIsListingToOrdersNow;
 use App\Traits\Models\HasIsVerified;
 use App\Traits\Models\HasLoginByPhone;
 use App\Traits\Models\HasMake;
+use App\Traits\Models\HasMedals;
 use App\Traits\Models\HasModel;
 use App\Traits\Models\HasPhone;
 use App\Traits\Models\HasRating;
@@ -55,6 +57,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 use Laravolt\Avatar\Avatar;
 use Spatie\MediaLibrary\HasMedia;
@@ -71,7 +75,9 @@ class Driver extends Model implements HasMedia, BannableInterface, IHaveAppNotif
     use HasWallet;
     use HasDevice;
     use HasFactory;
+	use HasMedals ;
     use IsBaseModel;
+	use HasDeduction ;
     use HasDefaultOrderScope;
     use HasCountry;
     use HasCity;
@@ -129,16 +135,7 @@ class Driver extends Model implements HasMedia, BannableInterface, IHaveAppNotif
     {
           return $this->size();
     }
-
-    public function getDeductionPercentage()
-    {
-        if ($this->deduction_percentage == -1 || is_null($this->deduction_percentage)) {
-            return App(SiteSetting::class)->deduction_percentage;
-        }
-
-        return $this->deduction_percentage;
-    }
-
+	
     /**
      *
      * * نطاق الطلابات بالـ كم وبالتالي خارج هذا النطاق لا لا يستطيع السائق رؤية الطلابات
@@ -442,6 +439,10 @@ class Driver extends Model implements HasMedia, BannableInterface, IHaveAppNotif
 	{
 		return $this->hasMany(DriverConnection::class,'driver_id','id');
 	}
+	public function rushHourLogs():HasMany
+	{
+		return $this->hasMany(DriverRushHour::class,'driver_id','id');
+	}
 	public function handleConnectionLogs()
 	{
 	
@@ -464,6 +465,49 @@ class Driver extends Model implements HasMedia, BannableInterface, IHaveAppNotif
 			}
 			
 		}
+	}
+	public function addNewRushHorLog(Carbon $startedAt):self
+	{
+		 $this->rushHourLogs()->create() ;
+		$dayInMonth = $startedAt->daysInMonth;
+		$year = $startedAt->format('Y');
+		$month = $startedAt->format('m');
+		/**
+		 * * لو عدد الساعات اللي اشتغلها في الذروة اكبر او تساوي عدد الايام في هذا الشهر .. يبقي هو مستحق لوسام العمل في الذروة
+		 */
+		$rushHoursInThisMonthAndYearCount = $this->rushHourLogs()->whereYear('created_at','=',$year)->whereMonth('created_at','=',$month)->count();
+		if($rushHoursInThisMonthAndYearCount >= $dayInMonth ){
+			$this->has_rush_hour_medal = true ;
+			$this->save();
+		}
+		return $this ;
 	}	
+	/**
+	 * * لو السائق دا مكنش معاه وسام انه خلص خمسين رحلة وفي نفس الوقت كام مخلص خمسين رحلة هياخد الوسام دا
+	 */
+	public function handleCompletedTravelsMedal():self 
+	{
+		if(!$this->HasCompleted50TravelsMedal() && $this->completedTravels()->count() > 50){
+			$this->has_completed_50_travel_medal = true ;
+			$this->save();
+		}
+		return $this ;
+	}	
+	public function handleExcellentMedal():self 
+	{
+		$year = now()->format('Y');
+		$month = now()->format('m');
+		$dayInMonth = now()->daysInMonth;;
+		$numberOfRatesInMonthAndYear =DB::table('reviews')->where('reviewrateable_type','App\Models\Driver')
+		->where('reviewrateable_id',$this->id)
+		->whereYear('created_at',$year)
+		->whereMonth('created_at',$month)
+		->count();
+		if($numberOfRatesInMonthAndYear >= $dayInMonth){
+			$this->has_excellent_medal = true ; 
+			$this->save();
+		}
+		return $this ;
+	}
 	
 }

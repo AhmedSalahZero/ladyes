@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enum\DeductionType;
 use App\Enum\PaymentStatus;
 use App\Enum\PaymentType;
 use App\Enum\TravelStatus;
@@ -147,6 +148,14 @@ class Travel extends Model
         return $this->belongsTo(Coupon::class, 'coupon_id', 'id');
     }
 
+	 /**
+     * * دا الكوبون اللي تم تطبيقه علي الرحلة الحالية
+     */
+    public function promotion(): ?BelongsTo
+    {
+        return $this->belongsTo(Promotion::class, 'promotion_id', 'id');
+    }
+	
     public function applyCoupon(int $couponId): float
     {
         /**
@@ -215,7 +224,7 @@ class Travel extends Model
 
         $request->boolean('is_secure') ? $this->storeSecureCode() : null ;
         $request->has('coupon_code') ? $travel->applyCoupon(Coupon::findByCode($request->get('coupon_code'))->id) : 0;
-
+		$travel->applyPromotion();
         /**
          * * دا الكوبون اللي تم تطبيقه علي الرحلة الحالية
          */
@@ -232,6 +241,7 @@ class Travel extends Model
         $this->ended_at = now();
         $this->save();
 		dispatch(new SendCurrentStatusMessageToEmergencyContractsJob($this));
+		$this->driver ? $this->driver->handleCompletedTravelsMedal() : null;
 		Notification::storeNewAdminNotification(
 			__('Ride Completed',[],'en'),
 			__('Ride Completed',[],'ar'),
@@ -267,14 +277,18 @@ class Travel extends Model
      */
     public function markAsStarted(Request $request)
     {
+		$now = now() ;
         $this->status = TravelStatus::ON_THE_WAY;
-        $this->started_at = now();
+        $this->started_at = $now;
 		dispatch(new SendCurrentStatusMessageToEmergencyContractsJob($this));
 		$fromLatitude = $this->getFromLongitude();
 		$fromLongitude = $this->getFromLatitude();
 		$toLatitude = $this->getToLatitude();
 		$toLongitude = $this->getToLongitude();
-
+		$inRushHor = $this->isInRushHour(); 
+		if($inRushHor){
+			$this->driver->addNewRushHorLog($now);
+		}
 		$googleDistanceMatrixService = new GoogleDistanceMatrixService();
 		$result = $googleDistanceMatrixService->getExpectedArrivalTimeBetweenTwoPoints($fromLatitude,$fromLongitude,$toLatitude,$toLongitude);   
 		if(isset($result['duration_in_seconds']) && $result['duration_in_seconds'] > 0){
@@ -476,27 +490,38 @@ class Travel extends Model
     /**
      * * هو نفس الحسبة السابقة مضاف اليها الغرامات ومنقوص منها الخصم مضاف اليها الضريبة .. وهو اجمالي ما سوف يتم دفعه للعميل
      */
-    public function calculateClientTotalActualPrice(float $couponAmount = null, float $taxesAmount = null, float $cashFees = null)
+    public function calculateClientTotalActualPrice(float $couponAmount = null, float $promotionAmount = null, float $taxesAmount = null, float $cashFees = null)
     {
         /**
          * * لو ما مررنهاش هنحسبها
          */
+        $promotionAmount = is_null($promotionAmount) ? $this->getPromotionAmount() : $promotionAmount ;
         $couponAmount = is_null($couponAmount) ? $this->getCouponDiscountAmount() : $couponAmount ;
         $taxesAmount = is_null($taxesAmount) ? $this->calculateTaxesAmount() : $taxesAmount ;
         $cashFees = is_null($cashFees) ? $this->calculateCashFees() : $cashFees ;
-        return $this->calculateClientActualPriceWithoutDiscount() - $couponAmount + $taxesAmount + $cashFees  ;
+        return $this->calculateClientActualPriceWithoutDiscount() - $couponAmount - $promotionAmount + $taxesAmount + $cashFees  ;
     }
 
     /**
      * * النسبة اللي الابلكيشن هياخدها
      * * التطبيق هياخد
-     * * سعر الرحلة الرئيسي - رسوم التشغيل لان السائق ملهوش دعوه بيها لانها فلوس سيرفرات .. الكل مضروب في نسبة الاستطقاع
+     * * سعر الرحلة الرئيسي - رسوم التشغيل لان السائق ملهوش دعوه بيها لانها فلوس سيرفرات .. الكل مضروب في نسبة الاستقطاع
      */
     public function calculateApplicationShare()
     {
+		/**
+		 * @var Driver $driver ;
+		 */
+		$driver = $this->driver ;
         $operationFees = $this->getOperationalFees();
-
-        return ($this->calculateClientActualPriceWithoutDiscount() - $operationFees) * ($this->driver->getDeductionPercentage() / 100) ;
+		$promotionPercentage = $this->getPromotionPercentage();
+		$deductionType = $driver->getDeductionType();
+		$appShareBasic = ($this->calculateClientActualPriceWithoutDiscount() - $operationFees)  ;
+		$appShareBasic = $appShareBasic - ($appShareBasic * $promotionPercentage / 100 );
+		if($deductionType === DeductionType::PERCENTAGE){
+			return  $appShareBasic - ($appShareBasic *  ($driver->getDeductionAmount() / 100))  ;
+		}
+		return $appShareBasic - $driver->getDeductionAmount() ;
     }
 
     /**
@@ -508,9 +533,15 @@ class Travel extends Model
     {
         $operationFees = $this->getOperationalFees();
 
-        return ($this->calculateClientActualPriceWithoutDiscount() - $operationFees) - $this->calculateApplicationShare()  ;
+        return $this->calculateClientActualPriceWithoutDiscount() - $operationFees - $this->calculateApplicationShare()  ;
     }
-
+	public function isInRushHour()
+	{
+		$statedAt = $this->getStartedAt();
+        $city = $this->getCity() ;
+        $priceModel = $city;
+        return  $city->isInRushHourAt($statedAt);
+	}
     public function getOperationFeesPrice()
     {
         $statedAt = $this->getStartedAt();
@@ -567,16 +598,28 @@ class Travel extends Model
     public function getPaymentCouponDiscountAmount()
     {
         return $this->payment->getCouponDiscountAmount() ?: 0 ;
+    }   
+	
+	/**
+     * * في حاله لو الرحله اكتملت هنجيب قيمة العرض الترويجي .. هنجيب من المدفوعه
+     */
+    public function getPaymentPromotionPercentage()
+    {
+        return $this->payment->getPromotionPercentage() ?: 0 ;
     }
 
     public function getPaymentCouponDiscountAmountFormatted()
     {
-        $operationalFees = $this->getPaymentCouponDiscountAmount();
+        $couponDiscount = $this->getPaymentCouponDiscountAmount();
         $currentName = $this->getCurrencyNameFormatted();
 
-        return number_format($operationalFees) . ' ' . __($currentName);
+        return number_format($couponDiscount) . ' ' . __($currentName);
     }
-
+	public function getPaymentPromotionDiscountPercentageFormatted()
+    {
+        $paymentPromotionPercentage = $this->getPaymentPromotionPercentage();
+		return $paymentPromotionPercentage . ' %'; 
+    }
     public function getPaymentTotalPriceWithoutOperationFees()
     {
         return $this->getClientActualTotalPrice() + $this->getPaymentCouponDiscountAmount();
@@ -635,13 +678,33 @@ class Travel extends Model
     {
         return $this->payment->getCouponDiscountAmountFormatted() . ' ' . $this->getCurrencyNameFormatted() ;
     }
+	
+	
+	   /**
+     * * دي قيمة العرض الترويجي الحالي (اللي هنستخدمها عند تسجيل الرحله .. اما اللي تحتها هي القيمة القديمة اللي تم تسجيلها في الرحلة علشان لو
+     * * لو حصل تغير في سعر الرحلة
+     * )
+     */
+    public function getPromotionPercentage()
+    {
+        return  $this->promotion ? $this->promotion->getPromotionPercentage() : 0 ;
+    }
 
+    /**
+     * * دي القيمه الفعليه اللي تم استخدامها في الرحلة
+     */
+    public function getPromotionPercentageFormatted()
+    {
+        return $this->payment->getPromotionPercentageFormatted() . ' ' . $this->getCurrencyNameFormatted() ;
+    }
+	
+	
+	
     /**
      * * قيمة الغرامة لو الغى الرحلة مثلا
      */
     public function getFineAmount()
     {
-        //TODO:لسه ما اتعملتش الريليشن دي عايزها نضيف واحدة زي الباي منت
         return $this->fine ? $this->fine->getAmount() : 0   ;
     }
 
@@ -955,4 +1018,13 @@ class Travel extends Model
 
         return $country->getBonusAfterFirstSuccessTravel();
     }
+	public function applyPromotion()
+	{
+		$promotion = Promotion::onlyAvailable()->first();
+		if($promotion){
+			$this->promotion_id = $promotion->id;
+			$this->save();
+		}
+		return $this;
+	}
 }

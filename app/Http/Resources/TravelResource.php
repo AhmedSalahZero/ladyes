@@ -27,6 +27,7 @@ class TravelResource extends JsonResource
 		$priceDetails = $this->isCompleted() ? [
 			'price' => $mainPriceWithoutDiscountAndTaxesAndCashFees = $this->hasStarted() ?  $this->calculateClientActualPriceWithoutDiscount() : 0,
 			'total_fines'=>$fines = $this->client->getTotalAmountOfUnpaid(),
+			'promotion_percentage' => $promotionPercentage = $this->getPromotionPercentage(),
 			'coupon_amount' => $couponAmount = $this->getCouponDiscountAmount(),
 			'tax_amount'=>$taxAmount = $this->calculateTaxAmount($mainPriceWithoutDiscountAndTaxesAndCashFees),
 			'cash_fees'=>$cashFees = $this->calculateCashFees(),

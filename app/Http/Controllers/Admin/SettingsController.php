@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers\Admin;
 
-
+use App\Enum\DeductionType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSettingsRequest;
 use App\Models\Driver;
@@ -52,7 +52,8 @@ class SettingsController extends Controller
 			'route'=> route('settings.store') ,
 			'model'=>app(SiteSetting::class) ,
 			'indexRoute'=>route('settings.create'),
-			'drivingRangeFormatted'=>Driver::getDefaultDrivingRangeFormatted()
+			'drivingRangeFormatted'=>Driver::getDefaultDrivingRangeFormatted(),
+			'deductionTypesFormatted'=>DeductionType::allFormattedForSelect2(),
 		];
 	}
 	
@@ -147,6 +148,7 @@ class SettingsController extends Controller
 
     public function store(StoreSettingsRequest $request)
     {
+
 		foreach($request->except(['save','_token']) as $name => $value){
 			if($value instanceof UploadedFile && substr($value->getMimeType(), 0, 5) == 'image'){
 				$this->storeFile($name,$value);

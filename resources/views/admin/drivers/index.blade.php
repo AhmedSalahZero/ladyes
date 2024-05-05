@@ -43,15 +43,7 @@
                                                 </td>
                                                 <td class="text-center">{{$model->getPhone()}}</td>
                                                 <td class="text-center">{{$model->getEmail()}}</td>
-                                                {{-- <td class="text-center">
-                                                    @if($user->can(getPermissionName('update')))
-                                                    <div class="form-group pb-1">
-                                                        <x-form.checkbox-element data-toggle-route="{{ $toggleIsVerifiedRoute }}" data-id="{{ $model->id }}" class="switch-trigger-js" :is-required="false" :name="'is_verified'" :is-checked="$model->getIsVerified()"> </x-form.checkbox-element>
-                                                    </div>
-                                                    @else
-                                                    {{$model->isBanned() ? __('Banned') : __('Not Banned')}}
-                                                    @endif
-                                                </td> --}}
+
                                                 @if($user->can(getPermissionName('update')) || $user->can(getPermissionName('delete')) )
                                                 <td class="">
                                                     @if($user->can(getPermissionName('delete')))
@@ -112,6 +104,10 @@
                                                                                         <li class="nav-item">
                                                                                             <a class="nav-link " id="car-images-tab" data-toggle="tab" href="#car-images{{ $model->id }}" role="tab" aria-controls="home" aria-selected="true">{{ __('Car Images') }}</a>
                                                                                         </li>
+																						
+																						  <li class="nav-item">
+                                                                                            <a class="nav-link " id="medals" data-toggle="tab" href="#medals{{ $model->id }}" role="tab" aria-controls="home" aria-selected="true">{{ __('Medals') }}</a>
+                                                                                        </li>
 
                                                                                     </ul>
                                                                                 </div>
@@ -143,18 +139,7 @@
                                                                         </div>
                                                                         <div class="row">
                                                                             <div class="col-md-2">
-                                                                                {{-- <div class="profile-work">
-                                                                                                    <p>WORK LINK</p>
-                                                                                                    <a href="">Website Link</a><br />
-                                                                                                    <a href="">Bootsnipp Profile</a><br />
-                                                                                                    <a href="">Bootply Profile</a>
-                                                                                                    <p>SKILLS</p>
-                                                                                                    <a href="">Web Designer</a><br />
-                                                                                                    <a href="">Web Developer</a><br />
-                                                                                                    <a href="">WordPress</a><br />
-                                                                                                    <a href="">WooCommerce</a><br />
-                                                                                                    <a href="">PHP, .Net</a><br />
-                                                                                                </div> --}}
+
                                                                             </div>
                                                                             <div class="col-md-10">
                                                                                 <div class="tab-content card-details-tab" id="myTabContent">
@@ -167,12 +152,22 @@
                                                                                                 <p class="font-weight-bold">{{ $model->getIdNumber() }}</p>
                                                                                             </div>
                                                                                         </div>
+
                                                                                         <div class="row">
                                                                                             <div class="col-md-6">
-                                                                                                <label class="font-weight-bold">{{ __('Deduction Percentage') }}</label>
+                                                                                                <label class="font-weight-bold">{{ __('Deduction Type') }}</label>
                                                                                             </div>
                                                                                             <div class="col-md-6">
-                                                                                                <p class="font-weight-bold">{{ $model->getDeductionPercentage() . ' %' }}</p>
+                                                                                                <p class="font-weight-bold">{{ $model->getDeductionTypeFormatted() }}</p>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-6">
+                                                                                                <label class="font-weight-bold">{{ __('Deduction Amount') }}</label>
+                                                                                            </div>
+                                                                                            <div class="col-md-6">
+                                                                                                <p class="font-weight-bold">{{ $model->getDeductionAmountFormatted() }}</p>
                                                                                             </div>
                                                                                         </div>
 
@@ -312,6 +307,73 @@
                                                                                         </div>
                                                                                     </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="tab-pane fade show" id="medals{{ $model->id }}" role="tabpanel" aria-labelledby="details-tab">
+                                                                                      
+                                                                                        <div class="row">
+                                                                                            <div class="col-md-6">
+                                                                                                <label class="font-weight-bold">{{ __('Excellent Medal') }}</label>
+                                                                                            </div>
+                                                                                            <div class="col-md-6">
+                                                                                                <p class="font-weight-bold " >{{ $model->HasExcellentMedalFormatted() }}</p>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                     
+																					   <div class="row">
+                                                                                            <div class="col-md-6">
+                                                                                                <label class="font-weight-bold">{{ __('One Year Usage Medal') }}</label>
+                                                                                            </div>
+                                                                                            <div class="col-md-6">
+                                                                                                <p class="font-weight-bold " >{{ $model->HasOneYearUsageMedalFormatted() }}</p>
+                                                                                            </div>
+                                                                                        </div>
+																						
+																						
+																						 <div class="row">
+                                                                                            <div class="col-md-6">
+                                                                                                <label class="font-weight-bold">{{ __('More Than 50 Completed Travel Medal') }}</label>
+                                                                                            </div>
+                                                                                            <div class="col-md-6">
+                                                                                                <p class="font-weight-bold " >{{ $model->HasCompleted50TravelsMedalFormatted() }}</p>
+                                                                                            </div>
+                                                                                        </div>
+																					
+																					
+																					
+																					 <div class="row">
+                                                                                            <div class="col-md-6">
+                                                                                                <label class="font-weight-bold">{{ __('Rush Hour Work Medal') }}</label>
+                                                                                            </div>
+                                                                                            <div class="col-md-6">
+                                                                                                <p class="font-weight-bold " >{{ $model->HasRushHourMedalFormatted() }}</p>
+                                                                                            </div>
+                                                                                        </div>
+																						
+
+
+
+
+                                                                                    </div>
+																					
+																					
+																					
+																					
+																					
+																					
+																					
+																					
                                                                                 </div>
                                                                             </div>
                                                                         </div>

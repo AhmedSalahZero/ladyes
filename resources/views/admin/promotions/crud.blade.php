@@ -29,11 +29,13 @@
 												<div class="col-md-6">
                                                     <x-form.input :id="'name_ar'" :label="__('Arabic Name')" :type="'text'" :name="'name_ar'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Arabic Name')])"></x-form.input>
                                                 </div>
-												<div class="col-md-6">
+												
+												{{-- <div class="col-md-6">
                                                         <x-form.select :please-select="false" :is-required="true" :is-select2="true" :options="$discountTypesFormatted" :add-new="false" :label="__('Discount Type')" :all="false" name="discount_type" id="discount_type" :selected-value="isset($model) ? $model->getDiscountType() : old('discount_type') "></x-form.select>
-                                                </div>
+                                                </div> --}}
 												<div class="col-md-6">
-                                                    <x-form.input :id="'discount_amount'" :label="__('Amount')" :type="'text'" :name="'discount_amount'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Amount')])"></x-form.input>
+												<input type="hidden" name="discount_type" value="percentage" >
+                                                    <x-form.input :id="'discount_amount'" :label="__('Percentage')" :type="'text'" :name="'discount_amount'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Percentage')])"></x-form.input>
                                                 </div>
 												<div class="col-md-6">
                                                     <x-form.date  :id="'start_date'" :label="__('Start Date')" :type="'text'" :name="'start_date'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Start Date')])"></x-form.date>

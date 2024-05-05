@@ -31,7 +31,8 @@ class CreateDriversTable extends Migration
             // $table->string('verification_code')->nullable();
             $table->string('birth_date')->nullable();
             $table->string('id_number')->comment('رقم الهوية / الاقامة')->nullable();
-            $table->float('deduction_percentage')->nullable()->comment('نسبة الاستقطاع ضعها سالب واحد لاستخدام القيمه الافتراضيه في الاعدادت')->default(-1);
+			$table->string('deduction_type')->nullable();
+            $table->decimal('deduction_amount',14,2)->nullable()->comment('قيمة او نسبة الاستقطاع علي حسب النوع');
             $table->integer('driving_range')->nullable()->comment('نطاق السائق (نطاق الطلابات) اللي يقدر يستلم منه طلبات وليكن مثلا 15 كيلو من مكانه')->default(20);
 			$table->unsignedBigInteger('size_id')->nullable();
 			$table->foreign('size_id')->references('id')->on('car_sizes')->nullOnDelete();
@@ -54,7 +55,13 @@ class CreateDriversTable extends Migration
 			 * * هو عباره عن اخر لوكيشن للسائق واللوكيشن دا بيتحدث كل مره السائق بيحدد نفسه انه متصل علشان يستقبل طلابات
 			 */
 			$table->point('location')->nullable();
+			$table->boolean('has_excellent_medal')->default(0)->comment('لدية وسام سائق مميز .. لو عدى شهر كامل وكان تقيمة اربعه او اكثر');
+			$table->boolean('has_one_year_usage_medal')->comment('وسام مستخدم سنة واحدة .. لو مر علي استخدامة الابلكيشن اكثر من سنة')->default(0);
+			$table->boolean('has_completed_50_travel_medal')->comment('وسام اكمال اكثر من خمسين رحلة')->default(0);
+			$table->boolean('has_rush_hour_medal')->default(0)->comment('وسام العمل وقت الذروة لفترة كبيرة .. لو اشتغل وقت الذروة لشهر كامل');
+			
 			$table->timestamp('banned_at')->nullable();
+			
             $table->timestamps();
         });
     }

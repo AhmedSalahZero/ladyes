@@ -1,5 +1,6 @@
 <?php
 
+use App\Enum\DeductionType;
 use Spatie\LaravelSettings\Migrations\SettingsMigration;
 
 
@@ -30,7 +31,8 @@ return new class extends SettingsMigration
 		// $this->migrator->addEncrypted('services.TEST_KEY','TEST_KEY_VALUE');
 		
 		// $this->migrator->add('driver.Deduction Percentage',4);
-		$this->migrator->add('site.deduction_percentage',14);
+		$this->migrator->add('site.deduction_type',DeductionType::PERCENTAGE);
+		$this->migrator->add('site.deduction_amount',14);
 		/**
 		 * * هي عبارة عن نسبة الخصم اللي بنضربها في سعر الرحلة علشان نجيب سعر الكوبون اللي بيتم انشائة بعد كل رحلة ناجه
 		 */

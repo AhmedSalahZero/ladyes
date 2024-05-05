@@ -22,7 +22,8 @@ class SiteSetting extends Settings
 	public $twitter_url;
 	public $WHATSAPP_APP_KEY;
 	public $WHATSAPP_AUTH_KEY;
-	public $deduction_percentage ;
+	public $deduction_type ;
+	public $deduction_amount ;
 	public $coupon_discount_percentage ;
 	public $driving_range ;
 	public $google_api_key ;

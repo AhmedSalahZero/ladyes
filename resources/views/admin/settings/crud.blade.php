@@ -1,6 +1,9 @@
 @extends('admin.layouts.app')
 @section('title',$pageTitle)
 @section('content')
+@php
+	use App\Enum\DeductionType;
+@endphp
 <div class="app-content content">
     <div class="content-wrapper">
         <x-breadcrumbs.index :items="$breadCrumbs"></x-breadcrumbs.index>
@@ -66,8 +69,11 @@
                                                     <hr>
                                                 </div>
 
-                                                <div class="col-md-6">
-                                                    <x-form.input :id="'deduction_percentage'" :label="__('Deduction Percentage'). ' %'" :type="'text'" :name="'deduction_percentage'" :is-required="false" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Deduction Percentage')])"></x-form.input>
+                                               	<div class="col-md-6">
+                                                        <x-form.select :please-select="false" :is-required="true" :is-select2="true" :options="$deductionTypesFormatted" :add-new="false" :label="__('Deduction Type')" :all="false" name="deduction_type" id="deduction_type" :selected-value="getSetting('deduction_type')"></x-form.select>
+                                                </div>
+												<div class="col-md-6">
+                                                    <x-form.input :id="'deduction_amount'" :label="__('Deduction Amount')" :type="'text'" :name="'deduction_amount'" :is-required="true" :model="$model??null" :selected-value="getSetting('deduction_amount')" :placeholder="__('Please Enter :attribute',['attribute'=>__('Deduction Amount')])"></x-form.input>
                                                 </div>
 
                                                 <div class="col-md-6">

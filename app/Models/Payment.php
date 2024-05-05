@@ -76,6 +76,15 @@ class Payment extends Model
 		$couponDiscountAmount = $this->getCouponDiscountAmount();
 		return number_format($couponDiscountAmount,0) ;
 	}
+	public function getPromotionPercentage()
+	{
+		return $this->promotion_percentage ?:0;
+	}
+	public function getPromotionPercentageFormatted()
+	{
+		$promotionPercentage = $this->getPromotionPercentage();
+		return number_format($promotionPercentage,0) . ' %' ;
+	}
 	public function storeForTravel(Travel $travel):self
 	{
 		if($travel->isPaid() && ! env('APP_ENV') == 'local'){
@@ -89,7 +98,15 @@ class Payment extends Model
 		$travelId = $travel->id ;
         $travel->generateGiftCoupon();
         $couponAmount = $travel->getCouponDiscountAmount();
+        $promotionPercentage = $travel->getPromotionPercentage();
         $paymentType = $travel->getPaymentMethod();
+		
+		
+		$operationFees = $travel->getOperationalFees();
+		$promotionPercentage = $travel->getPromotionPercentage();
+		$appShareBasic = ($travel->calculateClientActualPriceWithoutDiscount() - $operationFees)  ;
+		$promotionAmount = $appShareBasic * $promotionPercentage / 100 ;
+	
 		
 		$payment = $travel->payment()->create([
             'status' => PaymentStatus::SUCCESS,
@@ -97,10 +114,11 @@ class Payment extends Model
             'type' => $paymentType,
             'price' => $mainPriceWithoutDiscountAndTaxesAndCashFees =  $travel->calculateClientActualPriceWithoutDiscount(),
 			'total_fines'=>$travel->client->getTotalAmountOfUnpaid(),
+            'promotion_percentage' => $promotionPercentage,
             'coupon_amount' => $couponAmount,
 			'tax_amount'=>$taxAmount = $travel->calculateTaxAmount($mainPriceWithoutDiscountAndTaxesAndCashFees),
 			'cash_fees'=>$cashFees = $travel->calculateCashFees(),
-            'total_price' => $totalPrice = $travel->calculateClientTotalActualPrice($couponAmount,$taxAmount,$cashFees),
+            'total_price' => $totalPrice = $travel->calculateClientTotalActualPrice($couponAmount,$promotionAmount,$taxAmount,$cashFees),
             'model_id' => $travel->id,
             'model_type' => HHelpers::getClassNameWithoutNameSpace($travel)
         ]);

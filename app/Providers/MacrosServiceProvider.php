@@ -43,8 +43,9 @@ class MacrosServiceProvider extends ServiceProvider
 			/**
 			 * @var Builder $this
 			 */
+		
 			$date = $date ?: now()->format('Y-m-d'); 
-			return $this->where('start_date','<=',$date)->where('end_date','>',$date);
+			return $this->where('start_date','<=',$date)->where('end_date','>',$date)->orderByRaw('end_date asc');
 		});
 		
     }

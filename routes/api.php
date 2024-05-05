@@ -121,7 +121,7 @@ Route::prefix('clients')->group(function () {
 		Route::apiResource('addresses', AddressesController::class);
 		Route::get('travels/available-drivers',[TravelsController::class,'getAvailableDriverForTravels']);
 		Route::get('travels/get-distance-and-duration-between-client-and-driver',[TravelsController::class,'getDistanceAndDurationBetweenClientAndDriver']);
-		Route::get('travels/show-available-car-sizes',[TravelsController::class,'getAvailableCarSizes']);
+		Route::post('travels/show-available-car-sizes',[TravelsController::class,'getAvailableCarSizes']);
 		Route::apiResource('travels', TravelsController::class);
 		Route::patch('travels/{travel}/mark-as-cancelled',[TravelsController::class,'markAsCancelled']);
 		Route::post('travels/{travel}/store-payment',[TravelsController::class,'storePayment']);

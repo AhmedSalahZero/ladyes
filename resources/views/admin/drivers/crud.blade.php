@@ -37,7 +37,7 @@
                                                     <x-form.select class="city-updates-areas-js" :is-required="true" :is-select2="true" :options="$citiesFormattedForSelect" :add-new="false" :label="__('City Name')" :all="false" name="city_id" id="city_id" :selected-value="isset($model) ? $model->getCityId(): old('city_id') "></x-form.select>
                                                 </div>
 
-                                            
+
                                                 <div class="col-md-6">
                                                     <x-form.input :id="'email'" :label="__('Email')" :type="'email'" :name="'email'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Email')])"></x-form.input>
                                                 </div>
@@ -58,14 +58,19 @@
                                                 <div class="col-md-6">
                                                     <x-form.input :id="'id_number'" :label="__('Id Number')" :type="'text'" :name="'id_number'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Id Number')])"></x-form.input>
                                                 </div>
+
                                                 <div class="col-md-6">
-                                                    <x-form.input :hint="__('Enter ( -1 ) For Using Default Value In Setting')" :id="'deduction_percentage'" :label="__('Deduction Percentage') . ' %'" :type="'text'" :name="'deduction_percentage'" :is-required="false" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Deduction Percentage')])"></x-form.input>
+                                                    <x-form.select :please-select="false" :is-required="true" :is-select2="true" :options="$deductionTypesFormatted" :add-new="false" :label="__('Deduction Type')" :all="false" name="deduction_type" id="deduction_type" :selected-value="isset($model) ? $model->getDeductionType() : old('deduction_type',getSetting('deduction_type')) "></x-form.select>
                                                 </div>
-												
-												<div class="col-md-6">
+                                                <div class="col-md-6">
+                                                    <x-form.input :id="'deduction_amount'" :label="__('Deduction Amount')" :type="'text'" :name="'deduction_amount'" :is-required="true" :model="$model" :value="getSetting('deduction_amount')" :placeholder="__('Please Enter :attribute',['attribute'=>__('Deduction Amount')])"></x-form.input>
+                                                </div>
+
+
+                                                <div class="col-md-6">
                                                     <x-form.select :hint="__('Default Driving Range Will Be Used If Empty')" :please-select="true" :is-required="false" :is-select2="true" :options="$drivingRangeFormatted" :add-new="false" :label="__('Driving Range')" :all="false" name="driving_range" id="driving_range" :selected-value="isset($model) ? $model->getDrivingRange(): getSetting('driving_range') "></x-form.select>
                                                 </div>
-												
+
 
                                                 <div class="col-md-12">
                                                     <hr>
@@ -147,9 +152,9 @@
                                                 <div class="col-md-12">
                                                     <hr>
                                                 </div>
-                                                    <div class="col-md-6">
-                                                        <x-form.input :id="'invitation_code'" :label="__('Invitation Code')" :placeholder="__('Please Enter :attribute',['attribute'=>__('Invitation Code')])" :type="'text'" :name="'invitation_code'" :is-required="true" :model="$model??null"></x-form.input>
-                                                    </div>
+                                                <div class="col-md-6">
+                                                    <x-form.input :id="'invitation_code'" :label="__('Invitation Code')" :placeholder="__('Please Enter :attribute',['attribute'=>__('Invitation Code')])" :type="'text'" :name="'invitation_code'" :is-required="true" :model="$model??null"></x-form.input>
+                                                </div>
                                                 @endisset
 
 

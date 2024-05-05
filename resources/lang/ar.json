@@ -268,6 +268,7 @@
 	"Discount Type":"نوع الخصم",
 	":attr Must Be After :attribute":":attr لابد ان ياتي بعد :attribute",
 	"The Amount Is Incorrect":"القيمة التي ادخلتها غير صحيحة",
+	"Deduction Value Incorrect":"قيمة الاستقطاع غير صحيحة",
 	"Start Date":"تاريخ البداية",
 	"End Date":"تاريخ النهاية",
 	"Is Available":"متاح ؟",
@@ -593,5 +594,12 @@
 	"Only Allowed Values (daily , weekly , monthly)":"القيم المسموح بيها هي (daily , weekly , monthly )",
 	"Daily":"يومي",
 	"Weekly":"اسبوعي",
-	"Monthly":"شهري"
+	"Monthly":"شهري",
+	"Deduction Amount":"قيمة الاستقطاع",
+	"Deduction Type":"نوع الاستقطاع",
+	"Medals":"الاوسمة",
+	"Excellent Medal":"سائق مميز",
+	"One Year Usage Medal":"مستخدم سنة واحدة",
+	"More Than 50 Completed Travel Medal":"اكمال اكثر من خمسين طلب",
+	"Rush Hour Work Medal":"العمل وقت الذروة لمدة طويلة"
 }
