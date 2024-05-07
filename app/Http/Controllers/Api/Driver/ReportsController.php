@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Driver;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Apis\NumberOfTravelPerAreaRequest;
 use App\Http\Requests\Apis\ShowProfitReportRequest;
 use App\Http\Requests\Apis\ShowTravelPerHourReportRequest;
 use App\Http\Resources\ProfitReportResource;
@@ -10,6 +11,7 @@ use App\Http\Resources\TravelPerHourReportResource;
 use App\Models\Travel;
 use App\Reports\ProfitReport;
 use App\Reports\TravelsPerHoursReport;
+use App\Services\DistanceMatrix\GoogleDistanceMatrixService;
 use App\Traits\Api\HasApiResponse;
 use Carbon\Carbon;
 
@@ -49,5 +51,19 @@ class ReportsController extends Controller
 			'data'=>(new TravelPerHourReportResource($data))
 		];
 		// return $this->apiResponse(__('Data Received Successfully',(new ProfitReportResource($data))->toArray($request)));
+	}
+	
+	public function getNumberOfTravelPerArea(NumberOfTravelPerAreaRequest $request)
+	{
+		$googleDistanceMatrixService = new GoogleDistanceMatrixService();
+		$noTravels = $googleDistanceMatrixService->findNearestRestaurants($request->get('latitude'),$request->get('longitude'),$request->get('radius',3));
+		
+		return [
+			'status'=>true ,
+			'message'=>__('Data Received Successfully',[],getApiLang()),
+			'data'=>[
+				'number_of_travels'=>$noTravels
+			]
+		];
 	}
 }

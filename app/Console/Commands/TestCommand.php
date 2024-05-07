@@ -48,9 +48,7 @@ class TestCommand extends Command
      */
     public function handle()
     {
-		$driver = Driver::first();
-		$d=$driver->handleExcellentMedal();
-		dd($d);
+
 		
     }
    

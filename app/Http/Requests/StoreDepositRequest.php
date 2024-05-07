@@ -42,8 +42,8 @@ class StoreDepositRequest extends FormRequest
 		return [
 			'model_type.required'=>__('Please Enter :attribute' , ['attribute'=>__('User Type')]),
 			'model_id.required'=>__('Please Enter :attribute' , ['attribute'=>__('User Name')]),
-			'amount.required'=>__('Please Enter :attribute' , ['attribute'=>__('Fine Amount')]),
-			'amount.gt'=> __('Only Greater Zero Allowed For :attribute' , ['attribute'=>__('Fine Amount')]) ,
+			'amount.required'=>__('Please Enter :attribute' , ['attribute'=>__('Deposit Amount')]),
+			'amount.gt'=> __('Only Greater Zero Allowed For :attribute' , ['attribute'=>__('Deposit Amount')]) ,
 			'payment_method.required'=>__('Please Enter :attribute' , ['attribute'=>__('Payment Type',[],getApiLang())]),
 			'payment_method.in'=>__('Invalid :attribute' , ['attribute'=>__('Payment Type')],getApiLang()),
 		];

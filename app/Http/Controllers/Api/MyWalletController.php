@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Apis\StoreWithdrawalRequest;
 use App\Http\Requests\StoreEmergencyContactRequest;
 use App\Http\Resources\TransactionsResource;
 use App\Models\Client;
@@ -42,6 +43,11 @@ class MyWalletController extends Controller
 		EmergencyContact::sync($clientOrDriver , $model->id , $request->boolean('can_receive_travel_info'), true );
 		return  $this->apiResponse(__(':modelName Has Been Created Successfully',['modelName'=>__('Emergency Contact',[],getApiLang())],getApiLang()));
     }
+	
+	public function addWithdrawal(StoreWithdrawalRequest $request)
+	{
+		return $this->apiResponse(__('Withdrawal Has Been Added Successfully',[],getApiLang()));
+	}
 	
 	
 }

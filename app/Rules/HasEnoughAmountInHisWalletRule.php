@@ -2,6 +2,8 @@
 
 namespace App\Rules;
 
+use App\Helpers\HAuth;
+use App\Helpers\HHelpers;
 use Illuminate\Contracts\Validation\ImplicitRule;
 use Illuminate\Contracts\Validation\Rule;
 
@@ -27,19 +29,21 @@ class HasEnoughAmountInHisWalletRule implements ImplicitRule
      */
     public function passes($attribute, $value)
     {
-		$modelType = Request('model_type');
+		$user = Request()->user(HAuth::getActiveGuard()) ;
+		$modelType = HHelpers::getClassNameWithoutNameSpace($user);
+		$modelType = Request('model_type',$modelType);
 		if(!$modelType){
-			$this->failedMessage = __('User Not Found !');
+			$this->failedMessage = __('User Not Found !',[],getApiLang());
 			return false ;
 		}
         $fullClassName = '\App\Models\\'.$modelType;
-		$user = $fullClassName::find(Request('model_id'));
+		$user = $fullClassName::find(Request('model_id',$user->id));
 		if(!$user){
-			$this->failedMessage = __('User Not Found !');
+			$this->failedMessage = __('User Not Found !',[],getApiLang());
 			return false ;
 		}
 		if(Request('amount') > $user->getTotalWalletBalance()){
-			$this->failedMessage = __('User Has Not Enough Balance');
+			$this->failedMessage = __('User Has Not Enough Balance',[],getApiLang());
 			return false ;
 		}
 		

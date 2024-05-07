@@ -2,6 +2,8 @@
 
 namespace App\Rules;
 
+use App\Helpers\HAuth;
+use App\Helpers\HHelpers;
 use Illuminate\Contracts\Validation\ImplicitRule;
 
 class CountryAndCityMustExistRule implements ImplicitRule
@@ -26,19 +28,21 @@ class CountryAndCityMustExistRule implements ImplicitRule
      */
     public function passes($attribute, $value)
     {
-		$modelType = Request('model_type');
+		$user = Request()->user(HAuth::getActiveGuard()) ;
+		$modelType = HHelpers::getClassNameWithoutNameSpace($user);
+		$modelType = Request('model_type',$modelType);
 		if(!$modelType){
-			$this->failedMessage = __('User Not Found !');
+			$this->failedMessage = __('User Not Found !',[],getApiLang());
 			return false ;
 		}
         $fullClassName = '\App\Models\\'.$modelType;
-		$user = $fullClassName::find(Request('model_id'));
+		$user = $fullClassName::find(Request('model_id',$user->id));
 		if(!$user){
-			$this->failedMessage = __('User Not Found !');
+			$this->failedMessage = __('User Not Found !',[],getApiLang());
 			return false ;
 		}
 		if(!$user->getCountry()){
-			$this->failedMessage = __('Country Not Found For This User') ;
+			$this->failedMessage = __('Country Not Found For This User',[],getApiLang()) ;
 			return false ;
 		}
 		return true ;

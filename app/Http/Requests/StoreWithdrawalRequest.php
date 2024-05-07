@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 use App\Enum\PaymentType;
+use App\Helpers\HHelpers;
 use App\Helpers\HValidation;
 use App\Rules\CountryAndCityMustExistRule;
 use App\Traits\HasFailedValidation;
@@ -25,7 +26,7 @@ class StoreWithdrawalRequest extends FormRequest
    
     public function rules()
     {
-	
+
 		$model = $this->route('withdrawal') ;
 		$HValidationRules = HValidation::rules('withdrawals', $model , Request::isMethod('post'));
         return 
@@ -40,12 +41,8 @@ class StoreWithdrawalRequest extends FormRequest
 	public function messages()
 	{
 		return [
-			'model_type.required'=>__('Please Enter :attribute' , ['attribute'=>__('User Type')]),
-			'model_id.required'=>__('Please Enter :attribute' , ['attribute'=>__('User Name')]),
-			'amount.required'=>__('Please Enter :attribute' , ['attribute'=>__('Fine Amount')]),
-			'amount.gt'=> __('Only Greater Zero Allowed For :attribute' , ['attribute'=>__('Fine Amount')]) ,
-			'payment_method.required'=>__('Please Enter :attribute' , ['attribute'=>__('Payment Type',[],getApiLang())]),
-			'payment_method.in'=>__('Invalid :attribute' , ['attribute'=>__('Payment Type')],getApiLang()),
+			'amount.required'=>__('Please Enter :attribute' , ['attribute'=>__('Amount',[],getApiLang())]),
+			'amount.gt'=>__('Only Greater Than Zero Allowed For :attribute',['attribute'=>__('Amount',[],getApiLang())])
 		];
 	}
 	

@@ -60,6 +60,7 @@ Route::middleware('authClientOrDriver')->group(function(){
 	Route::get('my-transactions',[MyWalletController::class,'index']);
 	Route::get('my-notifications',[NotificationsController::class,'index']);
 	Route::delete('delete-my-notifications',[NotificationsController::class,'delete']);
+	Route::post('add-withdrawal',[MyWalletController::class,'addWithdrawal']);
 });
 
 Route::prefix('drivers')->group(function () {
@@ -88,6 +89,7 @@ Route::prefix('drivers')->group(function () {
 		Route::prefix('reports')->group(function(){
 			Route::get('profit',[ReportsController::class,'getProfitReport']);
 			Route::get('travels-per-hour',[ReportsController::class,'getTravelPerHours']);
+			Route::get('number-of-travels-per-area',[ReportsController::class,'getNumberOfTravelPerArea']);
 		});
 		
 		
