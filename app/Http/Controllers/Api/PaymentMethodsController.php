@@ -12,7 +12,17 @@ class PaymentMethodsController extends Controller
 	use HasApiResponse;
     public function index(Request $request)
 	{
-		return $this->apiResponse(__('Data Received Successfully',[],getApiLang() )  , array_keys(PaymentType::all()) );
+		$payments = PaymentType::all() ;
+		$paymentsFormatted = [];
+		foreach($payments as $key => $name){
+			$paymentsFormatted[] = [
+				'id'=>$key , 
+				'name'=>$name , 
+				'image'=>PaymentType::images()[$key] ?? null 
+			];
+		}
+		
+		return $this->apiResponse(__('Data Received Successfully',[],getApiLang() )  , $paymentsFormatted  );
 	}
 	
 	

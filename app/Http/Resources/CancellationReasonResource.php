@@ -19,6 +19,7 @@ class CancellationReasonResource extends JsonResource
 		 * @var CancellationReason $this
 		 */
         return [
+			'id'=>$this->id,
 			'name'=>$this->getName(getApiLang()),
 		];
     }
