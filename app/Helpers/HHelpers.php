@@ -45,4 +45,12 @@ class HHelpers
 		}
 		return $formatted ; 		
 	}
+	public static function removeLevel($array) {
+		$result = [];
+		foreach ($array as $key => $value) {
+			$item = (array)$value ;
+			$result[$item['month']]=$item['count'] ;
+		}
+		return $result;
+  }
 }

@@ -727,6 +727,9 @@ class Travel extends Model
 
     public function getClientActualTotalPrice()
     {
+		if(!$this->payment){
+			return 0;
+		}
         $mainPrice = $this->payment->getTotalPrice();
         $couponDiscount = $this->getCouponDiscountAmount() ;
         $fine = $this->getFineAmount();

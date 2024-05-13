@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::group(['namespace' => 'Admin', 'middleware' => 'auth:admin'], function () {
-    Route::get('/dashboard', [DashboardController::class, 'getDashboard'])->name('dashboard.index');
     Route::post('/logout', [LoginController::class, 'logout'])->name('admin.logout');
     //######################### profile ###############################
     Route::get('/profile', [AdminController::class, 'profile'])->name('admin.profile');

@@ -605,6 +605,17 @@
 	"Radius":"نصف القطر بالكليو متر",
 	"Credit Card":"بطاقة ائتمان",
 	"Master Card":"ماستر كارد",
-	"Apple Pay":"ابل باي"
-	
+	"Apple Pay":"ابل باي",
+	"No Clients":"عدد العملاء",
+	"No Drivers":"عدد السائقين",
+	"No Travels":"اجمالى الرحلات",
+	"No Users":"اجمالي المستخدمين",
+	"No Admins":"عدد المديرين",
+	"Not Started Yet Travels":"رحلات لم تبدا بعد",
+	"Total Transactions":"اجمالي المعاملات المالية",
+	"Latest Travels":"احدث الرحلات",
+	"Latest Transactions":"احدث المعاملات المالية",
+	"Latest Clients":"احدث العملاء",
+	"Latest Drivers":"احدث السائقين",
+	"Number Of Travels Per Months":"عدد الرحلات لكل شهر للسنة الحالية"
 }

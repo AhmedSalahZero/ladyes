@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\CitiesController;
 use App\Http\Controllers\Admin\ClientsController;
 use App\Http\Controllers\Admin\CountriesController;
 use App\Http\Controllers\Admin\CouponsController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DepositsController;
 use App\Http\Controllers\Admin\DriversController;
 use App\Http\Controllers\Admin\EmergencyContactsController;
@@ -71,6 +72,9 @@ Route::get('make-migrate', function () {
 });
 
 Route::group(['middleware' => 'auth:admin'], function () {
+    
+	Route::get('/dashboard', [DashboardController::class, 'getDashboard'])->name('dashboard.index');
+	
     //###################### admins #########################
 	
 	Route::group(['prefix' => 'roles-and-permissions/', 'as' => 'roles.permissions.'], function () {

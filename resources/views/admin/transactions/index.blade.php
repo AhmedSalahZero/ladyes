@@ -16,46 +16,11 @@
                                 <div class="card-body card-dashboard">
                                     <x-tables.basic-table>
                                         <x-slot name="header">
-                                            <th class="th-global-class  text-center">#</th>
-                                            <th class="th-global-class  text-center">{{__('Type')}}</th>
-                                            <th class="th-global-class  text-center">{{__('Amount')}}</th>
-                                            <th class="th-global-class  text-center">{{__('Buyer Type')}}</th>
-                                            <th class="th-global-class  text-center">{{__('Name')}}</th>
-                                            <th class="th-global-class  text-center">{{__('Phone')}}</th>
-                                            <th class="th-global-class  text-center">{{__('Message')}}</th>
-                                            <th class="th-global-class  text-center">{{__('Operation Date')}}</th>
-                                            {{-- @if($user->can(getPermissionName('update')) || $user->can(getPermissionName('delete')) ) --}}
-                                            {{-- <th class="th-global-class  text-center">{{__('Actions')}}</th> --}}
-                                            {{-- @endif --}}
+                                           @include('admin.transactions.th')
                                         </x-slot>
                                         <x-slot name="body">
                                             @foreach($models as $model)
-											{{-- {{ dd() }} --}}
-                                            <tr data-id="{{ $model->id }}" class="deleteable-row">
-                                                <td class="text-center">{{$loop->iteration}}</td>
-                                                <td class="text-center">{{$model->getTypeFormatted($lang)}}</td>
-												<td class="text-center">
-													{{ $model->getAmountFormatted() }}
-												</td>
-                                                <td class="text-center">{{$model->getModelTypeFormatted()}}</td>
-                                                <td class="text-center">{{$model->getUserName()}}</td>
-                                                <td class="text-center">{{$model->getUserPhone()}}</td>
-                                                <td class="text-center">{{$model->getNote($lang)}}</td>
-                                                <td class="text-center">{{$model->getCreatedAtFormatted()}}</td>
-                                               
-                                                {{-- @if($user->can(getPermissionName('update')) || $user->can(getPermissionName('delete')) )
-                                                <td class="d-flex align-items-center justify-content-sm-center">
-                                                    @if($user->can(getPermissionName('delete')))
-                                                    <a href="#" data-toggle="modal" data-target="#delete-modal-{{ $model->id }}" class="delete-modal-trigger-js btn btn-danger btn-sm">
-                                                        <i class="la la-trash"></i></a>
-                                                    <x-modals.delete :deleteRoute="$deleteRouteName" :model-id="$model->id"></x-modals.delete>
-                                                    @endif
-                                                    @if($user->can(getPermissionName('update')))
-                                                    <a href="{{route($editRouteName,$model->id)}}" class="block-page ml-2 btn btn-primary btn-sm"><i class="la la-pencil"></i></a>
-                                                    @endif
-                                                </td>
-                                                @endif --}}
-                                            </tr>
+											@include('admin.transactions.tr')
                                             @endforeach
 
                                         </x-slot>
