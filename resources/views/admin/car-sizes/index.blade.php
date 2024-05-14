@@ -9,9 +9,6 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            {{-- <x-form.index-page-header :create-route="$createRoute" :page-title="$pageTitle"> </x-form.index-page-header> --}}
-                            {{-- @include('admin.layouts.alerts.success') --}}
-                            {{-- @include('admin.layouts.alerts.errors') --}}
                             <div class="card-content collapse show" style="margin-top: -12px">
                                 <div class="card-body card-dashboard">
                                     <x-tables.basic-table>
@@ -19,7 +16,6 @@
                                             <th class="th-global-class  text-center">#</th>
                                             <th class="th-global-class  text-center">{{__('Name')}}</th>
                                             <th class="th-global-class  text-center">{{__('Image')}}</th>
-                                            {{-- <th class="th-global-class  text-center">{{__('Price')}}</th> --}}
                                             @if($user->can(getPermissionName('update')) || $user->can(getPermissionName('delete')) )
                                             <th class="th-global-class  text-center">{{__('Actions')}}</th>
                                             @endif
@@ -32,15 +28,8 @@
                                                 <td class="text-center">
                                                     <img class="flags-icons" src="{{ $model->getImage() }}">
                                                 </td>
-                                                {{-- <td class="text-center">{{$model->getPriceFormatted($lang)}}</td> --}}
-
                                                 @if($user->can(getPermissionName('update')) || $user->can(getPermissionName('delete')) )
                                                 <td class="d-flex align-items-center justify-content-sm-center">
-                                                    {{-- @if($user->can(getPermissionName('delete')))
-                                                    <a href="#" data-toggle="modal" data-target="#delete-modal-{{ $model->id }}" class="delete-modal-trigger-js btn btn-danger btn-sm">
-                                                    <i class="la la-trash"></i></a>
-                                                    <x-modals.delete :deleteRoute="$deleteRouteName" :model-id="$model->id"></x-modals.delete>
-                                                    @endif --}}
                                                     @if($user->can(getPermissionName('update')))
                                                     <a href="{{route($editRouteName,$model->id)}}" class="block-page ml-2 btn btn-primary btn-sm"><i class="la la-pencil"></i></a>
                                                     <a title="{{ __('Edit Prices') }}" href="#" class="block-page ml-2 btn btn-primary btn-sm " data-toggle="modal" data-target="#edit-prices-per-country-{{ $model->id }}"><i class="la la-money"></i></a>
@@ -65,20 +54,33 @@
                                                                                 <th>
                                                                                     {{ __('Price') }}
                                                                                 </th>
+																				
+																				<th>
+                                                                                    {{ __('Additional Price') }}
+                                                                                </th>
+																				
                                                                             </tr>
                                                                             @foreach($model->countryPrices as $countryWithPriceAsPivot)
                                                                             <tr>
-
                                                                                 <td>
                                                                                     <input class="form-control" disabled value="{{ $countryWithPriceAsPivot->getName($lang) }}">
                                                                                 </td>
-                                                                                <td >
+                                                                                <td>
                                                                                     <div class="d-flex align-items-center" style="gap:0.4rem">
                                                                                         <input required name="prices[{{ $countryWithPriceAsPivot->id }}]" type="numeric" step="0" value="{{ $countryWithPriceAsPivot->pivot->price }}" class="form-control"> <span>
                                                                                             {{ $countryWithPriceAsPivot->getCurrencyFormatted() }}
                                                                                         </span>
                                                                                     </div>
                                                                                 </td>
+																				
+																				<td>
+                                                                                    <div class="d-flex align-items-center" style="gap:0.4rem">
+                                                                                        <input required name="sum_prices[{{ $countryWithPriceAsPivot->id }}]" type="numeric" step="0" value="{{ $countryWithPriceAsPivot->pivot->sum_price }}" class="form-control"> <span>
+                                                                                            {{ $countryWithPriceAsPivot->getCurrencyFormatted() }}
+                                                                                        </span>
+                                                                                    </div>
+                                                                                </td>
+																				
                                                                             </tr>
                                                                             @endforeach
                                                                         </table>

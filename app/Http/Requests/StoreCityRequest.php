@@ -30,8 +30,8 @@ class StoreCityRequest extends FormRequest
 			'name_en'=>$HValidationRules['name_en'],
 			'name_ar'=>$HValidationRules['name_ar'],
 			// 'price'=>$HValidationRules['price'],
-			// 'latitude'=>$HValidationRules['latitude'],
-			// 'longitude'=>$HValidationRules['longitude'],
+			'latitude' => ['required', 'regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
+			'longitude' => ['required', 'regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
 			'country_id'=>$HValidationRules['country_id'],
 			'rush_hours'=>'required|array',
 			'rush_hours.*.start_time'=>'required',
@@ -96,6 +96,13 @@ class StoreCityRequest extends FormRequest
 			'rush_hours.*.operating_fees.gte'=>__('Only Greater Than Or Equal Zero Allowed For :attribute' , ['attribute'=>__('Rush Hour Operating Fees')]),
 			
 			'rush_hours.*.percentage.required'=>__('Please Enter :attribute' , ['attribute'=>__('Rush Hour Operating Fees')]),
+			
+			
+			'latitude.required' => __('Please Enter :attribute', ['attribute' => __('Latitude',[],getApiLang())],getApiLang()),
+			'latitude.regex'=>__('Invalid :attribute' , ['attribute'=>__('Latitude')]),
+			'longitude.required' => __('Please Enter :attribute', ['attribute' => __('Longitude',[],getApiLang())],getApiLang()),
+			'longitude.regex'=>__('Invalid :attribute' , ['attribute'=>__('Longitude')]),
+			
 		];
 	}
 	

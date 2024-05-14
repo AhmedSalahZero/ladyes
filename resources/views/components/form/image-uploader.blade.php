@@ -8,7 +8,7 @@
 'readUrlFunctionName'=>'readUrl',
 'image'=>'image',
 'editable'=>true ,
-'clickToEnlarge'=>false 
+'clickToEnlarge'=>false
 ])
 <style>
     .avatar-edit label:hover {
@@ -35,7 +35,7 @@
     .avatar-upload .avatar-edit {
         max-width: 175px;
         position: absolute;
-		right:0;
+        right: 0;
         top: 0;
         width: 100%;
     }
@@ -79,8 +79,8 @@
     }
 
     .avatar-upload .avatar-preview>* {
-        display:block;
-		width: 100%;
+        display: block;
+        width: 100%;
         height: 100%;
         background-size: cover;
         background-repeat: no-repeat;
@@ -93,42 +93,42 @@
 
     @if($label)
     <label class="img-label label-control col-md-3">{{ $label }}
-	
-	@if($clickToEnlarge)
-	<span class="required">
-		({{ __('Click To Enlarge') }})
-	</span>
-	@endif 
-	
-	@if($required)
-	<span class="required">*</span>
-	@endif 
-	 </label>
+
+        @if($clickToEnlarge)
+        <span class="required">
+            ({{ __('Click To Enlarge') }})
+        </span>
+        @endif
+
+        @if($required)
+        <span class="required">*</span>
+        @endif
+    </label>
     @endif
     <div class="col-md-9">
         <div class="avatar-upload">
-				@if($editable)
+            @if($editable)
             <div class="avatar-edit">
                 <input data-id="{{ $id }}" class="uploader-preview" name="{{ $name }}" type='file' id="{{ $id .'-upload-id' }}" />
                 <label for="{{ $id .'-upload-id' }}" class="label-control">
                     <i class="la la-pencil edit-icon-color "></i>
                 </label>
             </div>
-				@endif
-				@if($clickToEnlarge) 
-            	<div class="avatar-preview">
-                <a href="{{ $image }}" target="_blank"  id="{{ $id }}" style="background-image: url('{{$image}}')">
+            @endif
+            @if($clickToEnlarge)
+            <div class="avatar-preview">
+                <a href="{{ $image }}" target="_blank" id="{{ $id }}" style="background-image: url('{{$image}}')">
                 </a>
             </div>
-			@else 
-			<div class="avatar-preview">
-                <div  id="{{ $id }}" style="background-image: url('{{$image}}')">
+            @else
+            <div class="avatar-preview">
+                <div id="{{ $id }}" style="background-image: url('{{$image}}')">
                 </div>
             </div>
-			@endif 
-			@error($name)
-        <span class="text-danger">{{$message}}</span>
-			@enderror()
+            @endif
+            @error($name)
+            <span class="text-danger">{{$message}}</span>
+            @enderror()
         </div>
     </div>
 </div>
@@ -145,15 +145,15 @@
             reader.readAsDataURL(input.files[0]);
         }
     }
-	var id = "#{{ $id .'-upload-id' }}" ;
+    var id = "#{{ $id .'-upload-id' }}";
     // $(document).on('change',id,function() {
     //     const id = $(this).attr('data-id');
     //     readURL(this, id);
     // });
-	$(document).on('change','.uploader-preview',function(){
-		const id = $(this).attr('data-id');
-		readURL(this, id);
-	})
+    $(document).on('change', '.uploader-preview', function() {
+        const id = $(this).attr('data-id');
+        readURL(this, id);
+    })
 
 </script>
 @endpush

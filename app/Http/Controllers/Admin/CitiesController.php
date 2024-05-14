@@ -8,6 +8,7 @@ use App\Models\City;
 use App\Models\Country;
 use App\Models\Notification;
 use App\Traits\Controllers\Globals;
+use Grimzy\LaravelMysqlSpatial\Types\Point;
 use Illuminate\Http\Request;
 
 class CitiesController extends Controller
@@ -68,6 +69,7 @@ class CitiesController extends Controller
     public function store(StoreCityRequest $request)
     {
         $model = new City();
+		$model->location = new Point($request->get('latitude'),$request->get('longitude'));
 		$model->syncFromRequest($request);
 		Notification::storeNewAdminNotification(
             __('New Creation', [], 'en'),
@@ -86,8 +88,8 @@ class CitiesController extends Controller
 
     public function update(StoreCityRequest $request, City $city)
     {
+			$city->location = new Point($request->get('latitude'),$request->get('longitude'));
 			$city->syncFromRequest($request);
-			
 			Notification::storeNewAdminNotification(
 				__('New Update', [], 'en'),
 				__('New Update', [], 'ar'),

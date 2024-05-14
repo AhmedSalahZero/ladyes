@@ -14,6 +14,7 @@ class GoogleDistanceMatrixService
 	{
 
 		$response = Http::get('https://maps.googleapis.com/maps/api/distancematrix/json?origins='.$fromLatitude.', '.$fromLongitude.'&destinations='.$toLatitude.', '.$toLongitude.'&key='.getSetting('google_api_key'));
+		// dd($response->json());
 		return [
 			'distance_in_meter'=>Arr::get($response->json(),'rows.0.elements.0.distance.value',0),
 			'duration_in_seconds'=>Arr::get($response->json(),'rows.0.elements.0.duration.value',0)
@@ -38,5 +39,45 @@ class GoogleDistanceMatrixService
 		->count();
         return $travelsCount;
     }
+	
+	 /**
+	  * * ملحوظة :- انا هنا بستخدمة علشان اجيب فقط اسم المدينة اللي هي المقصود بيها هنا اسم المحافظة .. اما 
+	  * * فعليا انت ممكن تستخدمة في اي شئ اخر
+	  */
+	  public function getCityNameFromLatitudeAndLongitude ($lat, $long) {
+		// dd($lat,$long);
+		$get_API = "https://maps.googleapis.com/maps/api/geocode/json?latlng=";
+		$get_API .= $lat.",";
+		$get_API .= $long;
+		$get_API .= '&key='.getSetting('google_api_key');         
+		// dd($get_API);
+		$jsonfile = file_get_contents($get_API.'&sensor=false');
+		$jsonarray = json_decode($jsonfile);        
+		if($jsonarray){
+			return $this->getCityName($jsonarray);
+		}
+		return false ;
+		// if (isset($jsonarray->results[1]->address_components[1]->long_name)) {
+		// 	return($jsonarray->results[1]->address_components[1]->long_name);
+		// }
+		// else {
+		// 	return('Unknown');
+		// }
+	}
+	/**
+	 * * we will search for administrative_area_level_1 -->
+	 */
+	protected function getCityName($arr)
+	{
+		if(isset($arr->results[0]->address_components)){
+			foreach($arr->results[0]->address_components as $address){
+				if($address->types[0] == 'administrative_area_level_1'){
+					return $address->long_name ;
+				}
+			}
+		}
+		return false ;
+	}
+	
 	
 }

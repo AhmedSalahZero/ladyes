@@ -13,6 +13,7 @@ use App\Http\Resources\CarSizeDriverResource;
 use App\Http\Resources\DriverResource;
 use App\Http\Resources\TravelResource;
 use App\Models\CarSize;
+use App\Models\City;
 use App\Models\Driver;
 use App\Models\Travel;
 use App\Services\DistanceMatrix\GoogleDistanceMatrixService;
@@ -88,7 +89,11 @@ class TravelsController extends Controller
 		$carSizes = CarSize::get()->each(function(CarSize $carSize) use($toLatitude,$toLongitude){
 			$carSize->setRelation('drivers',Driver::getAvailableForSpecificLocationsAndCarSize($toLatitude,$toLongitude,$carSize->getId()));
 		});
-		return  $this->apiResponse(__('Data Received Successfully',[],getApiLang()), CarSizeDriverResource::collection($carSizes)->toArray($request));
+		$city  = City::getCityFromLatitudeAndLongitude(Request()->user('client')->getCountry(),Request('from_latitude'),Request('from_longitude'));
+		if($city){
+			return  $this->apiResponse(__('Data Received Successfully',[],getApiLang()), CarSizeDriverResource::customCollection($carSizes,$city)->toArray($request));
+		}
+		return  $this->apiResponse(__('This City Is Not Support Yet',[],getApiLang()),[],500);
 	}
 	public function getPriceDetails(Request $request , Travel $travel){
 		return $this->apiResponse(null , (new TravelResource($travel))->toArray($request),200);

@@ -42,7 +42,8 @@ return new class extends SettingsMigration
 		
 		$this->migrator->add('site.WHATSAPP_APP_KEY', '582225ad-1a72-4f52-a12f-9b12bb63d7eb');
 		$this->migrator->add('site.WHATSAPP_AUTH_KEY', 'tvwBmsZlIhzSovM6QB6KEoEnABMYE3AuFl29vtU2Fpf6P917Of');
-		$this->migrator->add('site.google_api_key', 'AIzaSyBd3qijGwg3gtPWhFeCVyxINEn8vPZ1mic');
+		$this->migrator->add('site.google_api_key', 'AIzaSyD1pzxgf9AUfrWE2pLVQanO6Ti9a5lZDGo');
+		// $this->migrator->add('site.google_api_key', 'AIzaSyBd3qijGwg3gtPWhFeCVyxINEn8vPZ1mic');
 		
         $this->migrator->add('site.MAIL_HOST', 'sender.mnjz.sa');
         $this->migrator->add('site.MAIL_PORT', '465');

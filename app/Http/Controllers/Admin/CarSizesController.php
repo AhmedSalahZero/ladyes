@@ -67,7 +67,6 @@ class CarSizesController extends Controller
 	public function update(StoreCarSizeRequest $request, CarSize $carSize)
     {
         $carSize->storeBasicForm($request);
-		
 		foreach($request->get('country_ids',[]) as $countryId){
 			$carSize->countryPrices()->syncWithoutDetaching([
 				$countryId => [
@@ -94,6 +93,7 @@ class CarSizesController extends Controller
 			$carSize->countryPrices()->syncWithoutDetaching([
 				$countryId => [
 					'price' => $price ,
+					'sum_price'=>$request->input('sum_prices.'.$countryId)
 				]
 			]);
 		}

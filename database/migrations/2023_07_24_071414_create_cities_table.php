@@ -17,6 +17,9 @@ class CreateCitiesTable extends Migration
             $table->id();
 			$table->string('name_en')->nullable();
 			$table->string('name_ar')->nullable();
+			
+			$table->point('location')->comment('عباره عن اي نقطة تقع في هذا المحافظة علشان نعرف نجيبها بمعرفه اللات والانج لاي نقطة تانيه تقع في نفس المحافظة');
+			// $table->polygon('area')->comment('دا عباره عن الاربع المستطيل اللي بتقع فيه المدينة ودا مهم جدا');
 			// $table->string('price')->comment('الاجرة الاساسية للمدينة (خارج اوقات الذروة)');
 			$table->string('km_price')->comment('السعر لكل كيلو متر');
 			$table->string('minute_price')->comment('السعر لكل دقيقة');

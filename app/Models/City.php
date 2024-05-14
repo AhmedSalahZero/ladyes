@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Services\DistanceMatrix\GoogleDistanceMatrixService;
 use App\Traits\Accessors\IsBaseModel;
+use App\Traits\Models\HasGeoLocation;
 use App\Traits\Models\HasKmPrice;
 use App\Traits\Models\HasTransNames;
 use App\Traits\Scope\HasDefaultOrderScope;
@@ -14,12 +16,32 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class City extends Model 
 // implements HasMedia
 {
+
+	
 /**
  * * city == govern 
  */
 
-	 use IsBaseModel,HasDefaultOrderScope , HasTransNames , HasFactory,HasKmPrice ;
-		
+	 use IsBaseModel,HasDefaultOrderScope , HasTransNames , HasFactory,HasKmPrice ,HasGeoLocation;
+	
+	 public static function getCityFromLatitudeAndLongitude(Country $country , string $latitude , string $longitude )
+	 {
+		$googleDistanceMatrixService = new GoogleDistanceMatrixService();
+		/**
+		 * * اسم المحافظة
+		 */
+		$cityName = $googleDistanceMatrixService->getCityNameFromLatitudeAndLongitude($latitude,$longitude);
+		foreach($country->cities as $city){
+			$currentCityName = $googleDistanceMatrixService->getCityNameFromLatitudeAndLongitude($city->getLatitude(),$city->getLongitude());
+			if($currentCityName === false){
+				continue;
+			}
+			if($cityName == $currentCityName){
+				return $city;
+			}
+		}
+		return false ;
+	 }
 	 public function rushHours():HasMany
 	 {
 		return $this->hasMany(RushHour::class,'city_id','id');

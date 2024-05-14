@@ -399,10 +399,10 @@ class Travel extends Model
         return $this->getStatus() == TravelStatus::CANCELLED;
     }
 
-    public function getOperationalFees()
+    public function getOperationalFees(?string $startedAt=null,?City $city = null )
     {
-        $statedAt = $this->getStartedAt();
-        $city = $this->getCity() ;
+        $statedAt = is_null($startedAt) ? $this->getStartedAt() : $startedAt;
+        $city = is_null($city) ? $this->getCity() : $city ;
         $priceModel = $city;
         $rushHour = $city->isInRushHourAt($statedAt);
         if ($rushHour) {
@@ -465,25 +465,26 @@ class Travel extends Model
      * * لاحظ ايضا هذا السعر لا يشمل رسوم التشغيل
      * @see $mainFare الاجرة الاساسية
      */
-    public function calculateClientActualPriceWithoutDiscount()
+    public function calculateClientActualPriceWithoutDiscount(?string $startedAt = null , ?City $city = null , ?Driver $driver = null,$numberOfMinutes = null,$numberOfKms=null)
     {
         /**
          * @var City $city
          */
 
-        $statedAt = $this->getStartedAt();
-        $city = $this->getCity() ;
+        $statedAt = is_null($startedAt ) ?   $this->getStartedAt() : $startedAt ;
+        $city = is_null($city) ? $this->getCity()  : $city  ;
         $priceModel = $city;
-        $carSizePrice = $this->driver->carSize->getPrice($city->getCountryId(), getApiLang()) ;
+		$driver = is_null($driver) ?  $this->driver : $driver  ; 
+        $carSizePrice = $driver->carSize->getPrice($city->getCountryId(), getApiLang()) ;
         $rushHour = $city->isInRushHourAt($statedAt);
         if ($rushHour) {
             $priceModel = $rushHour ;
         }
         $kmPrice = $priceModel->getKmPrice();
         $minutePrice = $priceModel->getMinutePrice();
-        $operationFees = $this->getOperationalFees();
-        $numberOfMinutes = $this->getNumberOfMinutes();
-        $numberOfKms = $this->getNumberOfKms();
+        $operationFees = $this->getOperationalFees($startedAt,$city);
+        $numberOfMinutes = is_null($numberOfMinutes) ? $this->getNumberOfMinutes() : $numberOfMinutes;
+        $numberOfKms = is_null($numberOfKms) ? $this->getNumberOfKms() : $numberOfKms;
         return $carSizePrice + ($kmPrice * $numberOfKms) + ($minutePrice * $numberOfMinutes) + $operationFees ;
     }
 

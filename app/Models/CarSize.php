@@ -51,13 +51,18 @@ class CarSize extends Model
 	{
 		return $this->belongsToMany(Country::class,'model_country_price','model_id','country_id')
 		->where('model_type','CarSize')
-		->withPivot(['price'])
+		->withPivot(['price','sum_price'])
 		->withTimestamps();
 	}
 	public function getPrice(int $countryId){
 	
 		$countryPrice = $this->countryPrices->where('id',$countryId)->first() ;
 		return $countryPrice ? $countryPrice->pivot->price : 0 ;
+	}
+	public function getSumPrice(int $countryId){
+	
+		$countryPrice = $this->countryPrices->where('id',$countryId)->first() ;
+		return $countryPrice ? $countryPrice->pivot->sum_price : 0 ;
 	}
 	public function getPriceFormatted(int $countryId , string $lang)
 	{

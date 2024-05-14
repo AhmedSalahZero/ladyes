@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\City;
+use Grimzy\LaravelMysqlSpatial\Types\Point;
 use Illuminate\Database\Seeder;
 
 class CitySeeder extends Seeder
@@ -17,6 +18,7 @@ class CitySeeder extends Seeder
        $city = City::factory()->create([
 		'name_en'=>'Mecca',
 		'name_ar'=>'مكة',
+		'location'=>new Point(21.428695993195078, 39.76470841959276),
 		// 'longitude'=>'21.42250',
 		// 'latitude'=>'39.82611',
 		'country_id'=>194 // sa
@@ -36,7 +38,7 @@ class CitySeeder extends Seeder
 	   $city = City::factory()->create([
 		'name_en'=>'Cairo',
 		'name_ar'=>'القاهرة',
-
+		'location'=>new Point(30.08181864531691, 31.255079790221824),
 		// 'longitude'=>'21.42250',
 		// 'latitude'=>'39.82611',
 		'country_id'=>65 // eg

@@ -35,7 +35,6 @@
 												
                                                 <div class="col-md-6">
 												    <x-form.image-uploader :name="'logo'"  :id="'logo-id'"  :label="__('Image')" :image="isset($model) && $model->getImage() ? $model->getImage() : getDefaultImage()"></x-form.image-uploader>
-													
                                                 </div>
 												
 												 

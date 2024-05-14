@@ -617,5 +617,7 @@
 	"Latest Transactions":"احدث المعاملات المالية",
 	"Latest Clients":"احدث العملاء",
 	"Latest Drivers":"احدث السائقين",
-	"Number Of Travels Per Months":"عدد الرحلات لكل شهر للسنة الحالية"
+	"Number Of Travels Per Months":"عدد الرحلات لكل شهر للسنة الحالية",
+	"This City Is Not Support Yet":"هذا المدينة غير مدعمة بعد",
+	"Additional Price":"سعر الجمع"
 }

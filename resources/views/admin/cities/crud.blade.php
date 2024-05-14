@@ -24,6 +24,18 @@
 
 
 
+
+
+                                                                    <div class="col-12 mb-4">
+                                                                        @include('components.map.maps',[
+                                                                        'mapHeight'=>'500px',
+                                                                        "mapId"=>'map_id',
+                                                                        'searchTextField'=>'search_field_id',
+                                                                        'latitude'=>'24.0000',
+                                                                        'longitude'=>'45.0000'
+                                                                        ])
+                                                                    </div>
+
                                                 <div class="col-md-6">
                                                     <x-form.input class="map_name" :id="'name_en'" :label="__('English Name')" :type="'text'" :name="'name_en'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('English Name')])"></x-form.input>
                                                 </div>
@@ -31,11 +43,21 @@
                                                 <div class="col-md-6">
                                                     <x-form.input class="map_name" :id="'name_ar'" :label="__('Arabic Name')" :type="'text'" :name="'name_ar'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Arabic Name')])"></x-form.input>
                                                 </div>
+												
+												
+												  
+												<div class="col-md-6">
+                                                                        <x-form.input class="MapLon" :id="'longitude'" :label="__('Longitude')" :type="'text'" :name="'longitude'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Longitude')])"></x-form.input>
+                                                                    </div>
+
+                                                                    <div class="col-md-6">
+                                                                        <x-form.input class="MapLat" :id="'latitude'" :label="__('Latitude')" :type="'text'" :name="'latitude'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Latitude')])"></x-form.input>
+                                                                    </div>					
 
 
 
 
-{{-- 
+                                                {{--
                                                 <div class="col-md-6">
                                                     <x-form.input :id="'price'" :label="__('Main Price')" :type="'numeric'" :name="'price'" step="any" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Main Price')])"></x-form.input>
                                                 </div> --}}
@@ -68,6 +90,10 @@
                                                             @foreach($model ? $model->rushHours : [null] as $rushHour)
                                                             <div data-repeater-item>
                                                                 <div class="row position-relative mb-3 border-bottom-repeater">
+
+                                                                  
+
+
                                                                     <div class="col-md-6">
                                                                         <x-form.input :id="'start_time'" :label="__('Start Time')" :type="'time'" :name="'start_time'" step="any" :is-required="true" :model="$rushHour??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Start Time')])"></x-form.input>
                                                                     </div>
@@ -77,7 +103,7 @@
                                                                     </div>
 
 
-{{-- 
+                                                                    {{--
                                                                     <div class="col-md-6">
                                                                         <x-form.input :id="'price'" :label="__('Main Price')" :type="'numeric'" :name="'price'" step="any" :is-required="true" :model="$rushHour??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Main Price')])"></x-form.input>
                                                                     </div> --}}
@@ -123,26 +149,7 @@
 
 
 
-                                                {{-- <div class="col-md-6">
-                                                    <x-form.input class="MapLon"   :id="'longitude'" :label="__('Longitude')" :type="'text'" :name="'longitude'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Longitude')])"></x-form.input>
-                                                </div>
-												
-												<div class="col-md-6">
-                                                    <x-form.input class="MapLat" :id="'latitude'" :label="__('Latitude')" :type="'text'" :name="'latitude'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Latitude')])"></x-form.input>
-                                                </div> --}}
 
-
-
-                                                {{-- <div class="col-12">
-													@include('components.map.maps',[
-														'mapHeight'=>'500px',
-														"mapId"=>'map_id',
-														'searchTextField'=>'search_field_id',
-														'latitude'=>'24.0000',
-														'longitude'=>'45.0000'
-													])
-												</div>
-												 --}}
                                                 <x-form.actions-buttons :index-route="$indexRoute"></x-form.actions-buttons>
 
 
