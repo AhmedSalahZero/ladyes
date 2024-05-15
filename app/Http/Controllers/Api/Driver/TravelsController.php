@@ -19,6 +19,7 @@ class TravelsController extends Controller
 	}
 	public function markAsCancelled(Request $request,Travel $travel)
 	{
+		
 		if(!$travel->hasStarted()){
 			return $this->apiResponse(__('Travel Has Not Started Yet',[],getApiLang()),[],500);
 		}

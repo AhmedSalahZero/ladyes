@@ -30,8 +30,15 @@ class TravelsController extends Controller
 		$travel->client->sendAppNotification(__('Travel Confirmation', [], 'en'), __('Travel Confirmation', [], 'ar'), __('We Will Contract You',[],'en'), __('We Will Contract You'), AppNotificationType::INFO);
 		return $this->apiResponse(__('Travel Has Been Created Successfully',[],getApiLang()) , $travel->getResource()->toArray($request) );
 	}
-	public function markAsCancelled(MarkTravelAsCancelledRequest $request,Travel $travel)
+	public function markAsCancelled(MarkTravelAsCancelledRequest $request,int $travelId)
 	{
+		if($travelId == 0){
+			if($request->get('cancellation_reason_id')){
+				$request->user('client')->beforeTravelCancellationReasons()->attach($request->get('cancellation_reason_id'));
+			}
+			return $this->apiResponse(__('Travel Has Been Cancelled Successfully',[],getApiLang()),[],500);
+		}
+		$travel = Travel::find($travelId);
 		$travel->markAsCancelled($request);
 		return $this->apiResponse(__('Travel Has Been Marked AS Cancelled',[],getApiLang()));
 	}

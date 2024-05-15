@@ -165,6 +165,16 @@ class Client extends Model implements HasMedia, BannableInterface,IHaveAppNotifi
     {
         return $this->hasMany(Travel::class, 'client_id', 'id')->where('status',TravelStatus::CANCELLED);
     }
+	/**
+	 * * دي عباره عن الالغاء اللي العميل عملة قبل تسجيل الرحلة وبالتالي احنا هنا معندناش رحلة تم انشائها اصلا
+	 * * وبالتالي هنقول بس ان اليوزر الفلاني لغى للسبب الفلاني وخلاص
+	 */
+	public function beforeTravelCancellationReasons()
+	{
+		return $this->belongsToMany(CancellationReason::class ,'cancellation_reason_client', 'client_id','cancellation_reason_id')
+		->withTimestamps()
+		;
+	}
 	public function onTheWayTravels():HasMany
     {
         return $this->hasMany(Travel::class, 'client_id', 'id')->where('status',TravelStatus::ON_THE_WAY);
