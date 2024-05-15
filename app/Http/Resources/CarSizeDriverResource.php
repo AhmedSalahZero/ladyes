@@ -36,8 +36,8 @@ class CarSizeDriverResource extends JsonResource
 		 * @var City $city 
 		 */
 		$city = self::$city ;
-
-		if(!$city){
+		// remove the 
+		if(!$city && env('in_test_mode')){
 			return [
 			'car_size_id'=>$this->id ,
 			'car_size_name'=>$this->getName(getApiLang()),
