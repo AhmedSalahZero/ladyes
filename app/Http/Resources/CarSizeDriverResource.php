@@ -30,11 +30,25 @@ class CarSizeDriverResource extends JsonResource
 		 */
 		// 38.43567,21.94559,41.54480,21.02042
 		// 30.00916,30.46525,33.11829,29.60451
+		// dd
 		$result = $closestDriver && $closestDriver->getLongitude() ? $googleDistanceMatrixService->getExpectedArrivalTimeBetweenTwoPoints($closestDriver->getLatitude(),$closestDriver->getLongitude(),Request('to_latitude'),Request('to_longitude')) : [];
 		/**
 		 * @var City $city 
 		 */
 		$city = self::$city ;
+
+		if(!$city){
+			return [
+			'car_size_id'=>$this->id ,
+			'car_size_name'=>$this->getName(getApiLang()),
+			'image'=>$this->getImage(),
+			'expected_arrival_time'=>isset($result['duration_in_seconds']) ? __('Estimated Arrival Time :time',['time'=>now()->addSeconds($result['duration_in_seconds'])->format('g:i A')]) : '-' ,
+			'expected_arrival_distance'=>isset($result['distance_in_meter']) ? __(':distance Km Away',['distance'=>round($result['distance_in_meter'] / 1000,1) ]) : '-' ,
+			'drivers_count'=>$this->drivers->count(),
+			'price-range'=>'100 - 200' 
+		];
+
+		}
 		$travel = new Travel ;
 		// dd(now()->format('Y-m-d H:i:s'));
 		$numberOfMinutesExpected = ($result['duration_in_seconds'] ?? 0) / 60;

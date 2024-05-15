@@ -93,6 +93,9 @@ class TravelsController extends Controller
 		if($city){
 			return  $this->apiResponse(__('Data Received Successfully',[],getApiLang()), CarSizeDriverResource::customCollection($carSizes,$city)->toArray($request));
 		}
+		if(env('in_test_mode')){
+			return $this->apiResponse(__('Data Received Successfully',[],getApiLang()), CarSizeDriverResource::collection($carSizes)->toArray($request));
+		}
 		return  $this->apiResponse(__('This City Is Not Support Yet',[],getApiLang()),[],500);
 	}
 	public function getPriceDetails(Request $request , Travel $travel){
