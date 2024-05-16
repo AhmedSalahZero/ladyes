@@ -91,7 +91,7 @@
                         </thead>
                         <tbody>
                             @foreach($model->onTheWayTravels as $index=>$travel)
-                            @include('components.common.on-the-way-travels-tr',['model'=>$travel,'travelType'=>'on-the-way'])
+                      	      @include('components.common.on-the-way-travels-tr',['model'=>$travel,'travelType'=>'on-the-way'])
                             @endforeach
                         </tbody>
                     </table>

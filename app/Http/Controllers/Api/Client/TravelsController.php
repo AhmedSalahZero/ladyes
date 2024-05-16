@@ -32,6 +32,9 @@ class TravelsController extends Controller
 	}
 	public function markAsCancelled(MarkTravelAsCancelledRequest $request,int $travelId)
 	{
+		/**
+		 * * دي لو مفيش رحلة .. بمعني انة لغى الرحلة قبل ما ينشئ الرحلة اكنه مثلا كان بيجرب او طلب بالغلط
+		 */
 		if($travelId == 0){
 			if($request->get('cancellation_reason_id')){
 				$request->user('client')->beforeTravelCancellationReasons()->attach($request->get('cancellation_reason_id'));

@@ -143,11 +143,10 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-						<div class="card-header">
-							<h1>{{ __('Number Of Travels Per Months') }} [ {{ now()->format('Y') }} ] </h1>
-						</div>
+                        <div class="card-header">
+                            <h1>{{ __('Number Of Travels Per Months') }} [ {{ now()->format('Y') }} ] </h1>
+                        </div>
                         <div class="card-body">
-							{{-- <input id="no-travels-per-months-value-id" data-value="{{  }}"> --}}
                             <canvas id="no-travels-per-months"></canvas>
                         </div>
                     </div>
@@ -155,6 +154,25 @@
 
                 </div>
             </div>
+			
+			
+			
+			
+			<div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h1>{{ __('Number Of Travels Per City') }} [ {{ now()->format('Y') }} ] </h1>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="no-travels-per-city"></canvas>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+			
             <!--/ Recent Transactions -->
             <!--Recent Orders & Monthly Sales -->
 
@@ -188,52 +206,108 @@
 
 
 <script>
-    const ctx = document.getElementById('no-travels-per-months');
-	
-	const reportData = @json($numberOfTravelsPerMonthInCurrentYear);
-	const labels = ['01', '02', '03', '04', '05', '06' , '07','08','09','10','11','12'] ;
-	let reportDataArr = [];
-	for(var monthNum of  labels){
-		reportDataArr.push(reportData[monthNum]??0)
-	}
-	console.log('data',reportDataArr);
-const data = {
-  labels: labels,
-  datasets: [{
-    label: "{{ __('Number Of Travels Per Months') }}",
-    data: reportDataArr,
-    backgroundColor: [
-      'rgba(255, 99, 132, 0.2)',
-      'rgba(255, 159, 64, 0.2)',
-      'rgba(255, 205, 86, 0.2)',
-      'rgba(75, 192, 192, 0.2)',
-      'rgba(54, 162, 235, 0.2)',
-      'rgba(153, 102, 255, 0.2)',
-      'rgba(201, 203, 207, 0.2)'
-    ],
-    borderColor: [
-      'rgb(255, 99, 132)',
-      'rgb(255, 159, 64)',
-      'rgb(255, 205, 86)',
-      'rgb(75, 192, 192)',
-      'rgb(54, 162, 235)',
-      'rgb(153, 102, 255)',
-      'rgb(201, 203, 207)'
-    ],
-    borderWidth: 1
-  }]
-};
+    let ctx = document.getElementById('no-travels-per-months');
+
+    let reportData = @json($numberOfTravelsPerMonthInCurrentYear);
+    let labels = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+    let reportDataArr = [];
+    for (var monthNum of labels) {
+        reportDataArr.push(reportData[monthNum] ?? 0)
+    }
+    let data = {
+        labels: labels
+        , datasets: [{
+            label: "{{ __('Number Of Travels Per Months') }}"
+            , data: reportDataArr
+            , backgroundColor: [
+                'rgba(255, 99, 132, 0.2)'
+                , 'rgba(255, 159, 64, 0.2)'
+                , 'rgba(255, 205, 86, 0.2)'
+                , 'rgba(75, 192, 192, 0.2)'
+                , 'rgba(54, 162, 235, 0.2)'
+                , 'rgba(153, 102, 255, 0.2)'
+                , 'rgba(201, 203, 207, 0.2)'
+            ]
+            , borderColor: [
+                'rgb(255, 99, 132)'
+                , 'rgb(255, 159, 64)'
+                , 'rgb(255, 205, 86)'
+                , 'rgb(75, 192, 192)'
+                , 'rgb(54, 162, 235)'
+                , 'rgb(153, 102, 255)'
+                , 'rgb(201, 203, 207)'
+            ]
+            , borderWidth: 1
+        }]
+    };
 
     new Chart(ctx, {
         type: 'bar'
-        , data: data,
-		options: {
-    scales: {
-      y: {
-        beginAtZero: true
-      }
+        , data: data
+        , options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+</script>
+
+
+
+
+<script>
+     ctx = document.getElementById('no-travels-per-city');
+
+     reportData = @json($numberOfTravelsPerCityInCurrentYear);
+	 console.log(reportData)
+     labels = [];
+	 for(var key of Object.keys(reportData)){
+		labels.push(key)
+	 }
+     reportDataArr = [];
+    for (var monthNum of labels) {
+        reportDataArr.push(reportData[monthNum] ?? 0)
     }
-  }
+     data = {
+        labels: labels
+        , datasets: [{
+            label: "{{ __('Number Of Travels Per City') }}"
+            , data: reportDataArr
+            , backgroundColor: [
+                'rgba(255, 99, 132, 0.2)'
+                , 'rgba(255, 159, 64, 0.2)'
+                , 'rgba(255, 205, 86, 0.2)'
+                , 'rgba(75, 192, 192, 0.2)'
+                , 'rgba(54, 162, 235, 0.2)'
+                , 'rgba(153, 102, 255, 0.2)'
+                , 'rgba(201, 203, 207, 0.2)'
+            ]
+            , borderColor: [
+                'rgb(255, 99, 132)'
+                , 'rgb(255, 159, 64)'
+                , 'rgb(255, 205, 86)'
+                , 'rgb(75, 192, 192)'
+                , 'rgb(54, 162, 235)'
+                , 'rgb(153, 102, 255)'
+                , 'rgb(201, 203, 207)'
+            ]
+            , borderWidth: 1
+        }]
+    };
+
+    new Chart(ctx, {
+        type: 'bar'
+        , data: data
+        , options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
     });
 
 </script>

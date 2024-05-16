@@ -39,14 +39,29 @@ class DashboardController extends Controller
 		$latestTransactions = Transaction::orderByRaw('id desc')->take(10)->get();
 		$latestClients = Client::orderByRaw('id desc')->take(10)->get();
 		$latestDrivers = Driver::orderByRaw('id desc')->take(10)->get();
-		// dd(DB::table('travels')->groupByRaw('Year(started_at),month(started_at)')->selectRaw(''));
+		
 		$numberOfTravelsPerMonthInCurrentYear = DB::table('travels')->groupByRaw('Year(started_at) , Month(started_at)')
 		->whereRaw('year(started_at) = '.now()->format('Y'))
 		->whereNotNull('started_at')
 		->selectRaw('lpad(month(started_at) , 2,0 ) as month ,count(*) as count')
 		->orderByRaw('month(started_at) asc')
 		->get()->toArray();
+		
 		$numberOfTravelsPerMonthInCurrentYear = HHelpers::removeLevel($numberOfTravelsPerMonthInCurrentYear);
+		
+		
+		
+		$numberOfTravelsPerCityInCurrentYear = DB::table('travels')->groupByRaw('city_id')
+		->join('cities','cities.id','=','travels.city_id')
+		->whereRaw('year(started_at) = '.now()->format('Y'))
+		->whereNotNull('started_at')
+		->selectRaw('count(*) as count,cities.name_'.app()->getLocale())
+		->orderByRaw('count desc')
+		->get()->take(12)->toArray();
+		$numberOfTravelsPerCityInCurrentYear = HHelpers::removeLevel2($numberOfTravelsPerCityInCurrentYear,1);
+		
+		
+		
         return view('admin.dashboard',[
 			'clientsCount'=>$clientCount,
 			'driversCount'=>$driverCount,
@@ -68,7 +83,8 @@ class DashboardController extends Controller
 			'latestTransactions'=>$latestTransactions,
 			'latestClients'=>$latestClients			,
 			'latestDrivers'=>$latestDrivers,
-			'numberOfTravelsPerMonthInCurrentYear'=>$numberOfTravelsPerMonthInCurrentYear
+			'numberOfTravelsPerMonthInCurrentYear'=>$numberOfTravelsPerMonthInCurrentYear,
+			'numberOfTravelsPerCityInCurrentYear'=>$numberOfTravelsPerCityInCurrentYear
         ]);
     }
 }

@@ -53,4 +53,12 @@ class HHelpers
 		}
 		return $result;
   }
+  public static function removeLevel2($array) {
+	$result = [];
+	foreach ($array as $key => $value) {
+		$item = (array)$value ;
+		$result[$item['name_'.app()->getLocale()]]=$item['count'] ;
+	}
+	return $result;
+}
 }
