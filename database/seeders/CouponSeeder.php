@@ -16,8 +16,10 @@ class CouponSeeder extends Seeder
     public function run()
     {
 		Coupon::factory()->create([
-			'code'=>'abc123'
+			'code'=>'abc123',
+			'number_of_uses'=>4
 		]);
+		
 		Coupon::factory()->count(10)->create();
     }
 }

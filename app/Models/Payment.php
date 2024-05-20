@@ -87,7 +87,9 @@ class Payment extends Model
 	}
 	public function storeForTravel(Travel $travel):self
 	{
-		if($travel->isPaid() && ! env('APP_ENV') == 'local'){
+		if($travel->isPaid() 
+		// && ! env('APP_ENV') == 'local'
+		){
 			return $this ;
 		}
 		$country = $travel->city->getCountry() ;
@@ -100,8 +102,6 @@ class Payment extends Model
         $couponAmount = $travel->getCouponDiscountAmount();
         $promotionPercentage = $travel->getPromotionPercentage();
         $paymentType = $travel->getPaymentMethod();
-		
-		
 		$operationFees = $travel->getOperationalFees();
 		$promotionPercentage = $travel->getPromotionPercentage();
 		$appShareBasic = ($travel->calculateClientActualPriceWithoutDiscount() - $operationFees)  ;
@@ -113,12 +113,12 @@ class Payment extends Model
             'currency_name' => $currencyName,
             'type' => $paymentType,
             'price' => $mainPriceWithoutDiscountAndTaxesAndCashFees =  $travel->calculateClientActualPriceWithoutDiscount(),
-			'total_fines'=>$travel->client->getTotalAmountOfUnpaid(),
+			'total_fines'=>$totalFines = $travel->client->getTotalAmountOfUnpaid(),
             'promotion_percentage' => $promotionPercentage,
             'coupon_amount' => $couponAmount,
-			'tax_amount'=>$taxAmount = $travel->calculateTaxAmount($mainPriceWithoutDiscountAndTaxesAndCashFees),
 			'cash_fees'=>$cashFees = $travel->calculateCashFees(),
-            'total_price' => $totalPrice = $travel->calculateClientTotalActualPrice($couponAmount,$promotionAmount,$taxAmount,$cashFees),
+			'tax_amount'=>$taxAmount = $travel->calculateTaxAmount($mainPriceWithoutDiscountAndTaxesAndCashFees,$couponAmount,$cashFees,$promotionAmount,$totalFines),
+            'total_price' => $totalPrice = $travel->calculateClientTotalActualPrice($mainPriceWithoutDiscountAndTaxesAndCashFees,$couponAmount,$promotionAmount,$taxAmount,$cashFees,$totalFines),
             'model_id' => $travel->id,
             'model_type' => HHelpers::getClassNameWithoutNameSpace($travel)
         ]);

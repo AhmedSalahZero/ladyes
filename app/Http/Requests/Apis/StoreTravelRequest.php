@@ -48,9 +48,6 @@ class StoreTravelRequest extends FormRequest
 			'from_address'=>[$requiredOrNot,'required','max:255'],
 			'to_address'=>[$requiredOrNot,'required','max:255'],
 			'coupon_code'=>['sometimes','required',new ValidCouponRule()],
-			// 'is_secure'=>['sometimes','required','in:1,0'],
-			// 'currency' => ['required', 'exists:countries,currency'],
-			// 'payment_type'=>['required','in:'.implode(',',array_keys(PaymentType::all()))],
         ];
     }
 	public function messages()
@@ -80,8 +77,8 @@ class StoreTravelRequest extends FormRequest
 			'from_longitude.required'=>__('Please Enter From Longitude',[],getApiLang() ),
 			'to_latitude.required'=>__('Please Enter To Latitude',[],getApiLang() ),
 			'to_longitude.required'=>__('Please Enter To Longitude',[],getApiLang() ),
-			'is_secure.required'=>__('Please Specific If Travel Is Secure Or Not',[],getApiLang())	,		
-			'is_secure.in'=>__('Invalid :attribute' , ['attribute'=>__('Is Secure')],getApiLang()),
+			// 'is_secure.required'=>__('Please Specific If Travel Is Secure Or Not',[],getApiLang())	,		
+			// 'is_secure.in'=>__('Invalid :attribute' , ['attribute'=>__('Is Secure')],getApiLang()),
 			
 			'payment_type.required'=>__('Please Enter :attribute' , ['attribute'=>__('Payment Type',[],getApiLang())]),
 			'payment_type.in'=>__('Invalid :attribute' , ['attribute'=>__('Payment Type')],getApiLang()),

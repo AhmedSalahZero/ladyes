@@ -50,6 +50,9 @@ class Travel extends Model
         parent::boot();
         static::saving(function(Travel $travel) {
             $travel->is_secure = $travel->client->getHasSecureTravel();
+			if($travel->is_secure){
+				$travel->storeSecureCode();
+			}
         }); 
     }
 	
@@ -205,7 +208,7 @@ class Travel extends Model
     public function storeSecureCode(): self
     {
         $this->secure_code = $this->generateSecureCode() ;
-        $this->save();
+        // $this->save();
 
         return $this ;
     }
@@ -222,7 +225,7 @@ class Travel extends Model
          * @var Country $country
          */
 
-        $request->boolean('is_secure') ? $this->storeSecureCode() : null ;
+        // $request->boolean('is_secure') ? $this->storeSecureCode() : null ;
         $request->has('coupon_code') ? $travel->applyCoupon(Coupon::findByCode($request->get('coupon_code'))->id) : 0;
 		$travel->applyPromotion();
         /**
@@ -426,7 +429,7 @@ class Travel extends Model
         return $country->getCashFees();
     }
 
-    public function calculateTaxAmount(float $mainPriceWithoutDiscountAndTaxesAndCashFees = null)
+    public function calculateTaxAmount(float $mainPriceWithoutDiscountAndTaxesAndCashFees = null,  $couponAmount = 0,$cashFees = 0 , $promotionAmount= 0 , $totalFines = 0 )
     {
         $mainPriceWithoutDiscountAndTaxesAndCashFees = is_null($mainPriceWithoutDiscountAndTaxesAndCashFees) ? $this->calculateClientActualPriceWithoutDiscount() : $mainPriceWithoutDiscountAndTaxesAndCashFees;
         $country = $this->getCountry() ;
@@ -434,8 +437,8 @@ class Travel extends Model
             return 0 ;
         }
         $taxPercentage = $country->getTaxesPercentage() / 100 ;
-
-        return $taxPercentage * $mainPriceWithoutDiscountAndTaxesAndCashFees ;
+		
+        return $taxPercentage * ($mainPriceWithoutDiscountAndTaxesAndCashFees - $promotionAmount - $couponAmount + $cashFees + $totalFines) ;
     }
 
     public function calculateTaxesAmount()
@@ -485,22 +488,22 @@ class Travel extends Model
         $operationFees = $this->getOperationalFees($startedAt,$city);
         $numberOfMinutes = is_null($numberOfMinutes) ? $this->getNumberOfMinutes() : $numberOfMinutes;
         $numberOfKms = is_null($numberOfKms) ? $this->getNumberOfKms() : $numberOfKms;
-        return $carSizePrice + ($kmPrice * $numberOfKms) + ($minutePrice * $numberOfMinutes) + $operationFees ;
+        return $carSizePrice + $operationFees  + ($kmPrice * $numberOfKms) + ($minutePrice * $numberOfMinutes)  ;
     }
 
     /**
      * * هو نفس الحسبة السابقة مضاف اليها الغرامات ومنقوص منها الخصم مضاف اليها الضريبة .. وهو اجمالي ما سوف يتم دفعه للعميل
      */
-    public function calculateClientTotalActualPrice(float $couponAmount = null, float $promotionAmount = null, float $taxesAmount = null, float $cashFees = null)
+    public function calculateClientTotalActualPrice($mainPriceWithoutDiscountAndTaxesAndCashFees,float $couponAmount = null, float $promotionAmount = null, float $taxesAmount = null, float $cashFees = null,$totalFines=0)
     {
         /**
          * * لو ما مررنهاش هنحسبها
          */
-        $promotionAmount = is_null($promotionAmount) ? $this->getPromotionAmount() : $promotionAmount ;
+        // $promotionAmount = is_null($promotionAmount) ? $this->getPromotionAmount() : $promotionAmount ;
         $couponAmount = is_null($couponAmount) ? $this->getCouponDiscountAmount() : $couponAmount ;
         $taxesAmount = is_null($taxesAmount) ? $this->calculateTaxesAmount() : $taxesAmount ;
         $cashFees = is_null($cashFees) ? $this->calculateCashFees() : $cashFees ;
-        return $this->calculateClientActualPriceWithoutDiscount() - $couponAmount - $promotionAmount + $taxesAmount + $cashFees  ;
+        return $mainPriceWithoutDiscountAndTaxesAndCashFees + $cashFees - $couponAmount - $promotionAmount + $taxesAmount  + $totalFines  ;
     }
 
     /**

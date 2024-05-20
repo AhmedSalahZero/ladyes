@@ -14,7 +14,6 @@ class GoogleDistanceMatrixService
 	{
 
 		$response = Http::get('https://maps.googleapis.com/maps/api/distancematrix/json?origins='.$fromLatitude.', '.$fromLongitude.'&destinations='.$toLatitude.', '.$toLongitude.'&key='.getSetting('google_api_key'));
-		// dd($response->json());
 		return [
 			'distance_in_meter'=>Arr::get($response->json(),'rows.0.elements.0.distance.value',0),
 			'duration_in_seconds'=>Arr::get($response->json(),'rows.0.elements.0.duration.value',0)

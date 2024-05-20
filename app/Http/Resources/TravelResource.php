@@ -20,21 +20,28 @@ class TravelResource extends JsonResource
 		$driver = $this->driver;
 		$client = $this->client ;
 		
+		
+		$promotionPercentage = $this->getPromotionPercentage();
+		$operationFees = $this->getOperationalFees();
+		$promotionPercentage = $this->getPromotionPercentage();
+		$appShareBasic = ($this->calculateClientActualPriceWithoutDiscount() - $operationFees)  ;
+		$promotionAmount = $appShareBasic * $promotionPercentage / 100 ;
+		
 		$result = $driver && $driver->getLongitude() ? $googleDistanceMatrixService->getExpectedArrivalTimeBetweenTwoPoints($driver->getLatitude(),$driver->getLongitude(),$this->getFromLatitude(),$this->getFromLongitude()) : [];
 		/**
 		 * @var Travel $this 
 		 */
 		$priceDetails = $this->isCompleted() ? [
 			'price' => $mainPriceWithoutDiscountAndTaxesAndCashFees = $this->hasStarted() ?  $this->calculateClientActualPriceWithoutDiscount() : 0,
-			'total_fines'=>$fines = $this->client->getTotalAmountOfUnpaid(),
-			'promotion_percentage' => $promotionPercentage = $this->getPromotionPercentage(),
+			'total_fines'=>$totalFines = $this->client->getTotalAmountOfUnpaid(),
+			'promotion_percentage' =>  $this->getPromotionPercentage(),
 			'coupon_amount' => $couponAmount = $this->getCouponDiscountAmount(),
-			'tax_amount'=>$taxAmount = $this->calculateTaxAmount($mainPriceWithoutDiscountAndTaxesAndCashFees),
 			'cash_fees'=>$cashFees = $this->calculateCashFees(),
+			'tax_amount'=>$taxAmount = $this->calculateTaxAmount($mainPriceWithoutDiscountAndTaxesAndCashFees,$couponAmount,$cashFees,$promotionAmount,$totalFines),
 			/**
 			 * * لاحظ احنا هنا ضفنا الغرمات علشان دا اللي هيظهر لليوزر .. اما اثناء الدفع بنقسم علي مرحلتين ..يعني كل وحده هيكون ليها الدفع بتاعها
 			 */
-			'total_price' => $fines +  $this->calculateClientTotalActualPrice($couponAmount,$taxAmount,$cashFees)  ,
+			'total_price' =>   $this->calculateClientTotalActualPrice($mainPriceWithoutDiscountAndTaxesAndCashFees,$couponAmount,$taxAmount,$cashFees,$totalFines)  ,
 		   
 		] : [];
         return [
