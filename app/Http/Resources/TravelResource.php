@@ -21,11 +21,6 @@ class TravelResource extends JsonResource
 		$client = $this->client ;
 		
 		
-		$promotionPercentage = $this->getPromotionPercentage();
-		$operationFees = $this->getOperationalFees();
-		$promotionPercentage = $this->getPromotionPercentage();
-		$appShareBasic = ($this->calculateClientActualPriceWithoutDiscount() - $operationFees)  ;
-		$promotionAmount = $appShareBasic * $promotionPercentage / 100 ;
 		
 		$result = $driver && $driver->getLongitude() ? $googleDistanceMatrixService->getExpectedArrivalTimeBetweenTwoPoints($driver->getLatitude(),$driver->getLongitude(),$this->getFromLatitude(),$this->getFromLongitude()) : [];
 		/**
@@ -37,11 +32,8 @@ class TravelResource extends JsonResource
 			'promotion_percentage' =>  $this->getPromotionPercentage(),
 			'coupon_amount' => $couponAmount = $this->getCouponDiscountAmount(),
 			'cash_fees'=>$cashFees = $this->calculateCashFees(),
-			'tax_amount'=>$taxAmount = $this->calculateTaxAmount($mainPriceWithoutDiscountAndTaxesAndCashFees,$couponAmount,$cashFees,$promotionAmount,$totalFines),
-			/**
-			 * * لاحظ احنا هنا ضفنا الغرمات علشان دا اللي هيظهر لليوزر .. اما اثناء الدفع بنقسم علي مرحلتين ..يعني كل وحده هيكون ليها الدفع بتاعها
-			 */
-			'total_price' =>   $this->calculateClientTotalActualPrice($mainPriceWithoutDiscountAndTaxesAndCashFees,$couponAmount,$taxAmount,$cashFees,$totalFines)  ,
+			'tax_amount'=>$taxAmount = $this->calculateTaxAmount($mainPriceWithoutDiscountAndTaxesAndCashFees,$couponAmount,$cashFees,$promotionAmount = $this->calculatePromotionAmount($mainPriceWithoutDiscountAndTaxesAndCashFees,$couponAmount,$cashFees,$totalFines),$totalFines),
+			'total_price' =>   $this->calculateClientTotalActualPrice($mainPriceWithoutDiscountAndTaxesAndCashFees,$couponAmount,$promotionAmount   ,$taxAmount,$cashFees,$totalFines)  ,
 		   
 		] : [];
         return [

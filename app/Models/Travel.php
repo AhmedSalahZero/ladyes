@@ -490,6 +490,14 @@ class Travel extends Model
         $numberOfKms = is_null($numberOfKms) ? $this->getNumberOfKms() : $numberOfKms;
         return $carSizePrice + $operationFees  + ($kmPrice * $numberOfKms) + ($minutePrice * $numberOfMinutes)  ;
     }
+	/**
+	 * * حساب القيمة الفعليه للعرض الترويجي
+	 */
+	public function calculatePromotionAmount($mainPriceWithoutDiscountAndTaxesAndCashFees,$couponAmount,$cashFees,$totalFines)
+	{
+		$promotionPercentage = $this->getPromotionPercentage() / 100;
+		return ($mainPriceWithoutDiscountAndTaxesAndCashFees + $cashFees - $couponAmount  + $totalFines) * $promotionPercentage;
+	}
 
     /**
      * * هو نفس الحسبة السابقة مضاف اليها الغرامات ومنقوص منها الخصم مضاف اليها الضريبة .. وهو اجمالي ما سوف يتم دفعه للعميل
@@ -503,7 +511,7 @@ class Travel extends Model
         $couponAmount = is_null($couponAmount) ? $this->getCouponDiscountAmount() : $couponAmount ;
         $taxesAmount = is_null($taxesAmount) ? $this->calculateTaxesAmount() : $taxesAmount ;
         $cashFees = is_null($cashFees) ? $this->calculateCashFees() : $cashFees ;
-        return $mainPriceWithoutDiscountAndTaxesAndCashFees + $cashFees - $couponAmount - $promotionAmount + $taxesAmount  + $totalFines  ;
+        return $mainPriceWithoutDiscountAndTaxesAndCashFees + $cashFees - $couponAmount - $promotionAmount + $totalFines + $taxesAmount    ;
     }
 
     /**

@@ -102,21 +102,22 @@ class Payment extends Model
         $couponAmount = $travel->getCouponDiscountAmount();
         $promotionPercentage = $travel->getPromotionPercentage();
         $paymentType = $travel->getPaymentMethod();
-		$operationFees = $travel->getOperationalFees();
 		$promotionPercentage = $travel->getPromotionPercentage();
-		$appShareBasic = ($travel->calculateClientActualPriceWithoutDiscount() - $operationFees)  ;
-		$promotionAmount = $appShareBasic * $promotionPercentage / 100 ;
+		$cashFees = $travel->calculateCashFees();
+		$totalFines = $travel->client->getTotalAmountOfUnpaid();
+		$mainPriceWithoutDiscountAndTaxesAndCashFees =  $travel->calculateClientActualPriceWithoutDiscount();
+		$promotionAmount = $travel->calculatePromotionAmount($mainPriceWithoutDiscountAndTaxesAndCashFees,$couponAmount,$cashFees,$totalFines) ;
 	
 		
 		$payment = $travel->payment()->create([
             'status' => PaymentStatus::SUCCESS,
             'currency_name' => $currencyName,
             'type' => $paymentType,
-            'price' => $mainPriceWithoutDiscountAndTaxesAndCashFees =  $travel->calculateClientActualPriceWithoutDiscount(),
-			'total_fines'=>$totalFines = $travel->client->getTotalAmountOfUnpaid(),
+            'price' => $mainPriceWithoutDiscountAndTaxesAndCashFees ,
+			'total_fines'=>$totalFines ,
             'promotion_percentage' => $promotionPercentage,
             'coupon_amount' => $couponAmount,
-			'cash_fees'=>$cashFees = $travel->calculateCashFees(),
+			'cash_fees'=>$cashFees ,
 			'tax_amount'=>$taxAmount = $travel->calculateTaxAmount($mainPriceWithoutDiscountAndTaxesAndCashFees,$couponAmount,$cashFees,$promotionAmount,$totalFines),
             'total_price' => $totalPrice = $travel->calculateClientTotalActualPrice($mainPriceWithoutDiscountAndTaxesAndCashFees,$couponAmount,$promotionAmount,$taxAmount,$cashFees,$totalFines),
             'model_id' => $travel->id,
