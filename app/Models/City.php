@@ -42,6 +42,7 @@ class City extends Model
 		}
 		return false ;
 	 }
+
 	 public function rushHours():HasMany
 	 {
 		return $this->hasMany(RushHour::class,'city_id','id');
@@ -119,6 +120,15 @@ class City extends Model
 		if ($request->has('minute_price')){
 			$this->minute_price = $request->minute_price;
 		}
+		if ($request->has('cancellation_fees_for_client')){
+			$this->cancellation_fees_for_client = $request->cancellation_fees_for_client;
+		}
+		if ($request->has('cash_fees')){
+			$this->cash_fees = $request->cash_fees;
+		}
+		if ($request->has('first_travel_bonus')){
+			$this->first_travel_bonus = $request->first_travel_bonus;
+		}	
 		if ($request->has('operating_fees')){
 			$this->operating_fees = $request->operating_fees;
 		}

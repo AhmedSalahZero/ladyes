@@ -7,7 +7,7 @@
                                                 <td class="text-center">{{$model->getPhone()}}</td>
                                                 <td class="text-center">{{$model->getEmail()}}</td>
                                                 <td class="text-center">{{$model->getAvgRateFormatted()}}</td>
-                                                <td class="text-center">{{ number_format($model->getTotalWalletBalance()) }} {{ $model->getCountry()->getCurrencyFormatted($lang) }}</td>
+                                                <td class="text-center">{{ number_format($model->getTotalWalletBalance()) }} {{ $model->getCountry() ? $model->getCountry()->getCurrencyFormatted($lang) : __('N/A') }}</td>
 
                                                 @if($user->can(getPermissionName('update')) || $user->can(getPermissionName('delete')) )
                                                 <td class="">

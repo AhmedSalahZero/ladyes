@@ -67,34 +67,6 @@
                                                                     <div class="modal-body">
                                                                         <table class="table table-striped table-bordered">
 
-                                                                            <tr>
-
-                                                                                <td>
-                                                                                    <input class="form-control" disabled value="{{ __('Cancellation Fees For Client') }}">
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="d-flex align-items-center" style="gap:0.4rem">
-                                                                                        <input required name="fees[cancellation_fees_for_client]" type="numeric" step="0" value="{{ $model->getCancellationFeesForClient() }}" class="form-control"> <span>
-                                                                                            {{ $model->getCurrencyFormatted() }}
-                                                                                        </span>
-                                                                                    </div>
-                                                                                </td>
-                                                                            </tr>
-
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <input class="form-control" disabled value="{{ __('Cancellation Fees For Driver') }}">
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="d-flex align-items-center" style="gap:0.4rem">
-                                                                                        <input required name="fees[cancellation_fees_for_driver]" type="numeric" step="0" value="{{ $model->getCancellationFeesForDriver() }}" class="form-control"> <span>
-                                                                                            {{ $model->getCurrencyFormatted() }}
-                                                                                        </span>
-                                                                                    </div>
-                                                                                </td>
-
-
-                                                                            </tr>
 																			
 																			   <tr>
                                                                                 <td>
@@ -111,32 +83,7 @@
                                                                             </tr>
 																			
 																			
-																			   <tr>
-                                                                                <td>
-                                                                                    <input class="form-control" disabled value="{{ __('Cash Fees') }}">
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="d-flex align-items-center" style="gap:0.4rem">
-                                                                                        <input required name="fees[cash_fees]" type="numeric" step="0" value="{{ $model->getCashFees() }}" class="form-control"> <span>
-                                                                                            {{ $model->getCurrencyFormatted() }}
-                                                                                        </span>
-                                                                                    </div>
-                                                                                </td>
-
-                                                                            </tr>
-																			
-                                                                            <tr>
-                                                                                <td>
-                                                                                    <input class="form-control" disabled value="{{ __('Bonus After First Success Travel') }}">
-                                                                                </td>
-                                                                                <td>
-                                                                                    <div class="d-flex align-items-center" style="gap:0.4rem">
-                                                                                        <input required name="fees[first_travel_bonus]" type="numeric" step="0" value="{{ $model->getBonusAfterFirstSuccessTravel() }}" class="form-control"> <span>
-                                                                                            {{ $model->getCurrencyFormatted() }}
-                                                                                        </span>
-                                                                                    </div>
-                                                                                </td>
-                                                                            </tr>
+																			  
 
                                                                         </table>
                                                                     </div>

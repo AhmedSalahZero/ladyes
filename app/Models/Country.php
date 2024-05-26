@@ -106,20 +106,14 @@ class Country extends Model
 	{
 		return $this->hasMany(Travel::class,'country_id','id');
 	}
-	/**
-	 * * الرسوم اللي هيتم تطبيقها علي العميل في حالة قام بالغاء الرحلة
-	 */
-	public function getCancellationFeesForClient()
-	{
-		return $this->cancellation_fees_for_client?:0 ;
-	}
+	
 	/**
 	 * * الرسوم اللي هيتم تطبيقها علي السائق في حالة قام بالغاء الرحلة
 	 */
-	public function getCancellationFeesForDriver()
-	{
-		return $this->cancellation_fees_for_driver?:0 ;
-	}
+	// public function getCancellationFeesForDriver()
+	// {
+	// 	return $this->cancellation_fees_for_driver?:0 ;
+	// }
 	/**
 	 * * الرسوم اللي هيتم تطبيقها علي العميل في حالة قام بالغاء الرحلة
 	 */
@@ -127,19 +121,7 @@ class Country extends Model
 	{
 		return $this->taxes_percentage ?: 0 ;
 	}
-		/**
-		** هي رسوم اضافية يدفع العميل لزوم الدفع بالكاش
-	 */
-	public function getCashFees()
-	{
-		return $this->cash_fees ?: 0 ;
-	}
-	/**
-	 * * الرسوم اللي هيتم تطبيقها علي السائق في حالة قام بالغاء الرحلة
-	 */
-	public function getBonusAfterFirstSuccessTravel()
-	{
-		return $this->first_travel_bonus ?: 0 ;
-	}
+	
+	
 	
 }

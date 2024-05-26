@@ -54,7 +54,6 @@
                     icon: image
                 });
             var input = document.getElementById('{{ $searchTextField }}');
-			console.log(input)
             var autocomplete = new google.maps.places.Autocomplete(input, {
                 types: ["geocode"]
             });

@@ -40,6 +40,9 @@ class StoreCityRequest extends FormRequest
 			// 'rush_hours.*.price'=>$HValidationRules['price'],
 			'rush_hours.*.km_price'=>$HValidationRules['price'],
 			'rush_hours.*.minute_price'=>$HValidationRules['price'],
+			'rush_hours.*.cancellation_fees_for_client'=>$HValidationRules['price'],
+			'rush_hours.*.cash_fees'=>$HValidationRules['price'],
+			'rush_hours.*.first_travel_bonus'=>$HValidationRules['price'],
 			'rush_hours.*.operating_fees'=>$HValidationRules['price'],
 			'rush_hours.*.percentage'=>['required',new RushHourPercentageRule],
         ];
@@ -47,6 +50,9 @@ class StoreCityRequest extends FormRequest
 	public function messages()
 	{
 		return [
+			
+		
+			
 			'name_en.required'=>__('Please Enter :attribute' , ['attribute'=>__('English Name')]),
 			'name_en.max'=> __(':attribute Exceed The Max Letter Length :max Letter',['attribute'=>__('English Name'),'max'=>255	]),
 			'name_en.unique'=> __(':attribute Already Exist',['attribute'=>__('English Name')]),
@@ -61,6 +67,7 @@ class StoreCityRequest extends FormRequest
 			'km_price.required'=>__('Please Enter :attribute' , ['attribute'=>__('Km Price')]),
 			'km_price.numeric'=>__('Invalid :attribute' , ['attribute'=>__('Km Price')]),
 			'km_price.gte'=>__('Only Greater Than Or Equal Zero Allowed For :attribute' , ['attribute'=>__('Km Price')]),
+			
 			
 			
 			'minute_price.required'=>__('Please Enter :attribute' , ['attribute'=>__('Minute Price')]),
@@ -89,6 +96,20 @@ class StoreCityRequest extends FormRequest
 			'rush_hours.*.minute_price.required'=>__('Please Enter :attribute' , ['attribute'=>__('Rush Hour Minute Price')]),
 			'rush_hours.*.minute_price.numeric'=>__('Invalid :attribute' , ['attribute'=>__('Rush Hour Minute Price')]),
 			'rush_hours.*.minute_price.gte'=>__('Only Greater Than Or Equal Zero Allowed For :attribute' , ['attribute'=>__('Rush Hour Minute Price')]),
+			
+			'rush_hours.*.cancellation_fees_for_client.required'=>__('Please Enter :attribute' , ['attribute'=>__('Cancellation Fees For Client')]),
+			'rush_hours.*.cancellation_fees_for_client.numeric'=>__('Invalid :attribute' , ['attribute'=>__('Cancellation Fees For Client')]),
+			'rush_hours.*.cancellation_fees_for_client.gte'=>__('Only Greater Than Or Equal Zero Allowed For :attribute' , ['attribute'=>__('Cancellation Fees For Client')]),			
+			
+			
+			'rush_hours.*.cash_fees.required'=>__('Please Enter :attribute' , ['attribute'=>__('Cash Fees')]),
+			'rush_hours.*.cash_fees.numeric'=>__('Invalid :attribute' , ['attribute'=>__('Cash Fees')]),
+			'rush_hours.*.cash_fees.gte'=>__('Only Greater Than Or Equal Zero Allowed For :attribute' , ['attribute'=>__('Cash Fees')]),		
+			
+			
+			'rush_hours.*.first_travel_bonus.required'=>__('Please Enter :attribute' , ['attribute'=>__('Bonus After First Success Travel')]),
+			'rush_hours.*.first_travel_bonus.numeric'=>__('Invalid :attribute' , ['attribute'=>__('Bonus After First Success Travel')]),
+			'rush_hours.*.first_travel_bonus.gte'=>__('Only Greater Than Or Equal Zero Allowed For :attribute' , ['attribute'=>__('Bonus After First Success Travel')]),
 			
 			
 			'rush_hours.*.operating_fees.required'=>__('Please Enter :attribute' , ['attribute'=>__('Rush Hour Operating Fees')]),

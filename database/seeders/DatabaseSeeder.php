@@ -37,11 +37,7 @@ class DatabaseSeeder extends Seeder
 		$this->call(TravelSeeder::class);
 		$this->call(SupportTicketSeeder::class);
 		
-		Country::whereIn('id',[194,65])->update([
-			'cancellation_fees_for_client'=>10,
-			'cancellation_fees_for_driver'=>20,
-			'first_travel_bonus'=>5,
-		]);
+		
 		
     }
 }

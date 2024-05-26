@@ -15,6 +15,7 @@ class CitySeeder extends Seeder
      */
     public function run()
     {
+		
        $city = City::factory()->create([
 		'name_en'=>'Mecca',
 		'name_ar'=>'مكة',
@@ -30,6 +31,7 @@ class CitySeeder extends Seeder
 		'percentage'=>'1/5',
 		'km_price'=>$city->km_price + 2 ,
 		'minute_price'=>$city->minute_price + 1 ,
+		'cancellation_fees_for_client'=>10 ,
 		'operating_fees'=>$city->operating_fees + 1 ,
 	   ]);
 	   
@@ -51,6 +53,7 @@ class CitySeeder extends Seeder
 		'percentage'=>'2/5',
 		'km_price'=>$city->km_price + 10 ,
 		'minute_price'=>$city->minute_price + 10 ,
+		'cancellation_fees_for_client'=>10,
 		'operating_fees'=>$city->operating_fees + 1 ,
 	   ]);
 	   

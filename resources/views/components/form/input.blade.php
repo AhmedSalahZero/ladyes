@@ -7,7 +7,7 @@
 'model'=>$model,
 'placeholder'=>$placeholder ?? null,
 'class'=>$class ?? '',
-'value'=>'',
+'value'=>null,
 'hint'=>''
 ])
 
@@ -26,7 +26,7 @@
 		@if($type =='time')
 		onfocus="this.showPicker()"			
 		@endif
-		 name="{{ $name }}"  type="{{ $type }}" id="{{ $id }}" class="form-control border-primary {{ $class }}" placeholder="{{ $placeholder }}" value="{{ $model ?  $model->{$name} : $value  }}"  
+		 name="{{ $name }}"  type="{{ $type }}" id="{{ $id }}" class="form-control border-primary {{ $class }}" placeholder="{{ $placeholder }}" value="{{ $model && !is_null($model->{$name}) ?  $model->{$name} : $value  }}"  
 		
 		@if($isRequired)
 		required

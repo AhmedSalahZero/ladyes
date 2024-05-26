@@ -404,14 +404,9 @@ class Travel extends Model
 
     public function getOperationalFees(?string $startedAt=null,?City $city = null )
     {
-        $statedAt = is_null($startedAt) ? $this->getStartedAt() : $startedAt;
+        $startedAt = is_null($startedAt) ? $this->getStartedAt() : $startedAt;
         $city = is_null($city) ? $this->getCity() : $city ;
-        $priceModel = $city;
-        $rushHour = $city->isInRushHourAt($statedAt);
-        if ($rushHour) {
-            $priceModel = $rushHour ;
-        }
-
+        $priceModel  = $this->getPriceModel($startedAt,$city );
         return $priceModel->getOperatingFeesPrice();
     }
 
@@ -420,13 +415,12 @@ class Travel extends Model
      */
     public function calculateCashFees()
     {
-        $country = $this->getCountry() ;
-        $isCashPayment = $this->isCashPayment();
-        if (!$isCashPayment || !$country) {
-            return 0 ;
-        }
+        $priceModel = $this->getPriceModel();
+		if(!$priceModel){
+			return 0;
+		}
 
-        return $country->getCashFees();
+        return $priceModel->getCashFees();
     }
 
     public function calculateTaxAmount(float $mainPriceWithoutDiscountAndTaxesAndCashFees = null,  $couponAmount = 0,$cashFees = 0 , $promotionAmount= 0 , $totalFines = 0 )
@@ -474,15 +468,11 @@ class Travel extends Model
          * @var City $city
          */
 
-        $statedAt = is_null($startedAt ) ?   $this->getStartedAt() : $startedAt ;
-        $city = is_null($city) ? $this->getCity()  : $city  ;
-        $priceModel = $city;
 		$driver = is_null($driver) ?  $this->driver : $driver  ; 
+        $startedAt = is_null($startedAt ) ?   $this->getStartedAt() : $startedAt ;
+        $city = is_null($city) ? $this->getCity()  : $city  ;
+        $priceModel = $this->getPriceModel($startedAt , $city);
         $carSizePrice = $driver->carSize->getPrice($city->getCountryId(), getApiLang()) ;
-        $rushHour = $city->isInRushHourAt($statedAt);
-        if ($rushHour) {
-            $priceModel = $rushHour ;
-        }
         $kmPrice = $priceModel->getKmPrice();
         $minutePrice = $priceModel->getMinutePrice();
         $operationFees = $this->getOperationalFees($startedAt,$city);
@@ -551,19 +541,26 @@ class Travel extends Model
 	{
 		$statedAt = $this->getStartedAt();
         $city = $this->getCity() ;
-        $priceModel = $city;
         return  $city->isInRushHourAt($statedAt);
 	}
-    public function getOperationFeesPrice()
-    {
-        $statedAt = $this->getStartedAt();
-        $city = $this->getCity() ;
+	public function getPriceModel(?string $statedAt = null , ?City $city = null  )
+	{
+		$statedAt = is_null($statedAt) ? $this->getStartedAt() : $statedAt;
+        $city = is_null($city) ?  $this->getCity() : $city ;
+		if(!$statedAt){
+			return $city ; 
+		}
         $priceModel = $city;
         $rushHour = $city->isInRushHourAt($statedAt);
         if ($rushHour) {
             $priceModel = $rushHour ;
         }
-
+		return $priceModel ;
+	}
+    public function getOperationFeesPrice()
+    {
+        
+		$priceModel  = $this->getPriceModel();
         return  $priceModel->getOperatingFeesPrice();
     }
 
@@ -842,8 +839,7 @@ class Travel extends Model
      */
     public function calculateCancellationFees()
     {
-        $cancellationFeesAmount = $this->getCountry()->getCancellationFeesForClient() ;
-
+        $cancellationFeesAmount = $this->getPriceModel()->getCancellationFeesForClient() ;
         return $this->getNumberOfMinutes() * $cancellationFeesAmount   ;
     }
 
@@ -1026,12 +1022,12 @@ class Travel extends Model
     public function calculateFirstTravelBonus(bool $isFirstTravel = null): float
     {
         $isFirstTravel = is_null($isFirstTravel) ? $this->client->isFirstTravel() : $isFirstTravel ;
-        $country = $this->getCountry();
-        if (!$isFirstTravel || !$country) {
+        $priceModel = $this->getPriceModel();
+        if (!$isFirstTravel || !$priceModel) {
             return  0 ;
         }
 
-        return $country->getBonusAfterFirstSuccessTravel();
+        return $priceModel->getBonusAfterFirstSuccessTravel();
     }
 	public function applyPromotion()
 	{

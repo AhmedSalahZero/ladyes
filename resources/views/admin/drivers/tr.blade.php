@@ -51,7 +51,7 @@
                                                                                     </h4>
 
                                                                                     <h4 class="proile-rating font-weight-bold">{{ __('Rating') }} : <span class="font-weight-bold">{{ $model->getAvgRateFormatted(true) }}/{{ $model->getMaxRatingPoint() }}</span></h4>
-                                                                                    <h4 class="proile-rating font-weight-bold">{{ __('Total Balance') }} : <span class="font-weight-bold">{{ number_format($model->getTotalWalletBalance()) }} {{ $model->getCountry()->getCurrencyFormatted($lang) }} </span></h4>
+                                                                                    <h4 class="proile-rating font-weight-bold">{{ __('Total Balance') }} : <span class="font-weight-bold">{{ number_format($model->getTotalWalletBalance()) }} {{ $model->getCountry() ? $model->getCountry()->getCurrencyFormatted($lang) : __('N/A') }} </span></h4>
                                                                                     <ul class="nav nav-tabs mb-2" id="myTab" role="tablist">
                                                                                         <li class="nav-item">
                                                                                             <a class="nav-link active" id="details-tab" data-toggle="tab" href="#details{{ $model->id }}" role="tab" aria-controls="home" aria-selected="true">{{ __('Driver Details') }}</a>

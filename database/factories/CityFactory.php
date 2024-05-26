@@ -19,9 +19,12 @@ class CityFactory extends Factory
         return [
             'name_en'=>$this->faker->city,
             'name_ar'=>$this->faker->city,
+			// 'latitude'=>$this->faker->latitude(),
+			// 'longitude'=>$this->faker->longitude(),
             // 'price'=>$this->faker->numberBetween(100,200),
             'km_price'=>$this->faker->numberBetween(2,3),
             'minute_price'=>$this->faker->numberBetween(2,3),
+			'cancellation_fees_for_client'=>$this->faker->numberBetween(2,3),
             'operating_fees'=>$this->faker->numberBetween(10,20),
 			'location'=>new Point($location['latitude'],$location['longitude']),
             'country_id'=>Country::inRandomOrder()->first()->id,

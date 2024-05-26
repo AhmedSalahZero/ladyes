@@ -18,8 +18,11 @@ class UserVerificationService
 	{
 		return ($code == 1111 && env('in_test_mode')) || VerificationCode::where('code',$code)->where('user_type',$userType)->where('country_iso2',$countryIso)->exists();
 	}
-    public function renewCode(string $countryIso2, string $phone,string $userType):string
+    public function renewCode(?string $countryIso2, string $phone,string $userType):?string
     {
+		if(is_null($countryIso2)){
+			return null ;
+		}
         $verificationCode = $this->generateRandomVerificationCode();
         $oldOneExist = VerificationCode::where('country_iso2', $countryIso2)->where('user_type',$userType)->where('phone', $phone)->exists();
         if ($oldOneExist) {

@@ -41,17 +41,18 @@
                                                 </div>
 
                                                 <div class="col-md-6">
+
                                                     <x-form.input class="map_name" :id="'name_ar'" :label="__('Arabic Name')" :type="'text'" :name="'name_ar'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Arabic Name')])"></x-form.input>
                                                 </div>
 												
 												
 												  
 												<div class="col-md-6">
-                                                                        <x-form.input class="MapLon" :id="'longitude'" :label="__('Longitude')" :type="'text'" :name="'longitude'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Longitude')])"></x-form.input>
+                                                                        <x-form.input :value="isset($model) ? $model->getLongitude() : null" class="MapLon" :id="'longitude'" :label="__('Longitude')" :type="'text'" :name="'longitude'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Longitude')])"></x-form.input>
                                                                     </div>
 
                                                                     <div class="col-md-6">
-                                                                        <x-form.input class="MapLat" :id="'latitude'" :label="__('Latitude')" :type="'text'" :name="'latitude'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Latitude')])"></x-form.input>
+                                                                        <x-form.input :value="isset($model) ? $model->getLatitude() : null" class="MapLat" :id="'latitude'" :label="__('Latitude')" :type="'text'" :name="'latitude'" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Latitude')])"></x-form.input>
                                                                     </div>					
 
 
@@ -68,12 +69,25 @@
 
                                                 <div class="col-md-6">
                                                     <x-form.input :id="'minute_price'" :label="__('Minute Price')" :type="'numeric'" :name="'minute_price'" step="any" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Minute Price')])"></x-form.input>
-                                                </div>
+                                                </div> 
+												
 
                                                 <div class="col-md-6">
                                                     <x-form.input :id="'operating_fees'" :label="__('Operating Fees')" :type="'operating_fees'" :name="'operating_fees'" step="any" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Operating Fees')])"></x-form.input>
                                                 </div>
 
+												<div class="col-md-6">
+                                                    <x-form.input :id="'cancellation_fees_for_client'" :label="__('Cancellation Fees For Client')" :type="'numeric'" :name="'cancellation_fees_for_client'" step="any" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Cancellation Fees For Client')])"></x-form.input>
+                                                </div>
+												
+												<div class="col-md-6">
+                                                    <x-form.input :id="'cash_fees'" :label="__('Cash Fees')" :type="'numeric'" :name="'cash_fees'" step="any" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Cash Fees')])"></x-form.input>
+                                                </div>
+												
+												<div class="col-md-6">
+                                                    <x-form.input :id="'first_travel_bonus'" :label="__('Bonus After First Success Travel')" :type="'numeric'" :name="'first_travel_bonus'" step="any" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Bonus After First Success Travel')])"></x-form.input>
+                                                </div>
+												
 
 
                                                 <div class="col-md-6">
@@ -87,7 +101,7 @@
                                                     <hr>
                                                     <div class="repeater mt-2">
                                                         <div data-repeater-list="rush_hours">
-                                                            @foreach($model ? $model->rushHours : [null] as $rushHour)
+                                                            @foreach($model  && count($model->rushHours ) ? $model->rushHours : [null] as $rushHour)
                                                             <div data-repeater-item>
                                                                 <div class="row position-relative mb-3 border-bottom-repeater">
 
@@ -119,6 +133,20 @@
                                                                     <div class="col-md-6">
                                                                         <x-form.input :id="'operating_fees'" :label="__('Operating Fees')" :type="'operating_fees'" :name="'operating_fees'" step="any" :is-required="true" :model="$rushHour??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Operating Fees')])"></x-form.input>
                                                                     </div>
+																	
+																	<div class="col-md-6">
+                                                                        <x-form.input :id="'cancellation_fees_for_client'" :label="__('Cancellation Fees For Client')" :type="'numeric'" :name="'cancellation_fees_for_client'" step="any" :is-required="true" :model="$rushHour??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Cancellation Fees For Client')])"></x-form.input>
+                                                                    </div>
+																	
+																	
+																	<div class="col-md-6">
+                                                                        <x-form.input :id="'cash_fees'" :label="__('Cash Fees')" :type="'numeric'" :name="'cash_fees'" step="any" :is-required="true" :model="$rushHour??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Cash Fees')])"></x-form.input>
+                                                                    </div>
+																	
+																	<div class="col-md-6">
+                                                                        <x-form.input :id="'first_travel_bonus'" :label="__('Bonus After First Success Travel')" :type="'numeric'" :name="'first_travel_bonus'" step="any" :is-required="true" :model="$rushHour??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Bonus After First Success Travel')])"></x-form.input>
+                                                                    </div>
+																	
 
 
                                                                     <div class="col-md-6">
