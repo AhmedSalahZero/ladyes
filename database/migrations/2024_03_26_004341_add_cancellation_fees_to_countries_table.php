@@ -15,7 +15,6 @@ class AddCancellationFeesToCountriesTable extends Migration
     {
         Schema::table('countries', function (Blueprint $table) {
             $table->decimal('taxes_percentage',5,2)->default(14)->comment('الضريبة علي اجمالي الفاتورة عند دفع العميل')->after('id');
-            // $table->decimal('first_travel_bonus',14,2)->default(0)->comment('هو مبلغ يتم اضافتة في محفظة العميل تلقائيا بعد انتهاء اول رحلة بنجاح')->after('id');
         });
     }
 

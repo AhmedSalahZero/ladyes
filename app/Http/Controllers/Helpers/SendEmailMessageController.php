@@ -20,6 +20,7 @@ class SendEmailMessageController extends Controller
 			Mail::to($email)->send(new SendMessageMail($email,$receiverName,$subject,$textMessage));
 		}
 		catch(\Exception $e){
+			
 			return redirect()->back()->with('fail',__('Failed To Send Email Message') . ' <br> ' . $e->getMessage() );
 		}
 		return redirect()->back()->with('success',__('Email Message Has Been Sent Successfully') );
