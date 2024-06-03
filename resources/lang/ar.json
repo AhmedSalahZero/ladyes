@@ -621,5 +621,12 @@
 	"This City Is Not Support Yet":"هذا المدينة غير مدعمة بعد",
 	"Additional Price":"سعر الجمع",
 	"Travel Has Been Cancelled Successfully":"تم الغاء الطلب بنجاح",
-	"Number Of Travels Per City":"عدد الرحلات لكل مدينة"
+	"Number Of Travels Per City":"عدد الرحلات لكل مدينة",
+	"If You Need AnyThing Press Emergency Button":"اذا اردت اي شئ اضغط علي زرار الطوارئ",
+	"Be Aware":"احذر",
+	"Expected Time Remaining":"الوقت المتبقي المتوقع",
+	"Hours":"س",
+	"Minutes":"د",
+	"Total Price Until Now":"اجمالي المبلغ حتى الان",
+	"Latitude And Longitude Length Are Not Equal For Stop Points":"قيم خط الطول والعرض لنقط التوقف غير متساوية"
 }

@@ -59,6 +59,17 @@ window.Echo.private('App.Models.Admin.' + adminId)
 		incrementTotalNumberOfNotifications()
     });
 	
+	// for test purpose
+	window.Echo.private('client.notifications.1' )
+    .notification((notification) => {
+		const title = notification['title_'+lang]
+		const message = notification['message_'+lang]
+		toastr.success(message, title)
+		prependNewNotification(message, title,notification.createdAtFormatted)
+		incrementTotalNumberOfNotifications()
+		
+    });
+	
 
 
 

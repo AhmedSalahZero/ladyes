@@ -2,7 +2,10 @@
 
 namespace App\Notifications\Admins;
 
+use App\Models\Client;
+use BeyondCode\LaravelWebSockets\WebSockets\Channels\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
@@ -10,7 +13,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
 
-class ClientNotification extends Notification implements ShouldBroadcastNow
+class ClientNotification extends Notification implements ShouldBroadcastNow 
 {
     use Queueable,InteractsWithSockets;
 
@@ -26,8 +29,10 @@ class ClientNotification extends Notification implements ShouldBroadcastNow
 	protected string $type ;
 	protected ?int $model_id ;
 	protected string $createdAtFormatted ;
-    public function __construct(string $title_en,string $title_ar,string $message_en,string $message_ar , string $createdAtFormatted , string $type , ?int $model_id = null)
+	protected Client $client ;
+    public function __construct(Client $client , string $title_en,string $title_ar,string $message_en,string $message_ar , string $createdAtFormatted , string $type , ?int $model_id = null)
     {
+		$this->client = $client ; 
         $this->title_en = $title_en ;
         $this->title_ar = $title_ar ;
         $this->message_en = $message_en ;
@@ -87,6 +92,10 @@ class ClientNotification extends Notification implements ShouldBroadcastNow
 			'title_ar'=>$this->title_ar ,
 			'createdAtFormatted'=>$this->createdAtFormatted ,
 		]);
+	}
+	public function broadcastOn()
+	{
+		return new PrivateChannel('client.notifications.'.$this->client->id );
 	}
 
 }

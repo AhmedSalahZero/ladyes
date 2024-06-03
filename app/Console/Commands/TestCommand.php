@@ -13,6 +13,7 @@ use App\Models\Notification;
 
 use App\Models\Transaction;
 use App\Models\Travel;
+use App\Services\DistanceMatrix\GoogleDistanceMatrixService;
 use App\Services\DistanceMatrix\pointLocation;
 use Illuminate\Console\Command;
 use Postmark\PostmarkClient;
@@ -52,15 +53,13 @@ class TestCommand extends Command
 	
     public function handle()
     {
-		$client = new PostmarkClient(env('POSTMARK_API_TOKEN'));
-		$sendResult = $client->sendEmail(env('POSTMARK_SEND_FROM_EMAIL'),
-		  "asalahdev5@gmail.com",
-		  "Test Title",
-		  "This is just a friendly 'hello' from your friends at Postmark.");
-	  
-		// Getting the MessageID from the response
-		echo $sendResult->MessageID;
+		// $travel = Travel::where('ended_at',null)->first();
+		$travel = Travel::find(2);
+		$x = $travel->SendTravelNotificationsToClients();
+		dd($x);
 		
+		// $client = Client::first();
+		// $client->sendAppNotification('title en', 'title ar','message en','message ar','type here');
 			
     }
    

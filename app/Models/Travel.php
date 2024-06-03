@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enum\AppNotificationType;
 use App\Enum\DeductionType;
 use App\Enum\PaymentStatus;
 use App\Enum\PaymentType;
@@ -21,6 +22,7 @@ use App\Traits\Models\HasCity;
 use App\Traits\Models\HasCountry;
 use App\Traits\Models\HasCreatedAt;
 use App\Traits\Models\HasStartedAtAndEndedAt;
+use App\Traits\Models\HasStopPointLatitudesAndLongitudes;
 use App\Traits\Scope\HasDefaultOrderScope;
 use App\Traits\Scope\TravelScope;
 use Carbon\Carbon;
@@ -39,12 +41,16 @@ class Travel extends Model
     use HasStartedAtAndEndedAt;
     use HasCity;
     use HasCountry;
+	use HasStopPointLatitudesAndLongitudes;
 
     protected $table = 'travels';
 	protected $dates = [
 		'expected_arrival_date',
 	];
-	
+	protected $casts = [
+		'stop_point_latitudes'=>'array',
+		'stop_point_longitudes'=>'array'
+	];
 	protected static function boot()
     {
         parent::boot();
@@ -345,6 +351,65 @@ class Travel extends Model
         return $this ;
     }
 
+	/**
+	 * * كل خمس دقايق هنبعتلة الاشعارات الاتيه ( العميل)
+	** اذا احتجت لشئ اضغط علي زرار  الطوارئ
+	** اشعار باقي علي وصل رحتلك عشر دقايق مثلا 
+	** تكلفه الرحلة حتى الان 
+	*/
+    public function SendTravelNotificationsToClients(): self
+    {
+        $client = $this->client ;
+	
+		$driver = $this->driver ; 
+		/**
+		 * * اول رساله هنبعتها لو احتاجت اي شئ اضغط علي زرار الطزارئ
+		 */
+		$client
+		->sendAppNotification(
+			__('Be Aware',[],'en'),
+			__('Be Aware',[],'ar'),
+			__('If You Need AnyThing Press Emergency Button',[],'en'),
+			__('If You Need AnyThing Press Emergency Button',[],'ar'),
+			AppNotificationType::INFO
+	);
+		
+		
+	
+		
+		$currentDriverLatitude = $driver->getLatitude();
+		$currentDriverLongitude = $driver->getLongitude();
+		$travelEndPointLatitude = $this->getToLatitude();
+		$travelEndPointLongitude = $this->getToLongitude();
+		
+		$googleDistanceMatrixService = new GoogleDistanceMatrixService ;
+		$expectedArrivalTimeAndDistanceArr = $googleDistanceMatrixService->getExpectedArrivalTimeBetweenTwoPoints($currentDriverLatitude ,$currentDriverLongitude ,$travelEndPointLatitude,$travelEndPointLongitude);
+		$expectedArrivalDurationInSeconds = $expectedArrivalTimeAndDistanceArr['duration_in_seconds'];
+		$client->sendAppNotification(
+			__('Expected Time Remaining',[],'en') ,
+			__('Expected Time Remaining',[],'ar') ,
+			__('Estimated Arrival Time :time',['time'=>$expectedArrivalDurationInSeconds ? now()->addSeconds($expectedArrivalDurationInSeconds)->format('g:i A') : '-' ]),
+			__('Estimated Arrival Time :time',['time'=>$expectedArrivalDurationInSeconds ? now()->addSeconds($expectedArrivalDurationInSeconds)->format('g:i A') : '-']),
+			AppNotificationType::INFO
+		);
+		
+		/**
+		 * * بما ان الرحلة لسه في الطريق فا هو هيحسب التكلفه بناء علي موقع السواق الحالي وبفرض 
+		 * * ان تاريخ نهايتها هو دلوقت
+		 */
+		$totalPrice = $this->getTravelPriceDetails()['total_price'];
+		
+		$client->sendAppNotification(
+			__('Total Price Until Now',[],'en') ,
+			__('Total Price Until Now',[],'ar') ,
+			__('Total Price Until Now') . ' ' . $totalPrice . ' ' . $this->getCurrencyNameFormatted('en'),
+			__('Total Price Until Now') . ' ' . $totalPrice . ' ' . $this->getCurrencyNameFormatted('ar'),
+			AppNotificationType::INFO
+		);
+		
+        return $this ;
+    }
+	
     public function getPaymentMethod(): string
     {
         return $this->payment_method ;
@@ -396,7 +461,10 @@ class Travel extends Model
     {
         return $this->getStatus() == TravelStatus::COMPLETED;
     }
-
+	public function isOnTheWay()
+    {
+        return $this->getStatus() == TravelStatus::ON_THE_WAY;
+    }
     public function isCancelled(): bool
     {
         return $this->getStatus() == TravelStatus::CANCELLED;
@@ -802,6 +870,20 @@ class Travel extends Model
      */
     public function getNumberOfKms()
     {
+		/**
+		 * * في حالة لو الرحلة لسه في الطريق هحسب عدد الكيلومترز من اول المكان اللي الرحلة
+		 * * طلعت منه لحد المكان الحالي للسواق 
+		 */
+		if($this->isOnTheWay()){
+			$currentDriverLatitude = $this->driver->getLatitude();
+			$currentDriverLongitude = $this->driver->getLongitude();
+			$travelEndPointLatitude = $this->getToLatitude();
+			$travelEndPointLongitude = $this->getToLongitude();
+			$googleDistanceMatrixService = new GoogleDistanceMatrixService ;
+			$expectedArrivalTimeAndDistanceArr = $googleDistanceMatrixService->getExpectedArrivalTimeBetweenTwoPoints($currentDriverLatitude ,$currentDriverLongitude ,$travelEndPointLatitude,$travelEndPointLongitude);
+			$expectedArrivalDistanceInKm = $expectedArrivalTimeAndDistanceArr['distance_in_meter'] / 1000;
+			return $expectedArrivalDistanceInKm ;
+		}
         return $this->no_km ;
     } 
 	/**
@@ -819,7 +901,11 @@ class Travel extends Model
     public function getNumberOfMinutes()
     {
         $startedAt = $this->getStartedAt();
-        $endedAt = $this->getEndedAt();
+        $endedAt = $this->isOnTheWay() ? now() :  $this->getEndedAt()   ;
+		/**
+		 * * افترضنا ان التاريخ بتاع النهاية هو الان علشان لو بحسب التكلفه ولسه الرحلة ما انتهاش
+		 * * علشان في اشعار بيتطلب انك كل عشر دقايق تطلع للعميل السعر لحد الان .. يعني بفرض ان تاريخ النهاية هو الان
+		 */
         if (!$startedAt) {
             throw new TravelStartTimeNotFoundException(__('Travel Start Time Not Found', [], getApiLang()));
         }
@@ -1037,5 +1123,18 @@ class Travel extends Model
 			$this->save();
 		}
 		return $this;
+	}
+	
+	public function getTravelPriceDetails():array 
+	{
+		return [
+			'price' => $mainPriceWithoutDiscountAndTaxesAndCashFees = $this->hasStarted() ?  $this->calculateClientActualPriceWithoutDiscount() : 0,
+			'total_fines'=>$totalFines = $this->client->getTotalAmountOfUnpaid(),
+			'promotion_percentage' =>  $this->getPromotionPercentage(),
+			'coupon_amount' => $couponAmount = $this->getCouponDiscountAmount(),
+			'cash_fees'=>$cashFees = $this->calculateCashFees(),
+			'tax_amount'=>$taxAmount = $this->calculateTaxAmount($mainPriceWithoutDiscountAndTaxesAndCashFees,$couponAmount,$cashFees,$promotionAmount = $this->calculatePromotionAmount($mainPriceWithoutDiscountAndTaxesAndCashFees,$couponAmount,$cashFees,$totalFines),$totalFines),
+			'total_price' =>   $this->calculateClientTotalActualPrice($mainPriceWithoutDiscountAndTaxesAndCashFees,$couponAmount,$promotionAmount   ,$taxAmount,$cashFees,$totalFines)  ,
+		];
 	}
 }

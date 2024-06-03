@@ -236,7 +236,7 @@ class Client extends Model implements HasMedia, BannableInterface,IHaveAppNotifi
 	 */
 	public function sendAppNotification(string $titleEn,string $titleAr,string $messageEn,string $messageAr,string $type,int $modelId = null)
 	{
-		$this->notify(new ClientNotification($titleEn,$titleAr,$messageEn,$messageAr,formatForView(now()),$type,$modelId));
+		$this->notify(new ClientNotification($this,$titleEn,$titleAr,$messageEn,$messageAr,formatForView(now()),$type,$modelId));
 	}
 	public function payments():?HasMany
 	{

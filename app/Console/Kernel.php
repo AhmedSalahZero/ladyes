@@ -25,6 +25,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
 		$schedule->command('sanctum:prune-expired --hours=1')->everyMinute();
+		$schedule->command('send:late')->everyTenMinutes();
     }
     protected function commands()
     {

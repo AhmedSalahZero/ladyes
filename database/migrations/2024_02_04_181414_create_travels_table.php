@@ -37,6 +37,8 @@ class CreateTravelsTable extends Migration
 			$table->string('to_longitude');
 			$table->string('from_latitude');
 			$table->string('to_latitude');
+			$table->json('stop_point_latitudes')->nullable()->comment('عبارة عن نقاط التوقف اللي هيقف عندها السائق وليكن مثلا الفرن و البقالة');
+			$table->json('stop_point_longitudes')->nullable()->comment('عبارة عن نقاط التوقف اللي هيقف عندها السائق وليكن مثلا الفرن و البقالة');
 			$table->string('from_address')->comment('عنوان مكان الالتقاء كنص');
 			$table->string('to_address')->comment('عنوان نقطه النهاية');
 			$table->boolean('is_secure')->default(0)->comment('هل نوع الرحلة رحلة امنة ؟ لو امنة بننشئ كود بحيث السواق يقوله للعميل علشان يتاكد من هويته');

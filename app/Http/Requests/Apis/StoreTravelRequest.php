@@ -4,6 +4,7 @@ namespace App\Http\Requests\Apis;
 
 use App\Enum\PaymentType;
 use App\Helpers\HValidation;
+use App\Rules\TwoArrayMustHaveSameLengthRule;
 use App\Rules\UniqueToClientRule;
 use App\Rules\ValidCouponRule;
 use App\Rules\ValidPaymentMethodRule;
@@ -48,6 +49,8 @@ class StoreTravelRequest extends FormRequest
 			'from_address'=>[$requiredOrNot,'required','max:255'],
 			'to_address'=>[$requiredOrNot,'required','max:255'],
 			'coupon_code'=>['sometimes','required',new ValidCouponRule()],
+			'stop_point_latitudes'=>['sometimes','array', new TwoArrayMustHaveSameLengthRule(__('Latitude And Longitude Length Are Not Equal For Stop Points',[],getApiLang()),'stop_point_latitudes','stop_point_longitudes')],
+			'stop_point_longitudes'=>['sometimes','array' ],
         ];
     }
 	public function messages()
@@ -84,6 +87,7 @@ class StoreTravelRequest extends FormRequest
 			'payment_type.in'=>__('Invalid :attribute' , ['attribute'=>__('Payment Type')],getApiLang()),
 			'currency.required'=>__('Please Enter :attribute' , ['attribute'=>__('Currency',[],getApiLang())]),
             'currency.exists' => __(':attribute Not Exist', ['attribute' => __('The Currency',[],getApiLang())],getApiLang()),
+			
 		];
 	}
 	

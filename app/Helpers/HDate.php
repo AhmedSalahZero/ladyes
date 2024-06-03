@@ -16,9 +16,6 @@ class HDate
 		if(!$date){
 			return __('N/A');
 		}
-		// if(is_null($date) || !self::isValidDateFormat($date , self::DEFAULT_DATE_FORMAT_AS_INPUT)){
-		// 	return null ;
-		// }
 		if($onlyDate) {
 			return Carbon::make($date)->format(self::DEFAULT_DATE_AS_OUTPUT);
 		}
@@ -28,5 +25,16 @@ class HDate
 	public static function formatTimeForView(?string $time)
 	{
 		return $time ? Carbon::make($time)->format(self::TIME_FORMAT) : null ;
+	}
+	public static function formatTimeAsHoursAndMinutesForView($minutes){
+		if($minutes <= 0){
+			return 0;
+		}
+		$hours = floor($minutes / 60);
+		$min = $minutes - ($hours * 60);
+		if($hours >= 1 ){
+			return $hours.":".$min .' '. __('Hours',[],getApiLang()); 
+		}
+		return $min .' '. __('Minutes');
 	}
 } 

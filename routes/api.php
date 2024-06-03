@@ -121,7 +121,7 @@ Route::prefix('clients')->group(function () {
 		Route::apiResource('coupons',CouponsController::class);
 		Route::post('rating',[RatingController::class,'rateWith']);
 		Route::apiResource('addresses', AddressesController::class);
-		Route::get('travels/available-drivers',[TravelsController::class,'getAvailableDriverForTravels']);
+		// Route::get('travels/available-drivers',[TravelsController::class,'getAvailableDriverForTravels']);
 		Route::get('travels/get-distance-and-duration-between-client-and-driver',[TravelsController::class,'getDistanceAndDurationBetweenClientAndDriver']);
 		Route::post('travels/show-available-car-sizes',[TravelsController::class,'getAvailableCarSizes']);
 		Route::apiResource('travels', TravelsController::class);

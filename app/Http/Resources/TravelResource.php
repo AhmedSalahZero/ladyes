@@ -26,16 +26,7 @@ class TravelResource extends JsonResource
 		/**
 		 * @var Travel $this 
 		 */
-		$priceDetails = $this->isCompleted() ? [
-			'price' => $mainPriceWithoutDiscountAndTaxesAndCashFees = $this->hasStarted() ?  $this->calculateClientActualPriceWithoutDiscount() : 0,
-			'total_fines'=>$totalFines = $this->client->getTotalAmountOfUnpaid(),
-			'promotion_percentage' =>  $this->getPromotionPercentage(),
-			'coupon_amount' => $couponAmount = $this->getCouponDiscountAmount(),
-			'cash_fees'=>$cashFees = $this->calculateCashFees(),
-			'tax_amount'=>$taxAmount = $this->calculateTaxAmount($mainPriceWithoutDiscountAndTaxesAndCashFees,$couponAmount,$cashFees,$promotionAmount = $this->calculatePromotionAmount($mainPriceWithoutDiscountAndTaxesAndCashFees,$couponAmount,$cashFees,$totalFines),$totalFines),
-			'total_price' =>   $this->calculateClientTotalActualPrice($mainPriceWithoutDiscountAndTaxesAndCashFees,$couponAmount,$promotionAmount   ,$taxAmount,$cashFees,$totalFines)  ,
-		   
-		] : [];
+		$priceDetails = $this->isCompleted() ? $this->getTravelPriceDetails() : [];
         return [
 			'id'=>$this->id , 
 			'from_address'=>$this->getFromAddress(),
@@ -45,6 +36,8 @@ class TravelResource extends JsonResource
 			'price_details'=>$this->when($this->isCompleted() , $priceDetails ),
 			'expected_arrival_time'=>isset($result['duration_in_seconds']) ? __('Estimated Arrival Time :time',['time'=>now()->addSeconds($result['duration_in_seconds'])->format('g:i A')]) : '-' ,
 			'expected_arrival_distance'=>isset($result['distance_in_meter']) ? __(':distance Km Away',['distance'=>round($result['distance_in_meter'] / 1000,1) ]) : '-' ,
+			'stop_point_latitudes'=>$this->getStopPointLatitudes(),
+			'stop_point_longitudes'=>$this->getStopPointLongitudes(),
 			'client' => $client->getResource(),
 			'driver'=>$driver->getResource(),
 		];
