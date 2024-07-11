@@ -76,27 +76,32 @@ class Fine extends Model implements ITransactionType
 	}
 	/**
 	 * * تسجيل غرامة جديدة علي العميل علي رحلة معينة
+	 * * اما بسبب التاخير علي بداية العميل للرحلة او بسبب الغائة الرحلة
 	 * * ثم نقوم باعلام العميل عن طريق ارسال اشعار لة
 	 */
-	public function storeForTravel(Travel $travel , float $fineFeesAmount = null ):Fine
+	public function storeForTravel(Travel $travel , float $fineFeesAmount, string $fineNoteEn , string $fineNoteAr ):Fine
 	{
-		$fineFeesAmount = is_null($fineFeesAmount) ? $travel->calculateCancellationFees() : $fineFeesAmount ;
-		$currencyNameEn = $travel->getCurrencyNameFormatted('en');
-        $currencyNameAr = $travel->getCurrencyNameFormatted('ar');
+		if($fineFeesAmount <= 0 ){
+			return  $this ;
+		}
+		// $currencyNameEn = $travel->getCurrencyNameFormatted('en');
+        // $currencyNameAr = $travel->getCurrencyNameFormatted('ar');
 		$fine = Fine::create([
             'travel_id' => $travel->id ,
             'model_id' => $travel->getClientId(),
             'model_type' => 'Client',
             'amount' => $fineFeesAmount,
             'is_paid' => false ,
-            'note_en' => $fineNoteEn = __('You Have :amount :currency Fine In Your Wallet For Cancellation Travel #:travelId', ['amount' => $fineFeesAmount, 'currency' => $currencyNameEn, 'travelId' => $travel->id], 'en'),
-            'note_ar' => $fineNoteAr = __('You Have :amount :currency Fine In Your Wallet For Cancellation Travel #:travelId', ['amount' => $fineFeesAmount, 'currency' => $currencyNameAr, 'travelId' => $travel->id], 'ar')
+            'note_en' => $fineNoteEn,
+            'note_ar' => $fineNoteAr 
         ]);	
 		
         $travel->client->sendAppNotification(__('Fine', [], 'en'), __('Fine', [], 'ar'), $fineNoteEn, $fineNoteAr, AppNotificationType::FINE,$fine->id);
 		
 		return $fine ;
 	}
+
+	
 	
 	/**
 	 * * دي لما بنضيف غرامة جديدة من الداش بورد وبالتالي هنا مفيش رحلة 
@@ -143,14 +148,13 @@ class Fine extends Model implements ITransactionType
 	  * * هنا بنسدد الغرامة الموجودة بالفعل ولكن لم تسدد بعد بشرط وجود مبلغ كافي في محفظة العميل
 		* * هنضيف حوالة بالسالب في محفظتة لتسديد الغرامة ونبعتله اشعار ان تم تسديد هذة الغرامة
 	 */
-	 public function addNewPaidTransaction(float $fineFeesAmount = null , string $currencyNameEn = null  , string $currencyNameAr = null):Fine 
+	 public function addNewPaidTransaction(float $fineFeesAmount  ):Fine 
 	 {
 		 /**
 		  * * هنحسب قيمة الغرامة
 		  */
-		  $fineFeesAmount = is_null($fineFeesAmount) ? $this->travel->calculateCancellationFees() : $fineFeesAmount ;
-		  $currencyNameEn =  is_null($currencyNameEn) ? $this->travel->getCurrencyNameFormatted('en') : $currencyNameEn;
-		  $currencyNameAr =  is_null($currencyNameAr) ?  $this->travel->getCurrencyNameFormatted('ar') : null;
+		  $currencyNameEn = $this->travel->getCurrencyNameFormatted('en') ;
+		  $currencyNameAr =    $this->travel->getCurrencyNameFormatted('ar') ;
 		  
 		$this->transaction()->create([
 			'type'=>TransactionType::FINE,
@@ -177,14 +181,14 @@ class Fine extends Model implements ITransactionType
 		if(!$travel){
 			return $this ;
 		}
-		$deposit->storeNewForDriverAsTravelCancelled($travel,$fineFeesAmount);
+		$deposit->storeNewForDriverAsTravelFees($travel,$fineFeesAmount);
 		return $this ;
 	}
 	/**
 	 * * هنقوم بتسديد الغرامة علي الرحلة
 	 * * واعطاء نصيب كل من السائق والتطبيق
 	 */
-	public function settlementTravelFee(float $fineFeesAmount = null ):Fine
+	public function settlementTravelFee(float $fineFeesAmount  ):Fine
 	{
 		/**
 		 * * لو تم تسديد الغرامة بالفعل مش هنعمل حاجه
@@ -197,7 +201,6 @@ class Fine extends Model implements ITransactionType
 		/**
 		 * * هنحسب قيمة الغرامة
 		 */
-		$fineFeesAmount = is_null($fineFeesAmount) ? $this->travel->calculateCancellationFees() : $fineFeesAmount ;
 		$hasBalanceInHisWallet =  $this->client->getTotalWalletBalance() >= $fineFeesAmount;
 		/**
 		 * @var Fine $fine 

@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 use App\Helpers\HValidation;
-use App\Rules\AmountOrPercentageRule;
 use App\Rules\DeductionAmountOrPercentageRule;
 use App\Traits\HasFailedValidation;
 use Illuminate\Foundation\Http\FormRequest;
@@ -38,7 +37,7 @@ class StoreDriverRequest extends FormRequest
 			'id_number'=>$HValidationRules['id_number'],
 		
 			'deduction_type'=>'sometimes|required|in:fixed,percentage',
-			'deduction_amount'=>['required','gte:0',new DeductionAmountOrPercentageRule],
+			'deduction_amount'=>['sometimes','required','gte:0',new DeductionAmountOrPercentageRule],
 			
 			'driving_range'=>$HValidationRules['driving_range'],
 			'make_id'=>$HValidationRules['make_id'],

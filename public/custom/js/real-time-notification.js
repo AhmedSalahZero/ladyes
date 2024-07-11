@@ -60,15 +60,19 @@ window.Echo.private('App.Models.Admin.' + adminId)
     });
 	
 	// for test purpose
-	window.Echo.private('client.notifications.1' )
-    .notification((notification) => {
-		const title = notification['title_'+lang]
-		const message = notification['message_'+lang]
-		toastr.success(message, title)
-		prependNewNotification(message, title,notification.createdAtFormatted)
-		incrementTotalNumberOfNotifications()
+	window.Echo.private('driver.new.travel.available.notifications.1' )
+   .notification((notification) => {
+	// console.log('good driver');
+	// console.log(notification);
+	// alert('e')
+	
+		// const title = notification['title_'+lang]
+		// const message = notification['message_'+lang]
+		// toastr.success(message, title)
+		// prependNewNotification(message, title,notification.createdAtFormatted)
+		// incrementTotalNumberOfNotifications()
 		
-    });
+   });
 	
 
 

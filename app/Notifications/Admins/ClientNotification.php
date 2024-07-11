@@ -1,21 +1,18 @@
 <?php
 
 namespace App\Notifications\Admins;
-
 use App\Models\Client;
-use BeyondCode\LaravelWebSockets\WebSockets\Channels\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\BroadcastMessage;
-use Illuminate\Notifications\Notification;
+use Illuminate\Notifications\Notification as Notification;
 
-class ClientNotification extends Notification implements ShouldBroadcastNow 
+
+class ClientNotification extends Notification implements ShouldQueue 
 {
-    use Queueable,InteractsWithSockets;
+    use Queueable
+	// ,InteractsWithSockets
+	;
 
     /**
      * Create a new notification instance.
@@ -26,13 +23,12 @@ class ClientNotification extends Notification implements ShouldBroadcastNow
 	protected string $title_ar ;
 	protected string $message_en ;
 	protected string $message_ar ;
-	protected string $type ;
+	protected string $main_type ; // notification or chat
+	protected string $secondary_type ; // if notification then [deposit or withdrawal , etc] , if chat then [chat]
 	protected ?int $model_id ;
 	protected string $createdAtFormatted ;
-	protected Client $client ;
-    public function __construct(Client $client , string $title_en,string $title_ar,string $message_en,string $message_ar , string $createdAtFormatted , string $type , ?int $model_id = null)
+    public function __construct(string $title_en,string $title_ar,string $message_en,string $message_ar , string $createdAtFormatted , string $secondaryType , ?int $model_id = null , ? string $mainType = 'notification')
     {
-		$this->client = $client ; 
         $this->title_en = $title_en ;
         $this->title_ar = $title_ar ;
         $this->message_en = $message_en ;
@@ -40,10 +36,17 @@ class ClientNotification extends Notification implements ShouldBroadcastNow
 		/**
 		 * * // نوع الاشعار لتحديد الايكونة المناسب وليكن مثلا اشعار تحذير او خصم الخ
 		 */
-        $this->type = $type ; 
+        $this->secondary_type = $secondaryType ; 
+        $this->main_type = $mainType ; 
 		$this->model_id = $model_id;
 		$this->createdAtFormatted = $createdAtFormatted;
     }
+	
+	
+	
+	
+	
+	
 
     /**
      * Get the notification's delivery channels.
@@ -54,7 +57,9 @@ class ClientNotification extends Notification implements ShouldBroadcastNow
     public function via($notifiable)
     {
         return [
-			'database','broadcast'
+			'database',
+			'firebase'
+			// ,'broadcast'
 		];
     }
     // public function toMail($notifiable)
@@ -65,6 +70,26 @@ class ClientNotification extends Notification implements ShouldBroadcastNow
     //                 ->line('Thank you for using our application!');
     // }
 
+	
+	/**
+	 * * دي عباره عن 
+	 * * custom notification channel 
+	 * * انا اللي عاملها
+	 * * app\Channels\FirebaseChannel.php
+	 */
+	public function toFirebase($notifiable)
+	{
+		$lang = getApiLang();
+		return [
+				
+			'title' => $this->{'title_'.$lang},
+			'body' => $this->{'message_'.$lang},
+			'main_type'=>$this->main_type , // for example chat , notification
+			'secondary_type'=>$this->secondary_type  // type of chat or notification for if main type is chat this also will be chat , if main type is notification then it may be [deposit, fine , etc]
+		
+		];
+	}
+	
     /**
      * Get the array representation of the notification.
      *
@@ -78,24 +103,25 @@ class ClientNotification extends Notification implements ShouldBroadcastNow
             'message_ar'=>$this->message_ar,
             'title_en'=>$this->title_en,
             'title_ar'=>$this->title_ar,
-			'type'=>$this->type,
+			'main_type'=>$this->main_type,
+			'secondary_type'=>$this->secondary_type,
 			'model_id'=>$this->model_id,
 			'createdAtFormatted'=>$this->createdAtFormatted
         ];
     }
-	public function toBroadcast(object $notifiable): BroadcastMessage
-	{
-		return new BroadcastMessage([
-			'message_en'=>$this->message_en,
-			'message_ar'=>$this->message_ar,
-			'title_en'=>$this->title_en ,
-			'title_ar'=>$this->title_ar ,
-			'createdAtFormatted'=>$this->createdAtFormatted ,
-		]);
-	}
-	public function broadcastOn()
-	{
-		return new PrivateChannel('client.notifications.'.$this->client->id );
-	}
+	// public function toBroadcast(object $notifiable): BroadcastMessage
+	// {
+	// 	return new BroadcastMessage([
+	// 		'message_en'=>$this->message_en,
+	// 		'message_ar'=>$this->message_ar,
+	// 		'title_en'=>$this->title_en ,
+	// 		'title_ar'=>$this->title_ar ,
+	// 		'createdAtFormatted'=>$this->createdAtFormatted ,
+	// 	]);
+	// }
+	// public function broadcastOn()
+	// {
+	// 	return new PrivateChannel('client.notifications.'.$this->client->id );
+	// }
 
 }

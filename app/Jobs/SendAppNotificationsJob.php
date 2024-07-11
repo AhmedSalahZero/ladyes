@@ -23,16 +23,18 @@ class SendAppNotificationsJob implements ShouldQueue
 	protected string $titleAr;
 	protected string $messageEn;
 	protected string $messageAr;
-	protected string $type;
+	protected string $mainType;
+	protected string $secondaryType;
 	protected ?int $modelId;
-    public function __construct(IHaveAppNotification $clientOrDriver ,string $titleEn,string $titleAr,string $messageEn,string $messageAr,string $type,?int $modelId)
+    public function __construct(IHaveAppNotification $clientOrDriver ,string $titleEn,string $titleAr,string $messageEn,string $messageAr,string $secondaryType,?int $modelId = null , string $mainType ='notification')
     {
 		$this->clientOrDriver = $clientOrDriver ;
 		$this->titleEn = $titleEn;
 		$this->titleAr = $titleAr;
 		$this->messageEn = $messageEn;
 		$this->messageAr = $messageAr;
-		$this->type = $type;
+		$this->mainType = $mainType;
+		$this->secondaryType = $secondaryType ; 
 		$this->modelId = $modelId;
     }
 
@@ -43,6 +45,6 @@ class SendAppNotificationsJob implements ShouldQueue
      */
     public function handle()
     {
-        $this->clientOrDriver->sendAppNotification($this->titleEn,$this->titleAr,$this->messageEn,$this->messageAr,$this->type,$this->modelId);
+        $this->clientOrDriver->sendAppNotification($this->titleEn,$this->titleAr,$this->messageEn,$this->messageAr,$this->secondaryType,$this->modelId,$this->mainType);
     }
 }

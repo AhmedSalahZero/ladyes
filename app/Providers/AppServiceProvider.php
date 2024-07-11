@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Channels\FirebaseChannel;
 use App\Models\Admin;
 use Exception;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\ServiceProvider;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\PermissionRegistrar;
@@ -29,8 +31,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+		Notification::extend('firebase', function ($app) {
+            return new FirebaseChannel();
+        });
+		
 		// set_time_limit(0);
-    
         Paginator::useBootstrap();
         if (true) {
             app()->make(PermissionRegistrar::class)->forgetCachedPermissions();

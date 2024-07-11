@@ -32,6 +32,7 @@ class CitySeeder extends Seeder
 		'km_price'=>$city->km_price + 2 ,
 		'minute_price'=>$city->minute_price + 1 ,
 		'cancellation_fees_for_client'=>10 ,
+		'late_fees_for_client'=>2 ,
 		'operating_fees'=>$city->operating_fees + 1 ,
 	   ]);
 	   
@@ -54,6 +55,7 @@ class CitySeeder extends Seeder
 		'km_price'=>$city->km_price + 10 ,
 		'minute_price'=>$city->minute_price + 10 ,
 		'cancellation_fees_for_client'=>10,
+		'late_fees_for_client'=>2,
 		'operating_fees'=>$city->operating_fees + 1 ,
 	   ]);
 	   

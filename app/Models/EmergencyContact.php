@@ -20,7 +20,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 
@@ -148,11 +147,13 @@ class EmergencyContact extends Model
 			/**
 			 * * هنا المفروض نبعت لينك للماب مباشر بحيث جهه الاتصال تعرف مكان الرحلة فين حاليا علي الخريطة
 			 */
-		
 			return __('Hi :name , Travel Number #:travelId Still In The Road || From :fromAddress To :toAddress' ,['name'=>$fullName ,'travelId'=>$travelId,'fromAddress'=> $travel->getFromAddress() , 'toAddress'=>$travel->getToAddress() ]);
 		}
 		elseif($travelStatus === TravelStatus::ON_THE_WAY){
 			return __('Hi :name , Travel Number #:travelId Started Now | Driver Phone :driverPhone | Car Number :carNumber' ,['name'=>$fullName ,'travelId'=>$travelId , 'driverPhone'=> $driverPhone , 'carNumber'=>$driverCarIdNumber]);
+		}
+		elseif($travelStatus === TravelStatus::IS_WAITING_YOU){
+			return __('Hi :name , Travel Number #:travelId Is At Pickup Location | Driver Phone :driverPhone | Car Number :carNumber' ,['name'=>$fullName ,'travelId'=>$travelId , 'driverPhone'=> $driverPhone , 'carNumber'=>$driverCarIdNumber]);
 		}
 		elseif($travelStatus === TravelStatus::CANCELLED){
 			return __('Hi :name , Travel Number #:travelId Has Been Cancelled' ,['name'=>$fullName ,'travelId'=>$travelId]);

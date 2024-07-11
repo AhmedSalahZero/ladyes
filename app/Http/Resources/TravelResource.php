@@ -31,15 +31,15 @@ class TravelResource extends JsonResource
 			'id'=>$this->id , 
 			'from_address'=>$this->getFromAddress(),
 			'to_address'=>$this->getToAddress(),
+			'expected_arrival_time'=>isset($result['duration_in_seconds']) ? __('Estimated Arrival Time :time',['time'=>now()->addSeconds($result['duration_in_seconds'])->format('g:i A')]) : '-' ,
+			'expected_arrival_distance'=>isset($result['distance_in_meter']) ? __(':distance Km Away',['distance'=>round($result['distance_in_meter'] / 1000,1) ]) : '-' ,
 			'is_secure_code'=>$isSecure=$this->getIsSecure(),
 			'secure_code'=>$this->when($isSecure,$this->getSecureCode()),
 			'price_details'=>$this->when($this->isCompleted() , $priceDetails ),
-			'expected_arrival_time'=>isset($result['duration_in_seconds']) ? __('Estimated Arrival Time :time',['time'=>now()->addSeconds($result['duration_in_seconds'])->format('g:i A')]) : '-' ,
-			'expected_arrival_distance'=>isset($result['distance_in_meter']) ? __(':distance Km Away',['distance'=>round($result['distance_in_meter'] / 1000,1) ]) : '-' ,
 			'stop_point_latitudes'=>$this->getStopPointLatitudes(),
 			'stop_point_longitudes'=>$this->getStopPointLongitudes(),
 			'client' => $client->getResource(),
-			'driver'=>$driver->getResource(),
+			'driver'=>$this->when($driver , $driver ? $driver->getResource() : null),
 		];
     }
 }

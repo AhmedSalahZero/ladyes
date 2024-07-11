@@ -123,6 +123,9 @@ class City extends Model
 		if ($request->has('cancellation_fees_for_client')){
 			$this->cancellation_fees_for_client = $request->cancellation_fees_for_client;
 		}
+		if ($request->has('late_fees_for_client')){
+			$this->late_fees_for_client = $request->late_fees_for_client;
+		}
 		if ($request->has('cash_fees')){
 			$this->cash_fees = $request->cash_fees;
 		}

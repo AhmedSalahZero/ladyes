@@ -21,7 +21,7 @@ class AuthController
 		$model = new Driver();
 		$model->syncFromRequest($request);
 		$model->markAsVerified();
-		if($request->has('received_invitation_code')){
+		if($request->has('received_invitation_code') && $request->get('received_invitation_code')){
 			$code = $request->get('received_invitation_code') ;
 			$sender = Driver::getByInvitationCode($code);
 			$model->attachInvitationCode($sender->id ,$code );

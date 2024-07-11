@@ -83,12 +83,12 @@ class Deposit extends Model implements ITransactionType
 	   }
 	   
 	 /**
-	  * * هنا بنبعت ايداع للسائق بنصيبة من الغاء العميل لرحلة معينة
+	  * * هنا بنبعت ايداع للسائق بنصيبة من الغاء العميل لرحلة معينة او تاخيرة في الركوب بعد وصول السائق
 	   * * حساب النسبة اللي السائق بياخدها من الغرامة والباقي بيروح للتطبيق
 	   * 
 	   */
 	 
-	 public function storeNewForDriverAsTravelCancelled(Travel $travel,float $totalFeesAmount):Deposit
+	 public function storeNewForDriverAsTravelFees(Travel $travel,float $totalFeesAmount):Deposit
 	 {
 		$currencyNameEn = $travel->getCurrencyNameFormatted('en');
 		$currencyNameAr = $travel->getCurrencyNameFormatted('ar');

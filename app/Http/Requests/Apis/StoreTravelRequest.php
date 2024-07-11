@@ -37,8 +37,8 @@ class StoreTravelRequest extends FormRequest
 		// $id = $model ? $model->id : 0 ;
         return 
 		[
-			'client_id' => ['required', 'exists:clients,id'],
-			'driver_id' => ['required', 'exists:drivers,id'],
+			 'client_id' => ['required', 'exists:clients,id'],
+			'car_size_id' => ['required', 'exists:car_sizes,id'],
 			// 'country_id'=>['required', 'exists:countries,id'],
 			'payment_method'=>['required',new ValidPaymentMethodRule()],
 			'city_id'=>['required', 'exists:cities,id'],
@@ -69,8 +69,10 @@ class StoreTravelRequest extends FormRequest
             // 'coupon_code.exists' => __(':attribute Not Exist', ['attribute' => __('Coupon Id',[],getApiLang())],getApiLang()),
 			
 			
-			'driver_id.required' => __('Please Enter :attribute', ['attribute' => __('Driver Id',[],getApiLang())],getApiLang()),
-            'driver_id.exists' => __(':attribute Not Exist', ['attribute' => __('Driver Id',[],getApiLang())],getApiLang()),
+			'car_size_id.required' => __('Please Enter :attribute', ['attribute' => __('Car Size Id',[],getApiLang())],getApiLang()),
+            'car_size_id.exists' => __(':attribute Not Exist', ['attribute' => __('Car Size Id',[],getApiLang())],getApiLang()),
+			// 'driver_id.required' => __('Please Enter :attribute', ['attribute' => __('Driver Id',[],getApiLang())],getApiLang()),
+            // 'driver_id.exists' => __(':attribute Not Exist', ['attribute' => __('Driver Id',[],getApiLang())],getApiLang()),
 			
 			'address.required'=>__('Please Enter :attribute' , ['attribute'=>__('Address',[],getApiLang())]),
 			'address.max'=> __(':attribute Exceed The Max Letter Length :max Letter',['attribute'=>__('Address'),'max'=>255	]),

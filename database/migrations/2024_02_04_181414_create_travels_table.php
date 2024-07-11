@@ -43,6 +43,7 @@ class CreateTravelsTable extends Migration
 			$table->string('to_address')->comment('عنوان نقطه النهاية');
 			$table->boolean('is_secure')->default(0)->comment('هل نوع الرحلة رحلة امنة ؟ لو امنة بننشئ كود بحيث السواق يقوله للعميل علشان يتاكد من هويته');
 			$table->string('secure_code')->nullable()->default(null)->comment('is_secure رمز الرحلة الامنة ويتم انشائه تلقائي في حالة لو تم تفعيل خيار الرحلة الامنه');
+			$table->dateTime('driver_arrived_at')->nullable()->comment('هو عباره عن الوقت اللي السواق وصل بيه للعميل بحيث لو العميل اتاخر عن عدد دقايق معينة بنفرض عليه غرامة');
 			$table->dateTime('started_at')->nullable()->comment('الوقت اللي الرحلة بدات فيه .. يعني اول ما العميل ركب السيارة');
 			$table->dateTime('ended_at')->nullable()->comment('الوقت اللي الرحلة انتهت فيه ..  يعني اول ما العميل نزل  من السيارة');
 			$table->dateTime('expected_arrival_date')->nullable()->comment('هو عدد الدقائق المتوقع فيها وصول الرحلة');

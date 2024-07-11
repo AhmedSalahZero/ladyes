@@ -25,9 +25,28 @@ class TravelsController extends Controller
 	use HasApiResponse;
     public function store(StoreTravelRequest $request)
 	{
+		$carSizeId = $request->get('car_size_id') ;
 		$travel  = new Travel();
+		// $travel->from_address = $request->get('from_address') ;
+		// $travel->to_address = $request->get('to_address') ;
+		// $travel->client_id = $request->get('client_id');
+		// $travel->from_latitude = $request->get('from_latitude');
+		// $travel->from_longitude = $request->get('from_longitude');
+		// $travel->save(); 
+		/**
+		 * * علشان يتم انشاء اي دي للرحلة علشان لما السواق يجي يوافق علي الرحلة فا هحتاج الاي دي بتاعها ولو ما لقناش اي سواق يوافق هنحذفها وهي فاضية
+		 */
+	
+		
+		
 		$travel = $travel->syncFromRequest($request);
-		$travel->client->sendAppNotification(__('Travel Confirmation', [], 'en'), __('Travel Confirmation', [], 'ar'), __('We Will Contract You',[],'en'), __('We Will Contract You'), AppNotificationType::INFO);
+
+		 $travel->sendRequestToAvailableDrivers($carSizeId); 
+		
+		 $travel->client->sendAppNotification(__('Travel Confirmation', [], 'en'), __('Travel Confirmation', [], 'ar'), __('We Will Contact You',[],'en'), __('We Will Contact You',[],'ar'), AppNotificationType::INFO);
+		
+
+		
 		return $this->apiResponse(__('Travel Has Been Created Successfully',[],getApiLang()) , $travel->getResource()->toArray($request) );
 	}
 	public function markAsCancelled(MarkTravelAsCancelledRequest $request,int $travelId)

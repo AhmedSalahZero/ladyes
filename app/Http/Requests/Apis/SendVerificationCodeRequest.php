@@ -34,6 +34,7 @@ class SendVerificationCodeRequest extends FormRequest
         [
             'country_iso2' => ['bail','required', 'exists:countries,iso2'],
             'phone'=>['required',new ValidPhoneNumberRule($country ? $country->id : 0),new UserIsActiveAndIfExistRule($countryIso2,$phone)],
+			'device_token'=>['required']
         ];
     }
 
@@ -41,10 +42,10 @@ class SendVerificationCodeRequest extends FormRequest
     {
         return [
             'country_iso2.required' => __('Please Enter :attribute', ['attribute' => __('Country ISO2',[],getApiLang())],getApiLang()),
-            'country_iso2.exists' => __(':attribute Not Exist', ['attribute' => __('Country ISO2',[],getApiLang())],getApiLang()),
+            'country_iso2.required' => __('Please Enter :attribute', ['attribute' => __('Country ISO2',[],getApiLang())],getApiLang()),
             'phone.required' => __('Please Enter :attribute', ['attribute' => __('Phone',[],getApiLang())],getApiLang()),
             'phone.numeric' => __('Invalid :attribute' , ['attribute'=>__('Phone',[],getApiLang())]),
-			
+            'device_token.required' => __(':attribute Not Exist', ['attribute' => __('Device Token',[],getApiLang())],getApiLang()),
         ];
     }
 }

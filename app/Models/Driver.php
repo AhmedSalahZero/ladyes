@@ -11,7 +11,10 @@ use App\Interfaces\IHaveBonus;
 use App\Interfaces\IHaveDeposit;
 use App\Interfaces\IHaveFine;
 use App\Interfaces\IHaveWithdrawal;
+use App\Jobs\sendRequestToAvailableDriversJob;
 use App\Notifications\Admins\DriverNotification;
+use App\Notifications\Admins\NewTravelIsAvailableForDriverNotification;
+use App\Services\DistanceMatrix\GoogleDistanceMatrixService;
 use App\Settings\SiteSetting;
 use App\Traits\Accessors\IsBaseModel;
 use App\Traits\Models\HasBasicStoreRequest;
@@ -24,6 +27,7 @@ use App\Traits\Models\HasCreatedAt;
 use App\Traits\Models\HasDeduction;
 use App\Traits\Models\HasDeposit;
 use App\Traits\Models\HasDevice;
+use App\Traits\Models\HasDeviceTokens;
 use App\Traits\Models\HasEmail;
 use App\Traits\Models\HasEmergencyContacts;
 use App\Traits\Models\HasFine;
@@ -101,7 +105,7 @@ class Driver extends Model implements HasMedia, BannableInterface, IHaveAppNotif
     use HasLoginByPhone;
     use HasGeoLocation;
     use HasCarSize;
-
+	use HasDeviceTokens;
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('image')->singleFile();
@@ -214,10 +218,7 @@ class Driver extends Model implements HasMedia, BannableInterface, IHaveAppNotif
         $driver = $this->storeCurrentLocationIfExist($request);
         // 1- generate invitation_code
         $driver = $this->storeInventionCodeIfNotExist();
-        // $driver = $this->storeVerificationCodeIfNotExist();
-
-        // 2- if not confirmed then send verification code
-		// $driver->sendVerificationCodeMessage()
+    
         return $driver;
     }
 
@@ -336,9 +337,9 @@ class Driver extends Model implements HasMedia, BannableInterface, IHaveAppNotif
     /**
      * * هي الاشعارات اللي بتتبعت للعميل في الموبايل ابلكيشن
      */
-    public function sendAppNotification(string $titleEn, string $titleAr, string $messageEn, string $messageAr, string $type,int $modelId = null)
+    public function sendAppNotification(string $titleEn, string $titleAr, string $messageEn, string $messageAr, string $secondaryType,int $modelId = null , string $mainType = 'notification' )
     {
-        $this->notify(new DriverNotification($titleEn, $titleAr, $messageEn, $messageAr, formatForView(now()), $type,$modelId));
+        $this->notify(new DriverNotification($titleEn, $titleAr, $messageEn, $messageAr, formatForView(now()), $secondaryType,$modelId,$mainType));
     }
 
     /**
@@ -367,10 +368,16 @@ class Driver extends Model implements HasMedia, BannableInterface, IHaveAppNotif
         ->onlyDistanceLessThanOrEqual($latitude, $longitude)
         ->orderByDistance()
         ->get() ;
-		$drivers = Driver::all();
+		if(env('in_test_mode',false)){
+			$drivers = Driver::all();
+		}
 		
 		return $drivers->filter(function(Driver $driver){
-			return $driver->satisfyConditions(Request()->user()->getTravelConditionIds());
+			$currentUser = Request()->user() ;
+			if(!$currentUser && env('in_test_mode')){
+				$currentUser =  Client::first();
+			}
+			return $driver->satisfyConditions($currentUser->getTravelConditionIds());
 		});
     }
 	public function getResource()
@@ -508,6 +515,30 @@ class Driver extends Model implements HasMedia, BannableInterface, IHaveAppNotif
 			$this->save();
 		}
 		return $this ;
+	}
+	public function sendNewTravelIsAvailable(Travel $travel)
+	{
+		if($travel->driver){ // في حالة لو سواق وافق
+			return ; 
+		}
+		$googleDistanceMatrixService = new GoogleDistanceMatrixService();
+		$result = $this && $this->getLongitude() ? $googleDistanceMatrixService->getExpectedArrivalTimeBetweenTwoPoints($this->getLatitude(),$this->getLongitude(),$travel->getFromLatitude(),$travel->getFromLongitude()) : [];
+		$travelInfos = [
+	
+			'from_address'=>$travel->getFromAddress(),
+			'to_address'=>$travel->getToAddress(),
+			'expected_arrival_time'=>isset($result['duration_in_seconds']) ? __('Estimated Arrival Time :time',['time'=>now()->addSeconds($result['duration_in_seconds'])->format('g:i A')]) : '-' ,
+			'expected_arrival_distance'=>isset($result['distance_in_meter']) ? __(':distance Km Away',['distance'=>round($result['distance_in_meter'] / 1000,1) ]) : '-' ,
+			'client_travel_conditions'=>$travel->client->getTravelConditionsTitles(),
+			'client'=>[
+				'id'=>$travel->client->id,
+				'name'=>$travel->client->getName(),
+				'avg_rate'=>$travel->client->getAvgRate()
+			]
+		];
+		
+		$this->notify(new NewTravelIsAvailableForDriverNotification($travelInfos,$this->id));
+		
 	}
 	
 }

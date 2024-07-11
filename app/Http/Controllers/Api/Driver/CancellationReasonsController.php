@@ -8,7 +8,6 @@ use App\Http\Requests\Apis\ShowCancellationReasonsRequest;
 use App\Http\Resources\CancellationReasonResource;
 use App\Models\CancellationReason;
 use App\Traits\Api\HasApiResponse;
-use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class CancellationReasonsController extends Controller

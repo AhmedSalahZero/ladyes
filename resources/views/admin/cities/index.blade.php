@@ -24,6 +24,7 @@
                                             <th>{{ __('Minute Price') }}</th>
                                             <th>{{ __('Operating Fees') }}</th>
                                             <th>{{ __('Cancellation Fees For Client') }}</th>
+                                            <th>{{ __('Late Fees For Client') }}</th>
                                             <th>{{ __('Cash Fees') }}</th>
 													<th>{{ __('Bonus After First Success Travel') }}</th>
                                             {{-- <th class="th-global-class  text-center">{{__('Rush Hour Price')}}</th> --}}
@@ -44,6 +45,7 @@
                                                 <td>{{ $model->getMinutePriceFormatted($lang) }}</td>
                                                 <td>{{ $model->getOperatingFeesFormatted($lang) }}</td>
                                                 <td>{{ $model->getCancellationFeesForClientFormatted($lang) }}</td>
+                                                <td>{{ $model->getLateFeesForClientFormatted($lang) }}</td>
                                                 <td>{{ $model->getCashFeesFormatted($lang) }}</td>
                                                 <td>{{ $model->getBonusAfterFirstSuccessTravelFormatted($lang) }}</td>
                                                 @if($user->can(getPermissionName('update')) || $user->can(getPermissionName('delete')) )
@@ -92,6 +94,7 @@
                                                                                 <th>{{ __('Minute Price') }}</th>
                                                                                 <th>{{ __('Operating Fees') }}</th>
 																				<th>{{ __('Cancellation Fees For Client') }}</th>
+																				<th>{{ __('Late Fees For Client') }}</th>
                                          										<th>{{ __('Cash Fees') }}</th>
                                          										<th>{{ __('Bonus After First Success Travel') }}</th>
                                                                                 <th>{{ __('Rush Hour Percentage') }}</th>
@@ -108,6 +111,7 @@
                                                                                 <td>{{ $rushHour->getMinutePriceFormatted($lang) }}</td>
                                                                                 <td>{{ $rushHour->getOperatingFeesFormatted($lang) }}</td>
 																				  <td>{{ $rushHour->getCancellationFeesForClientFormatted($lang) }}</td>
+																				  <td>{{ $rushHour->getLateFeesForClientFormatted($lang) }}</td>
                                               								  <td>{{ $rushHour->getCashFeesFormatted($lang) }}</td>
                                               								  <td>{{ $rushHour->getBonusAfterFirstSuccessTravelFormatted($lang) }}</td>
                                                                                 <td>{{ $rushHour->getPercentage() }}</td>

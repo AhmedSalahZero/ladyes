@@ -22,7 +22,7 @@ class EmergencyContactsSeeder extends Seeder
 			'country_id'=>65,
 		]);
 		
-		EmergencyContact::factory()->count(10)->create()->each(function(EmergencyContact $emergencyContact){
+		EmergencyContact::factory()->count(1)->create()->each(function(EmergencyContact $emergencyContact){
 			$emergencyContact->drivers()->attach(Driver::first()->id,[
 				'model_type'=>'Driver',
 				'can_receive_travel_info'=>1

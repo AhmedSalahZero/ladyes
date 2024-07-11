@@ -28,6 +28,8 @@ Broadcast::channel('App.Models.Driver.{id}', function ($driver, $id) {
 });
 
 Broadcast::channel('client.notifications.{id}', function ($user,$id) {
-
+	return true ;
+});
+Broadcast::channel('driver.new.travel.available.notifications.{id}', function ($user,$id) {
 	return true ;
 });

@@ -41,6 +41,7 @@ class StoreCityRequest extends FormRequest
 			'rush_hours.*.km_price'=>$HValidationRules['price'],
 			'rush_hours.*.minute_price'=>$HValidationRules['price'],
 			'rush_hours.*.cancellation_fees_for_client'=>$HValidationRules['price'],
+			'rush_hours.*.late_fees_for_client'=>$HValidationRules['price'],
 			'rush_hours.*.cash_fees'=>$HValidationRules['price'],
 			'rush_hours.*.first_travel_bonus'=>$HValidationRules['price'],
 			'rush_hours.*.operating_fees'=>$HValidationRules['price'],
@@ -100,6 +101,10 @@ class StoreCityRequest extends FormRequest
 			'rush_hours.*.cancellation_fees_for_client.required'=>__('Please Enter :attribute' , ['attribute'=>__('Cancellation Fees For Client')]),
 			'rush_hours.*.cancellation_fees_for_client.numeric'=>__('Invalid :attribute' , ['attribute'=>__('Cancellation Fees For Client')]),
 			'rush_hours.*.cancellation_fees_for_client.gte'=>__('Only Greater Than Or Equal Zero Allowed For :attribute' , ['attribute'=>__('Cancellation Fees For Client')]),			
+			
+			'rush_hours.*.late_fees_for_client.required'=>__('Please Enter :attribute' , ['attribute'=>__('Late Fees For Client')]),
+			'rush_hours.*.late_fees_for_client.numeric'=>__('Invalid :attribute' , ['attribute'=>__('Late Fees For Client')]),
+			'rush_hours.*.late_fees_for_client.gte'=>__('Only Greater Than Or Equal Zero Allowed For :attribute' , ['attribute'=>__('Late Fees For Client')]),			
 			
 			
 			'rush_hours.*.cash_fees.required'=>__('Please Enter :attribute' , ['attribute'=>__('Cash Fees')]),

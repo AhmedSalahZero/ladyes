@@ -22,7 +22,9 @@ class NotificationsResource extends JsonResource
 			'id'=>$this->id,
 			'title'=>$this->data['title_'.getApiLang()],
 			'message'=>$this->data['message_'.getApiLang()],
-			'type'=>$this->data['type'],
+			'main_type'=>$this->data['main_type'],
+			'secondary_type'=>$this->data['secondary_type'],
+			'read_at'=>$this->read_at,
 			'created_at'=>$this->data['createdAtFormatted']
 		];
     }

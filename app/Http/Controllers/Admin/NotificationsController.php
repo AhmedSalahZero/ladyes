@@ -107,11 +107,11 @@ class NotificationsController extends Controller
 		$type = $request->get('type',AppNotificationType::DEFAULT);
 		foreach($request->get('client_ids',[]) as $clientId){
 			$client = Client::find($clientId);
-				dispatch(new SendAppNotificationsJob($client,$titleEn,$titleAr,$messageEn,$messageAr,$type));
+				dispatch(new SendAppNotificationsJob($client,$titleEn,$titleAr,$messageEn,$messageAr,$type ));
 		}
 		foreach($request->get('driver_ids',[]) as $driverId){
 			$driver = Driver::find($driverId);
-			dispatch(new SendAppNotificationsJob($driver,$titleEn,$titleAr,$messageEn,$messageAr,$type));
+			dispatch(new SendAppNotificationsJob($driver,$titleEn,$titleAr,$messageEn,$messageAr,$type ));
 		}
         return $this->getWebRedirectRoute($request, route('app.notifications.create'), route('app.notifications.create'));
 	}

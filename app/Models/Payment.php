@@ -185,6 +185,7 @@ class Payment extends Model
 		$deposit = (new Deposit())->storeNewForDriverAsTravelCompleted($travel);
 		
 		$travel->sendTravelCompletedMessageForClient();
+		
 		return $payment ;
 	}
 	public function getPrice():float 

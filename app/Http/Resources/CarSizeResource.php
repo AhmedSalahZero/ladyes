@@ -19,6 +19,7 @@ class CarSizeResource extends JsonResource
 		 * @var CarSize $this
 		 */
         return [
+               'id'=>$this->id,
 			'name'=>$this->getName(getApiLang()),
 			'image'=>asset($this->image)
 		];

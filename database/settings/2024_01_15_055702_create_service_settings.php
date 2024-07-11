@@ -34,13 +34,13 @@ return new class extends SettingsMigration
 		$this->migrator->add('site.deduction_type',DeductionType::PERCENTAGE);
 		$this->migrator->add('site.deduction_amount',14);
 		/**
-		 * * هي عبارة عن نسبة الخصم اللي بنضربها في سعر الرحلة علشان نجيب سعر الكوبون اللي بيتم انشائة بعد كل رحلة ناجه
+		 * * هي عبارة عن نسبة الخصم اللي بنضربها في سعر الرحلة علشان نجيب سعر كوبون الخصم اللي بيتم  بعد كل رحلة ناجه
 		 */
 		$this->migrator->add('site.coupon_discount_percentage',10);
 		$this->migrator->add('site.driving_range',15);
 		$this->migrator->add('site.invitation_code_length',6);
 		
-		$this->migrator->add('site.WHATSAPP_APP_KEY', '582225ad-1a72-4f52-a12f-9b12bb63d7eb');
+		$this->migrator->add('site.WHATSAPP_APP_KEY', '59d76976-09bd-4276-98fe-572ccbbe6ca2');
 		$this->migrator->add('site.WHATSAPP_AUTH_KEY', 'tvwBmsZlIhzSovM6QB6KEoEnABMYE3AuFl29vtU2Fpf6P917Of');
 		$this->migrator->add('site.google_api_key', 'AIzaSyD1pzxgf9AUfrWE2pLVQanO6Ti9a5lZDGo');
 		// $this->migrator->add('site.google_api_key', 'AIzaSyBd3qijGwg3gtPWhFeCVyxINEn8vPZ1mic');

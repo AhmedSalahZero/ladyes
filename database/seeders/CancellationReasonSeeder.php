@@ -39,7 +39,7 @@ class CancellationReasonSeeder extends Seeder
 		CancellationReason::factory()->create([
 			'name_en'=>'Client did not come',
 			'name_ar'=>'العميل لم ياتي',
-			'model_type'=>'Driver',
+			'model_type'=>'Driver'
 		]);
 	
 		
@@ -47,7 +47,6 @@ class CancellationReasonSeeder extends Seeder
 			'name_en'=>'By Mistake',
 			'name_ar'=>'لقد طلبت عن طريق الخطا',
 			'model_type'=>'Client',
-			'phase'=>CancellationReasonPhases::WHILE_SEARCHING
 		]);
 		
 		

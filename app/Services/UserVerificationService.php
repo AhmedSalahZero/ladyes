@@ -81,6 +81,7 @@ class UserVerificationService
             }
         }
         if ($viaWhatsapp) {
+			
             $responseArray = App(WhatsappService::class)->sendMessage($message, $phoneFormatted);
 	
             if ($responseArray['status']) {

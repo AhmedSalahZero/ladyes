@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\Driver;
 use App\Models\Travel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -10,22 +11,21 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class SendCurrentStatusMessageToEmergencyContractsJob implements ShouldQueue
+class sendRequestToAvailableDriversJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-	/**
-	 * * 0 or -1 means there is no timeout for this job to be executed 
-	 */
-	public $timeout = -1 ;  
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-	protected Travel $travel ;
-    public function __construct(Travel $travel)
+	protected Driver $availableDriver ;
+	protected Travel $travel  ;
+    public function __construct(Driver $availableDriver,Travel $travel)
     {
-        $this->travel =$travel ;
+		$this->availableDriver = $availableDriver ;
+		$this->travel = $travel ;
     }
 
     /**
@@ -35,6 +35,7 @@ class SendCurrentStatusMessageToEmergencyContractsJob implements ShouldQueue
      */
     public function handle()
     {
-        $this->travel->sendCurrentStatusMessageToEmergencyContracts();
+		
+        $this->availableDriver->sendNewTravelIsAvailable($this->travel);
     }
 }

@@ -43,5 +43,9 @@ trait HasTravelCondition
 	{
 		return $this->travelConditions->pluck('id')->toArray();
 	}
+	public function getTravelConditionsTitles():array 
+	{
+		return $this->travelConditions->pluck('name_'.getApiLang())->toArray();
+	}
 	
 }

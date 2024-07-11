@@ -77,14 +77,14 @@ Route::prefix('drivers')->group(function () {
         Route::get('information', [InformationController::class, 'viewAfterSignupMessage']);
         Route::get('help', [HelpController::class, 'viewForDriver']);
 		Route::apiResource('cancellation-reasons',CancellationReasonsController::class);
-		Route::apiResource('car-sizes',CarSizesController::class);
-		Route::apiResource('car-makes',CarMakeController::class);
-		Route::apiResource('car-models',CarModelController::class);
+		
 		Route::apiResource('promotions',PromotionsController::class);
 		Route::post('rating',[DriverRatingController::class,'rateWith']);
+		Route::patch('travels/{travel}/mark-as-arrived',[DriverTravelsController::class,'markAsArrived']);
 		Route::patch('travels/{travel}/mark-as-started',[DriverTravelsController::class,'markAsStarted']);
 		Route::patch('travels/{travel}/mark-as-cancelled',[DriverTravelsController::class,'markAsCancelled']);
 		Route::patch('travels/{travel}/mark-as-completed',[DriverTravelsController::class,'markAsCompleted']);
+		Route::patch('travels/{travel}/accept',[DriverTravelsController::class,'accept']);
 		
 		Route::prefix('reports')->group(function(){
 			Route::get('profit',[ReportsController::class,'getProfitReport']);
@@ -138,6 +138,11 @@ Route::prefix('clients')->group(function () {
 /**
  * * عامة .. اي لا تحتاج الي تسجيل دخول
  */
+
+Route::apiResource('car-sizes',CarSizesController::class);
+		Route::apiResource('car-makes',CarMakeController::class);
+		Route::apiResource('car-models',CarModelController::class);
+		
 Route::apiResource('countries',CountriesController::class);
 Route::apiResource('cities',CitiesController::class);
 Route::apiResource('payment-methods',PaymentMethodsController::class);

@@ -77,7 +77,11 @@
                                                 </div>
 
 												<div class="col-md-6">
-                                                    <x-form.input :id="'cancellation_fees_for_client'" :label="__('Cancellation Fees For Client')" :type="'numeric'" :name="'cancellation_fees_for_client'" step="any" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Cancellation Fees For Client')])"></x-form.input>
+                                                    <x-form.input :id="'cancellation_fees_for_client'" :label="__('Cancellation Fees For Client').' ' . __('Per Min')" :type="'numeric'" :name="'cancellation_fees_for_client'" step="any" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Cancellation Fees For Client')])"></x-form.input>
+                                                </div>
+												
+													<div class="col-md-6">
+                                                    <x-form.input :id="'late_fees_for_client'" :label="__('Late Fees For Client') .' ' . __('Per Min')" :type="'numeric'" :name="'late_fees_for_client'" step="any" :is-required="true" :model="$model??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Late Fees For Client')])"></x-form.input>
                                                 </div>
 												
 												<div class="col-md-6">
@@ -135,9 +139,12 @@
                                                                     </div>
 																	
 																	<div class="col-md-6">
-                                                                        <x-form.input :id="'cancellation_fees_for_client'" :label="__('Cancellation Fees For Client')" :type="'numeric'" :name="'cancellation_fees_for_client'" step="any" :is-required="true" :model="$rushHour??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Cancellation Fees For Client')])"></x-form.input>
+                                                                        <x-form.input :id="'cancellation_fees_for_client'" :label="__('Cancellation Fees For Client') .' ' . __('Per Min')" :type="'numeric'" :name="'cancellation_fees_for_client'" step="any" :is-required="true" :model="$rushHour??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Cancellation Fees For Client')])"></x-form.input>
                                                                     </div>
 																	
+																	<div class="col-md-6">
+                                                                        <x-form.input :id="'late_fees_for_client'" :label="__('Late Fees For Client') .' ' . __('Per Min')" :type="'numeric'" :name="'late_fees_for_client'" step="any" :is-required="true" :model="$rushHour??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Late Fees For Client')])"></x-form.input>
+                                                                    </div>
 																	
 																	<div class="col-md-6">
                                                                         <x-form.input :id="'cash_fees'" :label="__('Cash Fees')" :type="'numeric'" :name="'cash_fees'" step="any" :is-required="true" :model="$rushHour??null" :placeholder="__('Please Enter :attribute',['attribute'=>__('Cash Fees')])"></x-form.input>

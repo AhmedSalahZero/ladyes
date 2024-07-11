@@ -38,11 +38,11 @@ class WhatsappService
         'sandbox' => 'false'
         ),
         ));
-		
 		$result = curl_exec($curl);
         curl_close($curl);
 		
 		$result = json_decode($result,true);
+		
 		if(isset($result['data']) && isset($result['message_status'])){
 			return [
 				'status'=>true ,

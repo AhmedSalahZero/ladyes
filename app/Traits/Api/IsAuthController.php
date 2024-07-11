@@ -1,6 +1,7 @@
 <?php 
 namespace App\Traits\Api;
 
+use App\Models\DeviceToken;
 use App\Services\UserVerificationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -15,14 +16,20 @@ trait IsAuthController
 		$userVerificationService = new UserVerificationService ;
 	   $countryIso2 = $request->get('country_iso2');
 	   $phone = $request->get('phone');
+	  
 	   $verificationCode =  $userVerificationService->renewCode($countryIso2,$phone,$userType);
-	   $responseArr = $userVerificationService->sendAsMessage($countryIso2,$phone,$verificationCode,null,null,true,true,false);
+	   $responseArr = $userVerificationService->sendAsMessage($countryIso2,$phone,$verificationCode,null,null,true,true,false );
+	   
+	   $this->syncDeviceTokens($request->get('device_token'),$countryIso2,$phone,$userType);
+	   
+	   
 	   return response()->json([
 		   'status'=>true ,
 		   'message'=>isset($responseArr['message']) ? $responseArr['message'] : null ,
 		   'data'=>[]
 	   ]);
 	}
+	
 	/**
 	 * * هنتاكد من ان الكود صح .. ولو الكود صح واليوزر دا موجود قبل كدا هنبعت الاوبجيكت بتاعه
 	 */
@@ -41,6 +48,8 @@ trait IsAuthController
 		$userFound = (bool)$user ; 
 		$userFound ? $user->tokens()->delete() : null;
 		$validVerificationCode && $userFound  ? $user->markAsVerified() : null ;
+		$userFound ? $user->syncDeviceTokens($request->get('device_token'),$request->get('device_name')) : null ;  
+		
 		return response()->json([
 			'status'=>$validVerificationCode ,
 			'message'=>$validVerificationCode ? __('Success !') : __('Invalid Verification Code',[],getApiLang()) ,

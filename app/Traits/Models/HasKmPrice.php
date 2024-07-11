@@ -46,10 +46,24 @@ trait HasKmPrice
 	{
 		return $this->cancellation_fees_for_client?:0 ;
 	}
+		
 	public function getCancellationFeesForClientFormatted($lang)
 	{
 		return $this->getCancellationFeesForClient() . ' ' . $this->getCurrencyFormatted($lang) ;
 	}
+	
+	 /**
+	 * * الرسوم اللي هيتم تطبيقها علي العميل في حالة اتاخر علي الرحلى
+	 */
+	public function getLateFeesForClient()
+	{
+		return $this->late_fees_for_client?:0 ;
+	}
+	public function getLateFeesForClientFormatted($lang)
+	{
+		return $this->getLateFeesForClient() . ' ' . $this->getCurrencyFormatted($lang) ;
+	}
+	
 		/**
 		** هي رسوم اضافية يدفع العميل لزوم الدفع بالكاش
 	 */

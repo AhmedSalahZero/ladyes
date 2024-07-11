@@ -20,6 +20,7 @@ use App\Traits\Models\HasCountry;
 use App\Traits\Models\HasCreatedAt;
 use App\Traits\Models\HasDeposit;
 use App\Traits\Models\HasDevice;
+use App\Traits\Models\HasDeviceTokens;
 use App\Traits\Models\HasEmail;
 use App\Traits\Models\HasEmergencyContacts;
 use App\Traits\Models\HasFine;
@@ -84,6 +85,7 @@ class Client extends Model implements HasMedia, BannableInterface,IHaveAppNotifi
 	use HasDeposit ; 
 	use HasWithdrawal ; 
     use HasCreatedAt;
+	use HasDeviceTokens;
 
     public function registerMediaCollections(): void
     {
@@ -145,12 +147,6 @@ class Client extends Model implements HasMedia, BannableInterface,IHaveAppNotifi
             $builder->where('id', $idOrEmailOrPhone)->orWhere('email', $idOrEmailOrPhone)->orWhere('phone', $idOrEmailOrPhone);
         })->first();
     }
-
-    // public function getInvitationCode()
-    // {
-    // 	return $this->invitation_code ;
-    // }
-  
 
     public function banHistories(): MorphMany
     {
@@ -233,10 +229,12 @@ class Client extends Model implements HasMedia, BannableInterface,IHaveAppNotifi
 	}
 	/**
 	 * * هي الاشعارات اللي بتتبعت للعميل في الموبايل ابلكيشن
+	* *	 $main_type ; // notification or chat
+	 * * $secondary_type ; // if notification then [deposit or withdrawal , etc] , if chat then [chat] 
 	 */
-	public function sendAppNotification(string $titleEn,string $titleAr,string $messageEn,string $messageAr,string $type,int $modelId = null)
+	public function sendAppNotification(string $titleEn,string $titleAr,string $messageEn,string $messageAr,string $secondaryType,int $modelId = null , string $mainType = 'notification' )
 	{
-		$this->notify(new ClientNotification($this,$titleEn,$titleAr,$messageEn,$messageAr,formatForView(now()),$type,$modelId));
+		$this->notify(new ClientNotification($titleEn,$titleAr,$messageEn,$messageAr,formatForView(now()),$secondaryType,$modelId,$mainType));
 	}
 	public function payments():?HasMany
 	{
