@@ -44,7 +44,7 @@ class GoogleDistanceMatrixService
 	  * * فعليا انت ممكن تستخدمة في اي شئ اخر
 	  */
 	  public function getCityNameFromLatitudeAndLongitude ($lat, $long) {
-		// dd($lat,$long);
+	
 		$get_API = "https://maps.googleapis.com/maps/api/geocode/json?latlng=";
 		$get_API .= $lat.",";
 		$get_API .= $long;
@@ -56,12 +56,7 @@ class GoogleDistanceMatrixService
 			return $this->getCityName($jsonarray);
 		}
 		return false ;
-		// if (isset($jsonarray->results[1]->address_components[1]->long_name)) {
-		// 	return($jsonarray->results[1]->address_components[1]->long_name);
-		// }
-		// else {
-		// 	return('Unknown');
-		// }
+
 	}
 	/**
 	 * * we will search for administrative_area_level_1 -->
@@ -78,5 +73,36 @@ class GoogleDistanceMatrixService
 		return false ;
 	}
 	
+	public function getFullAddressFromLatitudeAndLongitude ($lat, $long,$lang='en') {
+		$get_API = "https://maps.googleapis.com/maps/api/geocode/json?latlng=";
+		$get_API .= $lat.",";
+		$get_API .= $long;
+		$get_API .= '&language='.$lang.'&key='.getSetting('google_api_key');         
+		// dd($get_API);
+		$jsonfile = file_get_contents($get_API.'&sensor=false');
+		$jsonarray = json_decode($jsonfile);        
+		
+		if($jsonarray){
+			return $this->getFullAddress($jsonarray);
+		}
+		return __('N/A') ;
+
+	}
 	
+	/**
+	 * * we will search for administrative_area_level_1 -->
+	 */
+	protected function getFullAddress($arr)
+	{
+		if(isset($arr->results[5]->address_components)){
+			foreach($arr->results[5]->address_components as $address){
+				// dd($address->types);
+				return $arr->results[5]->formatted_address;
+				// if($address->types[0] == 'administrative_area_level_1'){
+				// 	return $address->long_name ;
+				// }
+			}
+		}
+		return false ;
+	}
 }

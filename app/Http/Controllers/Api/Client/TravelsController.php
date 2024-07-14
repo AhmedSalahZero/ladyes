@@ -27,6 +27,16 @@ class TravelsController extends Controller
 	{
 		$carSizeId = $request->get('car_size_id') ;
 		$travel  = new Travel();
+		$googleDistanceMatrixService = new GoogleDistanceMatrixService();
+		$fromLatitude = $request->get('from_latitude');
+		$fromLongitude = $request->get('from_longitude');
+		$toLatitude = $request->get('to_latitude');
+		$toLongitude = $request->get('to_longitude');
+		$travel->from_address_en =  $googleDistanceMatrixService->getFullAddressFromLatitudeAndLongitude($fromLatitude,$fromLongitude,'en');
+		$travel->from_address_ar =  $googleDistanceMatrixService->getFullAddressFromLatitudeAndLongitude($fromLatitude,$fromLongitude,'ar');
+		$travel->to_address_en =  $googleDistanceMatrixService->getFullAddressFromLatitudeAndLongitude($toLatitude,$toLongitude,'en');
+		$travel->to_address_ar =  $googleDistanceMatrixService->getFullAddressFromLatitudeAndLongitude($toLatitude,$toLongitude,'ar');
+		
 		// $travel->from_address = $request->get('from_address') ;
 		// $travel->to_address = $request->get('to_address') ;
 		// $travel->client_id = $request->get('client_id');

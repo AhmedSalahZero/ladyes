@@ -39,8 +39,12 @@ class CreateTravelsTable extends Migration
 			$table->string('to_latitude');
 			$table->json('stop_point_latitudes')->nullable()->comment('عبارة عن نقاط التوقف اللي هيقف عندها السائق وليكن مثلا الفرن و البقالة');
 			$table->json('stop_point_longitudes')->nullable()->comment('عبارة عن نقاط التوقف اللي هيقف عندها السائق وليكن مثلا الفرن و البقالة');
-			$table->string('from_address')->comment('عنوان مكان الالتقاء كنص');
-			$table->string('to_address')->comment('عنوان نقطه النهاية');
+			$table->string('from_address_en')->comment('عنوان مكان الالتقاء كنص');
+			$table->string('to_address_en')->comment('عنوان نقطه النهاية');
+			
+			$table->string('from_address_ar')->comment('عنوان مكان الالتقاء كنص');
+			$table->string('to_address_ar')->comment('عنوان نقطه النهاية');
+			
 			$table->boolean('is_secure')->default(0)->comment('هل نوع الرحلة رحلة امنة ؟ لو امنة بننشئ كود بحيث السواق يقوله للعميل علشان يتاكد من هويته');
 			$table->string('secure_code')->nullable()->default(null)->comment('is_secure رمز الرحلة الامنة ويتم انشائه تلقائي في حالة لو تم تفعيل خيار الرحلة الامنه');
 			$table->dateTime('driver_arrived_at')->nullable()->comment('هو عباره عن الوقت اللي السواق وصل بيه للعميل بحيث لو العميل اتاخر عن عدد دقايق معينة بنفرض عليه غرامة');

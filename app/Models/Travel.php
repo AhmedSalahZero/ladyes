@@ -1254,14 +1254,14 @@ class Travel extends Model
 
     public function getFromAddress()
     {
-        return $this->from_address ;
+        return $this['from_address_'.getApiLang()] ;
     }
 
     public function getToAddress()
     {
-        return $this->to_address ;
+        return $this['to_address_'.getApiLang()];
     }
-
+	
     public function calculateFirstTravelBonus(bool $isFirstTravel = null): float
     {
         $isFirstTravel = is_null($isFirstTravel) ? $this->client->isFirstTravel() : $isFirstTravel ;

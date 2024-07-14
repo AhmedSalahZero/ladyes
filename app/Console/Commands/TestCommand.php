@@ -60,14 +60,18 @@ class TestCommand extends Command
 	
     public function handle()
     {
-		$travel = new Travel();
-		dd($travel->save());
+		
 		// نبحث عن السواقين المتاحين 
 		// نعطي كل سواق دقيقه مثلا وان لم يستجب ندي للسواق اللي بعدة
 		// بمجرد ما يوافق واحد نبعت استجابة ترو والاي دي بتاع السواق
 		// في حالة انتهى الوقت ولم يحدث شئ نبعت فولس
-		$longitude = '-8.000545';
-		$latitude = '-19.361057';
+		$longitude = '30.946953086382464';
+		$latitude = '31.22803870468893';
+		
+		$x = new GoogleDistanceMatrixService();
+		$y= $x->getFullAddressFromLatitudeAndLongitude($latitude,$longitude,'ar');
+		dd($y);
+		
 		
 		$availableDrivers = Driver::getAvailableForSpecificLocationsAndCarSize($latitude,$longitude,2);
 		foreach($availableDrivers as $availableDriver){

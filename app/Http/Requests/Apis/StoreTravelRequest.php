@@ -46,8 +46,6 @@ class StoreTravelRequest extends FormRequest
 			'to_latitude'=>[$requiredOrNot,'required'],
 			'from_longitude'=>[$requiredOrNot,'required'],
 			'to_longitude'=>[$requiredOrNot,'required'],
-			'from_address'=>[$requiredOrNot,'required','max:255'],
-			'to_address'=>[$requiredOrNot,'required','max:255'],
 			'coupon_code'=>['sometimes','required',new ValidCouponRule()],
 			'stop_point_latitudes'=>['sometimes','array', new TwoArrayMustHaveSameLengthRule(__('Latitude And Longitude Length Are Not Equal For Stop Points',[],getApiLang()),'stop_point_latitudes','stop_point_longitudes')],
 			'stop_point_longitudes'=>['sometimes','array' ],

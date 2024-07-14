@@ -28,8 +28,11 @@ class TravelFactory extends Factory
 			'from_longitude'=>$this->faker->longitude(),
 			'to_latitude'=>$this->faker->latitude(),
 			'to_longitude'=>$this->faker->longitude(),
-			'from_address'=>$this->faker->address,
-			'to_address'=>$this->faker->address,
+			'from_address_en'=>$this->faker->address,
+			'to_address_en'=>$this->faker->address,
+			'from_address_ar'=>$this->faker->address,
+			'to_address_ar'=>$this->faker->address,
+			
 			'started_at'=>now(),
 			'ended_at'=>now()->addHour(),
 			'is_secure'=>$isSecure = $this->faker->boolean ,
