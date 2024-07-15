@@ -35,6 +35,8 @@ class VerifyVerificationCodeRequest extends FormRequest
             'country_iso2' => ['bail','required', 'exists:countries,iso2'],
 			'verification_code'=>'required',
             'phone'=>['required',new ValidPhoneNumberRule($country ? $country->id : 0),new UserIsActiveAndIfExistRule($countryIso2,$phone)],
+			'device_token'=>['required']
+			
         ];
     }
 
@@ -46,6 +48,7 @@ class VerifyVerificationCodeRequest extends FormRequest
             'verification_code.required' => __('Please Enter :attribute', ['attribute' => __('Verification Code',[],getApiLang())],getApiLang()),
             'phone.required' => __('Please Enter :attribute', ['attribute' => __('Phone',[],getApiLang())],getApiLang()),
             'phone.numeric' => __('Invalid :attribute' , ['attribute'=>__('Phone',[],getApiLang())]),
+            'device_token.required' => __(':attribute Not Exist', ['attribute' => __('Device Token',[],getApiLang())],getApiLang()),
 			
         ];
     }

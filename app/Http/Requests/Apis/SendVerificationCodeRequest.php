@@ -34,7 +34,7 @@ class SendVerificationCodeRequest extends FormRequest
         [
             'country_iso2' => ['bail','required', 'exists:countries,iso2'],
             'phone'=>['required',new ValidPhoneNumberRule($country ? $country->id : 0),new UserIsActiveAndIfExistRule($countryIso2,$phone)],
-			'device_token'=>['required']
+			// 'device_token'=>['required']
         ];
     }
 

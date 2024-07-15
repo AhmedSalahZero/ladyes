@@ -20,7 +20,7 @@ trait IsAuthController
 	   $verificationCode =  $userVerificationService->renewCode($countryIso2,$phone,$userType);
 	   $responseArr = $userVerificationService->sendAsMessage($countryIso2,$phone,$verificationCode,null,null,true,true,false );
 	   
-	   $this->syncDeviceTokens($request->get('device_token'),$countryIso2,$phone,$userType);
+	 //  $this->syncDeviceTokens($request->get('device_token'),$countryIso2,$phone,$userType);
 	   
 	   
 	   return response()->json([
