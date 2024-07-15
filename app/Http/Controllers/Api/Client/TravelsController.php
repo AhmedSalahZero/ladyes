@@ -36,13 +36,7 @@ class TravelsController extends Controller
 		$travel->from_address_ar =  $googleDistanceMatrixService->getFullAddressFromLatitudeAndLongitude($fromLatitude,$fromLongitude,'ar');
 		$travel->to_address_en =  $googleDistanceMatrixService->getFullAddressFromLatitudeAndLongitude($toLatitude,$toLongitude,'en');
 		$travel->to_address_ar =  $googleDistanceMatrixService->getFullAddressFromLatitudeAndLongitude($toLatitude,$toLongitude,'ar');
-		
-		// $travel->from_address = $request->get('from_address') ;
-		// $travel->to_address = $request->get('to_address') ;
-		// $travel->client_id = $request->get('client_id');
-		// $travel->from_latitude = $request->get('from_latitude');
-		// $travel->from_longitude = $request->get('from_longitude');
-		// $travel->save(); 
+		$travel->client_id = $request->user()->id ;
 		/**
 		 * * علشان يتم انشاء اي دي للرحلة علشان لما السواق يجي يوافق علي الرحلة فا هحتاج الاي دي بتاعها ولو ما لقناش اي سواق يوافق هنحذفها وهي فاضية
 		 */

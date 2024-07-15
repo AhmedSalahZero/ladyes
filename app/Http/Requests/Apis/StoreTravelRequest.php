@@ -37,7 +37,7 @@ class StoreTravelRequest extends FormRequest
 		// $id = $model ? $model->id : 0 ;
         return 
 		[
-			 'client_id' => ['required', 'exists:clients,id'],
+			//  'client_id' => ['required', 'exists:clients,id'],
 			'car_size_id' => ['required', 'exists:car_sizes,id'],
 			// 'country_id'=>['required', 'exists:countries,id'],
 			'payment_method'=>['required',new ValidPaymentMethodRule()],
