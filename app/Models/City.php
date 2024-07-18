@@ -24,24 +24,7 @@ class City extends Model
 
 	 use IsBaseModel,HasDefaultOrderScope , HasTransNames , HasFactory,HasKmPrice ,HasGeoLocation;
 	
-	 public static function getCityFromLatitudeAndLongitude(Country $country , string $latitude , string $longitude )
-	 {
-		$googleDistanceMatrixService = new GoogleDistanceMatrixService();
-		/**
-		 * * اسم المحافظة
-		 */
-		$cityName = $googleDistanceMatrixService->getCityNameFromLatitudeAndLongitude($latitude,$longitude);
-		foreach($country->cities as $city){
-			$currentCityName = $googleDistanceMatrixService->getCityNameFromLatitudeAndLongitude($city->getLatitude(),$city->getLongitude());
-			if($currentCityName === false){
-				continue;
-			}
-			if($cityName == $currentCityName){
-				return $city;
-			}
-		}
-		return false ;
-	 }
+	
 
 	 public function rushHours():HasMany
 	 {

@@ -19,7 +19,7 @@ class CreateModelCountryPriceTable extends Migration
 			$table->unsignedBigInteger('model_id');
 			$table->unsignedBigInteger('country_id');
 			$table->foreign('country_id')->references('id')->on('countries')->cascadeOnDelete();
-			$table->decimal('price',14,2)->default(0)->comment('هو عبارة عن السعر');
+			$table->decimal('price',14,4)->default(0)->comment('هو عبارة عن السعر');
 			$table->decimal('sum_price')->default(10)->comment('دا في السعر اللي بنحسبة من الي .. بنضيف الرقم دا الي المن علشان نجيب ال الى');
             $table->timestamps();
         });

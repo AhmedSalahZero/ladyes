@@ -19,7 +19,7 @@ class CreateFinesTable extends Migration
 			$table->foreign('travel_id')->references('id')->on('travels')->nullOnDelete();
 			$table->string('model_type')->comment('الشخص المطبق عليه الغرامة سواء كان سائق او عميل');
 			$table->unsignedBigInteger('model_id');
-			$table->decimal('amount',14,2)->comment('مقدار الغرامة المطبقة');
+			$table->decimal('amount',14,4)->comment('مقدار الغرامة المطبقة');
 			$table->boolean('is_paid')->default(false)->comment('تم دفعها ولا لسه');
 			$table->string('note_en')->comment('وليكن مثلا سبب الغرامة');
 			$table->string('note_ar')->comment('وليكن مثلا سبب الغرامة');

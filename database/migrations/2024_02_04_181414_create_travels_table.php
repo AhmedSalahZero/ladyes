@@ -32,7 +32,7 @@ class CreateTravelsTable extends Migration
 			$table->foreign('coupon_id')->references('id')->on('coupons')->nullOnDelete();
 			$table->foreign('promotion_id')->references('id')->on('promotions')->nullOnDelete();
 			$table->foreign('gift_coupon_id')->references('id')->on('coupons')->nullOnDelete();
-			// $table->decimal('coupon_amount',14,2)->default(0)->comment('هنضيف الكوبون هنا لان ممكن السعر يتغير وبالتالي مقدرش اجيبه عن طريق الريليشن');
+			// $table->decimal('coupon_amount',14,4)->default(0)->comment('هنضيف الكوبون هنا لان ممكن السعر يتغير وبالتالي مقدرش اجيبه عن طريق الريليشن');
 			$table->string('from_longitude');
 			$table->string('to_longitude');
 			$table->string('from_latitude');
@@ -51,7 +51,7 @@ class CreateTravelsTable extends Migration
 			$table->dateTime('started_at')->nullable()->comment('الوقت اللي الرحلة بدات فيه .. يعني اول ما العميل ركب السيارة');
 			$table->dateTime('ended_at')->nullable()->comment('الوقت اللي الرحلة انتهت فيه ..  يعني اول ما العميل نزل  من السيارة');
 			$table->dateTime('expected_arrival_date')->nullable()->comment('هو عدد الدقائق المتوقع فيها وصول الرحلة');
-			$table->decimal('no_km',14,2)->comment('عدد الكيلوا مترات المقطوعه خلال كامل الرحلة')->nullable();
+			$table->decimal('no_km',14,4)->comment('عدد الكيلوا مترات المقطوعه خلال كامل الرحلة')->nullable();
 			$table->enum('cancelled_by',['Driver','Client'])->nullable()->comment('في حاله الغاء الرحلة .. مين اللي لغاءها العميل ولا السائق');
 			$table->unsignedBigInteger('cancellation_reason_id')->nullable()->comment('سبب الغاء الرحلة ان وجد');
 			$table->foreign('cancellation_reason_id')->references('id')->on('cancellation_reasons')->nullOnDelete();

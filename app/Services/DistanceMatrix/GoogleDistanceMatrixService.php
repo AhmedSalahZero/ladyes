@@ -1,6 +1,7 @@
 <?php
 namespace App\Services\DistanceMatrix;
 
+use App\Models\Country;
 use App\Models\Travel;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
@@ -104,5 +105,23 @@ class GoogleDistanceMatrixService
 			}
 		}
 		return false ;
+	}
+	public static function getCityFromLatitudeAndLongitude(Country $country , string $latitude , string $longitude )
+	{
+	   $googleDistanceMatrixService = new GoogleDistanceMatrixService();
+	   /**
+		* * اسم المحافظة
+		*/
+	   $cityName = $googleDistanceMatrixService->getCityNameFromLatitudeAndLongitude($latitude,$longitude);
+	   foreach($country->cities as $city){
+		   $currentCityName = $googleDistanceMatrixService->getCityNameFromLatitudeAndLongitude($city->getLatitude(),$city->getLongitude());
+		   if($currentCityName === false){
+			   continue;
+		   }
+		   if($cityName == $currentCityName){
+			   return $city;
+		   }
+	   }
+	   return false ;
 	}
 }

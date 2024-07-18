@@ -25,6 +25,7 @@ class TravelsController extends Controller
 	use HasApiResponse;
     public function store(StoreTravelRequest $request)
 	{
+	
 		$carSizeId = $request->get('car_size_id') ;
 		$travel  = new Travel();
 		$googleDistanceMatrixService = new GoogleDistanceMatrixService();
@@ -36,11 +37,15 @@ class TravelsController extends Controller
 		$travel->from_address_ar =  $googleDistanceMatrixService->getFullAddressFromLatitudeAndLongitude($fromLatitude,$fromLongitude,'ar');
 		$travel->to_address_en =  $googleDistanceMatrixService->getFullAddressFromLatitudeAndLongitude($toLatitude,$toLongitude,'en');
 		$travel->to_address_ar =  $googleDistanceMatrixService->getFullAddressFromLatitudeAndLongitude($toLatitude,$toLongitude,'ar');
-		$travel->client_id = $request->user()->id ;
+		$travel->client_id = $request->user()->id ; 
+		$city = $googleDistanceMatrixService->getCityFromLatitudeAndLongitude($request->user()->getCountry(),$fromLatitude,$fromLongitude);
+		if(!$city){
+			return $this->apiResponse(__('Your City Is Not Supported Yet',[],getApiLang()));
+		}
+		$travel->city_id = $city->id ;
 		/**
 		 * * علشان يتم انشاء اي دي للرحلة علشان لما السواق يجي يوافق علي الرحلة فا هحتاج الاي دي بتاعها ولو ما لقناش اي سواق يوافق هنحذفها وهي فاضية
 		 */
-	
 		
 		
 		$travel = $travel->syncFromRequest($request);
@@ -48,7 +53,6 @@ class TravelsController extends Controller
 		 $travel->sendRequestToAvailableDrivers($carSizeId); 
 		
 		 $travel->client->sendAppNotification(__('Travel Confirmation', [], 'en'), __('Travel Confirmation', [], 'ar'), __('We Will Contact You',[],'en'), __('We Will Contact You',[],'ar'), AppNotificationType::INFO);
-		
 
 		
 		return $this->apiResponse(__('Travel Has Been Created Successfully',[],getApiLang()) , $travel->getResource()->toArray($request) );
@@ -122,7 +126,7 @@ class TravelsController extends Controller
 		$carSizes = CarSize::get()->each(function(CarSize $carSize) use($toLatitude,$toLongitude){
 			$carSize->setRelation('drivers',Driver::getAvailableForSpecificLocationsAndCarSize($toLatitude,$toLongitude,$carSize->getId()));
 		});
-		$city  = City::getCityFromLatitudeAndLongitude(Request()->user('client')->getCountry(),Request('from_latitude'),Request('from_longitude'));
+		$city  = GoogleDistanceMatrixService::getCityFromLatitudeAndLongitude(Request()->user('client')->getCountry(),Request('from_latitude'),Request('from_longitude'));
 		if($city){
 			return  $this->apiResponse(__('Data Received Successfully',[],getApiLang()), CarSizeDriverResource::customCollection($carSizes,$city)->toArray($request));
 		}

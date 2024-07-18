@@ -41,7 +41,7 @@ class StoreTravelRequest extends FormRequest
 			'car_size_id' => ['required', 'exists:car_sizes,id'],
 			// 'country_id'=>['required', 'exists:countries,id'],
 			'payment_method'=>['required',new ValidPaymentMethodRule()],
-			'city_id'=>['required', 'exists:cities,id'],
+			// 'city_id'=>['required', 'exists:cities,id'],
 			'from_latitude'=>[$requiredOrNot,'required'],
 			'to_latitude'=>[$requiredOrNot,'required'],
 			'from_longitude'=>[$requiredOrNot,'required'],

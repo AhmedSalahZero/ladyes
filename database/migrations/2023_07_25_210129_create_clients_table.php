@@ -19,7 +19,7 @@ class CreateClientsTable extends Migration
             $table->string('last_name')->nullable();
 			$table->unsignedBigInteger('country_id')->nullable();
 			$table->foreign('country_id')->references('id')->on('countries')->nullOnDelete();
-			$table->decimal('current_wallet_balance',14,2)->comment('هو عباره عن اجمالي الفلوس اللي في محفظته حاليا وبنحسبها من جدول ال transactions')->default(0);
+			$table->decimal('current_wallet_balance',14,4)->comment('هو عباره عن اجمالي الفلوس اللي في محفظته حاليا وبنحسبها من جدول ال transactions')->default(0);
             $table->string('email')->nullable();	
             $table->string('phone')->unique();
             $table->boolean('is_verified')->default(0);

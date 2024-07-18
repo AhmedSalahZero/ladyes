@@ -18,7 +18,7 @@ class CreateDriversTable extends Migration
 			$table->id();
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
-			$table->decimal('current_wallet_balance',14,2)->comment('هو عباره عن اجمالي الفلوس اللي في محفظته حاليا وبنحسبها من جدول ال transactions')->default(0);
+			$table->decimal('current_wallet_balance',14,4)->comment('هو عباره عن اجمالي الفلوس اللي في محفظته حاليا وبنحسبها من جدول ال transactions')->default(0);
 			$table->unsignedBigInteger('country_id')->nullable();
 			$table->foreign('country_id')->references('id')->on('countries')->nullOnDelete();
 			$table->unsignedBigInteger('city_id')->nullable();
@@ -32,7 +32,7 @@ class CreateDriversTable extends Migration
             $table->string('birth_date')->nullable();
             $table->string('id_number')->comment('رقم الهوية / الاقامة')->nullable();
 			$table->string('deduction_type')->nullable();
-            $table->decimal('deduction_amount',14,2)->nullable()->comment('قيمة او نسبة الاستقطاع علي حسب النوع');
+            $table->decimal('deduction_amount',14,4)->nullable()->comment('قيمة او نسبة الاستقطاع علي حسب النوع');
             $table->integer('driving_range')->nullable()->comment('نطاق السائق (نطاق الطلابات) اللي يقدر يستلم منه طلبات وليكن مثلا 15 كيلو من مكانه')->default(20);
 			$table->unsignedBigInteger('size_id')->nullable();
 			$table->foreign('size_id')->references('id')->on('car_sizes')->nullOnDelete();
