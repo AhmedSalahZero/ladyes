@@ -779,7 +779,7 @@ class Travel extends Model
      */
     public function getPaymentPromotionAmount()
     {
-        return $this->payment->getPromotionAmount() ?: 0 ;
+        return $this->payment->getPromotionActualAmount() ?: 0 ;
     }
 	public function getPaymentPromotionType()
     {
@@ -798,13 +798,13 @@ class Travel extends Model
 		return __(ucfirst($paymentPromotionType));
   
 	}
+	/**
+	 * * بترجع القيمة الفعليه سواء كانت نسبة (هترجع القيمة الفعليه ليها اي بعد اجراء الحسابات )
+	 * * او هترجع القيمة الاصليه لو هي كانت قيمة ثابته
+	 */
     public function getPaymentPromotionDiscountAmountFormatted()
     {
-        $paymentPromotionAmountOrPercentage = $this->getPaymentPromotionAmount();
-		if($this->isPercentagePromotion()){
-			return $paymentPromotionAmountOrPercentage . ' %';
-		}
-		return $paymentPromotionAmountOrPercentage ;
+        return $this->getPaymentPromotionAmount();
     }
 
     public function getPaymentTotalPriceWithoutOperationFees()
@@ -878,6 +878,10 @@ class Travel extends Model
 	public function getPromotionType()
     {
         return  $this->promotion ? $this->promotion->getPromotionType() : DiscountType::FIXED ;
+    }
+	public function getPromotionPercentage()
+    {
+        return  $this->promotion &&  $this->promotion->isPercentage() ? $this->promotion->getPromotionAmount() : 0 ;
     }
 	/**
 	 * * هل العرض الترويجي عباره عن نسبة ولا لا

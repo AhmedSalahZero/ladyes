@@ -22,7 +22,8 @@ class CreatePaymentsTable extends Migration
 			$table->enum('type',array_keys(PaymentType::all()))->default(PaymentType::CASH);
 			$table->decimal('price',14,4)->default(0)->comment('سعر الرحلة الاساسي بدون رسوم التشغيل او الخصم');
 			$table->string('promotion_type',14,4)->default(DiscountType::FIXED)->comment('هنا عباره عن نوع العرض الترويجي لو موجود');
-			$table->decimal('promotion_amount',14,4)->default(0)->comment('هنا عباره عن نسبة او قيمة العرض الترويجي لو موجود');
+			$table->decimal('promotion_percentage',14,4)->default(0)->comment('هنا عباره عن نسبة لو كانت نسبة');
+			$table->decimal('promotion_actual_amount',14,4)->default(0)->comment('هنا عباره عن قيمة النسبة الفعليه بعد الحسابات (في حاله لو كان النوع نسبة) او قيمة العرض الثابت لو كان النوع ثابت الترويجي لو موجود');
 			$table->decimal('coupon_amount',14,4)->default(0)->comment('هنضيف الكوبون هنا لان ممكن السعر يتغير وبالتالي مقدرش اجيبه عن طريق الريليشن');
 			$table->decimal('operational_fees',14,4)->default(0)->comment('عباره عن رسوم التشغيل الخاصة بالمدينة وبتختلف بناء علي هل هي وقت ذروة اثناء بداية الرحلة ولا لا');
 			$table->decimal('cash_fees',5,2)->comment('لو اليوزر اختار انه يدفع كاش وقتها بيدفع وليكن مثلا واحد ريال زيادة')->default(0);

@@ -663,5 +663,7 @@
 	"Total Application Share":"اجمالي نصيب التطبيق",
 	"Total Driver Share":"اجمالي نصيب السائق",
 	"Value":"القيمة",
-	"No Driver Accept This Travel Yet":"لا يوجد سائق لهذه الرحلة حتى الان"
+	"No Driver Accept This Travel Yet":"لا يوجد سائق لهذه الرحلة حتى الان",
+	"Promotion Type":"نوع العرض الترويجي",
+	"Promotion Amount":"قيمة العرض الترويجي"
 }

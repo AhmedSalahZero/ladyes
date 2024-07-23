@@ -77,13 +77,17 @@ class Payment extends Model
 		$couponDiscountAmount = $this->getCouponDiscountAmount();
 		return number_format($couponDiscountAmount,0) ;
 	}
-	public function getPromotionAmount()
+	public function getPromotionActualAmount()
 	{
-		return $this->promotion_amount ?:0;
+		return $this->promotion_actual_amount ?:0;
 	}
 	public function getPromotionType()
 	{
 		return $this->promotion_type ;
+	}
+	public function getPromotionPercentage()
+	{
+		return $this->promotion_percentage ;
 	}
 	public function getPromotionAmountFormatted()
 	{
@@ -110,10 +114,11 @@ class Payment extends Model
         $couponAmount = $travel->getCouponDiscountAmount();
         $promotionType = $travel->getPromotionType();
         $paymentType = $travel->getPaymentMethod();
+		$promotionPercentage =$travel->getPromotionPercentage(); 
 		$cashFees = $travel->calculateCashFees();
 		$totalFines = $travel->client->getTotalAmountOfUnpaid();
 		$mainPriceWithoutDiscountAndTaxesAndCashFees =  $travel->calculateClientActualPriceWithoutDiscount();
-		$promotionAmount = $travel->calculatePromotionAmount($mainPriceWithoutDiscountAndTaxesAndCashFees,$couponAmount,$cashFees,$totalFines) ;
+		$promotionActualAmount = $travel->calculatePromotionAmount($mainPriceWithoutDiscountAndTaxesAndCashFees,$couponAmount,$cashFees,$totalFines) ;
 	
 		
 		$payment = $travel->payment()->create([
@@ -123,14 +128,15 @@ class Payment extends Model
             'price' => $mainPriceWithoutDiscountAndTaxesAndCashFees ,
 			'total_fines'=>$totalFines ,
             'promotion_type' => $promotionType,
-            'promotion_amount' => $promotionAmount,
+			'promotion_percentage'=>$promotionPercentage , 
+            'promotion_actual_amount' => $promotionActualAmount,
             'coupon_amount' => $couponAmount,
 			'application_share'=>$travel->calculateApplicationShare(),
 			'driver_share'=>$travel->calculateDriverShare(),
 			'car_size_price'=>$travel->driver->carSize->getPrice($travel->city->getCountryId(), getApiLang()),
 			'cash_fees'=>$cashFees ,
-			'tax_amount'=>$taxAmount = $travel->calculateTaxAmount($mainPriceWithoutDiscountAndTaxesAndCashFees,$couponAmount,$cashFees,$promotionAmount,$totalFines),
-            'total_price' => $totalPrice = $travel->calculateClientTotalActualPrice($mainPriceWithoutDiscountAndTaxesAndCashFees,$couponAmount,$promotionAmount,$taxAmount,$cashFees,$totalFines),
+			'tax_amount'=>$taxAmount = $travel->calculateTaxAmount($mainPriceWithoutDiscountAndTaxesAndCashFees,$couponAmount,$cashFees,$promotionActualAmount,$totalFines),
+            'total_price' => $totalPrice = $travel->calculateClientTotalActualPrice($mainPriceWithoutDiscountAndTaxesAndCashFees,$couponAmount,$promotionActualAmount,$taxAmount,$cashFees,$totalFines),
             'model_id' => $travel->id,
             'model_type' => HHelpers::getClassNameWithoutNameSpace($travel)
         ]);
