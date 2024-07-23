@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enum\AppNotificationType;
+use App\Enum\DiscountType;
 use App\Enum\PaymentStatus;
 use App\Enum\PaymentType;
 use App\Enum\TransactionType;
@@ -76,14 +77,21 @@ class Payment extends Model
 		$couponDiscountAmount = $this->getCouponDiscountAmount();
 		return number_format($couponDiscountAmount,0) ;
 	}
-	public function getPromotionPercentage()
+	public function getPromotionAmount()
 	{
-		return $this->promotion_percentage ?:0;
+		return $this->promotion_amount ?:0;
 	}
-	public function getPromotionPercentageFormatted()
+	public function getPromotionType()
 	{
-		$promotionPercentage = $this->getPromotionPercentage();
-		return number_format($promotionPercentage,0) . ' %' ;
+		return $this->promotion_type ;
+	}
+	public function getPromotionAmountFormatted()
+	{
+		$promotionAmountOrPercentage = $this->getPromotionAmount();
+		if($this->getPromotionType() == DiscountType::PERCENTAGE){
+			return number_format($promotionAmountOrPercentage,2) . ' %' ;
+		}
+		return number_format($promotionAmountOrPercentage,0)  ;
 	}
 	public function storeForTravel(Travel $travel):self
 	{
@@ -100,9 +108,8 @@ class Payment extends Model
 		$travelId = $travel->id ;
         $travel->generateGiftCoupon();
         $couponAmount = $travel->getCouponDiscountAmount();
-        $promotionPercentage = $travel->getPromotionPercentage();
+        $promotionType = $travel->getPromotionType();
         $paymentType = $travel->getPaymentMethod();
-		$promotionPercentage = $travel->getPromotionPercentage();
 		$cashFees = $travel->calculateCashFees();
 		$totalFines = $travel->client->getTotalAmountOfUnpaid();
 		$mainPriceWithoutDiscountAndTaxesAndCashFees =  $travel->calculateClientActualPriceWithoutDiscount();
@@ -115,8 +122,12 @@ class Payment extends Model
             'type' => $paymentType,
             'price' => $mainPriceWithoutDiscountAndTaxesAndCashFees ,
 			'total_fines'=>$totalFines ,
-            'promotion_percentage' => $promotionPercentage,
+            'promotion_type' => $promotionType,
+            'promotion_amount' => $promotionAmount,
             'coupon_amount' => $couponAmount,
+			'application_share'=>$travel->calculateApplicationShare(),
+			'driver_share'=>$travel->calculateDriverShare(),
+			'car_size_price'=>$travel->driver->carSize->getPrice($travel->city->getCountryId(), getApiLang()),
 			'cash_fees'=>$cashFees ,
 			'tax_amount'=>$taxAmount = $travel->calculateTaxAmount($mainPriceWithoutDiscountAndTaxesAndCashFees,$couponAmount,$cashFees,$promotionAmount,$totalFines),
             'total_price' => $totalPrice = $travel->calculateClientTotalActualPrice($mainPriceWithoutDiscountAndTaxesAndCashFees,$couponAmount,$promotionAmount,$taxAmount,$cashFees,$totalFines),
@@ -196,6 +207,10 @@ class Payment extends Model
 	{
 		return number_format($this->getPrice());
 	}	
+	public function getCarSizePrice()
+	{
+		return $this->car_size_price ?: 0 ;
+	}
 	public function getTotalFineAmount():float 
 	{
 		return $this->total_fines ?: 0 ;
@@ -219,6 +234,14 @@ class Payment extends Model
 	public function getCashFeesFormatted():string
 	{
 		return number_format($this->getCashFees());
+	}
+	public function getDriverShare():float 
+	{
+		return $this->driver_share ?: 0 ;
+	}
+	public function getApplicationShare():float 
+	{
+		return $this->application_share ?: 0 ;
 	}
 	public function getTaxAmount():float 
 	{

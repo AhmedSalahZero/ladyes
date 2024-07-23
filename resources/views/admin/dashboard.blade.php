@@ -15,12 +15,19 @@
                 <x-dashboard.card :has-progress="true" :progress-percentage="100" :icon="'la-users'" :title="__('No Users')" value="{{ number_format($clientsCount+$driversCount) }}"> </x-dashboard.card>
                 <x-dashboard.card :has-progress="true" :progress-percentage="$clientPercentage" :icon="'la-user'" :title="__('No Clients')" value="{{ number_format($clientsCount) }}"> </x-dashboard.card>
                 <x-dashboard.card :has-progress="true" :progress-percentage="$driverPercentage" :icon="'la-user-secret'" :title="__('No Drivers')" value="{{ number_format($driversCount) }}"> </x-dashboard.card>
+                <x-dashboard.card :has-progress="true" :progress-percentage="$noListingToOrdersDriversPercentage" :icon="'la-car'" :title="__('Current Online Drivers')" value="{{ number_format($noListingToOrdersDrivers) }}"> </x-dashboard.card>
+                <x-dashboard.card :has-progress="true" :progress-percentage="100-$noListingToOrdersDriversPercentage" :icon="'la-car'" :title="__('Current Offline Drivers')" value="{{ number_format($driversCount-$noListingToOrdersDrivers) }}"> </x-dashboard.card>
                 <x-dashboard.card :has-progress="true" :progress-percentage="100" :icon="'la-car'" :title="__('No Travels')" value="{{ number_format($travelsCount) }}"> </x-dashboard.card>
                 <x-dashboard.card :has-progress="true" :progress-percentage="$completedTravelsPercentage" :icon="'la-car'" :title="__('Completed Travels')" value="{{ number_format($completedTravelsCount) }}"> </x-dashboard.card>
                 <x-dashboard.card :has-progress="true" :progress-percentage="$cancelledTravelsPercentage" :icon="'la-car'" :title="__('Cancelled Travels')" value="{{ number_format($cancelledTravelsCount) }}"> </x-dashboard.card>
                 <x-dashboard.card :has-progress="true" :progress-percentage="$onTheWayTravelsPercentage" :icon="'la-car'" :title="__('On The Way Travels')" value="{{ number_format($onTheWayTravelsCount) }}"> </x-dashboard.card>
-                <x-dashboard.card :has-progress="true" :progress-percentage="$notStartedYetTravelsPercentage" :icon="'la-car'" :title="__('Not Started Yet Travels')" value="{{ number_format($notStartedYetTravelsCount) }}"> </x-dashboard.card>
-                {{-- <x-dashboard.card :has-progress="true" :progress-percentage="100" :icon="'la-money'" :title="__('Total Transactions')" value="{{ number_format($totalTransactions) }}" > </x-dashboard.card> --}}
+                @foreach($incomes as $incomeInterval => $dailyIncomesPerCurrency)
+                @foreach($dailyIncomesPerCurrency as $dailyIncomePerCurrency )
+                <x-dashboard.card :has-progress="true" :progress-percentage="100" :icon="'la-money'" :title="__($incomeInterval)" value="{{ number_format($dailyIncomePerCurrency->amount) . ' ' .  __($dailyIncomePerCurrency->currency_name) }}"> </x-dashboard.card>
+                @endforeach
+                @endforeach
+                <x-dashboard.card :has-progress="true" :progress-percentage="100" :icon="'la-phone'" :title="__('No Support Tickets')" value="{{ number_format($onTheWayTravelsCount) }}"> </x-dashboard.card>
+				
             </div>
             <div class="row">
                 <div class="col-12">
@@ -81,7 +88,31 @@
             </div>
 
 
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h1>{{ __('Latest Support Tickets') }}</h1>
+                        </div>
+                        <div class="card-content collapse show" style="margin-top: -12px">
+                            <div class="card-body card-dashboard">
+                                <x-tables.basic-table>
+                                    <x-slot name="header">
+                                        @include('admin.support-tickets.th')
+                                    </x-slot>
+                                    <x-slot name="body">
+                                        @foreach($latestSupportTickets as $model)
+                                        @include('admin.support-tickets.tr')
+                                        @endforeach
 
+                                    </x-slot>
+                                </x-tables.basic-table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
 
 
             <div class="row">
@@ -103,7 +134,6 @@
 
                                     </x-slot>
                                 </x-tables.basic-table>
-                                {{-- @include('admin.helpers.pagination-links') --}}
                             </div>
                         </div>
 
@@ -154,11 +184,11 @@
 
                 </div>
             </div>
-			
-			
-			
-			
-			<div class="row">
+
+
+
+
+            <div class="row">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
@@ -172,7 +202,7 @@
 
                 </div>
             </div>
-			
+
             <!--/ Recent Transactions -->
             <!--Recent Orders & Monthly Sales -->
 
@@ -212,7 +242,7 @@
     let labels = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
     let reportDataArr = [];
     for (var monthNum of labels) {
-        reportDataArr.push(reportData[monthNum] ?? 0)
+        reportDataArr.push(reportData[monthNum] ? ? 0)
     }
     let data = {
         labels: labels
@@ -259,19 +289,19 @@
 
 
 <script>
-     ctx = document.getElementById('no-travels-per-city');
+    ctx = document.getElementById('no-travels-per-city');
 
-     reportData = @json($numberOfTravelsPerCityInCurrentYear);
-	 console.log(reportData)
-     labels = [];
-	 for(var key of Object.keys(reportData)){
-		labels.push(key)
-	 }
-     reportDataArr = [];
-    for (var monthNum of labels) {
-        reportDataArr.push(reportData[monthNum] ?? 0)
+    reportData = @json($numberOfTravelsPerCityInCurrentYear);
+    console.log(reportData)
+    labels = [];
+    for (var key of Object.keys(reportData)) {
+        labels.push(key)
     }
-     data = {
+    reportDataArr = [];
+    for (var monthNum of labels) {
+        reportDataArr.push(reportData[monthNum] ? ? 0)
+    }
+    data = {
         labels: labels
         , datasets: [{
             label: "{{ __('Number Of Travels Per City') }}"

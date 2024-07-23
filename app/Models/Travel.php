@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enum\AppNotificationType;
 use App\Enum\DeductionType;
+use App\Enum\DiscountType;
 use App\Enum\PaymentStatus;
 use App\Enum\PaymentType;
 use App\Enum\TravelStatus;
@@ -309,16 +310,15 @@ class Travel extends Model
         $this->client->sendAppNotification(
             __('Ride Is Waiting', [], 'en'),
             __('Ride Is Waiting', [], 'ar'),
-            __('Ride Number :travelId Has Arrived Pick Up Location At :dateTimeFormatted', ['travelId' => $this->getId(), 'dateTimeFormatted' => HDate::formatForView(Carbon::make($now)->format(HDate::DEFAULT_DATE_TIME_FORMAT_AS_OUTPUT))], 'en'),
-            __('Ride Number :travelId Has Arrived Pick Up Location At :dateTimeFormatted', ['travelId' => $this->getId(), 'dateTimeFormatted' => HDate::formatForView(Carbon::make($now)->format(HDate::DEFAULT_DATE_TIME_FORMAT_AS_OUTPUT))], 'ar'),
+            __('Ride Number :travelId Has Arrived Pick Up Location At :dateTimeFormatted', ['travelId' => $this->getId(), 'dateTimeFormatted' => HDate::formatForView(Carbon::make($now)->format(HDate::DEFAULT_DATE_TIME_FORMAT_AS_INPUT))], 'en'),
+            __('Ride Number :travelId Has Arrived Pick Up Location At :dateTimeFormatted', ['travelId' => $this->getId(), 'dateTimeFormatted' => HDate::formatForView(Carbon::make($now)->format(HDate::DEFAULT_DATE_TIME_FORMAT_AS_INPUT))], 'ar'),
             AppNotificationType::INFO
         );
-
         Notification::storeNewAdminNotification(
             __('Ride Is Waiting', [], 'en'),
             __('Ride Is Waiting', [], 'ar'),
-            __('Ride Number :travelId Has Arrived Client Location At :dateTimeFormatted', ['travelId' => $this->getId(), 'dateTimeFormatted' => HDate::formatForView(Carbon::make($now)->format(HDate::DEFAULT_DATE_TIME_FORMAT_AS_OUTPUT))], 'en'),
-            __('Ride Number :travelId Has Arrived Client Location At :dateTimeFormatted', ['travelId' => $this->getId(), 'dateTimeFormatted' => HDate::formatForView(Carbon::make($now)->format(HDate::DEFAULT_DATE_TIME_FORMAT_AS_OUTPUT))], 'ar'),
+            __('Ride Number :travelId Has Arrived Client Location At :dateTimeFormatted', ['travelId' => $this->getId(), 'dateTimeFormatted' => HDate::formatForView(Carbon::make($now)->format(HDate::DEFAULT_DATE_TIME_FORMAT_AS_INPUT))], 'en'),
+            __('Ride Number :travelId Has Arrived Client Location At :dateTimeFormatted', ['travelId' => $this->getId(), 'dateTimeFormatted' => HDate::formatForView(Carbon::make($now)->format(HDate::DEFAULT_DATE_TIME_FORMAT_AS_INPUT))], 'ar'),
         );
 
         $this->save();
@@ -331,6 +331,7 @@ class Travel extends Model
      */
     public function markAsStarted(Request $request)
     {
+		
         $now = now() ;
         $this->status = TravelStatus::ON_THE_WAY;
         $this->started_at = $now;
@@ -357,8 +358,8 @@ class Travel extends Model
         Notification::storeNewAdminNotification(
             __('Ride Started', [], 'en'),
             __('Ride Started', [], 'ar'),
-            __('Ride Number :travelId Has Been Started At :dateTimeFormatted', ['travelId' => $this->getId(), 'dateTimeFormatted' => HDate::formatForView(Carbon::make($now)->format(HDate::DEFAULT_DATE_TIME_FORMAT_AS_OUTPUT))], 'en'),
-            __('Ride Number :travelId Has Been Started At :dateTimeFormatted', ['travelId' => $this->getId(), 'dateTimeFormatted' => HDate::formatForView(Carbon::make($now)->format(HDate::DEFAULT_DATE_TIME_FORMAT_AS_OUTPUT))], 'ar'),
+            __('Ride Number :travelId Has Been Started At :dateTimeFormatted', ['travelId' => $this->getId(), 'dateTimeFormatted' => HDate::formatForView(Carbon::make($now)->format(HDate::DEFAULT_DATE_TIME_FORMAT_AS_INPUT))], 'en'),
+            __('Ride Number :travelId Has Been Started At :dateTimeFormatted', ['travelId' => $this->getId(), 'dateTimeFormatted' => HDate::formatForView(Carbon::make($now)->format(HDate::DEFAULT_DATE_TIME_FORMAT_AS_INPUT))], 'ar'),
         );
 
         $this->save();
@@ -521,7 +522,7 @@ class Travel extends Model
 
         return $priceModel->getOperatingFeesPrice();
     }
-
+	
     /**
      * * هي رسوم بيدفعها العميل لو اختار طريق الدفع كاش
      */
@@ -534,7 +535,36 @@ class Travel extends Model
 
         return $priceModel->getCashFees();
     }
+	public function getCashFeesFormatted()
+    {
+        $amount = $this->payment ? $this->payment->getCashFees() : 0 ;
+		
+        $currentName = $this->getCurrencyNameFormatted();
 
+        return number_format($amount) . ' ' . __($currentName);
+    }
+	/**
+	 * * نصيب السائق الذي تم تسجله اثناء عمليه الدفع
+	 */
+	public function getPaymentDriverShareFormatted()
+    {
+        $amount = $this->payment ? $this->payment->getDriverShare() : 0 ;
+		
+        $currentName = $this->getCurrencyNameFormatted();
+
+        return number_format($amount) . ' ' . __($currentName);
+    }
+	/**
+	 * * نصيب الابلكيشن الذي تم تسجله اثناء عمليه الدفع
+	 */
+	public function getPaymentApplicationShareFormatted()
+    {
+        $amount = $this->payment ? $this->payment->getApplicationShare() : 0 ;
+		
+        $currentName = $this->getCurrencyNameFormatted();
+
+        return number_format($amount) . ' ' . __($currentName);
+    }
     public function calculateTaxAmount(float $mainPriceWithoutDiscountAndTaxesAndCashFees = null, $couponAmount = 0, $cashFees = 0, $promotionAmount = 0, $totalFines = 0)
     {
         $mainPriceWithoutDiscountAndTaxesAndCashFees = is_null($mainPriceWithoutDiscountAndTaxesAndCashFees) ? $this->calculateClientActualPriceWithoutDiscount() : $mainPriceWithoutDiscountAndTaxesAndCashFees;
@@ -546,7 +576,13 @@ class Travel extends Model
 
         return $taxPercentage * ($mainPriceWithoutDiscountAndTaxesAndCashFees - $promotionAmount - $couponAmount + $cashFees + $totalFines) ;
     }
+	public function getPaymentTaxAmountFormatted()
+	{
+		$amount = $this->payment->getTaxAmount();
+        $currentName = $this->getCurrencyNameFormatted();
 
+        return number_format($amount) . ' ' . __($currentName);
+	}
     public function calculateTaxesAmount()
     {
         $country = $this->getCountry() ;
@@ -596,10 +632,14 @@ class Travel extends Model
 
     /**
      * * حساب القيمة الفعليه للعرض الترويجي
+	 * * لو هو نسبة هنهحسبها .. ولو هو قيمة ثابته هنرجعها زي ما هي
      */
     public function calculatePromotionAmount($mainPriceWithoutDiscountAndTaxesAndCashFees, $couponAmount, $cashFees, $totalFines)
     {
-        $promotionPercentage = $this->getPromotionPercentage() / 100;
+		if(!$this->isPercentagePromotion()){
+			return $this->getPromotionAmount();
+		}
+        $promotionPercentage = $this->getPromotionAmount() / 100;
 
         return ($mainPriceWithoutDiscountAndTaxesAndCashFees + $cashFees - $couponAmount + $totalFines) * $promotionPercentage;
     }
@@ -612,7 +652,6 @@ class Travel extends Model
         /**
          * * لو ما مررنهاش هنحسبها
          */
-        // $promotionAmount = is_null($promotionAmount) ? $this->getPromotionAmount() : $promotionAmount ;
         $couponAmount = is_null($couponAmount) ? $this->getCouponDiscountAmount() : $couponAmount ;
         $taxesAmount = is_null($taxesAmount) ? $this->calculateTaxesAmount() : $taxesAmount ;
         $cashFees = is_null($cashFees) ? $this->calculateCashFees() : $cashFees ;
@@ -632,10 +671,14 @@ class Travel extends Model
          */
         $driver = $this->driver ;
         $operationFees = $this->getOperationalFees();
-        $promotionPercentage = $this->getPromotionPercentage();
+        $promotionValueOrPercentage = $this->getPromotionAmount();
         $deductionType = $driver->getDeductionType();
         $appShareBasic = ($this->calculateClientActualPriceWithoutDiscount() - $operationFees)  ;
-        $appShareBasic = $appShareBasic - ($appShareBasic * $promotionPercentage / 100);
+		if($this->isPercentagePromotion()){
+			$appShareBasic = $appShareBasic - ($appShareBasic * $promotionValueOrPercentage / 100);
+		}else{
+			$appShareBasic = $appShareBasic - $promotionValueOrPercentage;
+		}
         if ($deductionType === DeductionType::PERCENTAGE) {
             return  $appShareBasic - ($appShareBasic * ($driver->getDeductionAmount() / 100))  ;
         }
@@ -734,11 +777,14 @@ class Travel extends Model
     /**
      * * في حاله لو الرحله اكتملت هنجيب قيمة العرض الترويجي .. هنجيب من المدفوعه
      */
-    public function getPaymentPromotionPercentage()
+    public function getPaymentPromotionAmount()
     {
-        return $this->payment->getPromotionPercentage() ?: 0 ;
+        return $this->payment->getPromotionAmount() ?: 0 ;
     }
-
+	public function getPaymentPromotionType()
+    {
+        return $this->payment->getPromotionType() ?: DiscountType::FIXED ;
+    }
     public function getPaymentCouponDiscountAmountFormatted()
     {
         $couponDiscount = $this->getPaymentCouponDiscountAmount();
@@ -746,12 +792,19 @@ class Travel extends Model
 
         return number_format($couponDiscount) . ' ' . __($currentName);
     }
-
-    public function getPaymentPromotionDiscountPercentageFormatted()
+	public function getPaymentPromotionDiscountTypeFormatted()
+	{
+		$paymentPromotionType = $this->getPaymentPromotionType();
+		return __(ucfirst($paymentPromotionType));
+  
+	}
+    public function getPaymentPromotionDiscountAmountFormatted()
     {
-        $paymentPromotionPercentage = $this->getPaymentPromotionPercentage();
-
-        return $paymentPromotionPercentage . ' %';
+        $paymentPromotionAmountOrPercentage = $this->getPaymentPromotionAmount();
+		if($this->isPercentagePromotion()){
+			return $paymentPromotionAmountOrPercentage . ' %';
+		}
+		return $paymentPromotionAmountOrPercentage ;
     }
 
     public function getPaymentTotalPriceWithoutOperationFees()
@@ -816,20 +869,30 @@ class Travel extends Model
     /**
      * * دي قيمة العرض الترويجي الحالي (اللي هنستخدمها عند تسجيل الرحله .. اما اللي تحتها هي القيمة القديمة اللي تم تسجيلها في الرحلة علشان لو
      * * لو حصل تغير في سعر الرحلة
-     * )
+     * * لو نسبة فا هتكون النسبة ولو قيمة ثابته هتبقي هي القيمة الثابته
      */
-    public function getPromotionPercentage()
+    public function getPromotionAmount()
     {
-        return  $this->promotion ? $this->promotion->getPromotionPercentage() : 0 ;
+        return  $this->promotion ? $this->promotion->getPromotionAmount() : 0 ;
     }
-
+	public function getPromotionType()
+    {
+        return  $this->promotion ? $this->promotion->getPromotionType() : DiscountType::FIXED ;
+    }
+	/**
+	 * * هل العرض الترويجي عباره عن نسبة ولا لا
+	 */
+	public function isPercentagePromotion()
+    {
+        return  $this->promotion ? $this->promotion->isPercentage() : false  ;
+    }
     /**
      * * دي القيمه الفعليه اللي تم استخدامها في الرحلة
      */
-    public function getPromotionPercentageFormatted()
-    {
-        return $this->payment->getPromotionPercentageFormatted() . ' ' . $this->getCurrencyNameFormatted() ;
-    }
+    // public function getPromotionPercentageFormatted()
+    // {
+    //     return $this->payment->getPromotionPercentageFormatted() . ' ' . $this->getCurrencyNameFormatted() ;
+    // }
 
     /**
      * * قيمة الغرامة لو الغى الرحلة مثلا
@@ -1289,13 +1352,31 @@ class Travel extends Model
         return [
             'price' => $mainPriceWithoutDiscountAndTaxesAndCashFees = $this->hasStarted() ? $this->calculateClientActualPriceWithoutDiscount() : 0,
             'total_fines' => $totalFines = $this->client->getTotalAmountOfUnpaid(),
-            'promotion_percentage' => $this->getPromotionPercentage(),
+            'promotion_type' => $this->getPromotionType(),
+            'promotion_amount' => $this->getPromotionAmount(),
             'coupon_amount' => $couponAmount = $this->getCouponDiscountAmount(),
             'cash_fees' => $cashFees = $this->calculateCashFees(),
             'tax_amount' => $taxAmount = $this->calculateTaxAmount($mainPriceWithoutDiscountAndTaxesAndCashFees, $couponAmount, $cashFees, $promotionAmount = $this->calculatePromotionAmount($mainPriceWithoutDiscountAndTaxesAndCashFees, $couponAmount, $cashFees, $totalFines), $totalFines),
             'total_price' => $this->calculateClientTotalActualPrice($mainPriceWithoutDiscountAndTaxesAndCashFees, $couponAmount, $promotionAmount, $taxAmount, $cashFees, $totalFines),
         ];
     }
+	
+	public function getPaymentTotalFineFormatted()
+	{
+		$amount = $this->payment ? $this->payment->getTotalFineAmount() : 0 ;
+		
+        $currentName = $this->getCurrencyNameFormatted();
+
+        return number_format($amount) . ' ' . __($currentName);
+	}
+	public function getCarSizePriceFormatted()
+	{
+		$amount = $this->payment ? $this->payment->getCarSizePrice() : 0 ;
+		
+        $currentName = $this->getCurrencyNameFormatted();
+
+        return number_format($amount) . ' ' . __($currentName);
+	}
 
     /**
      * * من هنا هنبعت اشعار للسواق بالرحلة لو حابب انه يقبلها او لا

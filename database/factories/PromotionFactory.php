@@ -14,14 +14,14 @@ class PromotionFactory extends Factory
      */
     public function definition()
     {
-		// $discountTypes = array_keys(DiscountType::all());
+		$discountTypes = array_keys(DiscountType::all());
         return [
 				'name_en'=>$this->faker->name ,
 				'name_ar'=>$this->faker->name ,
 				'start_date'=>now(),
 				'end_date'=>now()->addMonth(),
 				'discount_type'=>DiscountType::PERCENTAGE,
-				// 'discount_type'=>$discountTypes[$this->faker->numberBetween(0,count($discountTypes)-1)],
+				'discount_type'=>$discountTypes[$this->faker->numberBetween(0,count($discountTypes)-1)],
 				'discount_amount'=>$this->faker->numberBetween(10,20),
         ];
     }

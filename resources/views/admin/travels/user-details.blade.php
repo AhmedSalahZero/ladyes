@@ -157,13 +157,20 @@
 
                                 <div class="tab-pane fade" id="prices{{ $model->id }}" role="tabpanel" aria-labelledby="card-details-tab">
                                     @foreach ( [
+                                    __('Main Price (Car Price)') => $model->getCarSizePriceFormatted(),
                                     __('Travel Main Price')=> $model->getPaymentPriceFormatted($lang) ,
                                     __('Coupon Discount') => $model->getPaymentCouponDiscountAmountFormatted() ,
-									__('Promotion Percentage') => $model->getPaymentPromotionDiscountPercentageFormatted(),
+                                    __('Cash Fees') => $model->getCashFeesFormatted(),
+                                    __('Tax Amount')=> $model->getPaymentTaxAmountFormatted(),
+                                    __('Total Fine') => $model->getPaymentTotalFineFormatted(),
+                                    __('Promotion Type') => $model->getPaymentPromotionDiscountTypeFormatted(),
+                                    __('Promotion Amount') => $model->getPaymentPromotionDiscountAmountFormatted(),
                                     __('Operational Fees') => $model->getPaymentOperationalFeesFormatted() ,
                                     __('Total Price (Without Operation Fees)') => $model->getPaymentTotalPriceWithoutOperationFeesFormatted(),
                                     __('Total Price (With Operation Fees)') => $model->getPaymentTotalPriceWithOperationFeesFormatted(),
                                     __('Payment Method') => $model->getPaymentMethodFormatted(),
+                                    __('Driver Share') =>$model->getPaymentDriverShareFormatted(),
+                                    __('Application Share') =>$model->getPaymentApplicationShareFormatted(),
                                     __('Payment Status') => $model->getPaymentStatusFormatted(),
                                     ] as $title => $value )
                                     <div class="row">
@@ -185,7 +192,22 @@
                                 <div class="tab-pane fade" id="fines{{ $model->id }}" role="tabpanel" aria-labelledby="card-details-tab">
                                     @foreach ( [
                                     __('Fine') => $model->getFineAmountFormatted() ,
-                                    __('Payment Method') => $model->getFinePaymentMethod()
+                                    __('Payment Method') => $model->getFinePaymentMethod(),
+                                    __('Main Price (Car Price)') => $model->getCarSizePriceFormatted(),
+                                    __('Travel Main Price')=> $model->getPaymentPriceFormatted($lang) ,
+                                    __('Coupon Discount') => $model->getPaymentCouponDiscountAmountFormatted() ,
+                                    __('Cash Fees') => $model->getCashFeesFormatted(),
+                                    __('Tax Amount')=> $model->getPaymentTaxAmountFormatted(),
+                                    __('Total Fine') => $model->getPaymentTotalFineFormatted(),
+                                    __('Promotion Type') => $model->getPaymentPromotionDiscountTypeFormatted(),
+                                    __('Promotion Amount') => $model->getPaymentPromotionDiscountAmountFormatted(),
+                                    __('Operational Fees') => $model->getPaymentOperationalFeesFormatted() ,
+                                    __('Total Price (Without Operation Fees)') => $model->getPaymentTotalPriceWithoutOperationFeesFormatted(),
+                                    __('Total Price (With Operation Fees)') => $model->getPaymentTotalPriceWithOperationFeesFormatted(),
+                                    __('Payment Method') => $model->getPaymentMethodFormatted(),
+                                    __('Driver Share') =>$model->getPaymentDriverShareFormatted(),
+                                    __('Application Share') =>$model->getPaymentApplicationShareFormatted(),
+                                    __('Payment Status') => $model->getPaymentStatusFormatted(),
                                     ] as $title => $value )
                                     <div class="row">
                                         <div class="col-md-6">

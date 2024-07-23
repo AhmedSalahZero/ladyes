@@ -7,8 +7,10 @@ use App\Helpers\HHelpers;
 use App\Http\Controllers\Controller;
 use App\Models\Client;
 use App\Models\Driver;
+use App\Models\SupportTicket;
 use App\Models\Transaction;
 use App\Models\Travel;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
@@ -39,13 +41,17 @@ class DashboardController extends Controller
 		$latestTransactions = Transaction::orderByRaw('id desc')->take(10)->get();
 		$latestClients = Client::orderByRaw('id desc')->take(10)->get();
 		$latestDrivers = Driver::orderByRaw('id desc')->take(10)->get();
-		
+		$latestSupportTickets = SupportTicket::orderByRaw('id desc')->take(10)->get(); 
 		$numberOfTravelsPerMonthInCurrentYear = DB::table('travels')->groupByRaw('Year(started_at) , Month(started_at)')
 		->whereRaw('year(started_at) = '.now()->format('Y'))
 		->whereNotNull('started_at')
 		->selectRaw('lpad(month(started_at) , 2,0 ) as month ,count(*) as count')
 		->orderByRaw('month(started_at) asc')
 		->get()->toArray();
+		
+		
+		$noListingToOrdersDrivers = DB::table('drivers')->where('is_listing_to_orders_now',1)->count();
+		$noListingToOrdersDriversPercentage = $noListingToOrdersDrivers ? $driverCount / $noListingToOrdersDrivers * 100 : 0;
 		
 		$numberOfTravelsPerMonthInCurrentYear = HHelpers::removeLevel($numberOfTravelsPerMonthInCurrentYear);
 		
@@ -60,6 +66,28 @@ class DashboardController extends Controller
 		->get()->take(12)->toArray();
 		$numberOfTravelsPerCityInCurrentYear = HHelpers::removeLevel2($numberOfTravelsPerCityInCurrentYear,1);
 		
+		
+		
+		
+		$incomeEquation = 'application_share + driver_share + operational_fees ';
+		/**
+		 * * الدخل اليومي عباره عن 
+		 */
+	
+		 
+		$incomes['Daily Income'] = DB::table('payments')->whereDate('created_at', Carbon::today() )->groupBy('currency_name')->selectRaw('currency_name,sum('.$incomeEquation.') as amount')->get();
+		$incomes['Weekly Income'] = DB::table('payments')->whereDate('created_at', '<=' , Carbon::today() )->whereDate('created_at','>=',Carbon::today()->subWeek())->groupBy('currency_name')->selectRaw('currency_name,sum('.$incomeEquation.') as amount')->get();
+		$incomes['Monthly Income'] = DB::table('payments')->whereDate('created_at', '<=' , Carbon::today() )->whereDate('created_at','>=',Carbon::today()->subMonth())->groupBy('currency_name')->selectRaw('currency_name,sum('.$incomeEquation.') as amount')->get();
+		$incomes['Yearly Income'] = DB::table('payments')->whereDate('created_at', '<=' , Carbon::today() )->whereDate('created_at','>=',Carbon::today()->subYear())->groupBy('currency_name')->selectRaw('currency_name,sum('.$incomeEquation.') as amount')->get();
+		$incomes['Total Operational Fees'] = DB::table('payments')->groupBy('currency_name')->selectRaw('currency_name,sum(operational_fees) as amount')->get();
+		$incomes['Total Coupon Amount'] = DB::table('payments')->groupBy('currency_name')->selectRaw('currency_name,sum(coupon_amount) as amount')->get();
+		$incomes['Total Tax Amount'] = DB::table('payments')->groupBy('currency_name')->selectRaw('currency_name,sum(tax_amount) as amount')->get();
+		$incomes['Total Cash Fees'] = DB::table('payments')->groupBy('currency_name')->selectRaw('currency_name,sum(cash_fees) as amount')->get();
+		$incomes['Total Fine Amount'] = DB::table('payments')->groupBy('currency_name')->selectRaw('currency_name,sum(total_fines) as amount')->get();
+		$incomes['Total Application Share'] = DB::table('payments')->groupBy('currency_name')->selectRaw('currency_name,sum(application_share) as amount')->get();
+		$incomes['Total Driver Share'] = DB::table('payments')->groupBy('currency_name')->selectRaw('currency_name,sum(driver_share) as amount')->get();
+		$noSupportTickets = DB::table('support_tickets')->count();
+
 		
 		
         return view('admin.dashboard',[
@@ -83,8 +111,13 @@ class DashboardController extends Controller
 			'latestTransactions'=>$latestTransactions,
 			'latestClients'=>$latestClients			,
 			'latestDrivers'=>$latestDrivers,
+			'latestSupportTickets'=>$latestSupportTickets,
 			'numberOfTravelsPerMonthInCurrentYear'=>$numberOfTravelsPerMonthInCurrentYear,
-			'numberOfTravelsPerCityInCurrentYear'=>$numberOfTravelsPerCityInCurrentYear
+			'numberOfTravelsPerCityInCurrentYear'=>$numberOfTravelsPerCityInCurrentYear,
+			'noListingToOrdersDrivers'=>$noListingToOrdersDrivers,
+			'noListingToOrdersDriversPercentage'=>$noListingToOrdersDriversPercentage,
+			'incomes'=>$incomes,
+			'noSupportTickets'=>$noSupportTickets
         ]);
     }
 }

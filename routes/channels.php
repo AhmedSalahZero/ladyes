@@ -33,3 +33,7 @@ Broadcast::channel('client.notifications.{id}', function ($user,$id) {
 Broadcast::channel('driver.new.travel.available.notifications.{id}', function ($user,$id) {
 	return true ;
 });
+
+Broadcast::channel('client.accepted.travel.notifications.{id}', function ($user,$id) {
+	return true ;
+});

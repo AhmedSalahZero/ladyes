@@ -60,8 +60,8 @@ window.Echo.private('App.Models.Admin.' + adminId)
     });
 	
 	// for test purpose
-	window.Echo.private('driver.new.travel.available.notifications.1' )
-   .notification((notification) => {
+	// window.Echo.private('driver.new.travel.available.notifications.1' )
+//    .notification((notification) => {
 	// console.log('good driver');
 	// console.log(notification);
 	// alert('e')
@@ -72,7 +72,22 @@ window.Echo.private('App.Models.Admin.' + adminId)
 		// prependNewNotification(message, title,notification.createdAtFormatted)
 		// incrementTotalNumberOfNotifications()
 		
-   });
+//    });
+	
+   
+   	// for test purpose
+	// window.Echo.private('client.accepted.travel.notifications.1' )
+	// .notification((notification) => {
+	//  console.log('good client');
+	//  console.log(notification);
+	 
+		 // const title = notification['title_'+lang]
+		 // const message = notification['message_'+lang]
+		 // toastr.success(message, title)
+		 // prependNewNotification(message, title,notification.createdAtFormatted)
+		 // incrementTotalNumberOfNotifications()
+		 
+	// });
 	
 
 

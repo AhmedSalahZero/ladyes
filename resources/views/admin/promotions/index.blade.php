@@ -18,7 +18,8 @@
                                             <th class="th-global-class  text-center">{{__('Name')}}</th>
 											<th class="th-global-class  text-center">{{__('Start Date')}}</th>
                                             <th class="th-global-class  text-center">{{__('End Date')}}</th>
-                                            <th class="th-global-class  text-center">{{__('Percentage')}}</th>
+                                            <th class="th-global-class  text-center">{{__('Discount Type')}}</th>
+                                            <th class="th-global-class  text-center">{{__('Amount')}}</th>
                                             <th class="th-global-class  text-center">{{__('Is Available')}}</th>
                                             @if($user->can(getPermissionName('update')) || $user->can(getPermissionName('delete')) )
                                             <th class="th-global-class  text-center">{{__('Actions')}}</th>
@@ -31,6 +32,7 @@
                                                 <td class="text-center">{{$model->getName($lang)}}</td>
 												 <td class="text-center">{{$model->getStartDateFormatted()}}</td>
 												 <td class="text-center">{{$model->getEndDateFormatted()}}</td>
+												 <td class="text-center">{{$model->getDiscountTypeFormatted()}}</td>
 												 <td class="text-center">{{$model->getDiscountAmountFormatted()}}</td>
                                                 <td class="text-center">
                                                     {{$model->getIsAvailable() ? __('Available') : __('Not Available')}}

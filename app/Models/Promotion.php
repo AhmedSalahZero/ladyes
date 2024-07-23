@@ -47,9 +47,16 @@ class Promotion extends Model
 	{
 		return $this->hasMany(Travel::class,'promotion_id','id');
 	}
-	public function getPromotionPercentage()
+	/**
+	 * * لو نوعها نسبة يبقي هي دي النسبة .. ولو نوعها قيمة ثابته تبقي هي دي القيمة الثابته
+	 */
+	public function getPromotionAmount()
 	{
 		return $this->getDiscountAmount();
+	}
+	public function getPromotionType()
+	{
+		return $this->getDiscountType();
 	}
 	
 }

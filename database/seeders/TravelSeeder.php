@@ -40,6 +40,10 @@ class TravelSeeder extends Seeder
 			$payment = Payment::factory()->create([
 			
 				'type'=> PaymentType::CASH,
+				'cash_fees'=>1 ,
+				'application_share'=>12,
+				'driver_share'=>23,
+				'car_size_price'=>7,
 				'travel_id'=>$travel->id ,
 				'model_id'=>$travel->client->id ,
 				'model_type'=>HHelpers::getClassNameWithoutNameSpace($travel->client)

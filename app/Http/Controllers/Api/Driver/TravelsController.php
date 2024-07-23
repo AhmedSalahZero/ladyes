@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Driver;
 
+use App\Enum\AppNotificationType;
 use App\Http\Controllers\Controller;
 use App\Models\Travel;
 use App\Traits\Api\HasApiResponse;
@@ -24,12 +25,17 @@ class TravelsController extends Controller
 	 */
 	public function markAsStarted(Request $request,Travel $travel)
 	{
+		if(!$travel->driver){
+			return $this->apiResponse(__('No Driver Accept This Travel Yet'));
+		}
 		$travel = $travel->markAsStarted($request);
 		return $this->apiResponse(__('Travel Has Been Marked AS Started',[],getApiLang()));
 	}
 	public function markAsCancelled(Request $request,Travel $travel)
 	{
-		
+		if(!$travel->driver){
+			return $this->apiResponse(__('No Driver Accept This Travel Yet'));
+		}
 		// if(!$travel->hasStarted()){
 		// 	return $this->apiResponse(__('Travel Has Not Started Yet',[],getApiLang()),[],500);
 		// }
@@ -38,7 +44,7 @@ class TravelsController extends Controller
 	}
 	public function markAsCompleted(Request $request,Travel $travel)
 	{ 
-
+		
 		if(!$travel->hasStarted()){
 			return $this->apiResponse(__('Travel Has Not Started Yet',[],getApiLang()),[],500);
 		}
@@ -50,8 +56,17 @@ class TravelsController extends Controller
 	 */
 	public function accept(Request $request,Travel $travel)
 	{ 
-		 $travel->driver_id = $request->user('driver')->id ;
+		$driver = $request->user('driver');
+		 $travel->driver_id = $driver->id ;
 		$travel->save();
+		$travel->client->sendAppNotification(__('Driver Accept Your Travel Request',[],'en'),__('Driver Accept Your Travel Request',[],'ar'),
+				__('Driver :driverName Has Accept Your Travel Request',['driverName'=>$driver->getName()],'en'),
+				__('Driver :driverName Has Accept Your Travel Request',['driverName'=>$driver->getName()],'ar'),
+				AppNotificationType::INFO,null,'notification'
+			);
+	
+		$travel->client->sendDriverAccept($driver);
+		
 		return $this->apiResponse(__('You Accept This Travel',[],getApiLang()));
 	}
 	

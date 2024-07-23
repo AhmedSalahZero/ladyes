@@ -7,6 +7,7 @@ class HDate
 	const DEFAULT_DATE_FORMAT_AS_INPUT = 'Y-m-d';
 	const DEFAULT_DATE_AS_OUTPUT = 'd/m/Y';
 	const DEFAULT_DATE_TIME_FORMAT_AS_OUTPUT = 'd/m/Y g:i A';
+	const DEFAULT_DATE_TIME_FORMAT_AS_INPUT= 'Y-m-d g:i A';
 	const TIME_FORMAT = 'g:i A';
 	public static function isValidDateFormat(?string $date , string $format)
 	{
@@ -19,7 +20,6 @@ class HDate
 		if($onlyDate) {
 			return Carbon::make($date)->format(self::DEFAULT_DATE_AS_OUTPUT);
 		}
-
 			return Carbon::make($date)->format(self::DEFAULT_DATE_TIME_FORMAT_AS_OUTPUT);
 	}
 	public static function formatTimeForView(?string $time)

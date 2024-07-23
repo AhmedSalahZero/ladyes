@@ -5,14 +5,18 @@ use App\Enum\DiscountType;
 
 trait HasDiscountAmountWithDiscountType 
 {
+	public function isPercentage():bool 
+	{
+		return $this->getDiscountType() == DiscountType::PERCENTAGE;
+	}
 	public function getDiscountType()
 	{
 		return $this->discount_type ;
 	}
 	public function getDiscountTypeFormatted()
 	{
-		$discountType = $this->getDiscountType() ;
-		return $discountType ? __($discountType) : __('N/A');
+		$discountType = ucfirst($this->getDiscountType()) ;
+		return $discountType ? __($discountType)  : __('N/A');
 	}
 	public function getDiscountAmount()
 	{

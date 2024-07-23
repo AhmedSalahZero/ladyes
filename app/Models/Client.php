@@ -6,12 +6,14 @@ use App\Enum\TravelStatus;
 use App\Helpers\HDate;
 use App\Helpers\HHelpers;
 use App\Http\Resources\ClientResource;
+use App\Http\Resources\DriverResource;
 use App\Interfaces\IHaveAppNotification;
 use App\Interfaces\IHaveBonus;
 use App\Interfaces\IHaveDeposit;
 use App\Interfaces\IHaveFine;
 use App\Interfaces\IHaveWithdrawal;
 use App\Notifications\Admins\ClientNotification;
+use App\Notifications\Admins\TravelIsAcceptedForClientNotification;
 use App\Traits\Accessors\IsBaseModel;
 use App\Traits\Models\HasBasicStoreRequest;
 use App\Traits\Models\HasBonus;
@@ -235,6 +237,15 @@ class Client extends Model implements HasMedia, BannableInterface,IHaveAppNotifi
 	public function sendAppNotification(string $titleEn,string $titleAr,string $messageEn,string $messageAr,string $secondaryType,int $modelId = null , string $mainType = 'notification' )
 	{
 		$this->notify(new ClientNotification($titleEn,$titleAr,$messageEn,$messageAr,formatForView(now()),$secondaryType,$modelId,$mainType));
+	}
+	public function sendDriverAccept(Driver $driver)
+	{
+		// TravelIsAcceptedForClientNotification
+		$notificationData = [
+			'driver'=>(new DriverResource($driver))->toArray(Request()) 
+		];
+		
+		$this->notify(new TravelIsAcceptedForClientNotification($notificationData ,$this->id));
 	}
 	public function payments():?HasMany
 	{
