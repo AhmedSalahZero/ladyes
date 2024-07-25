@@ -2,7 +2,7 @@
     <i class="la la-eye"></i></a>
 
 
-<div class="modal inner-modal fade" id="view-driver-details-popup{{ $model->id }}-{{ $travelType }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div data-backdrop="static" data-travel-popup class="modal inner-modal fade" id="view-driver-details-popup{{ $model->id }}-{{ $travelType }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl  modal-dialog modal-lg-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -21,25 +21,25 @@
 
                                 <ul class="nav nav-tabs mb-2" id="myTab" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link active" id="details-tab" data-toggle="tab" href="#details{{ $model->id }}" role="tab" aria-controls="home" aria-selected="true">{{ __('Driver Details') }}</a>
+                                        <a class="nav-link active" id="details-tab" data-toggle="tab" href="#details{{ $model->id.$travelType }}" role="tab" aria-controls="home" aria-selected="true">{{ __('Driver Details') }}</a>
                                     </li>
 
                                     <li class="nav-item">
-                                        <a class="nav-link" id="card-details-tab" data-toggle="tab" href="#car-details{{ $model->id }}" role="tab" aria-controls="profile" aria-selected="false">{{ __('Car Infos') }}</a>
+                                        <a class="nav-link" id="card-details-tab" data-toggle="tab" href="#car-details{{ $model->id.$travelType }}" role="tab" aria-controls="profile" aria-selected="false">{{ __('Car Infos') }}</a>
                                     </li>
 
                                     <li class="nav-item">
-                                        <a class="nav-link " id="client-details-tab" data-toggle="tab" href="#client-details{{ $model->id }}" role="tab" aria-controls="home" aria-selected="true">{{ __('Client Details') }}</a>
+                                        <a class="nav-link " id="client-details-tab" data-toggle="tab" href="#client-details{{ $model->id.$travelType }}" role="tab" aria-controls="home" aria-selected="true">{{ __('Client Details') }}</a>
                                     </li>
                                     @if($model->isCompleted() )
                                     <li class="nav-item">
-                                        <a class="nav-link " id="client-details-tab" data-toggle="tab" href="#prices{{ $model->id }}" role="tab" aria-controls="home" aria-selected="true">{{ __('Payment Details') }}</a>
+                                        <a class="nav-link " id="client-details-tab" data-toggle="tab" href="#prices{{ $model->id.$travelType }}" role="tab" aria-controls="home" aria-selected="true">{{ __('Payment Details') }}</a>
                                     </li>
                                     @endif
 
                                     @if($model->isCancelled() )
                                     <li class="nav-item">
-                                        <a class="nav-link " id="client-details-tab" data-toggle="tab" href="#fines{{ $model->id }}" role="tab" aria-controls="home" aria-selected="true">{{ __('Fine Details') }}</a>
+                                        <a class="nav-link " id="client-details-tab" data-toggle="tab" href="#fines{{ $model->id.$travelType }}" role="tab" aria-controls="home" aria-selected="true">{{ __('Fine Details') }}</a>
                                     </li>
                                     @endif
 
@@ -54,7 +54,7 @@
 
                         <div class="col-md-10">
                             <div class="tab-content card-details-tab" id="myTabContent">
-                                <div class="tab-pane fade show active" id="details{{ $model->id }}" role="tabpanel" aria-labelledby="details-tab">
+                                <div class="tab-pane fade show active" id="details{{ $model->id.$travelType }}" role="tabpanel" aria-labelledby="details-tab">
                                     <div class="row mb-4">
                                         <div class="col-md-6">
                                             <label class="font-weight-bold">{{ __('Driver Image') }}</label>
@@ -87,7 +87,7 @@
 
 
                                 </div>
-                                <div class="tab-pane fade" id="car-details{{ $model->id }}" role="tabpanel" aria-labelledby="card-details-tab">
+                                <div class="tab-pane fade" id="car-details{{ $model->id.$travelType }}" role="tabpanel" aria-labelledby="card-details-tab">
                                     @foreach ( [
                                     __('Car Size')=> isset($driver)?$driver->getSizeName($lang) : __('N/A'),
                                     __('Car Make')=> isset($driver)?$driver->getMakeName($lang) : __('N/A'),
@@ -116,7 +116,7 @@
 
 
 
-                                <div class="tab-pane fade " id="client-details{{ $model->id }}" role="tabpanel" aria-labelledby="details-tab">
+                                <div class="tab-pane fade " id="client-details{{ $model->id.$travelType }}" role="tabpanel" aria-labelledby="details-tab">
                                     <div class="row mb-4">
                                         <div class="col-md-6">
                                             <label class="font-weight-bold">{{ __('Client Image') }}</label>
@@ -155,7 +155,7 @@
 
                                 @if($model->isCompleted() )
 
-                                <div class="tab-pane fade" id="prices{{ $model->id }}" role="tabpanel" aria-labelledby="card-details-tab">
+                                <div class="tab-pane fade" id="prices{{ $model->id.$travelType }}" role="tabpanel" aria-labelledby="card-details-tab">
                                     @foreach ( [
                                     __('Main Price (Car Price)') => $model->getCarSizePriceFormatted(),
                                     __('Coupon Discount') => $model->getPaymentCouponDiscountAmountFormatted() ,
@@ -170,7 +170,7 @@
                                     __('Payment Method') => $model->getPaymentMethodFormatted(),
                                     __('Driver Share') =>$model->getPaymentDriverShareFormatted(),
                                     __('Application Share') =>$model->getPaymentApplicationShareFormatted(),
-									     __('Travel Main Price')=> $model->getPaymentPriceFormatted($lang) ,
+									__('Travel Main Price')=> $model->getPaymentPriceFormatted($lang) ,
                                     __('Payment Status') => $model->getPaymentStatusFormatted(),
                                     ] as $title => $value )
                                     <div class="row">
@@ -189,7 +189,7 @@
 
                                 @if($model->IsCancelled() )
 
-                                <div class="tab-pane fade" id="fines{{ $model->id }}" role="tabpanel" aria-labelledby="card-details-tab">
+                                <div class="tab-pane fade" id="fines{{ $model->id.$travelType }}" role="tabpanel" aria-labelledby="card-details-tab">
                                     @foreach ( [
                                     __('Fine') => $model->getFineAmountFormatted() ,
                                     __('Payment Method') => $model->getFinePaymentMethod(),

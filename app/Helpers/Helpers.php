@@ -44,7 +44,7 @@ function getPermissions():array
 function getSidebars($user):array
 {
 	return [
-		$pageName = 'home'=>createSidebarItem($pageName, __('Home') ,  '#' ,$user->can('view home'),'la la-home' ),
+		$pageName = 'home'=>createSidebarItem($pageName, __('Home') ,  route('dashboard.index') ,$user->can('view home'),'la la-home' ),
 		$pageName = 'admins'=> createSidebarItem( $pageName , __('Admins') ,  '#' ,$user->can('view '.$pageName) || $user->can('create '.$pageName) ,'la la-user-secret',
 			[
 				createSidebarItem($pageName, __('View :page' , ['page' => __('Admins')]) , route('admins.index') , $user->can('view ' .$pageName)  ),

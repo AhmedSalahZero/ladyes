@@ -269,7 +269,7 @@ class Travel extends Model
             __('Ride Number :travelId Has Been Completed At :dateTimeFormatted', ['travelId' => $this->getId(), 'dateTimeFormatted' => HDate::formatForView(now()->format('Y-m-d'))], 'en'),
             __('Ride Number :travelId Has Been Completed At :dateTimeFormatted', ['travelId' => $this->getId(), 'dateTimeFormatted' => HDate::formatForView(now()->format('Y-m-d'))], 'ar'),
         );
-		$this->driver ? $this->client->sendTravelIsCompleted($this->driver) : null;
+		$this->driver && $this->client ? $this->client->sendTravelIsCompleted($this->driver) : null;
         return $this;
     }
 

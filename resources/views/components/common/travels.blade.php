@@ -7,7 +7,7 @@
         <a data-toggle="modal" data-target="#view-travels-on-the-way-popup{{ $model->id }}" class="dropdown-item" href="#"> {{ __('View On The Way Travels') }} </a>
         <a data-toggle="modal" data-target="#view-travels-cancelled-popup{{ $model->id }}" class="dropdown-item" href="#"> {{ __('View Cancelled Travels') }} </a>
     </div>
-    <div class="modal fade" id="view-travels-popup{{ $model->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div data-travel-popup data-backdrop="static" class="modal fade" id="view-travels-popup{{ $model->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog modal-lg-centered" role="document">
             <div class="modal-content">
                 @csrf
@@ -39,7 +39,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="view-travels-cancelled-popup{{ $model->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div data-travel-popup data-backdrop="static" class="modal fade" id="view-travels-cancelled-popup{{ $model->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog modal-lg-centered" role="document">
             <div class="modal-content">
                 @csrf
@@ -71,7 +71,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="view-travels-on-the-way-popup{{ $model->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div data-travel-popup data-backdrop="static" class="modal fade" id="view-travels-on-the-way-popup{{ $model->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog modal-lg-centered" role="document">
             <div class="modal-content">
                 @csrf
@@ -108,7 +108,7 @@
 
 
 
-    <div class="modal fade" id="view-travels-completed-popup{{ $model->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div data-travel-popup data-backdrop="static" class="modal fade" id="view-travels-completed-popup{{ $model->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog modal-lg-centered" role="document">
             <div class="modal-content">
                 @csrf

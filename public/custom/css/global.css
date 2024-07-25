@@ -1,5 +1,9 @@
-.th-global-class {
+
+[data-travel-popup]{
+	min-height:90vh
 }
+/* .th-global-class { */
+/* } */
 .required {
     color: red;
 }
