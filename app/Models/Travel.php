@@ -269,7 +269,7 @@ class Travel extends Model
             __('Ride Number :travelId Has Been Completed At :dateTimeFormatted', ['travelId' => $this->getId(), 'dateTimeFormatted' => HDate::formatForView(now()->format('Y-m-d'))], 'en'),
             __('Ride Number :travelId Has Been Completed At :dateTimeFormatted', ['travelId' => $this->getId(), 'dateTimeFormatted' => HDate::formatForView(now()->format('Y-m-d'))], 'ar'),
         );
-
+		$this->driver ? $this->client->sendTravelIsCompleted($this->driver) : null;
         return $this;
     }
 
@@ -408,7 +408,7 @@ class Travel extends Model
 
         $driver = $this->driver ;
         /**
-         * * اول رساله هنبعتها لو احتاجت اي شئ اضغط علي زرار الطزارئ
+         * * اول رساله هنبعتها لو احتاجت اي شئ اضغط علي زرار الطوارئ
          */
         $client
         ->sendAppNotification(
@@ -540,7 +540,7 @@ class Travel extends Model
         $amount = $this->payment ? $this->payment->getCashFees() : 0 ;
 		
         $currentName = $this->getCurrencyNameFormatted();
-
+		
         return number_format($amount) . ' ' . __($currentName);
     }
 	/**

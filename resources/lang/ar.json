@@ -647,8 +647,8 @@
 	"Your City Is Not Supported Yet":"لا ندعم مدينتك حتى الان",
 	"Current Online Drivers":"عدد السائقين المتصلين حاليا",
 	"Current Offline Drivers":"عدد السائقين غير المتصلين حاليا",
-	"Application Share":"نصيب التطبيق",
-	"Driver Share":"نصيب السائق",
+	"Application Share":"رسوم التطبيق",
+	"Driver Share":"رسوم السائقين",
 	"Driver Accept Your Travel Request":"تم قبول طلب رحتلك ",
 	"Driver :driverName Has Accept Your Travel Request":"السائق :driverName قام بقبول طلبك",
 	"Daily Income":"الدخل اليومي",
@@ -665,5 +665,6 @@
 	"Value":"القيمة",
 	"No Driver Accept This Travel Yet":"لا يوجد سائق لهذه الرحلة حتى الان",
 	"Promotion Type":"نوع العرض الترويجي",
-	"Promotion Amount":"قيمة العرض الترويجي"
+	"Promotion Amount":"قيمة العرض الترويجي",
+	"Fine Note":"ملاحظة"
 }

@@ -14,6 +14,7 @@ use App\Interfaces\IHaveFine;
 use App\Interfaces\IHaveWithdrawal;
 use App\Notifications\Admins\ClientNotification;
 use App\Notifications\Admins\TravelIsAcceptedForClientNotification;
+use App\Notifications\Admins\TravelIsCompletedForClientNotification;
 use App\Traits\Accessors\IsBaseModel;
 use App\Traits\Models\HasBasicStoreRequest;
 use App\Traits\Models\HasBonus;
@@ -240,12 +241,22 @@ class Client extends Model implements HasMedia, BannableInterface,IHaveAppNotifi
 	}
 	public function sendDriverAccept(Driver $driver)
 	{
-		// TravelIsAcceptedForClientNotification
 		$notificationData = [
 			'driver'=>(new DriverResource($driver))->toArray(Request()) 
 		];
 		
 		$this->notify(new TravelIsAcceptedForClientNotification($notificationData ,$this->id));
+	}
+	/**
+	 * * هنا هنبعت اشعار للعميل بعد اما الرحلة تكون اكتملت بحيث نظهرله في الابلكيشن انه يقيم الرحلة
+	 */
+	public function sendTravelIsCompleted(Driver $driver)
+	{
+		$notificationData = [
+			'driver'=>(new DriverResource($driver))->toArray(Request()) 
+		];
+		
+		$this->notify(new TravelIsCompletedForClientNotification($notificationData ,$this->id));
 	}
 	public function payments():?HasMany
 	{
