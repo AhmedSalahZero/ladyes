@@ -18,8 +18,8 @@ jobs:
             image: mysql:5.7
             env:
                 MYSQL_ALLOW_EMPTY_PASSWORD: false
-                MYSQL_ROOT_PASSWORD: ho_OQYRjSqGB
-                MYSQL_DATABASE: veroanalysis_db
+                MYSQL_ROOT_PASSWORD: M*5V{]pm#+$N
+                MYSQL_DATABASE: appladyes0_mnjz
             ports:
                    - 3306/tcp
             options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
