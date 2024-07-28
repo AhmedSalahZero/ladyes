@@ -24,13 +24,13 @@ jobs:
                    - 3306/tcp
             options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
-    - uses: actions/checkout@v2.1.0
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 2
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-         php-version: "8.1"
+         php-version: "8.0"
          extensions: mbstring, dom, fileinfo, mysql
     - name: Start mysql service
       run: sudo /etc/init.d/mysql start 
