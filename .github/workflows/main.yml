@@ -52,6 +52,7 @@ jobs:
     - name: FTP-Deploy-Action
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
+         log-level: verbose
          server: app.ladyes.co
          server-dir: public_html
          username: appladyes0
