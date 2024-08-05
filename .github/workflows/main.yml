@@ -57,7 +57,7 @@ jobs:
     - name: run migration
       run: php artisan migrate --force  
     - name: FTP-Deploy-Action
-      uses: SamKirkland/FTP-Deploy-Action@ftps_test
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
          log-level: verbose
          server: 100.29.163.35
