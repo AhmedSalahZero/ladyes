@@ -12,6 +12,7 @@
         "ayman-elmalah/laravel-myfatoorah": "^1.0",
         "beyondcode/laravel-websockets": "^1.14",
         "codebyray/laravel-review-rateable": "*",
+        "creativeorange/gravatar": "^1.0",
         "cybercog/laravel-ban": "^4.7",
         "fakerphp/faker": "^1.20",
         "fideloper/proxy": "^4.2",
@@ -23,11 +24,14 @@
         "laravel/framework": "^8.0",
         "laravel/sanctum": "^2.15",
         "laravel/tinker": "^2.0",
+        "laravolt/avatar": "^5.0",
         "munafio/chatify": "^1.6",
         "pusher/pusher-php-server": "7.0.2",
         "simplesoftwareio/simple-qrcode": "^4.2",
+        "spatie/laravel-ignition": "^1.6",
         "spatie/laravel-json-api-paginate": "^1.13",
         "spatie/laravel-medialibrary": "^9.12",
+        "spatie/laravel-permission": "^6.3",
         "spatie/laravel-query-builder": "^4.0",
         "spatie/laravel-settings": "^3.2",
         "tightenco/ziggy": "^1.8",
@@ -70,6 +74,15 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
-       
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php artisan key:generate --ansi"
+        ]
     }
 }
