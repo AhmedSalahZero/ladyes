@@ -15,7 +15,7 @@ jobs:
        BROADCAST_DRIVER: log
     services:
            mysql:
-            image: mysql:8
+            image: mysql:5.7
             env:
                 MYSQL_ALLOW_EMPTY_PASSWORD: false
                 MYSQL_ROOT_PASSWORD: YTRYuyu545hb
@@ -30,7 +30,7 @@ jobs:
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-         php-version: "8.0"
+         php-version: "7.4"
          extensions: mbstring, dom, fileinfo, mysql
     - name: Start mysql service
       run: sudo /etc/init.d/mysql start 
