@@ -30,8 +30,15 @@ jobs:
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-         php-version: "7.4"
+         php-version: "8.0.1"
          extensions: mbstring, dom, fileinfo, mysql
+    - name: Verify PHP version
+      run: php -v
+    - name: Enable Debug Logging
+      run: |
+        echo "Debugging..."
+        php -i
+         php -m
     - name: Start mysql service
       run: sudo /etc/init.d/mysql start 
     - name: Get composer cache directory 
