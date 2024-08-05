@@ -1,4 +1,6 @@
-import './firebase'
+
+
+// import './firebase'
 window._ = require('lodash');
 
 
@@ -39,13 +41,15 @@ window.Pusher = require('pusher-js');
 window.Echo = new Echo({
     broadcaster: 'pusher',
     key: process.env.MIX_PUSHER_APP_KEY,
-	// encrypted:false ,
-    wsHost: window.location.hostname, // just host name without its port like
+	 encrypted:false ,
+    wsHost: process.env.MIX_APP_ENV == 'production ' ? 'sockets.ladyes.co' : window.location.hostname, // just host name without its port like
     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
      forceTLS: false,
-	wsPort: process.env.MIX_LARAVEL_WEBSOCKETS_PORT,
+	 wsPort: process.env.MIX_LARAVEL_WEBSOCKETS_PORT,
+	// wssPort: process.env.MIX_LARAVEL_WEBSOCKETS_PORT,
 	enabledTransports: ['ws', 'wss'],
 	// authEndpoint : `http://127.0.0.1:8000/broadcasting/auth`,
-	
-    // disableStats: true
+	disableStats: false,
+	useTLS: true,
+	debug: true,
 });

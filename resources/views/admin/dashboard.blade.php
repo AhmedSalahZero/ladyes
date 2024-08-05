@@ -242,7 +242,7 @@
     let labels = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
     let reportDataArr = [];
     for (var monthNum of labels) {
-        reportDataArr.push(reportData[monthNum] ? ? 0)
+        reportDataArr.push(reportData[monthNum] ?? 0)
     }
     let data = {
         labels: labels
@@ -299,7 +299,7 @@
     }
     reportDataArr = [];
     for (var monthNum of labels) {
-        reportDataArr.push(reportData[monthNum] ? ? 0)
+        reportDataArr.push(reportData[monthNum] ?? 0)
     }
     data = {
         labels: labels
@@ -341,6 +341,7 @@
     });
 
 </script>
-
+<script>
+</script>
 
 @endsection

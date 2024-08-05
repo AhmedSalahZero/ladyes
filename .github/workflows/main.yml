@@ -8,18 +8,18 @@ jobs:
     name: FTP-Deploy-Action
     runs-on: ubuntu-latest
     env:
-       DB_HOST: app.ladyes.co
-       DB_DATABASE: appladyes0_mnjz
-       DB_USERNAME: appladyes0_mnjz_user
-       DB_PASSWORD: .0ap,o&@5W9p
+       DB_HOST: 100.29.163.35
+       DB_DATABASE: ladyes
+       DB_USERNAME: root
+       DB_PASSWORD: YTRYuyu545hb
        BROADCAST_DRIVER: log
     services:
            mysql:
             image: mysql:8
             env:
                 MYSQL_ALLOW_EMPTY_PASSWORD: false
-                MYSQL_ROOT_PASSWORD: .0ap,o&@5W9p
-                MYSQL_DATABASE: appladyes0_mnjz
+                MYSQL_ROOT_PASSWORD: YTRYuyu545hb
+                MYSQL_DATABASE: root
             ports:
                    - 3306/tcp
             options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -53,10 +53,10 @@ jobs:
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
          log-level: verbose
-         server: app.ladyes.co
+         server: 100.29.163.35
          server-dir: public_html
-         username: appladyes0
-         password: Aa@112223344@aA
+         username: ubuntu
+         password: RHGVYTrf#ghfgyf43453
          exclude: |
             **/node_modules/**
     

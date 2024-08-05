@@ -24,11 +24,13 @@ class Notification extends Model
 	}
 	public static function storeNewAdminNotification(string $titleEn , string $titleAr  , string $messageEn , string $messageAr)
 	{
+	
 		foreach(Admin::onlyIsActive()->get() as $admin){
 			if($admin->isNot(auth('admin')->user()) && $admin->hasPermissionTo('view app-notifications','admin')){
 				$admin->notify(new AdminNotification($titleEn,$titleAr,$messageEn,$messageAr,formatForView(now())));
             }
 		}
+		
 	}
 	
 	

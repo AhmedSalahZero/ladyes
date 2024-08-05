@@ -117,7 +117,7 @@ Route::prefix('clients')->group(function () {
         Route::put('update', [ClientsController::class, 'update']);
         Route::get('information', [InformationController::class, 'viewAfterSignupMessage']);
         Route::get('help', [HelpController::class, 'viewForDriver']);
-		Route::apiResource('cancellation-reasons',CancellationReasonsController::class);
+		Route::apiResource('cancellation-reasons',CancellationReasonsController::class)->names([]);
 		Route::apiResource('coupons',CouponsController::class);
 		Route::post('rating',[RatingController::class,'rateWith']);
 		Route::apiResource('addresses', AddressesController::class);
