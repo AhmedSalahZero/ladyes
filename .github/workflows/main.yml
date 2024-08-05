@@ -39,6 +39,8 @@ jobs:
         echo "Debugging..."
         php -i
          php -m
+    - name: Run PHP script with timeout
+      run: timeout 60s php your-script.php
     - name: Start mysql service
       run: sudo /etc/init.d/mysql start 
     - name: Get composer cache directory 
