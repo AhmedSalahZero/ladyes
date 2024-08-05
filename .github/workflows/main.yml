@@ -39,8 +39,6 @@ jobs:
         echo "Debugging..."
         php -i
          php -m
-    - name: Run PHP script with timeout
-      run: timeout 60s php your-script.php
     - name: Start mysql service
       run: sudo /etc/init.d/mysql start 
     - name: Get composer cache directory 
@@ -59,7 +57,7 @@ jobs:
     - name: run migration
       run: php artisan migrate --force  
     - name: FTP-Deploy-Action
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      uses: SamKirkland/FTP-Deploy-Action@ftps_test
       with:
          log-level: verbose
          server: 100.29.163.35
