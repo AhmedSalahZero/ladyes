@@ -59,7 +59,7 @@ jobs:
       with:
          log-level: verbose
          server: 15.184.104.36
-         server-dir: public_html
+         server-dir: public_html/
          username: ubuntu
          password: RHGVYTrf#ghfgyf43453
          exclude: |
