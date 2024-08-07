@@ -27,7 +27,6 @@
         "laravolt/avatar": "^5.0",
         "munafio/chatify": "^1.6",
         "pusher/pusher-php-server": "7.0.2",
-        "simplesoftwareio/simple-qrcode": "^4.2",
         "spatie/laravel-ignition": "^1.6",
         "spatie/laravel-json-api-paginate": "^1.13",
         "spatie/laravel-medialibrary": "^9.12",
