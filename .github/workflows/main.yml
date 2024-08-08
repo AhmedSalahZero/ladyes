@@ -58,7 +58,7 @@ jobs:
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
          log-level: verbose
-         server: sftp://15.184.104.36
+         server: 15.184.104.36
          server-dir: public_html/
          username: developer
          password: BNRYtrFFr$343244@#EDR
