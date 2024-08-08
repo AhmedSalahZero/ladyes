@@ -60,8 +60,8 @@ jobs:
          log-level: verbose
          server: 15.184.104.36
          server-dir: public_html/
-         username: ubuntu
-         password: RHGVYTrf#ghfgyf43453
+         username: developer
+         password: BNRYtrFFr$343244@#EDR
          exclude: |
             **/node_modules/**
     
