@@ -27,7 +27,7 @@ class Notification extends Model
 	
 		foreach(Admin::onlyIsActive()->get() as $admin){
 			if($admin->isNot(auth('admin')->user()) && $admin->hasPermissionTo('view app-notifications','admin')){
-				$admin->notify(new AdminNotification($titleEn,$titleAr,$messageEn,$messageAr,formatForView(now())));
+				$admin->notify(new AdminNotification($admin,$titleEn,$titleAr,$messageEn,$messageAr,formatForView(now())));
             }
 		}
 		

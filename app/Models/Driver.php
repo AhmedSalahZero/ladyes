@@ -358,9 +358,11 @@ class Driver extends Model implements HasMedia, BannableInterface, IHaveAppNotif
 		/**
 		 * @var Collection $drivers
 		 */
+		if(env('in_test_mode',false)){
+			return Driver::all();
+		}
 		$drivers = self::onlyListingToOrders()
         ->onlyIsVerified()
-	
         ->onlyCanReceiveOrders()
         ->withoutBanned()
         ->onlyWithCarSize($carSizeId)
@@ -368,9 +370,7 @@ class Driver extends Model implements HasMedia, BannableInterface, IHaveAppNotif
         ->onlyDistanceLessThanOrEqual($latitude, $longitude)
         ->orderByDistance()
         ->get() ;
-		if(env('in_test_mode',false)){
-			$drivers = Driver::all();
-		}
+		
 		
 		return $drivers->filter(function(Driver $driver){
 			$currentUser = Request()->user() ;

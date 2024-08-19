@@ -25,6 +25,7 @@ class CarSizeDriverResource extends JsonResource
 		 * @var Driver $closestDriver
 		 */
 		$closestDriver = $this->drivers->first() ;
+		
 		/**
 		 * * ملحوظه احنا هنجيب بنجيب البيانات بالنسبة لاقرب سائق فقط علشان دا شكل الفريم في الموبايل 
 		 */

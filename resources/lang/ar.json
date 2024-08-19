@@ -666,5 +666,6 @@
 	"No Driver Accept This Travel Yet":"لا يوجد سائق لهذه الرحلة حتى الان",
 	"Promotion Type":"نوع العرض الترويجي",
 	"Promotion Amount":"قيمة العرض الترويجي",
-	"Fine Note":"ملاحظة"
+	"Fine Note":"ملاحظة",
+	"No Available Drivers For Your Selected Location":"لا يوجد سائق متاحين في هذه المنطقة"
 }

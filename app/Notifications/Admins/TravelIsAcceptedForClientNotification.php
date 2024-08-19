@@ -2,6 +2,7 @@
 
 namespace App\Notifications\Admins;
 
+use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Bus\Queueable;
@@ -67,7 +68,7 @@ class TravelIsAcceptedForClientNotification extends Notification implements Shou
 	}
 	public function broadcastOn()
 	{
-		return new PrivateChannel('client.accepted.travel.notifications.'.$this->clientId );
+		return new Channel('client.accepted.travel.notifications.'.$this->clientId );
 	}
 	
 }

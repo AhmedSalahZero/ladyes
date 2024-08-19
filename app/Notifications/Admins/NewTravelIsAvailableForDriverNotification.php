@@ -2,6 +2,7 @@
 
 namespace App\Notifications\Admins;
 
+use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Bus\Queueable;
@@ -68,7 +69,11 @@ class NewTravelIsAvailableForDriverNotification extends Notification implements 
 	public function broadcastOn()
 	{
 
-		return new PrivateChannel('driver.new.travel.available.notifications.'.$this->driverId );
+		return new Channel('driver.new.travel.available.notifications.'.$this->driverId );
 	}
+    public function broadcastAs()
+    {
+        return 'newTravelAvalilableNotification';
+    }
 	
 }

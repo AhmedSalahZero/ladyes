@@ -158,7 +158,6 @@ class Travel extends Model
     public function calculateGiftCouponDiscountAmount(): ?float
     {
         $percentage = getSetting('coupon_discount_percentage') / 100;
-
         return $percentage * $this->calculateClientActualPriceWithoutDiscount();
     }
 

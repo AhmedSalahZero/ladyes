@@ -29,7 +29,7 @@ class DriverFactory extends Factory
 				'email'=>$this->faker->email ,
 				'birth_date'=>$this->faker->date(),
 				'phone'=>$this->faker->phoneNumber() ,
-				'is_verified'=>$this->faker->boolean(),
+				'is_verified'=>1,
 				'is_listing_to_orders_now'=>0 ,
 				// 'verification_code'=>random_int(1000, 9999) ,
 				'plate_letters'=>$this->faker->numberBetween(1000,9000),

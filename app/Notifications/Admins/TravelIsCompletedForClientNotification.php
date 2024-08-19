@@ -2,6 +2,7 @@
 
 namespace App\Notifications\Admins;
 
+use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Bus\Queueable;
@@ -67,7 +68,7 @@ class TravelIsCompletedForClientNotification extends Notification implements Sho
 	}
 	public function broadcastOn()
 	{
-		return new PrivateChannel('client.completed.travel.notifications.'.$this->clientId );
+		return new Channel('client.completed.travel.notifications.'.$this->clientId );
 	}
 	
 }

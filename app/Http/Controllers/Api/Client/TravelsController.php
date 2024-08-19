@@ -126,6 +126,12 @@ class TravelsController extends Controller
 		$carSizes = CarSize::get()->each(function(CarSize $carSize) use($toLatitude,$toLongitude){
 			$carSize->setRelation('drivers',Driver::getAvailableForSpecificLocationsAndCarSize($toLatitude,$toLongitude,$carSize->getId()));
 		});
+		$carSizes = $carSizes->filter(function(CarSize $carSize){
+			return $carSize->drivers->count();
+		});
+		if(!count($carSizes)){
+			return  $this->apiResponse(__('No Available Drivers For Your Selected Location',[],getApiLang()),[],500);
+		}
 		$city  = GoogleDistanceMatrixService::getCityFromLatitudeAndLongitude(Request()->user('client')->getCountry(),Request('from_latitude'),Request('from_longitude'));
 		if($city){
 			return  $this->apiResponse(__('Data Received Successfully',[],getApiLang()), CarSizeDriverResource::customCollection($carSizes,$city)->toArray($request));

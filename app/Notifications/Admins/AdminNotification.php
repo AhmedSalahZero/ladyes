@@ -2,6 +2,8 @@
 
 namespace App\Notifications\Admins;
 
+use App\Models\Admin;
+use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
@@ -19,13 +21,15 @@ class AdminNotification extends Notification implements ShouldBroadcastNow
      *
      * @return void
      */
+	protected Admin $admin ;
 	protected string $title_en ;
 	protected string $title_ar ;
 	protected string $message_en ;
 	protected string $message_ar ;
 	protected string $createdAtFormatted ;
-    public function __construct(string $title_en,string $title_ar,string $message_en,string $message_ar , string $createdAtFormatted )
+    public function __construct(Admin $admin, string $title_en,string $title_ar,string $message_en,string $message_ar , string $createdAtFormatted )
     {
+		$this->admin = $admin ;
         $this->title_en = $title_en ;
         $this->title_ar = $title_ar ;
         $this->message_en = $message_en ;
@@ -79,5 +83,8 @@ class AdminNotification extends Notification implements ShouldBroadcastNow
 			'createdAtFormatted'=>$this->createdAtFormatted ,
 		]);
 	}
-
+	public function broadcastOn()
+	{
+		return new Channel('admin.notification.'.$this->admin->id );
+	}
 }

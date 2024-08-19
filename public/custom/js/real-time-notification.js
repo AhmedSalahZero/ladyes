@@ -51,10 +51,8 @@ $(document).on('click','#mark-notifications-as-read',function(){
 const adminId = $('body').attr('data-admin-id')
 const lang = $('body').attr('data-lang')
 console.log('admin id'+adminId);
-window.Echo.private('App.Models.Admin.' + adminId)
+window.Echo.channel('admin.notification.' + adminId)
     .notification((notification) => {
-		alert('notification')
-		console.log('ffff')
 		const title = notification['title_'+lang]
 		const message = notification['message_'+lang]
 		toastr.success(message, title)
