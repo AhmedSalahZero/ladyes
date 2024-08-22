@@ -87,4 +87,8 @@ class AdminNotification extends Notification implements ShouldBroadcastNow
 	{
 		return new Channel('admin.notification.'.$this->admin->id );
 	}
+	// public function receivesBroadcastNotificationsOn()
+	// {
+	// 	return 'admin.receive.channel.'.$this->admin->id;
+	// }
 }

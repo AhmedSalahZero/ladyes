@@ -23,6 +23,9 @@ class SliderController extends Controller
 
     public function index()
     {
+		dispatch(function(){
+			logger('dd');
+		});
         $models = Slider::defaultOrdered()->paginate(static::DEFAULT_PAGINATION_LENGTH_FOR_ADMIN);
 
         return view('admin.sliders.index', [

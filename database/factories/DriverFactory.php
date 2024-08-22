@@ -30,7 +30,7 @@ class DriverFactory extends Factory
 				'birth_date'=>$this->faker->date(),
 				'phone'=>$this->faker->phoneNumber() ,
 				'is_verified'=>1,
-				'is_listing_to_orders_now'=>0 ,
+				'is_listing_to_orders_now'=>1 ,
 				// 'verification_code'=>random_int(1000, 9999) ,
 				'plate_letters'=>$this->faker->numberBetween(1000,9000),
 				'car_color'=>$this->faker->colorName,

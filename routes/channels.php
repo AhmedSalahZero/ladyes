@@ -15,28 +15,28 @@ use Illuminate\Support\Facades\Broadcast;
 */
 
 
-Broadcast::channel('App.Models.Admin.{id}', function ($admin, $id) {
-	return true ;
-});
+// Broadcast::channel('App.Models.Admin.{id}', function ($admin, $id) {
+// 	return true ;
+// });
 
-Broadcast::channel('App.Models.Client.{id}', function ($client, $id) {
-	return true ;
-});
+// Broadcast::channel('App.Models.Client.{id}', function ($client, $id) {
+// 	return true ;
+// });
 
-Broadcast::channel('App.Models.Driver.{id}', function ($driver, $id) {
-	return true ;
-});
+// Broadcast::channel('App.Models.Driver.{id}', function ($driver, $id) {
+// 	return true ;
+// });
 
-Broadcast::channel('client.notifications.{id}', function ($user,$id) {
-	return true ;
-});
-Broadcast::channel('driver.new.travel.available.notifications.{id}', function ($user,$id) {
-	return true ;
-});
+// Broadcast::channel('client.notifications.{id}', function ($user,$id) {
+// 	return true ;
+// });
+// Broadcast::channel('driver.new.travel.available.notifications.{id}', function ($user,$id) {
+// 	return true ;
+// });
 
-Broadcast::channel('client.accepted.travel.notifications.{id}', function ($user,$id) {
-	return true ;
-});
-Broadcast::channel('client.completed.travel.notifications.{id}', function ($user,$id) {
-	return true ;
-});
+// Broadcast::channel('client.accepted.travel.notifications.{id}', function ($user,$id) {
+// 	return true ;
+// });
+// Broadcast::channel('client.completed.travel.notifications.{id}', function ($user,$id) {
+// 	return true ;
+// });

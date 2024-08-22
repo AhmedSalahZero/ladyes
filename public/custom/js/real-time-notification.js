@@ -61,19 +61,19 @@ window.Echo.channel('admin.notification.' + adminId)
     });
 	
 	// for test purpose
-	// window.Echo.private('driver.new.travel.available.notifications.1' )
-//    .notification((notification) => {
-	// console.log('good driver');
-	// console.log(notification);
-	// alert('e')
+	window.Echo.channel('driver.new.travel.available.notifications.1' )
+   .notification((notification) => {
+	console.log('good driver');
+	console.log(notification);
+	alert('e')
 	
-		// const title = notification['title_'+lang]
-		// const message = notification['message_'+lang]
-		// toastr.success(message, title)
-		// prependNewNotification(message, title,notification.createdAtFormatted)
-		// incrementTotalNumberOfNotifications()
+		const title = notification['title_'+lang]
+		const message = notification['message_'+lang]
+		toastr.success(message, title)
+		prependNewNotification(message, title,notification.createdAtFormatted)
+		incrementTotalNumberOfNotifications()
 		
-//    });
+   });
 	
    
    	// for test purpose

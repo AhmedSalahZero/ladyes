@@ -17,7 +17,7 @@ use Illuminate\Notifications\Notification;
 class NewTravelIsAvailableForDriverNotification extends Notification implements ShouldBroadcast
 {
     use Queueable,InteractsWithSockets;
-
+     public $timeout = 150; // Timeout seconds
     /**
      * Create a new notification instance.
      *
@@ -68,12 +68,11 @@ class NewTravelIsAvailableForDriverNotification extends Notification implements 
 	}
 	public function broadcastOn()
 	{
-
 		return new Channel('driver.new.travel.available.notifications.'.$this->driverId );
 	}
-    public function broadcastAs()
-    {
-        return 'newTravelAvalilableNotification';
-    }
+    // public function broadcastAs()
+    // {
+    //     return 'newTravelAvalilableNotification';
+    // }
 	
 }

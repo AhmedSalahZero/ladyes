@@ -42,7 +42,7 @@ window.Echo = new Echo({
     broadcaster: 'pusher',
     key: process.env.MIX_PUSHER_APP_KEY,
 	 encrypted:false ,
-    wsHost: process.env.MIX_APP_ENV == 'production ' ? 'sockets.ladyes.co' : window.location.hostname, // just host name without its port like
+    wsHost: process.env.MIX_APP_ENV == 'production' ? 'sockets.ladyes.co' : window.location.hostname, // just host name without its port like
     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
      forceTLS: false,
 	 wsPort: process.env.MIX_LARAVEL_WEBSOCKETS_PORT,

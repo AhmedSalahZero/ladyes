@@ -14,7 +14,7 @@ use Illuminate\Queue\SerializesModels;
 class sendRequestToAvailableDriversJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
+  public $timeout = 150; // Timeout seconds
     /**
      * Create a new job instance.
      *

@@ -11,7 +11,6 @@ use App\Interfaces\IHaveBonus;
 use App\Interfaces\IHaveDeposit;
 use App\Interfaces\IHaveFine;
 use App\Interfaces\IHaveWithdrawal;
-use App\Jobs\sendRequestToAvailableDriversJob;
 use App\Notifications\Admins\DriverNotification;
 use App\Notifications\Admins\NewTravelIsAvailableForDriverNotification;
 use App\Services\DistanceMatrix\GoogleDistanceMatrixService;
@@ -35,6 +34,7 @@ use App\Traits\Models\HasGeoLocation;
 use App\Traits\Models\HasInvitationCode;
 use App\Traits\Models\HasIsListingToOrdersNow;
 use App\Traits\Models\HasIsVerified;
+use App\Traits\Models\HasLocation;
 use App\Traits\Models\HasLoginByPhone;
 use App\Traits\Models\HasMake;
 use App\Traits\Models\HasMedals;
@@ -80,6 +80,7 @@ class Driver extends Model implements HasMedia, BannableInterface, IHaveAppNotif
     use HasDevice;
     use HasFactory;
 	use HasMedals ;
+	use HasLocation;
     use IsBaseModel;
 	use HasDeduction ;
     use HasDefaultOrderScope;
@@ -358,11 +359,10 @@ class Driver extends Model implements HasMedia, BannableInterface, IHaveAppNotif
 		/**
 		 * @var Collection $drivers
 		 */
-		if(env('in_test_mode',false)){
-			return Driver::all();
-		}
+		
 		$drivers = self::onlyListingToOrders()
         ->onlyIsVerified()
+		->onlyHasLocation()
         ->onlyCanReceiveOrders()
         ->withoutBanned()
         ->onlyWithCarSize($carSizeId)
